@@ -11,4 +11,10 @@
     <string name="error_incorrect_password">Password incorretta</string>
     <string name="error_field_required">Il campo non deve essere vuoto</string>
 
+    <!-- Strings related to item info -->
+    <string name="title_item_info">Informazioni Prodotto</string>
+    <string name="add_to_preferred_button">Aggiungi ai preferiti</string>
+    <string name="item_info_description_title">Descrizione del prodotto</string>
+    <string name="item_info_description_content">Testo descrizione del prodotto</string>
+
 </resources>
