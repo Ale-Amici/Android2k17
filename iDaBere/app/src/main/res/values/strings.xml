@@ -16,6 +16,7 @@
 
     <!-- Strings related to seach bar menu-->
     <string name="title_menu_seach_bar_icon">Cerca per nome</string>
+    <string name="title_clear_search_bar_icon">Cancella</string>
     <string name="title_qr_scanner_icon">Scan QR code</string>
     <string name="title_burger_menu_icon">Menu</string>
 

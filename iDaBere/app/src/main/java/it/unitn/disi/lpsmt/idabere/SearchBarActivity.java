@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
+import android.view.View;
+import android.widget.Toast;
 
 public class SearchBarActivity extends AppCompatActivity {
 
@@ -67,6 +69,9 @@ public class SearchBarActivity extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.action_qr_scanner_icon :
+                result = true;
+                break;
+            case R.id.action_clear_search_bar_icon :
                 result = true;
                 break;
             default:
