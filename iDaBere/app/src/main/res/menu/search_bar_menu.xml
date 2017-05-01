@@ -8,15 +8,16 @@
         android:title="@string/title_menu_seach_bar_icon"
         android:icon="@android:drawable/ic_menu_search"
         android:enabled="true"
-        android:orderInCategory="2"
-        app:showAsAction="always" />
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:onClick="onSearchRequested"/>
 
     <item
         android:id="@+id/action_qr_scanner_icon"
-        android:title="@string/title_menu_seach_bar_icon"
+        android:title="@string/title_qr_scanner_icon"
         android:icon="@android:drawable/ic_menu_camera"
         android:enabled="true"
-        android:orderInCategory="3"
+        android:orderInCategory="1"
         app:showAsAction="always" />
 
 </menu>
