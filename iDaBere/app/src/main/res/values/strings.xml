@@ -11,4 +11,19 @@
     <string name="error_incorrect_password">Password incorretta</string>
     <string name="error_field_required">Il campo non deve essere vuoto</string>
 
+    <!-- Strings related to menu -->
+
+    <!-- Strings related to item list menu-->
+    <string name="search_list_item_icon_label">Cerca Ordine</string>
+    <string name="random_list_item_icon_label">Ordine Random</string>
+
+
+
+
+    <!-- Strings samples -->
+    <string name="menu_list_item_name">Item name</string>
+    <string name="menu_list_item_price">3.50</string>
+    <string name="menu_list_item_currency">$</string>
+
+
 </resources>
