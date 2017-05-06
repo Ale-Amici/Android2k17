@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">iDaBere</string>
-    <string name="title_activity_login">Autenticazione</string>
 
     <!-- Strings related to login -->
+    <string name="title_activity_login">Autenticazione</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Entra</string>
@@ -10,5 +10,9 @@
     <string name="error_invalid_email">Indirizzo email invalido</string>
     <string name="error_incorrect_password">Password incorretta</string>
     <string name="error_field_required">Il campo non deve essere vuoto</string>
+
+    <!-- Strings related to QR Code scanner -->
+    <string name="title_qr_code_scanner_login">Autenticazione</string>
+    <string name="scan">Avvia Scansione</string>
 
 </resources>
