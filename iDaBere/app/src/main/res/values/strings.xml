@@ -22,5 +22,28 @@
 
     <string name="search_bar_label">Search bar icon</string>
     <string name="search_hint">Cerca Ristorante</string>
+    <!-- Strings related to item info -->
+    <string name="title_item_info">Informazioni Prodotto</string>
+    <string name="add_to_preferred_button">Aggiungi ai preferiti</string>
+    <string name="item_info_description_title">Descrizione del prodotto</string>
+    <string name="item_info_description_content">Testo descrizione del prodotto</string>
+
+  <!-- Strings related to menu -->
+    <string name="search_list_item_icon_label">Cerca Ordine</string>
+    <string name="random_list_item_icon_label">Ordine Random</string>
+    <string name="add_new_drink_button">Nuova Scelta</string>
+
+    <string name="category_name">Categoria</string>
+
+
+    <!-- Strings samples -->
+    <string name="menu_list_item_name">Item name</string>
+    <string name="menu_list_item_price">3.50</string>
+    <string name="menu_list_item_currency">$</string>
+
+    <!-- Strings related to QR Code scanner -->
+    <string name="title_qr_code_scanner_login">Autenticazione</string>
+    <string name="scan">Avvia Scansione</string>
+
 
 </resources>
