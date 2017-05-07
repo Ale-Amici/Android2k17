@@ -22,6 +22,7 @@
 
     <string name="search_bar_label">Search bar icon</string>
     <string name="search_hint">Cerca Ristorante</string>
+
     <!-- Strings related to item info -->
     <string name="title_item_info">Informazioni Prodotto</string>
     <string name="add_to_preferred_button">Aggiungi ai preferiti</string>
@@ -44,6 +45,8 @@
     <!-- Strings related to QR Code scanner -->
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
+
+    <string name="gps_loading_menu_label">Caricamento</string>
 
 
 </resources>
