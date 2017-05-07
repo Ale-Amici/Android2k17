@@ -28,7 +28,7 @@
     <string name="item_info_description_title">Descrizione del prodotto</string>
     <string name="item_info_description_content">Testo descrizione del prodotto</string>
 
-  <!-- Strings related to menu -->
+    <!-- Strings related to menu -->
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
     <string name="add_new_drink_button">Nuova Scelta</string>
