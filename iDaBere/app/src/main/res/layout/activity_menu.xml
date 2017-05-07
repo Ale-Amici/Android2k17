@@ -8,13 +8,13 @@
     tools:context="it.unitn.disi.lpsmt.idabere.MenuActivity">
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_item_recycler_view"
+        <ExpandableListView
+            android:id="@+id/categories_expandable_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
 
+        </ExpandableListView>
 
 
 </LinearLayout>
