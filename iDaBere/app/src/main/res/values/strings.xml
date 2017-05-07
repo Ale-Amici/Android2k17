@@ -11,8 +11,23 @@
     <string name="error_incorrect_password">Password incorretta</string>
     <string name="error_field_required">Il campo non deve essere vuoto</string>
 
+    <!-- Strings related to menu -->
+
+    <string name="search_list_item_icon_label">Cerca Ordine</string>
+    <string name="random_list_item_icon_label">Ordine Random</string>
+    <string name="add_new_drink_button">Nuova Scelta</string>
+
+    <string name="category_name">Categoria</string>
+
+
+    <!-- Strings samples -->
+    <string name="menu_list_item_name">Item name</string>
+    <string name="menu_list_item_price">3.50</string>
+    <string name="menu_list_item_currency">$</string>
+
     <!-- Strings related to QR Code scanner -->
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
+
 
 </resources>
