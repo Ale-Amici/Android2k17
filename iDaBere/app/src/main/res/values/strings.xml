@@ -46,7 +46,10 @@
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
 
+    <!-- Strings related to GPS Loading -->
     <string name="gps_loading_menu_label">Caricamento</string>
 
+    <!-- Strings related to Add Toppings -->
+    <string name="add_toppings_modal_title">Nuovo Elemento</string>
 
 </resources>
