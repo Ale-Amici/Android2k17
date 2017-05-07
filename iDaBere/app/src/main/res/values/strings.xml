@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">iDaBere</string>
-    <string name="title_activity_login">Autenticazione</string>
 
     <!-- Strings related to login -->
+    <string name="title_activity_login">Autenticazione</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Entra</string>
@@ -24,6 +24,10 @@
     <string name="menu_list_item_name">Item name</string>
     <string name="menu_list_item_price">3.50</string>
     <string name="menu_list_item_currency">$</string>
+
+    <!-- Strings related to QR Code scanner -->
+    <string name="title_qr_code_scanner_login">Autenticazione</string>
+    <string name="scan">Avvia Scansione</string>
 
 
 </resources>
