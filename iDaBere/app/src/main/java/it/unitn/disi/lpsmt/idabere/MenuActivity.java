@@ -2,9 +2,8 @@ package it.unitn.disi.lpsmt.idabere;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 
 public class MenuActivity extends AppCompatActivity {
 
-    MenuCategoryExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
+    private MenuCategoryExpandableListAdapter menuCategoryExpandableListAdapter;
+    private ExpandableListView categoriesExpandableList;
 
     // Fake Data
     List<String> listDataHeader;
@@ -27,21 +26,35 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.categories_expandable_list);
-
-        // preparing list data
+        initViewComps();
+        // preparing fake list data
         prepareListData();
 
-        listAdapter = new MenuCategoryExpandableListAdapter(this, listDataHeader, listDataChild);
+        menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);
+        categoriesExpandableList.setAdapter(menuCategoryExpandableListAdapter);
+
+    }
+
+    // Instantiate layout elements
+    private void initViewComps () {
+        // get the listview
+        categoriesExpandableList = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.item_list_menu,menu);
+        
+        return super.onCreateOptionsMenu(menu);
     }
 
     /*
-     * Preparing the list data
-     */
+         * Preparing the list data
+         */
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();

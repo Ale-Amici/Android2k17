@@ -1,10 +1,5 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.os.Build;
-
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -30,7 +25,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private HashMap<String, List<String>> _listDataChild;
 
     public MenuCategoryExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+                                             HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -56,15 +51,34 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.menu_list_item_expandable,null);
+            convertView = infalInflater.inflate(R.layout.menu_list_item,null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.info_text);
 
-        txtListChild.setText(childText);
+
+        /*
+        * Expand/Collapse card item when clicked
+        */
+
+        final View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
+        final View toppingsSectionLayout = convertView.findViewById(R.id.toppings_section_layout);
+
+
+        cardInfos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (toppingsSectionLayout.isShown()){
+                    toppingsSectionLayout.setVisibility(View.GONE);
+                } else {
+                    toppingsSectionLayout.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+
         return convertView;
-    }
+}
 
     @Override
     public int getChildrenCount(int groupPosition) {
@@ -94,7 +108,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.menu_list_category_expandable, null);
+            convertView = infalInflater.inflate(R.layout.menu_list_category, null);
         }
 
         TextView lblListHeader = (TextView) convertView
