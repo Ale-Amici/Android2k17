@@ -17,10 +17,18 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity
+            android:name=".ItemInfoActivity"
+            android:label="@string/title_item_info">
+            <!-- TODO aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"/>
+                <!-- TODO aggiungere quando integrato la parent activity android:value="com.example.myfirstapp.MainActivity" -->
+        </activity>
         <activity 
             android:name=".MenuActivity">
         </activity>
-
         <activity
             android:name=".QrCodeScannerActivity"
             android:label="@string/title_qr_code_scanner_login">
