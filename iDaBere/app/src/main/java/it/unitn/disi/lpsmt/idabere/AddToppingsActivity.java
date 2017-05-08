@@ -1,11 +1,22 @@
 package it.unitn.disi.lpsmt.idabere;
 
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.text.Layout;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import it.unitn.disi.lpsmt.idabere.adapters.ToppingsListArrayListAdapter;
 
 public class AddToppingsActivity extends AppCompatActivity {
 
@@ -14,6 +25,8 @@ public class AddToppingsActivity extends AppCompatActivity {
 
     private ListView sizesListView;
     private ListView toppingsListView;
+
+    private ToppingsListArrayListAdapter toppingsListArrayListAdapter;
 
 
     // Fake data variables
@@ -24,18 +37,29 @@ public class AddToppingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_toppings);
-        initComps();
         initData();
 
+        displaySizesList();
 
-        
+        toppingsListView = (ListView) findViewById(R.id.toppings_list_view);
+
+        toppingsListArrayListAdapter = new ToppingsListArrayListAdapter(this, R.layout.topping_choice, TOPPINGS_LIST);
+        toppingsListView.setAdapter(toppingsListArrayListAdapter);
 
     }
 
-    private void initComps () {
-        sizesListView = (ListView) findViewById(R.id.sizes_list_view);
-        toppingsListView = (ListView) findViewById(R.id.toppings_list_view);
+
+    private void displaySizesList () {
+        ViewGroup sizeRadioGroup = (ViewGroup) findViewById(R.id.sizeRadioGroup);  // This is the id of the RadioGroup we defined
+        for (int i = 0; i < SIZES_LIST.size(); i++) {
+            RadioButton button = new RadioButton(this);
+            button.setId(i);
+            button.setText(SIZES_LIST.get(i).toString() +" "+ getString(R.string.drinks_measure_units));
+            sizeRadioGroup.addView(button);
+        }
+
     }
 
     private void initData () {

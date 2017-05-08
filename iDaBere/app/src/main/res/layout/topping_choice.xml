@@ -10,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+
         <CheckBox
-            android:id="@+id/sizeRadioButton"
+            android:id="@+id/toppingCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/small_size_label"
@@ -29,7 +30,7 @@
         android:gravity="right">
 
         <TextView
-            android:id="@+id/size_price_label"
+            android:id="@+id/toppings_price_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menu_list_item_price"
