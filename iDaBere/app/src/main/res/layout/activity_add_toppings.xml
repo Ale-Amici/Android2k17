@@ -1,9 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="it.unitn.disi.lpsmt.idabere.AddToppingsActivity">
+    android:padding="@dimen/activity_horizontal_margin"
+    android:gravity="center_horizontal"
+    tools:context="it.unitn.disi.lpsmt.idabere.AddToppingsActivity"
+    android:orientation="vertical"
+    >
 
-</android.support.constraint.ConstraintLayout>
+    <!-- Size picker section -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/sizes_title_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_text_size"
+            tools:text="@string/sizes_label_title"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/sizes_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+            
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Toppings multiple choiche section -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/toppings_title_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/toppings_label_title"
+            android:textSize="@dimen/title_text_size"
+            tools:text="@string/toppings_label_title"
+            android:textStyle="bold"/>
+        
+            <ListView
+                android:id="@+id/toppings_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+        
+    </LinearLayout>
+
+
+</LinearLayout>
