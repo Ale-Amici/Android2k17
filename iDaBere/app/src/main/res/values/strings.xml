@@ -35,8 +35,7 @@
     <string name="add_new_drink_button">Nuova Scelta</string>
 
     <string name="category_name">Categoria</string>
-
-
+    
     <!-- Strings samples -->
     <string name="menu_list_item_name">Item name</string>
     <string name="menu_list_item_price">3.50</string>
@@ -48,5 +47,9 @@
 
     <string name="gps_loading_menu_label">Caricamento</string>
 
+    <!-- Strings related to Order status -->
+    <string name="order_status_title_label">Stato Ordine</string>
+    <string name="identification_number_label">Codice Ordine</string>
+    <string name="queue_number_label">Posizione Coda</string>
 
 </resources>
