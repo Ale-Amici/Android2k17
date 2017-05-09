@@ -46,7 +46,14 @@
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
 
+    <!-- Strings related to GPS -->
     <string name="gps_loading_menu_label">Caricamento</string>
+
+    <!-- Strings related to Checkout -->
+    <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="title_payment_type">Pagamento</string>
+    <string name="title_total_price">Totale</string>
+    <string name="title_confirm_payment">Concludi</string>
 
 
 </resources>
