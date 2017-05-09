@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delivery_place_info"
+        android:text="@string/payment_type_info"
         android:textSize="@dimen/title_text_size"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
 
@@ -30,7 +30,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/counter_radio_button_label"
+                android:text="@string/credit_card_radio_button_label"
                 android:textSize="@dimen/title_text_size"/>
 
             <View
@@ -43,14 +43,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/counter_place_info"
+                android:text="@string/credit_card_info"
                 android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/counter_choice_label"
+                android:text="@string/credit_card_choice_label"
                 android:textSize="@dimen/paragraph_text_size"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
@@ -58,7 +58,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/table_radio_button_label"
+                android:text="@string/cash_payment_button_label"
                 android:textSize="@dimen/title_text_size" />
 
             <View
@@ -72,16 +72,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/table_place_info"
+                android:text="@string/cash_payment_info"
                 android:layout_marginBottom="@dimen/activity_vertical_margin" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/table_choice_label"
-                android:textSize="@dimen/paragraph_text_size"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
         </RadioGroup>
 

@@ -48,5 +48,13 @@
 
     <string name="gps_loading_menu_label">Caricamento</string>
 
+    <!-- Strings related to Delivery Place -->
+    <string name="payment_type_info">Seleziona il metodo di pagamento</string>
+    <string name="credit_card_radio_button_label">Carta di credito</string>
+    <string name="credit_card_info">Selezionado il pagamento tramite carta di credito l\'ordinazione verra\' inserito in coda non appena ricevuto</string>
+    <string name="credit_card_choice_label">Numero carta:</string>
+
+    <string name="cash_payment_info">Selezionando il pagamento tramite contanti si dovrà procedere al pagamento alla cassa. Successivamente l\'ordine verra\' inserito nella coda</string>
+    <string name="cash_payment_button_label">Contanti</string>
 
 </resources>
