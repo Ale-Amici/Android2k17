@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.unitn.disi.lpsmt.idabere">
 
     <application
@@ -10,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
@@ -23,47 +21,38 @@
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
         </activity>
-
         <activity
             android:name=".ItemInfoActivity"
             android:label="@string/title_item_info">
 
             <!-- TODO aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
+            <!-- <meta-data android:name="android.support.PARENT_ACTIVITY" /> -->
             <!-- TODO aggiungere quando integrato la parent activity android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
         <activity android:name=".MenuActivity" />
-
         <activity
             android:name=".QrCodeScannerActivity"
             android:label="@string/title_qr_code_scanner_login">
 
             <!-- TODO Aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
+            <!-- <meta-data android:name="android.support.PARENT_ACTIVITY" /> -->
             <!-- TODO Aggiungere android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
-
-
         <activity android:name=".GpsLoadingActivity" />
-
         <activity
             android:name=".AddToppingsActivity"
-            android:theme="@style/DialogTheme">
-        </activity>
-        <activity android:name=".GpsLoadingActivity" />
-        <activity android:name=".OrderStatusActivity"/>
+            android:theme="@style/DialogTheme"></activity>
 
-        <activity android:name=".PaymentTypeActivity"></activity>
-
-        <activity android:name=".DeliveryPlaceActivity">
-
+        <activity android:name=".OrderStatusActivity" />
+        <activity android:name=".PaymentTypeActivity" />
+        <activity android:name=".DeliveryPlaceActivity"/>
+        <activity android:name=".ReviewOrderActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
-                <action android:name="android.intent.action.LAUNCHER"></action>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
