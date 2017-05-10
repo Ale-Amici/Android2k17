@@ -42,9 +42,11 @@ public class RateOrderActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
 
         // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+        for (int i = 0; i<10; i++) {
+
+            listDataHeader.add(Integer.toString(i));
+
+        }
 
     }
 }

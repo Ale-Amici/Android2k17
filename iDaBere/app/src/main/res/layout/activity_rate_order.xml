@@ -14,12 +14,17 @@
     <ListView
         android:id="@+id/items_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
     </ListView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@android:color/darker_gray" />
 
     <Button
         android:layout_width="wrap_content"

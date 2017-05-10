@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/item_infos_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/card_height_closed"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -41,11 +41,12 @@
                 android:gravity="center_vertical|right">
 
                 <RatingBar
+                    style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rating="5"
-                    style="@style/Base.Widget.AppCompat.RatingBar.Small"
-                    />
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="1" />
             </LinearLayout>
 
 
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/add_new_drink_button"/>
+                android:text="@string/add_new_drink_button" />
 
         </LinearLayout>
 
