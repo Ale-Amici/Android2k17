@@ -52,7 +52,18 @@
             android:name=".AddToppingsActivity"
             android:theme="@style/DialogTheme">
         </activity>
+        <activity android:name=".GpsLoadingActivity" />
+        <activity android:name=".OrderStatusActivity"/>
 
+        <activity android:name=".PaymentTypeActivity"></activity>
+
+        <activity android:name=".DeliveryPlaceActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <action android:name="android.intent.action.LAUNCHER"></action>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
