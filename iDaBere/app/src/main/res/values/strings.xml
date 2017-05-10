@@ -54,7 +54,19 @@
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
 
+    <!-- Strings related to GPS Loading -->
     <string name="gps_loading_menu_label">Caricamento</string>
+
+    <!-- Strings related to Add Toppings -->
+    <string name="add_toppings_modal_title">Nuovo Elemento</string>
+    <string name="sizes_label_title">Dimensione</string>
+    <string name="toppings_label_title">Aggiunte</string>
+    <string name="add_topping_button_label">Aggiungi</string>
+    <string name="cancel_topping_button_label">Annulla</string>
+
+    <!-- Default sizes -->
+    <string name="drinks_measure_units">cl</string>
+    <string name="small_size_label">25</string>
 
 
     <!-- Strings related to Order status -->
