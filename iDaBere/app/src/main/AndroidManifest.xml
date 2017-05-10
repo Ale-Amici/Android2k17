@@ -41,6 +41,8 @@
             <!-- TODO Aggiungere android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
         <activity android:name=".GpsLoadingActivity" />
+        <activity android:name=".PaymentTypeActivity"></activity>
+
         <activity android:name=".DeliveryPlaceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
