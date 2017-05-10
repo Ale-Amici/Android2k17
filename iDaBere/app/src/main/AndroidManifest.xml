@@ -27,23 +27,32 @@
 
             <!-- TODO aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" />
+            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO aggiungere quando integrato la parent activity android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".MenuActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".QrCodeScannerActivity"
             android:label="@string/title_qr_code_scanner_login">
 
             <!-- TODO Aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" />
+            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO Aggiungere android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
         <activity android:name=".GpsLoadingActivity" />
         <activity
             android:name=".CheckoutActivity"
-            android:label="@string/title_activity_checkout"></activity>
+            android:label="@string/title_activity_checkout">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

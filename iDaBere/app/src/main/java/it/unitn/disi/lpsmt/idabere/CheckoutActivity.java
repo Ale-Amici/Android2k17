@@ -17,14 +17,14 @@ public class CheckoutActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_payment_type);
+                case R.id.navigation_payment_type:
+
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_total_price);
+                case R.id.navigation_total_price:
+
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_confirm_payment);
+                case R.id.navigation_confirm_payment:
+
                     return true;
             }
             return false;
@@ -37,7 +37,7 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

@@ -39,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_alignRight="@id/item_price"
                     android:text="50cl"
                     android:textSize="@dimen/paragraph_text_size" />
             </LinearLayout>
