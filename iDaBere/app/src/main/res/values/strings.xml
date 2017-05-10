@@ -56,7 +56,13 @@
 
     <string name="gps_loading_menu_label">Caricamento</string>
 
-    <!-- Strings related to Delivery Place -->
+
+    <!-- Strings related to Order status -->
+    <string name="order_status_title_label">Stato Ordine</string>
+    <string name="identification_number_label">Codice Ordine</string>
+    <string name="queue_number_label">Posizione Coda</string>
+
+    <!-- Strings related to Payment type -->
     <string name="payment_type_info">Seleziona il metodo di pagamento</string>
     <string name="credit_card_radio_button_label">Carta di credito</string>
     <string name="credit_card_info">Selezionado il pagamento tramite carta di credito l\'ordinazione verra\' inserito in coda non appena ricevuto</string>
@@ -74,9 +80,6 @@
     <string name="table_place_info">Quanto il tuo ordine sarà pronto un cameriere provvederà a servirlo al tavolo specificato</string>
     <string name="table_choice_label">Numero tavolo:</string>
     <string name="table_radio_button_label">Tavolo</string>
-
-
-
 
 
 </resources>
