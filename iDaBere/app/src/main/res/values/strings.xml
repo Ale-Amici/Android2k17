@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">iDaBere</string>
 
+    <!-- Strings samples -->
+    <string name="menu_list_item_name">Item name</string>
+    <string name="menu_list_item_price">3.50</string>
+    <string name="menu_list_item_currency">$</string>
+    <string-array name="counter_position_list">
+        <item>Primo piano</item>
+        <item>Secondo piano</item>
+    </string-array>
+    <string-array name="table_number_list">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <!-- Strings related to login -->
     <string name="title_activity_login">Autenticazione</string>
     <string name="prompt_email">Email</string>
@@ -36,12 +50,6 @@
 
     <string name="category_name">Categoria</string>
 
-
-    <!-- Strings samples -->
-    <string name="menu_list_item_name">Item name</string>
-    <string name="menu_list_item_price">3.50</string>
-    <string name="menu_list_item_currency">$</string>
-
     <!-- Strings related to QR Code scanner -->
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
@@ -56,5 +64,19 @@
 
     <string name="cash_payment_info">Selezionando il pagamento tramite contanti si dovrà procedere al pagamento alla cassa. Successivamente l\'ordine verra\' inserito nella coda</string>
     <string name="cash_payment_button_label">Contanti</string>
+
+    <!-- Strings related to Delivery Place -->
+    <string name="delivery_place_info">Seleziona il metodo di consegna ordinazione</string>
+    <string name="counter_radio_button_label">Bancone</string>
+    <string name="counter_place_info">Quando il tuo ordine sarà pronto verrà servito al bancone specificato</string>
+    <string name="counter_choice_label">Posizione bancone:</string>
+
+    <string name="table_place_info">Quanto il tuo ordine sarà pronto un cameriere provvederà a servirlo al tavolo specificato</string>
+    <string name="table_choice_label">Numero tavolo:</string>
+    <string name="table_radio_button_label">Tavolo</string>
+
+
+
+
 
 </resources>

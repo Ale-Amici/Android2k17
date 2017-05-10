@@ -27,7 +27,7 @@
 
             <!-- TODO aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" />
+            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO aggiungere quando integrato la parent activity android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
         <activity android:name=".MenuActivity" />
@@ -37,11 +37,18 @@
 
             <!-- TODO Aggiungere android:parentActivityName="com.example.myfirstapp.MainActivity" -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data android:name="android.support.PARENT_ACTIVITY" />
+            <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO Aggiungere android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
         <activity android:name=".GpsLoadingActivity" />
         <activity android:name=".PaymentTypeActivity"></activity>
+
+        <activity android:name=".DeliveryPlaceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <action android:name="android.intent.action.LAUNCHER"></action>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
