@@ -33,7 +33,6 @@
             <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO aggiungere quando integrato la parent activity android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
-
         <activity android:name=".MenuActivity" />
 
         <activity
@@ -45,6 +44,7 @@
             <!--<meta-data android:name="android.support.PARENT_ACTIVITY" />-->
             <!-- TODO Aggiungere android:value="com.example.myfirstapp.MainActivity" -->
         </activity>
+
 
         <activity android:name=".GpsLoadingActivity" />
 
@@ -63,6 +63,7 @@
                 <action android:name="android.intent.action.MAIN"></action>
                 <action android:name="android.intent.action.LAUNCHER"></action>
             </intent-filter>
+
         </activity>
     </application>
 
