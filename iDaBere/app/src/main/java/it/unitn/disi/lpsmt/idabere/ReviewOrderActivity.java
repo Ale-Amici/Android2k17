@@ -1,7 +1,10 @@
 package it.unitn.disi.lpsmt.idabere;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ExpandableListView;
@@ -42,7 +45,6 @@ public class ReviewOrderActivity extends AppCompatActivity {
     private void initViewComps () {
         // get the listview
         reviewExpandableList = (ExpandableListView) findViewById(R.id.expandable_review_list);
-
     }
 
     @Override
@@ -50,7 +52,16 @@ public class ReviewOrderActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.item_list_menu,menu);
 
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_bar_icon).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
         return super.onCreateOptionsMenu(menu);
+
     }
 
     /*

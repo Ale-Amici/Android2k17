@@ -43,12 +43,21 @@
         <activity android:name=".GpsLoadingActivity" />
         <activity
             android:name=".AddToppingsActivity"
-            android:theme="@style/DialogTheme"></activity>
+            android:theme="@style/DialogTheme">
 
+        </activity>
         <activity android:name=".OrderStatusActivity" />
         <activity android:name=".PaymentTypeActivity" />
         <activity android:name=".DeliveryPlaceActivity"/>
-        <activity android:name=".ReviewOrderActivity">
+        <activity
+            android:name=".ReviewOrderActivity"
+            android:label="">
+            <meta-data
+                android:name="android.app.search_bar_searchable"
+                android:resource="@xml/search_bar_searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.LAUNCHER" />
