@@ -99,7 +99,13 @@
     <string name="table_choice_label">Numero tavolo:</string>
     <string name="table_radio_button_label">Tavolo</string>
 
+    <!-- Strings related to Review order -->
+    <string name="review_order_activity_title">Carrello</string>
+    <string name="title_delivery_place">Consegna</string>
+    <string name="title_menu_list">Menu</string>
+
     <!-- Strings related to Rate order -->
     <string name="rate_confirm_button">Conferma</string>
     <string name="stars_number">5</string>
+
 </resources>
