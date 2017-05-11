@@ -51,7 +51,7 @@
         <activity android:name=".DeliveryPlaceActivity"/>
         <activity
             android:name=".ReviewOrderActivity"
-            android:label="">
+            android:label="@string/review_order_activity_title">
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
