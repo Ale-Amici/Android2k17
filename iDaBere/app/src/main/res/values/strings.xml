@@ -53,7 +53,7 @@
     <!-- Strings related to QR Code scanner -->
     <string name="title_qr_code_scanner_login">Autenticazione</string>
     <string name="scan">Avvia Scansione</string>
-                             
+
     <!-- Strings related to Checkout -->
     <string name="title_activity_checkout">CheckoutActivity</string>
     <string name="title_payment_type">Pagamento</string>
@@ -99,5 +99,7 @@
     <string name="table_choice_label">Numero tavolo:</string>
     <string name="table_radio_button_label">Tavolo</string>
 
-
+    <!-- Strings related to Rate order -->
+    <string name="rate_confirm_button">Conferma</string>
+    <string name="stars_number">5</string>
 </resources>
