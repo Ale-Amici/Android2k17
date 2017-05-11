@@ -31,28 +31,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/counter_radio_button_label"
-                android:textSize="@dimen/title_text_size"/>
+                android:textSize="@dimen/title_text_size" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/counter_place_info"
-                android:layout_marginBottom="@dimen/activity_vertical_margin" />
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/counter_place_info" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="@string/counter_choice_label"
-                android:textSize="@dimen/paragraph_text_size"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:textSize="@dimen/paragraph_text_size" />
 
 
             <RadioButton
@@ -64,24 +64,24 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:background="@android:color/darker_gray" />
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/table_place_info"
-                android:layout_marginBottom="@dimen/activity_vertical_margin" />
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/table_place_info" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="@string/table_choice_label"
-                android:textSize="@dimen/paragraph_text_size"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:textSize="@dimen/paragraph_text_size" />
 
         </RadioGroup>
 

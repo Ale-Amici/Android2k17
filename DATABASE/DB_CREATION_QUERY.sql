@@ -1,0 +1,493 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema android2k17
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema android2k17
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `android2k17` DEFAULT CHARACTER SET utf8 ;
+USE `android2k17` ;
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `address` VARCHAR(1023) NOT NULL,
+  `latitude` DECIMAL(10,8) NOT NULL,
+  `longitude` DECIMAL(11,8) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`CUSTOMER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`CUSTOMER` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(255) NULL,
+  `age` INT UNSIGNED NOT NULL,
+  `email` VARCHAR(1024) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`DELIVERY_PLACE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`DELIVERY_PLACE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`DELIVERY_PLACE` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR_TABLE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR_TABLE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_TABLE` (
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  `number` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`DELIVERY_PLACE_ID`),
+  UNIQUE INDEX `number_UNIQUE` (`number` ASC),
+  INDEX `fk_BAR_TABLE_DELIVERY_PLACE1_idx` (`DELIVERY_PLACE_ID` ASC),
+  CONSTRAINT `fk_BAR_TABLE_DELIVERY_PLACE1`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR_COUNTER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR_COUNTER` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_COUNTER` (
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`DELIVERY_PLACE_ID`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  INDEX `fk_BAR_COUNTER_DELIVERY_PLACE_idx` (`DELIVERY_PLACE_ID` ASC),
+  CONSTRAINT `fk_BAR_COUNTER_DELIVERY_PLACE`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`EVENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`EVENT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`EVENT` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `BAR_ID` INT UNSIGNED NOT NULL,
+  `title` VARCHAR(511) NOT NULL,
+  `description` TEXT NULL,
+  `start_datetime` DATETIME NOT NULL,
+  `end_datetime` DATETIME NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_EVENT_BAR1_idx` (`BAR_ID` ASC),
+  CONSTRAINT `fk_EVENT_BAR1`
+    FOREIGN KEY (`BAR_ID`)
+    REFERENCES `android2k17`.`BAR` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`MEASUREMENT_UNIT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`MEASUREMENT_UNIT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`MEASUREMENT_UNIT` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ITEM_SIZE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ITEM_SIZE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_SIZE` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `MEASUREMENT_UNIT_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_ITEM_SIZE_MEASUREMENT_UNIT1_idx` (`MEASUREMENT_UNIT_ID` ASC),
+  CONSTRAINT `fk_ITEM_SIZE_MEASUREMENT_UNIT1`
+    FOREIGN KEY (`MEASUREMENT_UNIT_ID`)
+    REFERENCES `android2k17`.`MEASUREMENT_UNIT` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ITEM_CATEGORY`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ITEM_CATEGORY` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_CATEGORY` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`GLOBAL_MENU_ITEM`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`GLOBAL_MENU_ITEM` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`GLOBAL_MENU_ITEM` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`MENU_ITEM`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`MENU_ITEM` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `BAR_ID` INT UNSIGNED NOT NULL,
+  `ITEM_CATEGORY_ID` INT UNSIGNED NOT NULL,
+  `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_MENU_ITEM_BAR1_idx` (`BAR_ID` ASC),
+  INDEX `fk_MENU_ITEM_ITEM_CATEGORY1_idx` (`ITEM_CATEGORY_ID` ASC),
+  INDEX `fk_MENU_ITEM_GLOBAL_MENU_ITEM1_idx` (`GLOBAL_MENU_ITEM_ID` ASC),
+  CONSTRAINT `fk_MENU_ITEM_BAR1`
+    FOREIGN KEY (`BAR_ID`)
+    REFERENCES `android2k17`.`BAR` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_MENU_ITEM_ITEM_CATEGORY1`
+    FOREIGN KEY (`ITEM_CATEGORY_ID`)
+    REFERENCES `android2k17`.`ITEM_CATEGORY` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_MENU_ITEM_GLOBAL_MENU_ITEM1`
+    FOREIGN KEY (`GLOBAL_MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`GLOBAL_MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`INGREDIENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`INGREDIENT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`INGREDIENT` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ITEM_ADDITION`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ITEM_ADDITION` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_ADDITION` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`CUSTOMER_ORDER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`CUSTOMER_ORDER` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_ORDER` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
+  `paid` TINYINT(1) NOT NULL DEFAULT 0,
+  `process_status` VARCHAR(255) NOT NULL,
+  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_CUSTOMER_ORDER_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  CONSTRAINT `fk_CUSTOMER_ORDER_CUSTOMER1`
+    FOREIGN KEY (`CUSTOMER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ORDER_ITEM`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ORDER_ITEM` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ORDER_ITEM` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `CUSTOMER_ORDER_ID` INT UNSIGNED NOT NULL,
+  `total_price` FLOAT NOT NULL,
+  `rating` INT UNSIGNED NULL,
+  `quantity` INT UNSIGNED NOT NULL,
+  `discount` FLOAT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_ORDER_ITEM_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
+  INDEX `fk_ORDER_ITEM_CUSTOMER_ORDER1_idx` (`CUSTOMER_ORDER_ID` ASC),
+  CONSTRAINT `fk_ORDER_ITEM_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ORDER_ITEM_CUSTOMER_ORDER1`
+    FOREIGN KEY (`CUSTOMER_ORDER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER_ORDER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`QUEUED_GROUP`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`QUEUED_GROUP` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`QUEUED_GROUP` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `on_pause` TINYINT(1) NOT NULL DEFAULT 0,
+  `queue_time` DATETIME NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR_HAS_DELIVERY_PLACE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `floor_number` INT UNSIGNED NOT NULL,
+  `BAR_ID` INT UNSIGNED NOT NULL,
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  INDEX `fk_BAR_HAS_DELIVERY_PLACE_BAR1_idx` (`BAR_ID` ASC),
+  INDEX `fk_BAR_HAS_DELIVERY_PLACE_DELIVERY_PLACE1_idx` (`DELIVERY_PLACE_ID` ASC),
+  PRIMARY KEY (`ID`),
+  CONSTRAINT `fk_BAR_HAS_DELIVERY_PLACE_BAR1`
+    FOREIGN KEY (`BAR_ID`)
+    REFERENCES `android2k17`.`BAR` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_BAR_HAS_DELIVERY_PLACE_DELIVERY_PLACE1`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ITEM_OF_SIZE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ITEM_OF_SIZE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_OF_SIZE` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ITEM_SIZE_ID` INT UNSIGNED NOT NULL,
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_ITEM_OF_SIZE_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
+  UNIQUE INDEX `RELATION_UNIQUE` (`ITEM_SIZE_ID` ASC, `MENU_ITEM_ID` ASC),
+  CONSTRAINT `fk_ITEM_OF_SIZE_ITEM_SIZE1`
+    FOREIGN KEY (`ITEM_SIZE_ID`)
+    REFERENCES `android2k17`.`ITEM_SIZE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ITEM_OF_SIZE_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`EVENT_ADD_DISCOUNT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ITEM_OF_SIZE_ID` INT UNSIGNED NOT NULL,
+  `EVENT_ID` INT UNSIGNED NOT NULL,
+  `discount` FLOAT NOT NULL,
+  PRIMARY KEY (`ID`, `ITEM_OF_SIZE_ID`, `EVENT_ID`),
+  INDEX `fk_EVENT_ADD_DISCOUNT_EVENT1_idx` (`EVENT_ID` ASC),
+  INDEX `fk_EVENT_ADD_DISCOUNT_ITEM_OF_SIZE1_idx` (`ITEM_OF_SIZE_ID` ASC),
+  CONSTRAINT `fk_EVENT_ADD_DISCOUNT_EVENT1`
+    FOREIGN KEY (`EVENT_ID`)
+    REFERENCES `android2k17`.`EVENT` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EVENT_ADD_DISCOUNT_ITEM_OF_SIZE1`
+    FOREIGN KEY (`ITEM_OF_SIZE_ID`)
+    REFERENCES `android2k17`.`ITEM_OF_SIZE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`CUSTOMER_PREFER_GLOBAL_MENU_ITEM`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`CUSTOMER_PREFER_GLOBAL_MENU_ITEM` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_PREFER_GLOBAL_MENU_ITEM` (
+  `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`GLOBAL_MENU_ITEM_ID`, `CUSTOMER_ID`),
+  INDEX `fk_CUSTOMER_PREFER_GLOBAL_MENU_ITEM_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  CONSTRAINT `fk_CUSTOMER_PREFER_GLOBAL_MENU_ITEM_GLOBAL_MENU_ITEM1`
+    FOREIGN KEY (`GLOBAL_MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`GLOBAL_MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CUSTOMER_PREFER_GLOBAL_MENU_ITEM_CUSTOMER1`
+    FOREIGN KEY (`CUSTOMER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`MENU_ITEM_HAS_INGREDIENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`MENU_ITEM_HAS_INGREDIENT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `INGREDIENT_ID` INT UNSIGNED NOT NULL,
+  `quantity` VARCHAR(45) NULL,
+  PRIMARY KEY (`MENU_ITEM_ID`, `INGREDIENT_ID`),
+  INDEX `fk_MENU_ITEM_HAS_INGREDIENT_INGREDIENT1_idx` (`INGREDIENT_ID` ASC),
+  CONSTRAINT `fk_MENU_ITEM_HAS_INGREDIENT_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_MENU_ITEM_HAS_INGREDIENT_INGREDIENT1`
+    FOREIGN KEY (`INGREDIENT_ID`)
+    REFERENCES `android2k17`.`INGREDIENT` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ORDER_IN_GROUP`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ORDER_IN_GROUP` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ORDER_IN_GROUP` (
+  `CUSTOMER_ORDER_ID` INT UNSIGNED NOT NULL,
+  `QUEUED_GROUP_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`CUSTOMER_ORDER_ID`, `QUEUED_GROUP_ID`),
+  INDEX `fk_ORDER_IN_GROUP_QUEUED_GROUP1_idx` (`QUEUED_GROUP_ID` ASC),
+  CONSTRAINT `fk_ORDER_IN_GROUP_CUSTOMER_ORDER1`
+    FOREIGN KEY (`CUSTOMER_ORDER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER_ORDER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ORDER_IN_GROUP_QUEUED_GROUP1`
+    FOREIGN KEY (`QUEUED_GROUP_ID`)
+    REFERENCES `android2k17`.`QUEUED_GROUP` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`ITEM_OF_ADDITION`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`ITEM_OF_ADDITION` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_OF_ADDITION` (
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `ITEM_ADDITION_ID` INT UNSIGNED NOT NULL,
+  `price` FLOAT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`MENU_ITEM_ID`, `ITEM_ADDITION_ID`),
+  INDEX `fk_ITEM_OF_ADDITION_ITEM_ADDITION1_idx` (`ITEM_ADDITION_ID` ASC),
+  CONSTRAINT `fk_ITEM_OF_ADDITION_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ITEM_OF_ADDITION_ITEM_ADDITION1`
+    FOREIGN KEY (`ITEM_ADDITION_ID`)
+    REFERENCES `android2k17`.`ITEM_ADDITION` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`CUSTOMER_PREFER_MENU_ITEM`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`CUSTOMER_PREFER_MENU_ITEM` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_PREFER_MENU_ITEM` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`, `MENU_ITEM_ID`, `CUSTOMER_ID`),
+  INDEX `fk_CUSTOMER_PREFER_MENU_ITEM_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
+  INDEX `fk_CUSTOMER_PREFER_MENU_ITEM_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  CONSTRAINT `fk_CUSTOMER_PREFER_MENU_ITEM_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CUSTOMER_PREFER_MENU_ITEM_CUSTOMER1`
+    FOREIGN KEY (`CUSTOMER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
