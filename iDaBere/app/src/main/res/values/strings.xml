@@ -99,5 +99,9 @@
     <string name="table_choice_label">Numero tavolo:</string>
     <string name="table_radio_button_label">Tavolo</string>
 
+    <!-- Strings related to Review order -->
+    <string name="title_delivery_place">Consegna</string>
+    <string name="title_menu_list">Menu</string>
+
 
 </resources>
