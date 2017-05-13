@@ -95,4 +95,10 @@ public class SearchBarActivity extends AppCompatActivity {
         return result;
     }
 
+    public void goToMenuTest (View v) {
+        Intent intent = new Intent();
+        intent.setClass(mContext,MenuActivity.class);
+        startActivity(intent);
+    }
+
 }

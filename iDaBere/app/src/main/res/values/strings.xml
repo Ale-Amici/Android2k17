@@ -44,6 +44,7 @@
     <string name="item_info_description_content">Testo descrizione del prodotto</string>
 
     <!-- Strings related to menu -->
+    <string name="title_activity_menu"></string>
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
     <string name="add_new_drink_button">Nuova Scelta</string>
@@ -51,7 +52,7 @@
     <string name="category_name">Categoria</string>
 
     <!-- Strings related to QR Code scanner -->
-    <string name="title_qr_code_scanner_login">Autenticazione</string>
+    <string name="title_qr_code_scanner_login">Scansione QR</string>
     <string name="scan">Avvia Scansione</string>
 
     <!-- Strings related to Checkout -->
@@ -73,7 +74,6 @@
     <!-- Default sizes -->
     <string name="drinks_measure_units">cl</string>
     <string name="small_size_label">25</string>
-
 
     <!-- Strings related to Order status -->
     <string name="order_status_title_label">Stato Ordine</string>

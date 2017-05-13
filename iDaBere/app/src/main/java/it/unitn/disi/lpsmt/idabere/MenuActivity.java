@@ -18,6 +18,7 @@ public class MenuActivity extends AppCompatActivity {
     private ExpandableListView categoriesExpandableList;
 
     // Fake Data
+    final String ACTIVITY_TITLE = "Accademia";
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
@@ -41,6 +42,8 @@ public class MenuActivity extends AppCompatActivity {
     private void initViewComps () {
         // get the listview
         categoriesExpandableList = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+        //set activity title based to bar instance
+        setTitle(ACTIVITY_TITLE);
 
     }
 

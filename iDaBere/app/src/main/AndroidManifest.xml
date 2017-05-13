@@ -32,6 +32,10 @@
         </activity>
 
         <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"/>
+
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
 
@@ -43,8 +47,6 @@
                     android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
                     android:value="it.unitn.disi.lpsmt.idabere.MenuActivity"/>
         </activity>
-
-        <activity android:name=".MenuActivity" />
 
         <activity
             android:name=".QrCodeScannerActivity"
@@ -59,6 +61,8 @@
             android:name=".AddToppingsActivity"
             android:theme="@style/DialogTheme">
         </activity>
+
+
         <activity
             android:name=".ReviewOrderActivity"
             android:label="@string/review_order_activity_title">
