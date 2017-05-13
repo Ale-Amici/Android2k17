@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 public class SearchBarActivity extends AppCompatActivity {
 
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class SearchBarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_bar);
 
         initViewComps();
+        mContext = this;
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -53,7 +55,6 @@ public class SearchBarActivity extends AppCompatActivity {
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -69,6 +70,11 @@ public class SearchBarActivity extends AppCompatActivity {
                 result = true;
                 break;
             case R.id.action_qr_scanner_icon :
+
+                Intent intent = new Intent();
+                intent.setClass(mContext,QrCodeScannerActivity.class);
+                startActivity(intent);
+
                 result = true;
                 break;
             case R.id.action_clear_search_bar_icon :
