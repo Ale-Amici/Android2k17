@@ -34,7 +34,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
                 Intent intent = new Intent();
 
                 switch (itemId) {
-                    case  R.id.review_bottom_navigation :
+                    case  R.id.navigation_review_order :
                         DeliveryPlaceActivity.super.onBackPressed();
                         //intent.setClass(mContext,ReviewOrderActivity.class);
                         //startActivity(intent);
