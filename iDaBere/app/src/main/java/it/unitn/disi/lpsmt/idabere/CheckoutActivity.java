@@ -11,26 +11,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_payment_type:
-
-                    return true;
-                case R.id.navigation_total_price:
-
-                    return true;
-                case R.id.navigation_confirm_payment:
-
-                    return true;
-            }
-            return false;
-        }
-
-    };
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +19,29 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         //mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        initComps();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_payment_type:
+                        CheckoutActivity.super.onBackPressed();
+                        return true;
+
+                    case R.id.navigation_confirm_payment:
+
+                        return true;
+                }
+                return false;
+            }
+
+        });
+    }
+
+    private void initComps () {
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
     }
 
 }
