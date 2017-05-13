@@ -38,7 +38,7 @@ public class GpsLoadingActivity extends AppCompatActivity {
 
         @Override
         protected String[] doInBackground(String[]... params) {
-            SystemClock.sleep(3000);
+            //SystemClock.sleep(3000);
             return new String[0];
         }
 
