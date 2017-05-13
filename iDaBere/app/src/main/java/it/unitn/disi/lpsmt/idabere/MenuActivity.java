@@ -1,9 +1,17 @@
 package it.unitn.disi.lpsmt.idabere;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.BottomNavigationView;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -16,6 +24,10 @@ public class MenuActivity extends AppCompatActivity {
 
     private MenuCategoryExpandableListAdapter menuCategoryExpandableListAdapter;
     private ExpandableListView categoriesExpandableList;
+    private BottomNavigationView bottomNavigationMenu;
+
+    private Context mContext;
+
 
     // Fake Data
     final String ACTIVITY_TITLE = "Accademia";
@@ -28,13 +40,30 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         initViewComps();
+        mContext = this;
         // preparing fake list data
         prepareListData();
 
         menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, listDataHeader, listDataChild);
-
         // setting list adapter
         categoriesExpandableList.setAdapter(menuCategoryExpandableListAdapter);
+
+        bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                boolean result = false;
+                int itemId = item.getItemId();
+                switch (itemId) {
+                    case R.id.navigation_review_order :
+                        Intent intent = new Intent();
+                        intent.setClass(mContext,ReviewOrderActivity.class);
+                        startActivity(intent);
+                        result = true;
+                        break;
+                }
+                return result;
+            }
+        });
 
     }
 
@@ -42,6 +71,10 @@ public class MenuActivity extends AppCompatActivity {
     private void initViewComps () {
         // get the listview
         categoriesExpandableList = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+
+        // get the bottom navigation menu
+        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
+
         //set activity title based to bar instance
         setTitle(ACTIVITY_TITLE);
 
@@ -55,9 +88,10 @@ public class MenuActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     /*
-         * Preparing the list data
-         */
+             * Preparing the list data
+             */
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
