@@ -12,4 +12,6 @@
     <color name="colorSecondaryDark">#690000</color>
     <color name="colorSecondaryLight">#d7463d</color>
     <color name="colorAccent">#9f0215</color>
+
+    <color name="expandableListChildDivider">#00000000</color>
 </resources>
