@@ -41,8 +41,8 @@
         </activity>
 
         <activity
-            android:name=".MenuActivity"
-            android:label="@string/title_activity_menu"/>
+            android:name=".MenuActivity">
+        </activity>
 
         <activity
             android:name=".ItemInfoActivity"
@@ -72,15 +72,29 @@
             android:label="@string/title_activity_login" />
 
 
-        <activity android:name=".DeliveryPlaceActivity"/>
+        <activity
+            android:name=".DeliveryPlaceActivity"
+            android:label="@string/title_delivery_place_activity_title">
+        </activity>
 
-        <activity android:name=".PaymentTypeActivity"></activity>
+        <activity
+            android:name=".PaymentTypeActivity"
+            android:label="@string/title_payment_type_activity_title">
+        </activity>
 
-        <activity android:name=".CheckoutActivity"></activity>
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/title_activity_checkout">
+        </activity>
 
-        <activity android:name=".OrderStatusActivity"/>
+        <activity
+            android:name=".OrderStatusActivity"
+            android:label="@string/order_status_title_label">
+        </activity>
 
-        <activity android:name=".RateOrderActivity">
+        <activity
+            android:name=".RateOrderActivity"
+            android:label="@string/rate_order_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

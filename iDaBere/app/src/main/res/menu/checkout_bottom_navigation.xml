@@ -3,6 +3,7 @@
 
     <item
         android:id="@+id/navigation_payment_type"
+        android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
         android:title="@string/title_payment_type" />
 
     <item
@@ -11,6 +12,7 @@
 
     <item
         android:id="@+id/navigation_confirm_payment"
+        android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
         android:title="@string/title_confirm_payment" />
 
 </menu>

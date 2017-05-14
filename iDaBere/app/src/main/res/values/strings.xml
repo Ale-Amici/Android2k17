@@ -44,7 +44,6 @@
     <string name="item_info_description_content">Testo descrizione del prodotto</string>
 
     <!-- Strings related to menu -->
-    <string name="title_activity_menu"></string>
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
     <string name="add_new_drink_button">Nuova Scelta</string>
@@ -57,7 +56,7 @@
     <string name="scan">Avvia Scansione</string>
 
     <!-- Strings related to Checkout -->
-    <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="title_activity_checkout">Checkout</string>
     <string name="title_payment_type">Pagamento</string>
     <string name="title_total_price">Totale</string>
     <string name="title_confirm_payment">Concludi</string>
@@ -82,6 +81,7 @@
     <string name="queue_number_label">Posizione Coda</string>
 
     <!-- Strings related to Payment type -->
+    <string name="title_payment_type_activity_title">Pagamento</string>
     <string name="payment_type_info">Seleziona il metodo di pagamento</string>
     <string name="credit_card_radio_button_label">Carta di credito</string>
     <string name="credit_card_info">Selezionado il pagamento tramite carta di credito l\'ordinazione verra\' inserito in coda non appena ricevuto</string>
@@ -91,6 +91,7 @@
     <string name="cash_payment_button_label">Contanti</string>
 
     <!-- Strings related to Delivery Place -->
+    <string name="title_delivery_place_activity_title">Consegna</string>
     <string name="delivery_place_info">Seleziona il metodo di consegna ordinazione</string>
     <string name="counter_radio_button_label">Bancone</string>
     <string name="counter_place_info">Quando il tuo ordine sarà pronto verrà servito al bancone specificato</string>
@@ -106,6 +107,7 @@
     <string name="title_menu_list">Menu</string>
 
     <!-- Strings related to Rate order -->
+    <string name="rate_order_activity_title">Valutazioni Ordine</string>
     <string name="rate_confirm_button">Conferma</string>
     <string name="stars_number">5</string>
 
