@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.idabere;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 public class CheckoutActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private Context mContext;
 
     BottomNavigationView bottomNavigationView;
 
@@ -18,29 +21,37 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        //mTextMessage = (TextView) findViewById(R.id.message);
-        initComps();
+        initViewComps();
+
+        mContext = this;
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
+                boolean result = false;
+                int itemId = item.getItemId();
+                Intent intent = new Intent();
+
+                switch (itemId) {
                     case R.id.navigation_payment_type:
                         CheckoutActivity.super.onBackPressed();
-                        return true;
+                        result = true;
+                        break;
 
                     case R.id.navigation_confirm_payment:
-
-                        return true;
+                        intent.setClass(mContext,OrderStatusActivity.class);
+                        startActivity(intent);
+                        result = true;
+                        break;
                 }
-                return false;
+                return result;
             }
 
         });
     }
 
-    private void initComps () {
+    private void initViewComps () {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
     }
 
