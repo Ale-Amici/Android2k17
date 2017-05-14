@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="it.unitn.disi.lpsmt.idabere.CheckoutActivity">
+    tools:context="it.unitn.disi.lpsmt.idabere.activities.CheckoutActivity">
 
 
     <LinearLayout

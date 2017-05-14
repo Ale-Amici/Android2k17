@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
     android:gravity="center_horizontal"
-    tools:context="it.unitn.disi.lpsmt.idabere.AddToppingsActivity"
+    tools:context="it.unitn.disi.lpsmt.idabere.activities.AddToppingsActivity"
     android:orientation="vertical">
 
     <!-- Size picker section -->
