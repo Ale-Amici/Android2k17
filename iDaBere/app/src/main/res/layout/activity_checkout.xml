@@ -577,6 +577,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/colorPrimaryLight"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
@@ -632,6 +633,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:background="@color/colorPrimaryLight"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -686,17 +688,52 @@
             android:layout_gravity="bottom"
             app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:layout_weight="1">
+            app:contentInsetStart="0dp">
 
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/navigation"
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                app:menu="@menu/checkout_bottom_navigation" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:id="@+id/review_total_order_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_list_item_price"
+                        android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/review_total_order_price_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_list_item_currency"
+                        android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+
+                <android.support.design.widget.BottomNavigationView
+                    android:id="@+id/checkout_bottom_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryLight"
+                    android:translationZ="-10sp"
+                    app:menu="@menu/checkout_bottom_navigation" />
+
+            </FrameLayout>
+
+
 
         </android.support.v7.widget.Toolbar>
 

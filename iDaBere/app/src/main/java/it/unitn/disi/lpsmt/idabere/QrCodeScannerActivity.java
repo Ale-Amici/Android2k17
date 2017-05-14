@@ -11,7 +11,6 @@ public class QrCodeScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qr_code_scanner);
 
         // Show arrow back action button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Handle intent received from Search bar activity
 

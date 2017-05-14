@@ -4,17 +4,15 @@
 
 
     <item
-        android:id="@+id/navigation_menu_list"
-        android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
-        android:title="@string/title_menu_list" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_total_price"
         android:title="@string/title_total_price" />
 
     <item
-        android:id="@+id/navigation_delivery_type"
+        android:id="@+id/navigation_review_order"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
-        android:title="@string/title_delivery_place" />
+        android:title="@string/review_order_button_label" />
 
 </menu>
