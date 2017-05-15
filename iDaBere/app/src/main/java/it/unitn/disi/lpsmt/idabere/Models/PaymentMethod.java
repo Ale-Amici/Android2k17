@@ -5,4 +5,6 @@ package it.unitn.disi.lpsmt.idabere.Models;
  */
 
 public class PaymentMethod {
+
+
 }
