@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.idabere;
+package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.ToppingsListArrayListAdapter;
 
 public class AddToppingsActivity extends AppCompatActivity {

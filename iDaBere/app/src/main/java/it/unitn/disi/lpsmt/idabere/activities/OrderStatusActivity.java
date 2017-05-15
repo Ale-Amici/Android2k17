@@ -1,7 +1,9 @@
-package it.unitn.disi.lpsmt.idabere;
+package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import it.unitn.disi.lpsmt.idabere.R;
 
 public class OrderStatusActivity extends AppCompatActivity {
 

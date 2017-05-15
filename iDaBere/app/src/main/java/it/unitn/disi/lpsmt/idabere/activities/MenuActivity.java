@@ -1,13 +1,12 @@
-package it.unitn.disi.lpsmt.idabere;
+package it.unitn.disi.lpsmt.idabere.activities;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,55 +16,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
-import it.unitn.disi.lpsmt.idabere.adapters.ReviewOrderExpandableListAdapter;
 
-public class ReviewOrderActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
-    private ReviewOrderExpandableListAdapter reviewOrderExpandableListAdapter;
-    private ExpandableListView reviewExpandableList;
+    private MenuCategoryExpandableListAdapter menuCategoryExpandableListAdapter;
+    private ExpandableListView categoriesExpandableList;
     private BottomNavigationView bottomNavigationMenu;
 
     private Context mContext;
 
 
     // Fake Data
+    final String ACTIVITY_TITLE = "Accademia";
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_order);
+        setContentView(R.layout.activity_menu);
 
         initViewComps();
-
         mContext = this;
-
         // preparing fake list data
         prepareListData();
 
-        reviewOrderExpandableListAdapter = new ReviewOrderExpandableListAdapter (this, listDataHeader, listDataChild);
-
+        menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, listDataHeader, listDataChild);
         // setting list adapter
-        reviewExpandableList.setAdapter(reviewOrderExpandableListAdapter);
+        categoriesExpandableList.setAdapter(menuCategoryExpandableListAdapter);
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 boolean result = false;
                 int itemId = item.getItemId();
-                Intent intent = new Intent();
-
                 switch (itemId) {
-                    case  R.id.navigation_menu_list :
-                        intent.setClass(mContext,MenuActivity.class);
-                        startActivity(intent);
-                        result = true;
-                        break;
-
-                    case R.id.navigation_delivery_type :
-                        intent.setClass(mContext,DeliveryPlaceActivity.class);
+                    case R.id.navigation_review_order :
+                        Intent intent = new Intent();
+                        intent.setClass(mContext,ReviewOrderActivity.class);
                         startActivity(intent);
                         result = true;
                         break;
@@ -79,31 +69,28 @@ public class ReviewOrderActivity extends AppCompatActivity {
     // Instantiate layout elements
     private void initViewComps () {
         // get the listview
-        reviewExpandableList = (ExpandableListView) findViewById(R.id.expandable_review_list);
+        categoriesExpandableList = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+
         // get the bottom navigation menu
-        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.review_bottom_navigation);
+        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
+
+        //set activity title based to bar instance
+        setTitle(ACTIVITY_TITLE);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.review_order_menu,menu);
-
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_bar_icon).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-
+        menuInflater.inflate(R.menu.item_list_menu,menu);
+        
         return super.onCreateOptionsMenu(menu);
-
     }
 
+
     /*
-         * Preparing the list data
-         */
+             * Preparing the list data
+             */
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();

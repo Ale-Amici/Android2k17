@@ -1,19 +1,18 @@
-package it.unitn.disi.lpsmt.idabere;
+package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
 import android.view.View;
-import android.widget.Toast;
+
+import it.unitn.disi.lpsmt.idabere.R;
 
 public class SearchBarActivity extends AppCompatActivity {
 
