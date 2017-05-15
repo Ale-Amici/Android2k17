@@ -4,7 +4,7 @@ import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.OrderItemsDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.OrdersDAO;
-import it.unitn.disi.lpsmt.idabere.DAOIntefaces.UsersDAO;
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -27,7 +27,7 @@ public class FactoryDAOImpl implements FactoryDAO {
     }
 
     @Override
-    public UsersDAO newUsersDAO() {
-        return new UsersDAOImpl() {};
+    public CustomersDAO newUsersDAO() {
+        return new CustomersDAOImpl() {};
     }
 }
