@@ -6,4 +6,9 @@ package it.unitn.disi.lpsmt.idabere.DAOIntefaces;
 
 public interface FactoryDAO {
 
+    BarsDAO newBarsDAO ();
+    OrderItemsDAO newOrderItemsDAO ();
+    OrdersDAO newOrdersDAO ();
+    UsersDAO newUsersDAO ();
+
 }
