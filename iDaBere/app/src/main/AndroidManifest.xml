@@ -10,21 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".GpsLoadingActivity" >
+        <activity android:name=".activities.GpsLoadingActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".SearchBarActivity">
+        <activity android:name=".activities.SearchBarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:parentActivityName="it.unitn.disi.lpsmt.idabere.GpsLoadingActivity"
-                android:value="it.unitn.disi.lpsmt.idabere.GpsLoadingActivity"/>
+                android:value="it.unitn.disi.lpsmt.idabere.activities.GpsLoadingActivity"/>
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
@@ -32,35 +32,35 @@
         </activity>
 
         <activity
-            android:name=".QrCodeScannerActivity"
+            android:name=".activities.QrCodeScannerActivity"
             android:label="@string/title_qr_code_scanner_login">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:parentActivityName="it.unitn.disi.lpsmt.idabere.SearchBarActivity"
-                android:value="it.unitn.disi.lpsmt.idabere.SearchBarActivity"/>
+                android:value="it.unitn.disi.lpsmt.idabere.activities.SearchBarActivity"/>
         </activity>
 
         <activity
-            android:name=".MenuActivity">
+            android:name=".activities.MenuActivity">
         </activity>
 
         <activity
-            android:name=".ItemInfoActivity"
+            android:name=".activities.ItemInfoActivity"
             android:label="@string/title_item_info">
              <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
-                    android:value="it.unitn.disi.lpsmt.idabere.MenuActivity"/>
+                    android:value="it.unitn.disi.lpsmt.idabere.activities.MenuActivity"/>
         </activity>
 
 
         <activity
-            android:name=".AddToppingsActivity"
+            android:name=".activities.AddToppingsActivity"
             android:theme="@style/DialogTheme">
         </activity>
 
         <activity
-            android:name=".ReviewOrderActivity"
+            android:name=".activities.ReviewOrderActivity"
             android:label="@string/review_order_activity_title">
             <meta-data
                 android:name="android.app.search_bar_searchable"
@@ -68,32 +68,32 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" />
 
 
         <activity
-            android:name=".DeliveryPlaceActivity"
+            android:name=".activities.DeliveryPlaceActivity"
             android:label="@string/title_delivery_place_activity_title">
         </activity>
 
         <activity
-            android:name=".PaymentTypeActivity"
+            android:name=".activities.PaymentTypeActivity"
             android:label="@string/title_payment_type_activity_title">
         </activity>
 
         <activity
-            android:name=".CheckoutActivity"
+            android:name=".activities.CheckoutActivity"
             android:label="@string/title_activity_checkout">
         </activity>
 
         <activity
-            android:name=".OrderStatusActivity"
+            android:name=".activities.OrderStatusActivity"
             android:label="@string/order_status_title_label">
         </activity>
 
         <activity
-            android:name=".RateOrderActivity"
+            android:name=".activities.RateOrderActivity"
             android:label="@string/rate_order_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

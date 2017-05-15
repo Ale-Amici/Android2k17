@@ -1,32 +1,33 @@
-package it.unitn.disi.lpsmt.idabere;
+package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class CheckoutActivity extends AppCompatActivity {
+import it.unitn.disi.lpsmt.idabere.R;
 
-    private TextView mTextMessage;
+public class DeliveryPlaceActivity extends AppCompatActivity {
+
+    private BottomNavigationView bottomNavigationMenu;
+
     private Context mContext;
 
-    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout);
+        setContentView(R.layout.activity_delivery_place);
 
         initViewComps();
 
         mContext = this;
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 boolean result = false;
@@ -34,25 +35,30 @@ public class CheckoutActivity extends AppCompatActivity {
                 Intent intent = new Intent();
 
                 switch (itemId) {
-                    case R.id.navigation_payment_type:
-                        CheckoutActivity.super.onBackPressed();
+                    case  R.id.navigation_review_order :
+                        DeliveryPlaceActivity.super.onBackPressed();
+                        //intent.setClass(mContext,ReviewOrderActivity.class);
+                        //startActivity(intent);
                         result = true;
                         break;
 
-                    case R.id.navigation_confirm_payment:
-                        intent.setClass(mContext,OrderStatusActivity.class);
+                    case R.id.navigation_payment_type :
+                        intent.setClass(mContext,PaymentTypeActivity.class);
                         startActivity(intent);
                         result = true;
                         break;
                 }
                 return result;
             }
-
         });
+
     }
 
+
+    // Instantiate layout elements
     private void initViewComps () {
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
+        // get the bottom navigation menu
+        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.delivery_bottom_navigation);
     }
 
 }
