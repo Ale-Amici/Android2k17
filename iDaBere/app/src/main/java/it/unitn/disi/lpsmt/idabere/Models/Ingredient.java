@@ -4,12 +4,12 @@ package it.unitn.disi.lpsmt.idabere.Models;
  * Created by giovanni on 15/05/2017.
  */
 
-public class Category {
+public class Ingredient {
 
     private int id;
     private String name;
 
-    public Category(int id, String name) {
+    public Ingredient(int id, String name) {
         this.id = id;
         this.name = name;
     }
