@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `android2k17`.`BAR` ;
 CREATE TABLE IF NOT EXISTS `android2k17`.`BAR` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
+  `description` TEXT NOT NULL,
   `address` VARCHAR(1023) NOT NULL,
   `latitude` DECIMAL(10,8) NOT NULL,
   `longitude` DECIMAL(11,8) NOT NULL,
@@ -38,7 +39,7 @@ DROP TABLE IF EXISTS `android2k17`.`CUSTOMER` ;
 CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NULL,
-  `age` INT UNSIGNED NOT NULL,
+  `year_of_birth` INT UNSIGNED NOT NULL,
   `email` VARCHAR(1024) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`ID`),
@@ -180,7 +181,9 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `BAR_ID` INT UNSIGNED NOT NULL,
   `ITEM_CATEGORY_ID` INT UNSIGNED NOT NULL,
-  `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `description` TEXT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_MENU_ITEM_BAR1_idx` (`BAR_ID` ASC),
   INDEX `fk_MENU_ITEM_ITEM_CATEGORY1_idx` (`ITEM_CATEGORY_ID` ASC),
@@ -488,6 +491,120 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_PREFER_MENU_ITEM` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `android2k17`.`OPENING_HOUR`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`OPENING_HOUR` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`OPENING_HOUR` (
+  `BAR_ID` INT UNSIGNED NOT NULL,
+  `day_of_week` INT NOT NULL,
+  `time_open` TIME NOT NULL,
+  `working_time` INT NOT NULL,
+  PRIMARY KEY (`BAR_ID`, `day_of_week`, `time_open`),
+  INDEX `fk_OPENING_HOUR_BAR1_idx` (`BAR_ID` ASC),
+  CONSTRAINT `fk_OPENING_HOUR_BAR1`
+    FOREIGN KEY (`BAR_ID`)
+    REFERENCES `android2k17`.`BAR` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`BAR`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (1, 'BAR BELLISSIMO', 'Questo è il bar più bello della storia dei bar!', 'Via dei bei bar 45', 46.06802028, 11.14992142);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (2, 'BAR BRUTTO', 'Bar brutto', 'Via butti 55', 46.0672552, 11.12101110);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`CUSTOMER`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (1, 'mario', 1990, 'mario@gmail.com', 'mario');
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (2, 'giulia', 1991, 'giulia@gmail.com', 'giulia');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`ITEM_CATEGORY`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (1, 'Birre');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (2, 'Vini');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (3, 'Bevande analcoliche');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (4, 'Cocktails');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (5, 'Cocktails analcolici');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (6, 'Caffetteria');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`GLOBAL_MENU_ITEM`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (1, 'Coca cola');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (2, 'Birra Guinnes');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (3, 'Pinot Grigio');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (4, 'Thè alla pesca');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (5, '');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (6, 'Thè al limone');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (7, 'Vino rosso della casa');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (8, 'Vino bianco della casa');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (9, 'Caffè');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (10, 'Birra Rossa');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (11, 'Birra Scura');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (12, 'Birra Weizen');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`MENU_ITEM`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', '');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`INGREDIENT`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`INGREDIENT` (`ID`, `name`) VALUES (1, 'Alcool');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`OPENING_HOUR`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (1, 5, '18:00:00', 8);
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (1, 6, '18:00:00', 8);
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (1, 7, '18:00:00', 6);
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (2, 5, '20:00:00', 4);
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (2, 6, '21:00:00', 4);
+INSERT INTO `android2k17`.`OPENING_HOUR` (`BAR_ID`, `day_of_week`, `time_open`, `working_time`) VALUES (2, 7, '20:00:00', 5);
+
+COMMIT;
+
