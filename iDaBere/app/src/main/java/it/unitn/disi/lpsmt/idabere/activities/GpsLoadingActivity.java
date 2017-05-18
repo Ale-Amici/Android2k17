@@ -41,20 +41,12 @@ import java.util.Locale;
 
 import it.unitn.disi.lpsmt.idabere.Manifest;
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.utils.GpsLocationRetriever;
 
-public class GpsLoadingActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ActivityCompat.OnRequestPermissionsResultCallback {
-
-    private ProgressBar mLoadingIndicator;
-    private Context mContext;
-
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
-    LocationRequest mLocationRequest;
+public class GpsLoadingActivity extends AppCompatActivity {
 
 
-    private double mLatitude;
-    private double mLongitude;
+    private GpsLocationRetriever gpsLocationRetriever;
 
     String [] fakeData = {"A"};
 
@@ -64,84 +56,36 @@ public class GpsLoadingActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_gps_loading);
 
         initViewComps();
-        mContext = this;
 
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
+        gpsLocationRetriever = new GpsLocationRetriever(this,this);
 
-        //new LocationsLoader().execute(fakeData);
-
-
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            Log.d("ERROR","No permission");
-
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1000);
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        
-        if (mLastLocation != null) {
-
-            Log.d("TEST",mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
-
-        }
+        new LocationsLoader().execute(fakeData);
 
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
     @Override
     protected void onStart() {
-        mGoogleApiClient.connect();
+        gpsLocationRetriever.startConnection();
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        mGoogleApiClient.disconnect();
+        gpsLocationRetriever.stopConnection();
         super.onStop();
     }
 
-    private void initViewComps () {
+    private void initViewComps () {}
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-    }
 
     public class LocationsLoader extends AsyncTask<String[],String[],String[]>  {
 
         @Override
         protected String[] doInBackground(String[]... params) {
+
+            
 
             SystemClock.sleep(3000);
             return new String[0];
@@ -151,7 +95,7 @@ public class GpsLoadingActivity extends AppCompatActivity implements
         protected void onPostExecute(String[] strings) {
             super.onPostExecute(strings);
             Intent intent = new Intent();
-            intent.setClass(mContext,SearchBarActivity.class);
+            intent.setClass(GpsLoadingActivity.this, SearchBarActivity.class);
             startActivity(intent);
         }
 
