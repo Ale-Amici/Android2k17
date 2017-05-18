@@ -39,12 +39,16 @@ import java.security.Permissions;
 import java.util.List;
 import java.util.Locale;
 
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.Manifest;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.utils.GpsLocationRetriever;
 
 public class GpsLoadingActivity extends AppCompatActivity {
 
+    //DAOFactory
+    public final static FactoryDAOImpl factoryDAOImpl = new FactoryDAOImpl();
 
     private GpsLocationRetriever gpsLocationRetriever;
 
@@ -83,11 +87,24 @@ public class GpsLoadingActivity extends AppCompatActivity {
     public class LocationsLoader extends AsyncTask<String[],String[],String[]>  {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
         protected String[] doInBackground(String[]... params) {
+            Address address = new Address(null);
+            SystemClock.sleep(10000);
 
-            
 
-            SystemClock.sleep(3000);
+            address = gpsLocationRetriever.getmAddress();
+
+
+
+            Log.d("ADDRESS", address.toString());
+
+            GpsLoadingActivity.factoryDAOImpl.newBarsDAO().getBarByAddress(address);
+
             return new String[0];
         }
 

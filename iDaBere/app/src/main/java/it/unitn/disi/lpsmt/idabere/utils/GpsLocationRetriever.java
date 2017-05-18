@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.idabere.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Locale;
 
 /**
  * Created by giovanni on 18/05/2017.
@@ -30,12 +33,13 @@ public class GpsLocationRetriever implements
     final String [] mPermissions = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
     final int mRequestCode = 1000;
 
-    private double mLongitude;
-    private double mLatitude;
+    private Address mAddress;
 
     public GpsLocationRetriever(Activity activity, Context activityContext) {
         mActivityContext = activityContext;
         mActivity = activity;
+        mAddress = new Address(Locale.ITALY);
+        initGoogleApiClient();
     }
 
     private void initGoogleApiClient () {
@@ -57,12 +61,8 @@ public class GpsLocationRetriever implements
         mGoogleApiClient.disconnect();
     }
 
-    public double getmLongitude() {
-        return mLongitude;
-    }
-
-    public double getmLatitude() {
-        return mLatitude;
+    public Address getmAddress() {
+        return mAddress;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class GpsLocationRetriever implements
 
         if (mLastLocation != null) {
 
-            mLongitude = mLastLocation.getLongitude();
-            mLatitude = mLastLocation.getLatitude();
+            mAddress.setLongitude(mLastLocation.getLongitude());
+            mAddress.setLatitude(mLastLocation.getLatitude());
 
             Log.d("TEST",mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
 
