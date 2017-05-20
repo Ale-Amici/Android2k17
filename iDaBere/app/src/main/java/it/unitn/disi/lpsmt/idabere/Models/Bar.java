@@ -13,6 +13,8 @@ public class Bar {
     private int id;
     private String name;
     private Address address;
+    private String description;
+    private int distance;//from user's location (in meters)
     private Menu menu;
     private ArrayList<Event> events;
     private ArrayList<BarCounter> barCounters;
@@ -26,6 +28,22 @@ public class Bar {
         this.events = events;
         this.barCounters = barCounters;
         this.tables = tables;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getId() {
