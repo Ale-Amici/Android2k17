@@ -11,20 +11,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
 import android.view.View;
+import android.widget.ListView;
 
 import it.unitn.disi.lpsmt.idabere.R;
 
-public class SearchBarActivity extends AppCompatActivity {
+public class ListBarActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private Context mContext;
+    private ListView barsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_bar);
+        setContentView(R.layout.activity_list_bar);
 
         initViewComps();
         mContext = this;
+
+
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -37,7 +41,9 @@ public class SearchBarActivity extends AppCompatActivity {
     /** UI elements methods **/
 
     // Instantiate layout elements
-    private void initViewComps () {}
+    private void initViewComps () {
+        barsListView = (ListView) findViewById(R.id.bars_list_view);
+    }
 
 
     /** Menu bar methods **/
@@ -100,4 +106,13 @@ public class SearchBarActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }
