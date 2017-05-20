@@ -34,8 +34,8 @@
     <string name="title_qr_scanner_icon">Scan QR code</string>
     <string name="title_burger_menu_icon">Menu</string>
 
-    <string name="search_bar_label">Search bar icon</string>
-    <string name="search_hint">Cerca Ristorante</string>
+    <string name="search_bar_label">Search bar</string>
+    <string name="search_hint">Cerca Bar</string>
 
     <!-- Strings related to item info -->
     <string name="title_item_info">Informazioni Prodotto</string>
