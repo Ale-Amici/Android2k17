@@ -20,6 +20,8 @@ public class Bar {
     private ArrayList<BarCounter> barCounters;
     private ArrayList<Table> tables;
 
+    public Bar(){}
+
     public Bar(int id, String name, Address address, Menu menu, ArrayList<Event> events, ArrayList<BarCounter> barCounters, ArrayList<Table> tables) {
         this.id = id;
         this.name = name;
