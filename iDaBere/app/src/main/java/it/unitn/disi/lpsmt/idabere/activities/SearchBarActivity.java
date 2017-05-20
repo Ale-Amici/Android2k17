@@ -3,20 +3,37 @@ package it.unitn.disi.lpsmt.idabere.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.BarsDAOImpl;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
+import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.utils.GpsLocationRetriever;
 
 public class SearchBarActivity extends AppCompatActivity {
 
     private Context mContext;
+    public static FactoryDAO factoryDAO = new FactoryDAOImpl();
+
+    private GpsLocationRetriever gpsLocationRetriever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +49,49 @@ public class SearchBarActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //doMySearch(query);
         }
+
+        gpsLocationRetriever = new GpsLocationRetriever(this, this);
+
+        new GpsLoader().execute();
+
     }
+
+    private class GpsLoader extends AsyncTask<Address, Void, ArrayList<Bar>> {
+        @Override
+        protected void onPreExecute() {
+            gpsLocationRetriever.startConnection();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Bar> doInBackground(Address... params) {
+
+            while (gpsLocationRetriever.mRequestingLocationUpdates) {
+                Log.d("WAIT", "Waiting...");
+            }
+
+
+            ArrayList<Bar> bars = new ArrayList<>();
+
+            Log.d("LOCATION", gpsLocationRetriever.getmAddress().toString());
+            bars = SearchBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(gpsLocationRetriever.getmAddress());
+
+            return bars;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(ArrayList<Bar> bars) {
+
+
+            Log.d("BARST",bars.toString());
+            gpsLocationRetriever.stopConnection();
+            super.onPostExecute(bars);
+        }
+
+    }
+
 
     /** UI elements methods **/
 
