@@ -42,7 +42,7 @@ import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
 
-public class SearchBarActivity extends AppCompatActivity implements
+public class ListBarActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
@@ -194,7 +194,7 @@ public class SearchBarActivity extends AppCompatActivity implements
                 address.setLongitude(mCurrentLocation.getLongitude());
                 address.setLatitude(mCurrentLocation.getLatitude());
                 Log.d("ADDRESS", address.toString());
-                bars = SearchBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
+                bars = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
             }
 
             return bars;
@@ -320,20 +320,20 @@ public class SearchBarActivity extends AppCompatActivity implements
                     case LocationSettingsStatusCodes.SUCCESS:
                         Log.i(TAG, "All location settings are satisfied.");
 
-                        if (ActivityCompat.checkSelfPermission(SearchBarActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SearchBarActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(SearchBarActivity.this, mPermissions[0])){
+                        if (ActivityCompat.checkSelfPermission(ListBarActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ListBarActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(ListBarActivity.this, mPermissions[0])){
                                 stopLocationUpdates();
                             }
-                            ActivityCompat.requestPermissions(SearchBarActivity.this, mPermissions,mRequestCode);
+                            ActivityCompat.requestPermissions(ListBarActivity.this, mPermissions,mRequestCode);
                             return;
                         }
-                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, SearchBarActivity.this);
+                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, ListBarActivity.this);
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                             try {
                                 // Show the dialog by calling startResolutionForResult(), and check the
                                 // result in onActivityResult().
-                                status.startResolutionForResult(SearchBarActivity.this, REQUEST_CHECK_SETTINGS);
+                                status.startResolutionForResult(ListBarActivity.this, REQUEST_CHECK_SETTINGS);
                             } catch (IntentSender.SendIntentException e) {
                                 Log.i(TAG, "PendingIntent unable to execute request.");
                             }
@@ -345,7 +345,7 @@ public class SearchBarActivity extends AppCompatActivity implements
                         String errorMessage = "Location settings are inadequate, and cannot be " +
                                 "fixed here. Fix in Settings.";
                         Log.e(TAG, errorMessage);
-                        Toast.makeText(SearchBarActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ListBarActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         mRequestingLocationUpdates = false;
                 }
 
