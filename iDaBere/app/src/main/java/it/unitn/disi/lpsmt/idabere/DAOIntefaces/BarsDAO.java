@@ -12,7 +12,7 @@ import it.unitn.disi.lpsmt.idabere.Models.Bar;
 
 public interface BarsDAO {
 
-    public Bar getBarByAddress (Address address);
+    public ArrayList<Bar> getBarsByCoordinates (Address address);
     public ArrayList<Bar> getAllBars ();
     public Bar getBarByName (String name);
 

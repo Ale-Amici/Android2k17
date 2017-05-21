@@ -13,12 +13,20 @@
         app:actionViewClass="android.support.v7.widget.SearchView"/>
 
     <item
-    android:id="@+id/action_qr_scanner_icon"
-    android:title="@string/title_qr_scanner_icon"
-    android:icon="@android:drawable/ic_menu_camera"
-    android:enabled="true"
-    android:orderInCategory="1"
-    app:showAsAction="always" />
+        android:id="@+id/action_qr_scanner_icon"
+        android:title="@string/title_qr_scanner_icon"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:enabled="true"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/update_coordinates"
+        android:enabled="true"
+        android:icon="@drawable/quantum_ic_refresh_white_24"
+        android:orderInCategory="1"
+        android:title="updateCoordinates"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_clear_search_bar_icon"
@@ -28,5 +36,6 @@
         android:title="@string/title_clear_search_bar_icon"
         android:visible="false"
         app:showAsAction="always" />
+
 
 </menu>
