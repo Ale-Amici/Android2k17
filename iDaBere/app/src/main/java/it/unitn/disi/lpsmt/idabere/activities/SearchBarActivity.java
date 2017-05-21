@@ -53,7 +53,7 @@ public class SearchBarActivity extends AppCompatActivity implements
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1000;
 
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
@@ -70,7 +70,7 @@ public class SearchBarActivity extends AppCompatActivity implements
     /**
      * Tracks the status of the location updates request.
      */
-    protected Boolean mRequestingLocationUpdates;
+    protected boolean mRequestingLocationUpdates;
 
     /**
      * Stores parameters for requests to the FusedLocationProviderApi.
@@ -150,7 +150,9 @@ public class SearchBarActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause() {
-        stopLocationUpdates();
+        if (mGoogleApiClient.isConnected()){
+            stopLocationUpdates();
+        }
         super.onPause();
     }
 
@@ -191,6 +193,7 @@ public class SearchBarActivity extends AppCompatActivity implements
                 Address address = new Address(Locale.ITALIAN);
                 address.setLongitude(mCurrentLocation.getLongitude());
                 address.setLatitude(mCurrentLocation.getLatitude());
+                Log.d("ADDRESS", address.toString());
                 bars = SearchBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
             }
 
@@ -252,6 +255,7 @@ public class SearchBarActivity extends AppCompatActivity implements
                 return;
             }
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            coordinatesRetrieveSuccess = true;
 
         }
         if (mRequestingLocationUpdates) {
@@ -326,7 +330,6 @@ public class SearchBarActivity extends AppCompatActivity implements
                         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, SearchBarActivity.this);
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        if (!coordinatesRetrieveSuccess){
                             try {
                                 // Show the dialog by calling startResolutionForResult(), and check the
                                 // result in onActivityResult().
@@ -334,10 +337,9 @@ public class SearchBarActivity extends AppCompatActivity implements
                             } catch (IntentSender.SendIntentException e) {
                                 Log.i(TAG, "PendingIntent unable to execute request.");
                             }
-                        }
+
                         Log.i(TAG, "Location settings are not satisfied. Attempting to upgrade " +
                                 "location settings ");
-
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         String errorMessage = "Location settings are inadequate, and cannot be " +
@@ -378,6 +380,7 @@ public class SearchBarActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
         coordinatesRetrieveSuccess = true;
+        mGoogleApiClient.disconnect();
         new GpsLoader().execute();
     }
 
