@@ -18,6 +18,7 @@ import java.util.List;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -27,9 +28,6 @@ public class MenuActivity extends AppCompatActivity {
 
     private Context mContext;
 
-
-    // Fake Data
-    final String ACTIVITY_TITLE = "Accademia";
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
@@ -75,7 +73,7 @@ public class MenuActivity extends AppCompatActivity {
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
         //set activity title based to bar instance
-        setTitle(ACTIVITY_TITLE);
+        setTitle(AppSession.getInstance().getmBar().getName());
 
     }
 
