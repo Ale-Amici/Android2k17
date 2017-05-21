@@ -6,7 +6,6 @@ var Bars = require('../models/bar.js');
 function index(request, response) {
     var latitude = request.query.latitude;
     var longitude = request.query.longitude;
-    var p = request.query.p;
 
     if(isNaN(latitude) && isNaN(longitude)){
         barsPromise = barsDAOImpl.getBars(latitude, longitude);
@@ -14,6 +13,7 @@ function index(request, response) {
           response.json(res);
         })
         .catch(function(err){
+            response.status(500).send("server error " + err);
             console.log("shit");
         });
     }
@@ -23,6 +23,7 @@ function index(request, response) {
           response.json(res);
         })
         .catch(function(err){
+            response.status(500).send("server error " + err);
             console.log("shit");
         });
     }
@@ -31,5 +32,23 @@ function index(request, response) {
     }
 }
 
+//percorso /bars/:bar_id
+function getBar(request, response){
+    var barId = parseInt(request.params.bar_id);
+    if(isNaN(barId)){
+        response.status(500).send("BAD REQUEST");
+    }
+    else{
+        barPromise = barsDAOImpl.getBarFromId(barId);
+        barPromise.then(function(bar){
+            response.json(bar);
+        })
+        .catch(function(err){
+            response.status(500).send("server error " + err);
+        });
+    }
+
+}
 
 module.exports.index = index;
+module.exports.getBar = getBar;
