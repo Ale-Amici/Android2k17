@@ -18,17 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-<<<<<<< HEAD
-        <activity android:name=".activities.ListBarActivity">
-            <meta-data
-                android:name="android.app.search_bar_searchable"
-                android:resource="@xml/search_bar_searchable" />
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-=======
+
         <activity android:name=".activities.ListBarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -38,7 +28,6 @@
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
->>>>>>> development
         </activity>
 
         <activity
