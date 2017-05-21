@@ -1,10 +1,10 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,20 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
-import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.BarsDAOImpl;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.utils.GpsLocationRetriever;
 
 public class SearchBarActivity extends AppCompatActivity {
+
+    private final String TAG = "SeachBarActivity";
 
     private Context mContext;
     public static FactoryDAO factoryDAO = new FactoryDAOImpl();
@@ -54,7 +52,13 @@ public class SearchBarActivity extends AppCompatActivity {
 
         new GpsLoader().execute();
 
+
     }
+
+    private void updateCoordinates() {
+        new GpsLoader().execute();
+    }
+
 
     private class GpsLoader extends AsyncTask<Address, Void, ArrayList<Bar>> {
         @Override
@@ -66,32 +70,62 @@ public class SearchBarActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Bar> doInBackground(Address... params) {
 
-            while (gpsLocationRetriever.mRequestingLocationUpdates) {
-                Log.d("WAIT", "Waiting...");
+            ArrayList<Bar> bars = null;
+
+            while (gpsLocationRetriever.getmRequestingLocationUpdates()) {
+                //Log.d("WAIT", "Waiting...");
             }
 
+            Log.d(TAG, "DONE");
 
-            ArrayList<Bar> bars = new ArrayList<>();
-
-            Log.d("LOCATION", gpsLocationRetriever.getmAddress().toString());
-            bars = SearchBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(gpsLocationRetriever.getmAddress());
+            if (gpsLocationRetriever.isCoordinatesRetrieveSuccess()) {
+                bars = new ArrayList<>();
+                Log.d("LOCATION", gpsLocationRetriever.getmAddress().toString());
+                bars = SearchBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(gpsLocationRetriever.getmAddress());
+            }
 
             return bars;
         }
-
-
 
         @Override
         protected void onPostExecute(ArrayList<Bar> bars) {
 
 
-            Log.d("BARST",bars.toString());
-            gpsLocationRetriever.stopConnection();
+            //Log.d("BARS",bars.toString());
             super.onPostExecute(bars);
         }
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        final int REQUEST_CHECK_SETTINGS_FLAG = 0x1;
+        //REQUEST_CHECK_SETTINGS_FLAG = gpsLocationRetriever.getREQUEST_CHECK_SETTINGS();;
+
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+
+            case REQUEST_CHECK_SETTINGS_FLAG:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        // Nothing to do. startLocationupdates() gets called in onResume again.
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        gpsLocationRetriever.stopConnection();
+                        break;
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        gpsLocationRetriever.startConnection();
+        super.onResume();
+    }
 
     /** UI elements methods **/
 
@@ -137,6 +171,9 @@ public class SearchBarActivity extends AppCompatActivity {
                 break;
             case R.id.action_clear_search_bar_icon :
                 result = true;
+                break;
+            case R.id.update_coordinates :
+                updateCoordinates();
                 break;
             default:
                 result = super.onOptionsItemSelected(item);

@@ -4,6 +4,7 @@
     package="it.unitn.disi.lpsmt.idabere">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -18,15 +19,14 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".activities.SearchBarActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.LAUNCHER"/>
-            </intent-filter>
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
-
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
 
         <activity

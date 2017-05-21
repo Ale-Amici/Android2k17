@@ -3,14 +3,12 @@ package it.unitn.disi.lpsmt.idabere.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,11 +24,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
-
-import it.unitn.disi.lpsmt.idabere.activities.SearchBarActivity;
 
 /**
  * Created by giovanni on 18/05/2017.
@@ -42,18 +36,12 @@ public class GpsLocationRetriever implements
         LocationListener,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
-    protected static final String TAG = "GPSLocationRetriever";
-
-
-    /**
-     * Constant used in the location settings dialog.
-     */
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    public boolean coordinatesRetrieveSuccess = false;
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
 
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
@@ -61,6 +49,18 @@ public class GpsLocationRetriever implements
      */
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+
+    /**
+     * Constant used in the location settings dialog.
+     */
+    protected final int REQUEST_CHECK_SETTINGS = 0x1;
+
+    /**
+     * Tracks the status of the location updates request.
+     */
+    protected Boolean mRequestingLocationUpdates;
+
+    protected static final String TAG = "GPSLocationRetriever";
 
     /**
      * Stores parameters for requests to the FusedLocationProviderApi.
@@ -77,11 +77,6 @@ public class GpsLocationRetriever implements
      * Represents a geographical location.
      */
 
-    /**
-     * Tracks the status of the location updates request. Value changes when the user presses the
-     * Start Updates and Stop Updates buttons.
-     */
-    public Boolean mRequestingLocationUpdates;
 
     protected Location mCurrentLocation;
 
@@ -91,7 +86,7 @@ public class GpsLocationRetriever implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
-    final String[] mPermissions = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
+    final String[] mPermissions = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     final int mRequestCode = 1000;
 
     private Address mAddress;
@@ -131,6 +126,21 @@ public class GpsLocationRetriever implements
         return mAddress;
     }
 
+    public Boolean getmRequestingLocationUpdates() {
+        return mRequestingLocationUpdates;
+    }
+
+    public void setmRequestingLocationUpdates(Boolean mRequestingLocationUpdates) {
+        this.mRequestingLocationUpdates = mRequestingLocationUpdates;
+    }
+
+    public boolean isCoordinatesRetrieveSuccess() {
+        return coordinatesRetrieveSuccess;
+    }
+
+//    public int getREQUEST_CHECK_SETTINGS() {
+//        return REQUEST_CHECK_SETTINGS;
+//    }
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -150,7 +160,7 @@ public class GpsLocationRetriever implements
         if (mCurrentLocation == null) {
             if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivityContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
-                ActivityCompat.requestPermissions(mActivity, mPermissions, mRequestCode );
+                ActivityCompat.requestPermissions(mActivity, mPermissions, mRequestCode);
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
                 //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -168,8 +178,6 @@ public class GpsLocationRetriever implements
         }
 
     }
-
-
 
     /**
      * Sets up the location request. Android has two location request settings:
@@ -211,25 +219,6 @@ public class GpsLocationRetriever implements
         mLocationSettingsRequest = builder.build();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            // Check for the integer request code originally supplied to startResolutionForResult().
-//            case REQUEST_CHECK_SETTINGS:
-//                switch (resultCode) {
-//                    case Activity.RESULT_OK:
-//                        Log.i(TAG, "User agreed to make required location settings changes.");
-//                        // Nothing to do. startLocationupdates() gets called in onResume again.
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        Log.i(TAG, "User chose not to make required location settings changes.");
-//                        mRequestingLocationUpdates = false;
-//                        break;
-//                }
-//                break;
-//        }
-//    }
-
     /**
      * Requests location updates from the FusedLocationApi.
      */
@@ -244,6 +233,11 @@ public class GpsLocationRetriever implements
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         Log.i(TAG, "All location settings are satisfied.");
+
+                        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(mActivity, mPermissions,mRequestCode);
+                            return;
+                        }
                         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, GpsLocationRetriever.this);
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
@@ -307,11 +301,36 @@ public class GpsLocationRetriever implements
         mCurrentLocation = location;
         mAddress.setLatitude(location.getLatitude());
         mAddress.setLongitude(location.getLongitude());
-        mRequestingLocationUpdates = false;
+        coordinatesRetrieveSuccess = true;
+        stopLocationUpdates();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        startLocationUpdates();
+        switch (requestCode) {
+            case mRequestCode :
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+                    // permission was granted
+                    startLocationUpdates();
+
+
+                } else if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,mPermissions[0])) {
+                    coordinatesRetrieveSuccess = true;
+                    stopConnection();
+                } else {
+                    // permission denied
+                    mRequestingLocationUpdates = false;
+                    stopConnection();
+                }
+                break;
+
+        }
+
     }
 }
