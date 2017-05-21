@@ -155,7 +155,7 @@ DROP TABLE IF EXISTS `android2k17`.`ITEM_CATEGORY` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_CATEGORY` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `category_name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM` (
   `BAR_ID` INT UNSIGNED NOT NULL,
   `ITEM_CATEGORY_ID` INT UNSIGNED NOT NULL,
   `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NULL,
-  `name` VARCHAR(255) NOT NULL,
+  `menu_item_name` VARCHAR(255) NOT NULL,
   `description` TEXT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_MENU_ITEM_BAR1_idx` (`BAR_ID` ASC),
@@ -542,12 +542,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (1, 'Birre');
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (2, 'Vini');
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (3, 'Bevande analcoliche');
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (4, 'Cocktails');
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (5, 'Cocktails analcolici');
-INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `name`) VALUES (6, 'Caffetteria');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (1, 'Birre');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (2, 'Vini');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (3, 'Bevande analcoliche');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (4, 'Cocktails');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (5, 'Cocktails analcolici');
+INSERT INTO `android2k17`.`ITEM_CATEGORY` (`ID`, `category_name`) VALUES (6, 'Caffetteria');
 
 COMMIT;
 
@@ -578,8 +578,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', '');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', '');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', NULL);
 
 COMMIT;
 
