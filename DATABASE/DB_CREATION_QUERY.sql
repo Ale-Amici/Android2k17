@@ -119,32 +119,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `android2k17`.`MEASUREMENT_UNIT`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`MEASUREMENT_UNIT` ;
-
-CREATE TABLE IF NOT EXISTS `android2k17`.`MEASUREMENT_UNIT` (
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `android2k17`.`ITEM_SIZE`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`ITEM_SIZE` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_SIZE` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `MEASUREMENT_UNIT_ID` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `fk_ITEM_SIZE_MEASUREMENT_UNIT1_idx` (`MEASUREMENT_UNIT_ID` ASC),
-  CONSTRAINT `fk_ITEM_SIZE_MEASUREMENT_UNIT1`
-    FOREIGN KEY (`MEASUREMENT_UNIT_ID`)
-    REFERENCES `android2k17`.`MEASUREMENT_UNIT` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `size_description` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
 
@@ -213,7 +195,7 @@ DROP TABLE IF EXISTS `android2k17`.`INGREDIENT` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`INGREDIENT` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) NULL,
+  `ingredient_name` VARCHAR(256) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
@@ -225,9 +207,21 @@ DROP TABLE IF EXISTS `android2k17`.`ITEM_ADDITION` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_ADDITION` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `addition_name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+  UNIQUE INDEX `name_UNIQUE` (`addition_name` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`MEASUREMENT_UNIT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`MEASUREMENT_UNIT` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`MEASUREMENT_UNIT` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
 
@@ -261,10 +255,10 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`ORDER_ITEM` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
   `CUSTOMER_ORDER_ID` INT UNSIGNED NOT NULL,
+  `order_item_name` VARCHAR(511) NOT NULL,
   `total_price` FLOAT NOT NULL,
   `rating` INT UNSIGNED NULL,
   `quantity` INT UNSIGNED NOT NULL,
-  `discount` FLOAT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_ORDER_ITEM_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
   INDEX `fk_ORDER_ITEM_CUSTOMER_ORDER1_idx` (`CUSTOMER_ORDER_ID` ASC),
@@ -321,31 +315,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `android2k17`.`ITEM_OF_SIZE`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`ITEM_OF_SIZE` ;
-
-CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_OF_SIZE` (
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ITEM_SIZE_ID` INT UNSIGNED NOT NULL,
-  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `fk_ITEM_OF_SIZE_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
-  UNIQUE INDEX `RELATION_UNIQUE` (`ITEM_SIZE_ID` ASC, `MENU_ITEM_ID` ASC),
-  CONSTRAINT `fk_ITEM_OF_SIZE_ITEM_SIZE1`
-    FOREIGN KEY (`ITEM_SIZE_ID`)
-    REFERENCES `android2k17`.`ITEM_SIZE` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ITEM_OF_SIZE_MENU_ITEM1`
-    FOREIGN KEY (`MENU_ITEM_ID`)
-    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `android2k17`.`EVENT_ADD_DISCOUNT`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` ;
@@ -357,15 +326,9 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` (
   `discount` FLOAT NOT NULL,
   PRIMARY KEY (`ID`, `ITEM_OF_SIZE_ID`, `EVENT_ID`),
   INDEX `fk_EVENT_ADD_DISCOUNT_EVENT1_idx` (`EVENT_ID` ASC),
-  INDEX `fk_EVENT_ADD_DISCOUNT_ITEM_OF_SIZE1_idx` (`ITEM_OF_SIZE_ID` ASC),
   CONSTRAINT `fk_EVENT_ADD_DISCOUNT_EVENT1`
     FOREIGN KEY (`EVENT_ID`)
     REFERENCES `android2k17`.`EVENT` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_EVENT_ADD_DISCOUNT_ITEM_OF_SIZE1`
-    FOREIGN KEY (`ITEM_OF_SIZE_ID`)
-    REFERENCES `android2k17`.`ITEM_OF_SIZE` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -419,6 +382,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `android2k17`.`MENU_ITEM_HAS_SIZE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`MENU_ITEM_HAS_SIZE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM_HAS_SIZE` (
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
+  `ITEM_SIZE_ID` INT UNSIGNED NOT NULL,
+  `price` FLOAT NOT NULL,
+  INDEX `fk_ITEM_OF_SIZE_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
+  PRIMARY KEY (`MENU_ITEM_ID`, `ITEM_SIZE_ID`),
+  CONSTRAINT `fk_ITEM_OF_SIZE_ITEM_SIZE1`
+    FOREIGN KEY (`ITEM_SIZE_ID`)
+    REFERENCES `android2k17`.`ITEM_SIZE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ITEM_OF_SIZE_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `android2k17`.`ORDER_IN_GROUP`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`ORDER_IN_GROUP` ;
@@ -442,11 +429,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `android2k17`.`ITEM_OF_ADDITION`
+-- Table `android2k17`.`MENU_ITEM_HAS_ADDITION`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`ITEM_OF_ADDITION` ;
+DROP TABLE IF EXISTS `android2k17`.`MENU_ITEM_HAS_ADDITION` ;
 
-CREATE TABLE IF NOT EXISTS `android2k17`.`ITEM_OF_ADDITION` (
+CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM_HAS_ADDITION` (
   `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
   `ITEM_ADDITION_ID` INT UNSIGNED NOT NULL,
   `price` FLOAT NOT NULL DEFAULT 0,
@@ -538,6 +525,18 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `android2k17`.`ITEM_SIZE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (1, 'piccola');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (2, 'grande');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (3, 'media');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `android2k17`.`ITEM_CATEGORY`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -561,7 +560,7 @@ INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (1, 'Coca col
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (2, 'Birra Guinnes');
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (3, 'Pinot Grigio');
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (4, 'Thè alla pesca');
-INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (5, '');
+INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (5, 'Birra chiara');
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (6, 'Thè al limone');
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (7, 'Vino rosso della casa');
 INSERT INTO `android2k17`.`GLOBAL_MENU_ITEM` (`ID`, `name`) VALUES (8, 'Vino bianco della casa');
@@ -578,8 +577,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', '');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', 'buona coca 1');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', 'buona coca 2');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (3, 1, 1, 5, 'Birra chiara', 'bella birra');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (4, 1, 1, 12, 'Birra Weizen', NULL);
 
 COMMIT;
 
@@ -589,7 +590,56 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`INGREDIENT` (`ID`, `name`) VALUES (1, 'Alcool');
+INSERT INTO `android2k17`.`INGREDIENT` (`ID`, `ingredient_name`) VALUES (1, 'Alcool');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`ITEM_ADDITION`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`ITEM_ADDITION` (`ID`, `addition_name`) VALUES (1, 'ghiaccio');
+INSERT INTO `android2k17`.`ITEM_ADDITION` (`ID`, `addition_name`) VALUES (2, 'limone');
+INSERT INTO `android2k17`.`ITEM_ADDITION` (`ID`, `addition_name`) VALUES (3, 'arancia');
+INSERT INTO `android2k17`.`ITEM_ADDITION` (`ID`, `addition_name`) VALUES (4, 'temp. ambiente');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`MENU_ITEM_HAS_INGREDIENT`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (`MENU_ITEM_ID`, `INGREDIENT_ID`, `quantity`) VALUES (3, 1, '5');
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (`MENU_ITEM_ID`, `INGREDIENT_ID`, `quantity`) VALUES (4, 1, '6');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`MENU_ITEM_HAS_SIZE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 1, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 2, 5.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 3, 8.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 3, 2.50);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`MENU_ITEM_HAS_ADDITION`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_ADDITION` (`MENU_ITEM_ID`, `ITEM_ADDITION_ID`, `price`) VALUES (1, 1, 0);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_ADDITION` (`MENU_ITEM_ID`, `ITEM_ADDITION_ID`, `price`) VALUES (1, 2, 0.5);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_ADDITION` (`MENU_ITEM_ID`, `ITEM_ADDITION_ID`, `price`) VALUES (1, 3, 0.5);
 
 COMMIT;
 
