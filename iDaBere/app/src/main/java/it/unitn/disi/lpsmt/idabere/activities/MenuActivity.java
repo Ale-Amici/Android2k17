@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 
@@ -10,7 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +23,7 @@ import java.util.List;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class MenuActivity extends AppCompatActivity {
@@ -26,10 +32,12 @@ public class MenuActivity extends AppCompatActivity {
     private ExpandableListView categoriesExpandableList;
     private BottomNavigationView bottomNavigationMenu;
 
+    private View progressBar;
+    private Button newChoiceButton;
+    private ImageButton itemInfoButton;
+
     private Context mContext;
 
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +46,8 @@ public class MenuActivity extends AppCompatActivity {
 
         initViewComps();
         mContext = this;
-        // preparing fake list data
-        prepareListData();
 
-        menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, listDataHeader, listDataChild);
+       // menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, AppSession.getInstance().getmBar() );
         // setting list adapter
         categoriesExpandableList.setAdapter(menuCategoryExpandableListAdapter);
 
@@ -72,6 +78,10 @@ public class MenuActivity extends AppCompatActivity {
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
+        progressBar = findViewById(R.id.loading_indicator);
+        newChoiceButton = (Button) findViewById(R.id.add_topping_button);
+        itemInfoButton = (ImageButton) findViewById(R.id.item_info_button);
+
         //set activity title based to bar instance
         setTitle(AppSession.getInstance().getmBar().getName());
 
@@ -85,46 +95,25 @@ public class MenuActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void addNewChoice (View v) {
 
-    /*
-             * Preparing the list data
-             */
-    private void prepareListData() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<String, List<String>>();
-
-        // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
-
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
     }
+
+    private void openItemInfo (View v) {
+        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
+        startActivity(itemInfoIntend);
+    }
+
+
+    private class MenuLoader extends AsyncTask<Bar,Void,Menu> {
+
+        @Override
+        protected Menu doInBackground(Bar... params) {
+
+
+            return null;
+        }
+    }
+
+
 }

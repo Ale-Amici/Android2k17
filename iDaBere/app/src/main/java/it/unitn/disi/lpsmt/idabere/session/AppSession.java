@@ -1,7 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.session;
 
-import it.unitn.disi.lpsmt.idabere.Models.Bar;
-import it.unitn.disi.lpsmt.idabere.Models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
 
 /**
  * Created by ale on 15/05/17.

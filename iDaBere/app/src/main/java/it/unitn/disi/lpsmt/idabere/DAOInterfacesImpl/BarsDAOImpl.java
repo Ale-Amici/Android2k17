@@ -2,27 +2,23 @@ package it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl;
 
 import android.location.Address;
 import android.net.Uri;
-import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
-import it.unitn.disi.lpsmt.idabere.Models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -115,9 +111,12 @@ public class BarsDAOImpl implements BarsDAO {
             e.printStackTrace();
         }
 
-        Log.d("BARS", results.toString());
-
         return results;
+    }
+
+    @Override
+    public Bar getBarById(Bar bar) {
+        return null;
     }
 
     @Override

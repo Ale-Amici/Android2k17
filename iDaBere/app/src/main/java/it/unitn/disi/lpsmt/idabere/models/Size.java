@@ -1,27 +1,19 @@
-package it.unitn.disi.lpsmt.idabere.Models;
+package it.unitn.disi.lpsmt.idabere.models;
 
 /**
  * Created by giovanni on 15/05/2017.
  */
 
-public class Topping {
+public class Size {
 
-    private int id;
     private String name;
     private double price;
+    private double discount;
 
-    public Topping(int id, String name, double price) {
-        this.id = id;
+    public Size(String name, double price, double discount) {
         this.name = name;
         this.price = price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.discount = discount;
     }
 
     public String getName() {
@@ -38,5 +30,13 @@ public class Topping {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }
