@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.ListBarActivity;
+import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,6 @@ public class BarsArrayAdapter extends ArrayAdapter<Bar> implements Filterable {
 
         getFilter();
     }
-
 
     /**
      * Get size of user list
@@ -70,6 +72,7 @@ public class BarsArrayAdapter extends ArrayAdapter<Bar> implements Filterable {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = vi.inflate(rowLayout, null);
+
         Bar bar = filteredBarsList.get(position);
         TextView t = (TextView) convertView.findViewById(R.id.bar_text_view);
         t.setText(bar.getName());
@@ -86,6 +89,8 @@ public class BarsArrayAdapter extends ArrayAdapter<Bar> implements Filterable {
 
         return barFilter;
     }
+
+
 
     private class BarFilter extends Filter {
 

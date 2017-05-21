@@ -16,12 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SearchEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -46,6 +48,7 @@ import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.BarsArrayAdapter;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class ListBarActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener,
@@ -53,6 +56,10 @@ public class ListBarActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         ActivityCompat.OnRequestPermissionsResultCallback {
+
+    public static FactoryDAO factoryDAO = new FactoryDAOImpl();
+
+    /* GPS Location retrieve variables */
 
     public boolean coordinatesRetrieveSuccess = false;
 
@@ -102,10 +109,12 @@ public class ListBarActivity extends AppCompatActivity implements
 
     private final String TAG = "SeachBarActivity";
     private Context mContext;
-    private ListView barsListView;
     private ArrayList<Bar> barsList;
 
-    public static FactoryDAO factoryDAO = new FactoryDAOImpl();
+    /* Ui comps */
+
+    private View loadingIndicator;
+    private ListView barsListView;
 
 
     @Override
@@ -116,47 +125,36 @@ public class ListBarActivity extends AppCompatActivity implements
         initViewComps();
         mContext = this;
 
-        barsList = new ArrayList<>();
-        /****************** FAKE DATA ***/
-        Bar tmpBar = new Bar();
-        tmpBar.setName("Bel bar");
-        barsList.add(tmpBar);
-        tmpBar = new Bar();
-        tmpBar.setName("Bel bar 2");
-        barsList.add(tmpBar);
+//        barsList = new ArrayList<>();
+//        /****************** FAKE DATA ***/
+//        Bar tmpBar = new Bar();
+//        tmpBar.setName("Bel bar");
+//        barsList.add(tmpBar);
+//        tmpBar = new Bar();
+//        tmpBar.setName("Bel bar 2");
+//        barsList.add(tmpBar);
+//
+//        tmpBar = new Bar();
+//        tmpBar.setName("Bellissimo bar");
+//        barsList.add(tmpBar);
+//        /********************************/
 
-        tmpBar = new Bar();
-        tmpBar.setName("Bellissimo bar");
-        barsList.add(tmpBar);
-        /********************************/
-        barsListView = (ListView) this.findViewById(R.id.bars_list_view);
+        barsList = new ArrayList<Bar>();
+
+
         barsListView.setAdapter(new BarsArrayAdapter(mContext,R.layout.bar_list_item,barsList));
 
-
-//        // Get the intent, verify the action and get the query
-//        Intent intent = getIntent();
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            String query = intent.getStringExtra(SearchManager.QUERY);
-//            //doMySearch(query);
-//        }
-        // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //doMySearch(query);
-        }
 
         initGoogleApiClient();
         createLocationRequest();
         buildLocationSettingsRequest();
-
-
 
     }
 
     @Override
     protected void onStart() {
         mGoogleApiClient.connect();
+        startLocationUpdates();
         super.onStart();
     }
 
@@ -206,35 +204,49 @@ public class ListBarActivity extends AppCompatActivity implements
         }
     }
 
-
+    /**
+     *  Asynctask that retrieves all bars given the coordinates retrieved with the GPS
+     */
     private class GpsLoader extends AsyncTask<Address, Void, ArrayList<Bar>> {
         @Override
         protected void onPreExecute() {
+            barsListView.setVisibility(View.GONE);
+            loadingIndicator.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
 
         @Override
         protected ArrayList<Bar> doInBackground(Address... params) {
 
-            ArrayList<Bar> bars = null;
 
             if (coordinatesRetrieveSuccess) {
-                bars = new ArrayList<>();
                 Log.d("LOCATION", mCurrentLocation.toString());
                 Address address = new Address(Locale.ITALIAN);
                 address.setLongitude(mCurrentLocation.getLongitude());
                 address.setLatitude(mCurrentLocation.getLatitude());
                 Log.d("ADDRESS", address.toString());
-                bars = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
+                barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
+
             }
 
-            return bars;
+            return barsList;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Bar> bars) {
 
-            //Log.d("BARS",bars.toString());
+            ((BarsArrayAdapter)barsListView.getAdapter()).clear();
+            ((BarsArrayAdapter)barsListView.getAdapter()).addAll(bars);
+
+            barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    AppSession.getInstance().setmBar(barsList.get(position));
+                    goToMenu();
+                }
+            });
+            barsListView.setVisibility(View.VISIBLE);
+            loadingIndicator.setVisibility(View.GONE);
             super.onPostExecute(bars);
         }
 
@@ -451,6 +463,8 @@ public class ListBarActivity extends AppCompatActivity implements
 
     // Instantiate layout elements
     private void initViewComps () {
+        barsListView = (ListView) this.findViewById(R.id.bars_list_view);
+        loadingIndicator = findViewById(R.id.loading_indicator);
     }
 
 
@@ -511,7 +525,7 @@ public class ListBarActivity extends AppCompatActivity implements
     }
 
 
-    public void goToMenuTest (View v) {
+    public void goToMenu () {
         Intent intent = new Intent();
         intent.setClass(mContext,MenuActivity.class);
         startActivity(intent);

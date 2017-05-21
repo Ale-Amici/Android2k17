@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name=".activities.ListBarActivity">
+        <activity
+            android:name=".activities.ListBarActivity"
+            android:label="@string/title_activity_seach_bar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,7 +37,7 @@
             android:label="@string/title_qr_code_scanner_login">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:parentActivityName="it.unitn.disi.lpsmt.idabere.SearchBarActivity"
+                android:parentActivityName="it.unitn.disi.lpsmt.idabere.ListBarActivity"
                 android:value="it.unitn.disi.lpsmt.idabere.activities.ListBarActivity"/>
         </activity>
 
@@ -64,6 +66,10 @@
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
+                android:value="it.unitn.disi.lpsmt.idabere.activities.MenuActivity"/>
         </activity>
 
         <activity

@@ -59,8 +59,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
 
                 switch (itemId) {
                     case  R.id.navigation_menu_list :
-                        intent.setClass(mContext,MenuActivity.class);
-                        startActivity(intent);
+                        ReviewOrderActivity.super.onBackPressed();
                         result = true;
                         break;
 
