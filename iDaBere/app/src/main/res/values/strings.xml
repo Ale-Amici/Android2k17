@@ -48,6 +48,7 @@
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
     <string name="add_new_drink_button">Nuova Scelta</string>
+    <string name="item_info_button_label">Dettagli</string>
     <string name="review_order_button_label">Carrello</string>
 
     <string name="category_name">Categoria</string>
