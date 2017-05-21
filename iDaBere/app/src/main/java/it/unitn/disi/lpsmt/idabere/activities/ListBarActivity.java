@@ -125,25 +125,18 @@ public class ListBarActivity extends AppCompatActivity implements
         initViewComps();
         mContext = this;
 
-//        barsList = new ArrayList<>();
-//        /****************** FAKE DATA ***/
-//        Bar tmpBar = new Bar();
-//        tmpBar.setName("Bel bar");
-//        barsList.add(tmpBar);
-//        tmpBar = new Bar();
-//        tmpBar.setName("Bel bar 2");
-//        barsList.add(tmpBar);
-//
-//        tmpBar = new Bar();
-//        tmpBar.setName("Bellissimo bar");
-//        barsList.add(tmpBar);
-//        /********************************/
-
         barsList = new ArrayList<Bar>();
 
 
         barsListView.setAdapter(new BarsArrayAdapter(mContext,R.layout.bar_list_item,barsList));
 
+        barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppSession.getInstance().setmBar(barsList.get(position));
+                goToMenu();
+            }
+        });
 
         initGoogleApiClient();
         createLocationRequest();
@@ -238,13 +231,7 @@ public class ListBarActivity extends AppCompatActivity implements
             ((BarsArrayAdapter)barsListView.getAdapter()).clear();
             ((BarsArrayAdapter)barsListView.getAdapter()).addAll(bars);
 
-            barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AppSession.getInstance().setmBar(barsList.get(position));
-                    goToMenu();
-                }
-            });
+
             barsListView.setVisibility(View.VISIBLE);
             loadingIndicator.setVisibility(View.GONE);
             super.onPostExecute(bars);

@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="@dimen/activity_vertical_margin"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <ListView
@@ -83,22 +83,31 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="2">
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/new_item_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_new_drink_button"
+                        style="@style/Widget.AppCompat.Button.Colored"/>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/add_new_drink_button" />
+                        android:layout_gravity="center">
 
-                    <Button
-                        android:id="@+id/info_item_button"
-                        android:layout_width="match_parent"
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/item_info_button"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        android:text="@string/item_info_button_label"
-                        android:layout_weight="1"/>
+                        android:background="@drawable/circle_shape"
+                        card_view:srcCompat="@android:drawable/ic_menu_info_details" />
+
 
                 </LinearLayout>
 
