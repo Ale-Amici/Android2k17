@@ -41,7 +41,6 @@ import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.Models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.utils.GpsLocationRetriever;
 
 public class SearchBarActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -99,7 +98,6 @@ public class SearchBarActivity extends AppCompatActivity implements
     private final String TAG = "SeachBarActivity";
     private Context mContext;
     public static FactoryDAO factoryDAO = new FactoryDAOImpl();
-    private GpsLocationRetriever gpsLocationRetriever;
 
 
     @Override
@@ -121,7 +119,6 @@ public class SearchBarActivity extends AppCompatActivity implements
         createLocationRequest();
         buildLocationSettingsRequest();
 
-        //gpsLocationRetriever = new GpsLocationRetriever(this, this);
 
 
     }
