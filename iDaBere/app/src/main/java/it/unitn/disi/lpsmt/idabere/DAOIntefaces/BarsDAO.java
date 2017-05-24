@@ -4,7 +4,7 @@ import android.location.Address;
 
 import java.util.ArrayList;
 
-import it.unitn.disi.lpsmt.idabere.Models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 
 /**
  * Created by giovanni on 14/05/2017.
@@ -13,6 +13,7 @@ import it.unitn.disi.lpsmt.idabere.Models.Bar;
 public interface BarsDAO {
 
     public ArrayList<Bar> getBarsByCoordinates (Address address);
+    public Bar getBarById (Bar bar);
     public ArrayList<Bar> getAllBars ();
     public Bar getBarByName (String name);
 

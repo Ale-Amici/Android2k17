@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.idabere.Models;
+package it.unitn.disi.lpsmt.idabere.models;
 
 /**
  * Created by giovanni on 15/05/2017.

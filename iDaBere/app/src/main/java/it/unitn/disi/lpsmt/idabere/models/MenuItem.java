@@ -1,4 +1,4 @@
-package it.unitn.disi.lpsmt.idabere.Models;
+package it.unitn.disi.lpsmt.idabere.models;
 
 import java.util.ArrayList;
 

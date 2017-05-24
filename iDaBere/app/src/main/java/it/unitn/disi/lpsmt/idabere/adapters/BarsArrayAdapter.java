@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +11,8 @@ import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import it.unitn.disi.lpsmt.idabere.Models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.activities.ListBarActivity;
-import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 
 import java.util.ArrayList;
 

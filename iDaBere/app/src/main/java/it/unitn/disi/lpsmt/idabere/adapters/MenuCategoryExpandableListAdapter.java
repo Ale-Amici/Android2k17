@@ -1,17 +1,14 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.List;
-
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 
 /**
  * Created by giovanni on 06/05/2017.
@@ -19,22 +16,17 @@ import it.unitn.disi.lpsmt.idabere.R;
 
 public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private Context context;
 
-    public MenuCategoryExpandableListAdapter(Context context, List<String> listDataHeader,
-                                             HashMap<String, List<String>> listChildData) {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+    public MenuCategoryExpandableListAdapter(Context context, Bar bar) {
+        this.context = context;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+//        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+//                .get(childPosititon);
+        return null;
     }
 
     @Override
@@ -49,7 +41,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.menu_list_item,null);
         }
@@ -82,18 +74,22 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+//        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+//                .size();
+        return 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+//        return this._listDataHeader.get(groupPosition);
+        return null;
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+
+//        return this._listDataHeader.size();
+        return 0;
     }
 
     @Override
@@ -106,7 +102,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.menu_list_category, null);
         }

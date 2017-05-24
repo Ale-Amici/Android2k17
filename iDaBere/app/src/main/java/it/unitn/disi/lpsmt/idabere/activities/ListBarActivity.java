@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,12 +38,9 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
-import it.unitn.disi.lpsmt.idabere.Models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.BarsArrayAdapter;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -125,25 +120,18 @@ public class ListBarActivity extends AppCompatActivity implements
         initViewComps();
         mContext = this;
 
-//        barsList = new ArrayList<>();
-//        /****************** FAKE DATA ***/
-//        Bar tmpBar = new Bar();
-//        tmpBar.setName("Bel bar");
-//        barsList.add(tmpBar);
-//        tmpBar = new Bar();
-//        tmpBar.setName("Bel bar 2");
-//        barsList.add(tmpBar);
-//
-//        tmpBar = new Bar();
-//        tmpBar.setName("Bellissimo bar");
-//        barsList.add(tmpBar);
-//        /********************************/
-
         barsList = new ArrayList<Bar>();
 
 
         barsListView.setAdapter(new BarsArrayAdapter(mContext,R.layout.bar_list_item,barsList));
 
+        barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppSession.getInstance().setmBar(barsList.get(position));
+                goToMenu();
+            }
+        });
 
         initGoogleApiClient();
         createLocationRequest();
@@ -238,13 +226,7 @@ public class ListBarActivity extends AppCompatActivity implements
             ((BarsArrayAdapter)barsListView.getAdapter()).clear();
             ((BarsArrayAdapter)barsListView.getAdapter()).addAll(bars);
 
-            barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AppSession.getInstance().setmBar(barsList.get(position));
-                    goToMenu();
-                }
-            });
+
             barsListView.setVisibility(View.VISIBLE);
             loadingIndicator.setVisibility(View.GONE);
             super.onPostExecute(bars);

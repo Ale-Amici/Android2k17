@@ -8,6 +8,25 @@
     android:orientation="vertical"
     tools:context="it.unitn.disi.lpsmt.idabere.activities.MenuActivity">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/loading_indicator"
+            android:visibility="gone">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/gps_loading_menu_label"/>
+
+        </LinearLayout>
 
         <ExpandableListView
             android:id="@+id/categories_expandable_list"
