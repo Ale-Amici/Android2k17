@@ -68,6 +68,8 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        new MenuLoader().execute(AppSession.getInstance().getmBar());
+
     }
 
     // Instantiate layout elements
@@ -110,6 +112,7 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         protected Menu doInBackground(Bar... params) {
 
+            ListBarActivity.factoryDAO.newBarsDAO().getBarById(params[0]);
 
             return null;
         }

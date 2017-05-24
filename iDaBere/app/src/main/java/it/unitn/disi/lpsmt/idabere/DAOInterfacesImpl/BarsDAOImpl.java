@@ -116,7 +116,60 @@ public class BarsDAOImpl implements BarsDAO {
 
     @Override
     public Bar getBarById(Bar bar) {
-        return null;
+        Bar result = null;
+        JSONObject data = null;
+
+        int barId = bar.getId();
+
+        Uri builtUri = Uri.parse(BARS_API_BASE_URL).buildUpon()
+                .appendPath(BARS_ROUTE)
+                .appendPath(String.valueOf(barId))
+                .build();
+
+        Log.d("URL", builtUri.toString());
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            InputStream inputStream = urlConnection.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+
+            try {
+                data = new JSONObject(sb.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
+        }
+
+        Log.d("DATA", data.toString());
+
+        // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
+
+        return result;
     }
 
     @Override
