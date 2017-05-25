@@ -2,6 +2,7 @@
 
 var Bar = require('../models/bar.js');
 var OpeningHour = require("../models/openingHour.js")
+var Menu = require("../models/menu.js")
 var MenuItem = require("../models/menuItem.js")
 var Ingredient = require("../models/ingredient.js")
 var Addition = require("../models/addition.js")
@@ -164,7 +165,7 @@ var getBarFromId = function(barId){
           })
           .then(function(menuItemRows){
               menuItemRows.forEach(function(row,index){
-                  bar.menu.push( getMenuItemFromDbRow(row) );
+                  bar.menu.menuItemList.push( getMenuItemFromDbRow(row) );
               });
               return pool.queryAsync( " SELECT  MIHI.MENU_ITEM_ID, MIHI.INGREDIENT_ID, quantity, ingredient_name FROM  "
                                     + " MENU_ITEM_HAS_INGREDIENT MIHI JOIN INGREDIENT I ON(MIHI.INGREDIENT_ID = I.ID) "
@@ -174,7 +175,7 @@ var getBarFromId = function(barId){
           })
           .then(function(itemIngredientsRows){
 
-              joinArrayWithRows(bar.menu, itemIngredientsRows, "MENU_ITEM_ID", getIngredientFromDbRow, "ingredientList");
+              joinArrayWithRows(bar.menu.menuItemList, itemIngredientsRows, "MENU_ITEM_ID", getIngredientFromDbRow, "ingredientList");
               /*****QUERY PER LE ADDITION****/
               return pool.queryAsync( " SELECT  MIHA.MENU_ITEM_ID, MIHA.ITEM_ADDITION_ID, price, addition_name  "
                                     + " FROM MENU_ITEM_HAS_ADDITION MIHA JOIN ITEM_ADDITION IA ON(MIHA.ITEM_ADDITION_ID = IA.ID) "
@@ -184,7 +185,7 @@ var getBarFromId = function(barId){
           })
           .then(function(itemAdditionsRows){
 
-              joinArrayWithRows(bar.menu,itemAdditionsRows, "MENU_ITEM_ID", getAdditionFromDbRow, "additionList" );
+              joinArrayWithRows(bar.menu.menuItemList,itemAdditionsRows, "MENU_ITEM_ID", getAdditionFromDbRow, "additionList" );
 
               /*****QUERY PER LE SIZE****/
               return pool.queryAsync( " SELECT  MIHS.MENU_ITEM_ID, MIHS.ITEM_SIZE_ID, price, size_description "
@@ -196,7 +197,7 @@ var getBarFromId = function(barId){
           })
           .then(function(itemSizesRows){
 
-              joinArrayWithRows(bar.menu,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizeList");
+              joinArrayWithRows(bar.menu.menuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizeList");
               //WORKAROUND PER DIVIDERE GLI ITEM IN CATEGORIES
               /*
               menu1 = bar.menu;
@@ -240,7 +241,9 @@ var getBarFromDbRow = function(row){
         .setLatitude(row["latitude"])
         .setLongitude(row["longitude"])
         .setOpeningHours([])//li prendo nella seconda query
-        .setMenu([])
+        .setMenu(
+            new Menu().setMenuItemList([])
+        )
 
     console.log(bar);
     return bar
