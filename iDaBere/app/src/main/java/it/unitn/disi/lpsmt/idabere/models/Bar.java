@@ -26,7 +26,7 @@ public class Bar {
     private ArrayList<Event> events;
     private ArrayList<BarCounter> barCounters;
     private ArrayList<Table> tables;
-    private BarMenu menu;
+    private BarMenu barMenu;
     private double distance;//from user's location (in meters)
 
     public Bar(){}
@@ -80,23 +80,15 @@ public class Bar {
     }
 
     public BarMenu getBarMenu() {
-        return menu;
+        return barMenu;
     }
 
     public void setBarMenu(BarMenu barMenu) {
-        this.menu = barMenu;
+        this.barMenu = barMenu;
     }
 
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public BarMenu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(BarMenu menu) {
-        this.menu = menu;
     }
 
     public ArrayList<Event> getEvents() {

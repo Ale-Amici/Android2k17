@@ -112,9 +112,9 @@ public class BarsDAOImpl implements BarsDAO {
 
         Gson gson = gsonBuilder.create();
 
-        ArrayList<Bar> imageResults = gson.fromJson(data, collectionType);
+        results = gson.fromJson(data, collectionType);
 
-        Log.d("RESULT",imageResults.get(0).getOpeningHours().toString());
+        Log.d("RESULT",results.get(0).getOpeningHours().toString());
 
 
        /* try {
