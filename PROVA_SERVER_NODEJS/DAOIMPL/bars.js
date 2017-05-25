@@ -242,8 +242,7 @@ var getBarFromDbRow = function(row){
         .setLongitude(row["longitude"])
         .setOpeningHours([])//li prendo nella seconda query
         .setMenu(
-            new Menu()
-                .setMenuItemList([])
+            new Menu().setMenuItemList([])
         )
 
     console.log(bar);
