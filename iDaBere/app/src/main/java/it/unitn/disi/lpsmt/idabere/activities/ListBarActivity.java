@@ -123,7 +123,7 @@ public class ListBarActivity extends AppCompatActivity implements
         barsList = new ArrayList<Bar>();
 
 
-        barsListView.setAdapter(new BarsArrayAdapter(mContext,R.layout.bar_list_item,barsList));
+        barsListView.setAdapter(new BarsArrayAdapter(mContext, R.layout.bar_list_item, barsList));
 
         barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -450,7 +450,7 @@ public class ListBarActivity extends AppCompatActivity implements
     }
 
 
-    /** Menu bar methods **/
+    /** menu bar methods **/
 
     // Inflate the menu into the activity layout
     @Override
