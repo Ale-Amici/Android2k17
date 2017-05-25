@@ -14,9 +14,9 @@ public class Customer {
     private String email;
     private String password;
     private Order order;
-    private ArrayList<MenuItem> preferredItems;
+    private ArrayList<BarMenuItem> preferredItems;
 
-    public Customer(int id, String username, int age, String email, String password, Order order, ArrayList<MenuItem> preferredItems) {
+    public Customer(int id, String username, int age, String email, String password, Order order, ArrayList<BarMenuItem> preferredItems) {
         this.id = id;
         this.username = username;
         this.age = age;
@@ -74,11 +74,11 @@ public class Customer {
         this.order = order;
     }
 
-    public ArrayList<MenuItem> getPreferredItems() {
+    public ArrayList<BarMenuItem> getPreferredItems() {
         return preferredItems;
     }
 
-    public void setPreferredItems(ArrayList<MenuItem> preferredItems) {
+    public void setPreferredItems(ArrayList<BarMenuItem> preferredItems) {
         this.preferredItems = preferredItems;
     }
 }

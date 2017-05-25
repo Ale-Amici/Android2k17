@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by giovanni on 15/05/2017.
  */
 
-public class MenuItem {
+public class BarMenuItem {
 
     private int id;
     private String name;
@@ -15,7 +15,9 @@ public class MenuItem {
     private ArrayList<Ingredient> ingredients;
     private String category;
 
-    public MenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, String category) {
+    public BarMenuItem(){}
+
+    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, String category) {
         this.id = id;
         this.sizes = sizes;
         this.toppings = toppings;

@@ -6,23 +6,23 @@ import java.util.ArrayList;
  * Created by ale on 25/05/17.
  */
 
-public class Menu {
-    ArrayList<MenuItem> menuItemList;
+public class BarMenu {
+    ArrayList<BarMenuItem> barMenuItemList;
 
-    public Menu(){
-        menuItemList = new ArrayList<>();
+    public BarMenu(){
+        barMenuItemList = new ArrayList<>();
     }
 
-    public Menu(ArrayList<MenuItem> menuItemList) {
-        this.menuItemList = menuItemList;
+    public BarMenu(ArrayList<BarMenuItem> barMenuItemList) {
+        this.barMenuItemList = barMenuItemList;
     }
 
-    public ArrayList<MenuItem> getMenuItemList() {
-        return menuItemList;
+    public ArrayList<BarMenuItem> getBarMenuItemList() {
+        return barMenuItemList;
     }
 
-    public void setMenuItemList(ArrayList<MenuItem> menuItemList) {
-        this.menuItemList = menuItemList;
+    public void setBarMenuItemList(ArrayList<BarMenuItem> barMenuItemList) {
+        this.barMenuItemList = barMenuItemList;
     }
 
 }

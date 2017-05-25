@@ -15,18 +15,18 @@ public class Bar {
     private Address address;
     private String description;
     private int distance;//from user's location (in meters)
-    private Menu menu;
+    private BarMenu barMenu;
     private ArrayList<Event> events;
     private ArrayList<BarCounter> barCounters;
     private ArrayList<Table> tables;
 
     public Bar(){}
 
-    public Bar(int id, String name, Address address, Menu menu, ArrayList<Event> events, ArrayList<BarCounter> barCounters, ArrayList<Table> tables) {
+    public Bar(int id, String name, Address address, BarMenu barMenu, ArrayList<Event> events, ArrayList<BarCounter> barCounters, ArrayList<Table> tables) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.menu = menu;
+        this.barMenu = barMenu;
         this.events = events;
         this.barCounters = barCounters;
         this.tables = tables;
@@ -72,12 +72,12 @@ public class Bar {
         this.address = address;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public BarMenu getBarMenu() {
+        return barMenu;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setBarMenu(BarMenu barMenu) {
+        this.barMenu = barMenu;
     }
 
     public ArrayList<Event> getEvents() {
