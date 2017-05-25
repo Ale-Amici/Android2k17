@@ -4,32 +4,39 @@ import android.location.Address;
 
 import java.util.ArrayList;
 
+import it.unitn.disi.lpsmt.idabere.models.BarCounter;
+import it.unitn.disi.lpsmt.idabere.models.BarMenu;
+import it.unitn.disi.lpsmt.idabere.models.Event;
+import it.unitn.disi.lpsmt.idabere.models.OpeningHour;
+import it.unitn.disi.lpsmt.idabere.models.Table;
+
 /**
  * Created by giovanni on 15/05/2017.
  */
 
 public class Bar {
 
-    private int id;
     private String name;
-    private Address address;
+    private int id;
     private String description;
-    private int distance;//from user's location (in meters)
-    private BarMenu barMenu;
+    private String address;
+    private double latitude;
+    private double longitude;
+    private ArrayList<OpeningHour> openingHours;
     private ArrayList<Event> events;
     private ArrayList<BarCounter> barCounters;
     private ArrayList<Table> tables;
+    private BarMenu barMenu;
+    private double distance;//from user's location (in meters)
 
     public Bar(){}
 
-    public Bar(int id, String name, Address address, BarMenu barMenu, ArrayList<Event> events, ArrayList<BarCounter> barCounters, ArrayList<Table> tables) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.barMenu = barMenu;
-        this.events = events;
-        this.barCounters = barCounters;
-        this.tables = tables;
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getDescription() {
@@ -40,7 +47,7 @@ public class Bar {
         this.description = description;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
@@ -64,11 +71,11 @@ public class Bar {
         this.name = name;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -78,6 +85,10 @@ public class Bar {
 
     public void setBarMenu(BarMenu barMenu) {
         this.barMenu = barMenu;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public ArrayList<Event> getEvents() {
@@ -102,5 +113,21 @@ public class Bar {
 
     public void setTables(ArrayList<Table> tables) {
         this.tables = tables;
+    }
+
+    public ArrayList<OpeningHour> getOpeningHours() {
+        return openingHours;
+    }
+
+    public void setOpeningHours(ArrayList<OpeningHour> openingHours) {
+        this.openingHours = openingHours;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }
