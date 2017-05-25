@@ -47,7 +47,6 @@ public class BarsDAOImpl implements BarsDAO {
     private final String BAR_WORKING_TIME = "workingTime";
     private final String BAR_DISTANCE = "distance";
 
-
     @Override
     public ArrayList<Bar> getBarsByCoordinates (Address address) {
         ArrayList<Bar> results = null;
@@ -114,22 +113,6 @@ public class BarsDAOImpl implements BarsDAO {
 
         results = gson.fromJson(data, collectionType);
 
-        Log.d("RESULT",results.get(0).getOpeningHours().toString());
-
-
-       /* try {
-
-            results = new ArrayList<>();
-            for (int i = 0; i <data.length(); i++) {
-                JSONObject item = data.getJSONObject(i);
-                Bar newBar = new Bar();
-                newBar.setId(item.getInt(BAR_ID));
-                results.add(newBar);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
         return results;
     }
@@ -137,7 +120,7 @@ public class BarsDAOImpl implements BarsDAO {
     @Override
     public Bar getBarById(Bar bar) {
         Bar result = null;
-        JSONObject data = null;
+        String data = null;
 
         int barId = bar.getId();
 
@@ -173,11 +156,8 @@ public class BarsDAOImpl implements BarsDAO {
                 sb.append(line + "\n");
             }
 
-            try {
-                data = new JSONObject(sb.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            data = sb.toString();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,6 +168,14 @@ public class BarsDAOImpl implements BarsDAO {
         Log.d("DATA", data.toString());
 
         // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+
+        Gson gson = gsonBuilder.create();
+
+        result = gson.fromJson(data, Bar.class);
 
         return result;
     }
