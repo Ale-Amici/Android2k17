@@ -30,7 +30,7 @@
     <string name="title_activity_seach_bar">Ricerca Locale</string>
     <string name="closed_title_label">CHIUSO</string>
 
-    <!-- Strings related to seach bar menu-->
+    <!-- Strings related to seach bar barMenu-->
     <string name="title_menu_seach_bar_icon">Cerca per nome</string>
     <string name="title_clear_search_bar_icon">Cancella</string>
     <string name="title_qr_scanner_icon">Scan QR code</string>
@@ -45,7 +45,7 @@
     <string name="item_info_description_title">Descrizione del prodotto</string>
     <string name="item_info_description_content">Testo descrizione del prodotto</string>
 
-    <!-- Strings related to menu -->
+    <!-- Strings related to barMenu -->
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
     <string name="add_new_drink_button">Nuova Scelta</string>
