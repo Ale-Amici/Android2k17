@@ -6,20 +6,23 @@ import java.util.ArrayList;
  * Created by giovanni on 15/05/2017.
  */
 
-public class MenuItem {
+public class BarMenuItem {
 
     private int id;
+    private String name;
     private ArrayList<Size> sizes;
     private ArrayList<Topping> toppings;
     private ArrayList<Ingredient> ingredients;
-    private ArrayList<Category> categories;
+    private String category;
 
-    public MenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, ArrayList<Category> categories) {
+    public BarMenuItem(){}
+
+    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, String category) {
         this.id = id;
         this.sizes = sizes;
         this.toppings = toppings;
         this.ingredients = ingredients;
-        this.categories = categories;
+        this.category = category;
     }
 
     public int getId() {
@@ -28,6 +31,14 @@ public class MenuItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ArrayList<Size> getSizes() {
@@ -54,11 +65,11 @@ public class MenuItem {
         this.ingredients = ingredients;
     }
 
-    public ArrayList<Category> getCategories() {
-        return categories;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
-        this.categories = categories;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
