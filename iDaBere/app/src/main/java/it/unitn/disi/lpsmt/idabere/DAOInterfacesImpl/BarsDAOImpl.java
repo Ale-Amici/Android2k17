@@ -4,6 +4,10 @@ import android.location.Address;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +24,8 @@ import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
+import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -44,7 +51,7 @@ public class BarsDAOImpl implements BarsDAO {
     @Override
     public ArrayList<Bar> getBarsByCoordinates (Address address) {
         ArrayList<Bar> results = null;
-        JSONArray data = null;
+        String data = null;
 
         //Expected results
         double barLatitude = address.getLatitude();
@@ -85,11 +92,9 @@ public class BarsDAOImpl implements BarsDAO {
                 sb.append(line + "\n");
             }
 
-            try {
-                data = new JSONArray(sb.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            data = sb.toString();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,19 +102,34 @@ public class BarsDAOImpl implements BarsDAO {
             urlConnection.disconnect();
         }
 
+        Log.d("DATA", data.toString());
 
-        try {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        Type collectionType = new TypeToken<ArrayList<Bar>>(){}.getType();
+
+        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+
+        Gson gson = gsonBuilder.create();
+
+        ArrayList<Bar> imageResults = gson.fromJson(data, collectionType);
+
+        Log.d("RESULT",imageResults.get(0).getOpeningHours().toString());
+
+
+       /* try {
 
             results = new ArrayList<>();
             for (int i = 0; i <data.length(); i++) {
                 JSONObject item = data.getJSONObject(i);
-                Bar newBar = new Bar(item.getInt(BAR_ID),item.getString(BAR_NAME),null,null, null, null,null);
+                Bar newBar = new Bar();
+                newBar.setId(item.getInt(BAR_ID));
                 results.add(newBar);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return results;
     }
