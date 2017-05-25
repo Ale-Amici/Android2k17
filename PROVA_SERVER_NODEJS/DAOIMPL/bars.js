@@ -23,9 +23,9 @@ var dbHelper = require('../DB/dbhelper.js');
  */
 var joinArrayWithRows = function(array, rows, key, getObjectFromDbRow, propertyName){
     arrayIndex = 0;
-    //console.log("AAAAAAAAAAAAAAAA" + key +" " + propertyName +"\n" +array);
+    console.log("AAAAAAAAAAAAAAAA" + key +" " + propertyName +"\n" +array);
     rows.forEach(function(row,index){
-        //console.log("BBBBBBBBBBBBBBBBB " + array[arrayIndex].id + " =? " +row[key] +  "\n");
+        console.log("BBBBBBBBBBBBBBBBB " + array[arrayIndex].id + " =? " +row[key] +  "\n");
         while(array[arrayIndex].id != row[key]){
 
             arrayIndex++;
@@ -34,6 +34,7 @@ var joinArrayWithRows = function(array, rows, key, getObjectFromDbRow, propertyN
         if(arrayIndex >= array.length){
             console.log("PROBLEMA CON I BOUND DELLA FUNZIONE 1 sulla key=" + key);
             return false;
+            // reject("errore");
         }
         if(array[arrayIndex][propertyName] == undefined){
             array[arrayIndex][propertyName] = [];
@@ -217,9 +218,8 @@ var getBarFromId = function(barId){
                   bar.menu[item.category].push(item);
                   //item.category = undefined;//per eliminare la categoria dall'item
               })
-
-              console.log(bar.menu)
               */
+              console.log(bar.menu.menuItemList)
               resolve(bar);
           })
           .catch(function(err){

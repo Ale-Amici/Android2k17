@@ -4,7 +4,7 @@ class menu {
         this.menuItemList = menuItemList;
         return this;
     }
-
+  
 }
 
 module.exports = menu;

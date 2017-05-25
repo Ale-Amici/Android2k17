@@ -31,7 +31,7 @@ class bar {
     this.distance = distance;
     return this;
   }
-  setMenu(menu){//MenuItemList
+  setMenu(menu){
       this.menu = menu;
       return this;
   }
