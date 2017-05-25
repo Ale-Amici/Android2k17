@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,21 +17,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.BarMenu;
+import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity implements
+        SearchView.OnQueryTextListener{
 
-    private MenuCategoryExpandableListAdapter menuCategoryExpandableListAdapter;
-    private ExpandableListView categoriesExpandableList;
+    private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
     private View progressBar;
@@ -46,10 +45,27 @@ public class MenuActivity extends AppCompatActivity {
 
         initViewComps();
         mContext = this;
+        BarMenu tempMenu = new BarMenu();
+        BarMenuItem tempItem1 = new BarMenuItem();
+        tempItem1.setName("Vino Rosso");
+        tempItem1.setCategory("Vini");
+        BarMenuItem tempItem2 = new BarMenuItem();
+        tempItem2.setName("Vino bianco");
+        tempItem2.setCategory("Vini");
+        BarMenuItem tempItem3 = new BarMenuItem();
+        tempItem3.setName("Birra Rossa");
+        tempItem3.setCategory("Birre");
+
+        tempMenu.getBarMenuItemList().add(tempItem1);
+        tempMenu.getBarMenuItemList().add(tempItem2);
+        tempMenu.getBarMenuItemList().add(tempItem3);
 
        // menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, AppSession.getInstance().getmBar() );
         // setting list adapter
-        categoriesExpandableList.setAdapter(menuCategoryExpandableListAdapter);
+        categoriesExpandableListView.setAdapter(
+                //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
+                new MenuCategoryExpandableListAdapter(mContext, tempMenu)
+        );
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -75,7 +91,7 @@ public class MenuActivity extends AppCompatActivity {
     // Instantiate layout elements
     private void initViewComps () {
         // get the listview
-        categoriesExpandableList = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+        categoriesExpandableListView = (ExpandableListView) findViewById(R.id.categories_expandable_list);
 
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
@@ -93,7 +109,16 @@ public class MenuActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.item_list_menu,menu);
-        
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_bar_icon).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setOnQueryTextListener(this);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,6 +129,18 @@ public class MenuActivity extends AppCompatActivity {
     private void openItemInfo (View v) {
         Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
         startActivity(itemInfoIntend);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        ((MenuCategoryExpandableListAdapter)categoriesExpandableListView.getExpandableListAdapter())
+                .getFilter().filter(newText);
+        return true;
     }
 
 
@@ -117,6 +154,4 @@ public class MenuActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
 }
