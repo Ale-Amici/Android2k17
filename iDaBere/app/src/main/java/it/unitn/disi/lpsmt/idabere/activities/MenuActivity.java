@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +38,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     private Context mContext;
 
+    private BarMenu barMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class MenuActivity extends AppCompatActivity implements
 
         initViewComps();
         mContext = this;
-        BarMenu tempMenu = new BarMenu();
+        /*BarMenu tempMenu = new BarMenu();
         BarMenuItem tempItem1 = new BarMenuItem();
         tempItem1.setName("Vino Rosso");
         tempItem1.setCategory("Vini");
@@ -58,14 +61,11 @@ public class MenuActivity extends AppCompatActivity implements
 
         tempMenu.getBarMenuItemList().add(tempItem1);
         tempMenu.getBarMenuItemList().add(tempItem2);
-        tempMenu.getBarMenuItemList().add(tempItem3);
+        tempMenu.getBarMenuItemList().add(tempItem3);*/
 
        // menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, AppSession.getInstance().getmBar() );
         // setting list adapter
-        categoriesExpandableListView.setAdapter(
-                //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
-                new MenuCategoryExpandableListAdapter(mContext, tempMenu)
-        );
+        new MenuLoader().execute();
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -144,14 +144,24 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
 
-    private class MenuLoader extends AsyncTask<Bar,Void,Menu> {
+    private class MenuLoader extends AsyncTask<Bar,Void,BarMenu> {
 
         @Override
-        protected Menu doInBackground(Bar... params) {
+        protected BarMenu doInBackground(Bar... params) {
 
-            ListBarActivity.factoryDAO.newBarsDAO().getBarById(params[0]);
+            barMenu = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).getBarMenu();
+            Log.d("BAR_MENU", barMenu.toString());
 
-            return null;
+            return barMenu;
+        }
+
+        @Override
+        protected void onPostExecute(BarMenu barMenu) {
+            categoriesExpandableListView.setAdapter(
+                    //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
+                    new MenuCategoryExpandableListAdapter(mContext, barMenu)
+            );
+            super.onPostExecute(barMenu);
         }
     }
 }
