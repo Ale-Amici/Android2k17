@@ -13,6 +13,6 @@ public class ItemInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_info);
 
         // Set back arrow button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }
