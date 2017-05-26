@@ -122,11 +122,13 @@ public class MenuActivity extends AppCompatActivity implements
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void addNewChoice (View v) {
-
+    public void addNewChoice (View v) {
+        Intent newChoiceIntent = new Intent();
+        newChoiceIntent.setClass(this, AddToppingsActivity.class);
+        startActivity(newChoiceIntent);
     }
 
-    private void openItemInfo (View v) {
+    public void openItemInfo (View v) {
         Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
         startActivity(itemInfoIntend);
     }
@@ -164,4 +166,5 @@ public class MenuActivity extends AppCompatActivity implements
             super.onPostExecute(barMenu);
         }
     }
+
 }
