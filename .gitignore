@@ -2,3 +2,4 @@
 IGNORE/
 PROVA_SERVER_NODEJS/node_modules/
 .gitignore
+.idea/
