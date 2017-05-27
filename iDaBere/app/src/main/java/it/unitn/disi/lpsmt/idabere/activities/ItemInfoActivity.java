@@ -12,7 +12,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_info);
 
-        // Set back arrow button
+
 
     }
 }
