@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -23,6 +25,19 @@ public class BarMenu {
 
     public void setBarMenuItemList(ArrayList<BarMenuItem> barMenuItemList) {
         this.barMenuItemList = barMenuItemList;
+    }
+
+    public BarMenuItem getBarMenuItemById(int id) {
+        BarMenuItem result = null;
+        Log.d("IDPARAM",Integer.toString(id));
+        Log.d("IDPARAM",Integer.toString(barMenuItemList.size()));
+        for (int i = 0; i < barMenuItemList.size(); i++) {
+            Log.d("IDPARAM",Integer.toString(barMenuItemList.get(i).getId()));
+            if (barMenuItemList.get(i).getId() == id){
+                result = barMenuItemList.get(i);
+            }
+        }
+        return result;
     }
 
 }

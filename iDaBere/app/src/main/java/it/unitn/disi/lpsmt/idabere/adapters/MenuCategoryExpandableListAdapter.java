@@ -1,18 +1,24 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
+import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 
@@ -26,6 +32,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private BarMenu originalBarMenu;
     private BarMenu filteredBarMenu;
     private ArrayList<String> categories;
+    private Button addPreferredButton;
     private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;
     private MenuFilter menuFilter;
 
@@ -84,7 +91,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getChildView(int groupPosition, int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
+        final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -97,6 +104,19 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         infoText.setText(child.getName());
 
+        /*
+        * Open correct Item info when button clicked
+        * */
+        final ImageButton itemInfoImageButton = (ImageButton) convertView.findViewById(R.id.item_info_button);
+        itemInfoImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String ITEM_CLICKED_ID_KEY = "ITEM_ID";
+                Intent itemInfoIntend = new Intent(context, ItemInfoActivity.class);
+                itemInfoIntend.putExtra(ITEM_CLICKED_ID_KEY,child.getId());
+                context.startActivity(itemInfoIntend);
+            }
+        });
 
         /*
         * Expand/Collapse card item when clicked
