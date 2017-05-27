@@ -2,4 +2,5 @@
 IGNORE/
 PROVA_SERVER_NODEJS/node_modules/
 .gitignore
-iDaBere/.idea/
+iDaBere/.idea/misc.xml
+
