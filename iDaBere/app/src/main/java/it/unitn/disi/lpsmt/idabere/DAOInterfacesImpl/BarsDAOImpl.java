@@ -4,6 +4,10 @@ import android.location.Address;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +24,8 @@ import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
+import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -40,11 +47,10 @@ public class BarsDAOImpl implements BarsDAO {
     private final String BAR_WORKING_TIME = "workingTime";
     private final String BAR_DISTANCE = "distance";
 
-
     @Override
     public ArrayList<Bar> getBarsByCoordinates (Address address) {
         ArrayList<Bar> results = null;
-        JSONArray data = null;
+        String data = null;
 
         //Expected results
         double barLatitude = address.getLatitude();
@@ -85,11 +91,9 @@ public class BarsDAOImpl implements BarsDAO {
                 sb.append(line + "\n");
             }
 
-            try {
-                data = new JSONArray(sb.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            data = sb.toString();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,19 +101,18 @@ public class BarsDAOImpl implements BarsDAO {
             urlConnection.disconnect();
         }
 
+        Log.d("DATA", data.toString());
 
-        try {
+        GsonBuilder gsonBuilder = new GsonBuilder();
 
-            results = new ArrayList<>();
-            for (int i = 0; i <data.length(); i++) {
-                JSONObject item = data.getJSONObject(i);
-                Bar newBar = new Bar(item.getInt(BAR_ID),item.getString(BAR_NAME),null,null, null, null,null);
-                results.add(newBar);
-            }
+        Type collectionType = new TypeToken<ArrayList<Bar>>(){}.getType();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+
+        Gson gson = gsonBuilder.create();
+
+        results = gson.fromJson(data, collectionType);
+
 
         return results;
     }
@@ -117,7 +120,7 @@ public class BarsDAOImpl implements BarsDAO {
     @Override
     public Bar getBarById(Bar bar) {
         Bar result = null;
-        JSONObject data = null;
+        String data = null;
 
         int barId = bar.getId();
 
@@ -153,11 +156,8 @@ public class BarsDAOImpl implements BarsDAO {
                 sb.append(line + "\n");
             }
 
-            try {
-                data = new JSONObject(sb.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            data = sb.toString();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,6 +168,14 @@ public class BarsDAOImpl implements BarsDAO {
         Log.d("DATA", data.toString());
 
         // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+
+        Gson gson = gsonBuilder.create();
+
+        result = gson.fromJson(data, Bar.class);
 
         return result;
     }
