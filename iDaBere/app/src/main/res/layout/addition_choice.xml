@@ -6,20 +6,14 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/activity_horizontal_margin">
 
-    <LinearLayout
+
+    <CheckBox
+        android:id="@+id/addition_check_box"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-        <CheckBox
-            android:id="@+id/toppingCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/small_size_label"
-            android:textSize="@dimen/title_text_size"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="@string/small_size_label"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold"/>
 
 
 
@@ -30,14 +24,14 @@
         android:gravity="right">
 
         <TextView
-            android:id="@+id/toppings_price_label"
+            android:id="@+id/addition_price_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menu_list_item_price"
             android:textSize="@dimen/paragraph_text_size"/>
 
         <TextView
-            android:id="@+id/size_currency_label"
+            android:id="@+id/addition_currency_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/menu_list_item_currency"

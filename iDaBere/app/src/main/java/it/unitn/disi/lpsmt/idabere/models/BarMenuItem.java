@@ -11,16 +11,16 @@ public class BarMenuItem {
     private int id;
     private String name;
     private ArrayList<Size> sizes;
-    private ArrayList<Topping> toppings;
+    private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
     private String category;
 
     public BarMenuItem(){}
 
-    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, String category) {
+    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Addition> additions, ArrayList<Ingredient> ingredients, String category) {
         this.id = id;
         this.sizes = sizes;
-        this.toppings = toppings;
+        this.additions = additions;
         this.ingredients = ingredients;
         this.category = category;
     }
@@ -49,12 +49,12 @@ public class BarMenuItem {
         this.sizes = sizes;
     }
 
-    public ArrayList<Topping> getToppings() {
-        return toppings;
+    public ArrayList<Addition> getAdditions() {
+        return additions;
     }
 
-    public void setToppings(ArrayList<Topping> toppings) {
-        this.toppings = toppings;
+    public void setAdditions(ArrayList<Addition> additions) {
+        this.additions = additions;
     }
 
     public ArrayList<Ingredient> getIngredients() {

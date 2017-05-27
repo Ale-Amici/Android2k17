@@ -1,63 +1,54 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.adapters.ToppingsListArrayListAdapter;
+import it.unitn.disi.lpsmt.idabere.adapters.AdditionListArrayListAdapter;
 
-public class AddToppingsActivity extends AppCompatActivity {
+public class AddChoiceActivity extends AppCompatActivity {
 
 
-//    TODO Creare un array adapter customizzato di prova per visualizzare la lista delle sizes e dei toppings
+    private ListView sizeListView;
+    private ListView additionListView;
 
-    private ListView sizesListView;
-    private ListView toppingsListView;
-
-    private ToppingsListArrayListAdapter toppingsListArrayListAdapter;
+    private AdditionListArrayListAdapter additionListArrayListAdapter;
 
 
     // Fake data variables
     private final String UNIT_MEASURE = "cl";
-    private ArrayList<String> SIZES_LIST;
-    private ArrayList<String> TOPPINGS_LIST;
+    private ArrayList<String> SIZE_LIST;
+    private ArrayList<String> ADDITION_LIST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_add_toppings);
+        setContentView(R.layout.activity_add_choice);
         initData();
 
         displaySizesList();
 
-        toppingsListView = (ListView) findViewById(R.id.toppings_list_view);
+        additionListView = (ListView) findViewById(R.id.additions_list_view);
 
-        toppingsListArrayListAdapter = new ToppingsListArrayListAdapter(this, R.layout.topping_choice, TOPPINGS_LIST);
-        toppingsListView.setAdapter(toppingsListArrayListAdapter);
+        additionListArrayListAdapter = new AdditionListArrayListAdapter(this, R.layout.addition_choice, ADDITION_LIST);
+        additionListView.setAdapter(additionListArrayListAdapter);
 
     }
 
 
     private void displaySizesList () {
         ViewGroup sizeRadioGroup = (ViewGroup) findViewById(R.id.sizeRadioGroup);  // This is the id of the RadioGroup we defined
-        for (int i = 0; i < SIZES_LIST.size(); i++) {
+        for (int i = 0; i < SIZE_LIST.size(); i++) {
             RadioButton button = new RadioButton(this);
             button.setId(i);
-            button.setText(SIZES_LIST.get(i).toString() +" "+ getString(R.string.drinks_measure_units));
+            button.setText(SIZE_LIST.get(i).toString() +" "+ getString(R.string.drinks_measure_units));
             sizeRadioGroup.addView(button);
         }
 
@@ -65,14 +56,14 @@ public class AddToppingsActivity extends AppCompatActivity {
 
     private void initData () {
 
-        SIZES_LIST = new ArrayList();
-        SIZES_LIST.add("25");
-        SIZES_LIST.add("50");
-        SIZES_LIST.add("75");
+        SIZE_LIST = new ArrayList();
+        SIZE_LIST.add("25");
+        SIZE_LIST.add("50");
+        SIZE_LIST.add("75");
 
-        TOPPINGS_LIST = new ArrayList();
-        TOPPINGS_LIST.add("Ghiaccio");
-        TOPPINGS_LIST.add("Limone");
+        ADDITION_LIST = new ArrayList();
+        ADDITION_LIST.add("Ghiaccio");
+        ADDITION_LIST.add("Limone");
 
     }
 }

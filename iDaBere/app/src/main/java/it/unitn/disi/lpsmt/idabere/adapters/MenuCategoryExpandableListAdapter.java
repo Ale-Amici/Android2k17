@@ -104,16 +104,16 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
 
         final View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        final View toppingsSectionLayout = convertView.findViewById(R.id.toppings_section_layout);
+        final View ChoicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (toppingsSectionLayout.isShown()){
-                    toppingsSectionLayout.setVisibility(View.GONE);
+                if (ChoicesSectionLayout.isShown()){
+                    ChoicesSectionLayout.setVisibility(View.GONE);
                 } else {
-                    toppingsSectionLayout.setVisibility(View.VISIBLE);
+                    ChoicesSectionLayout.setVisibility(View.VISIBLE);
                 }
 
             }
