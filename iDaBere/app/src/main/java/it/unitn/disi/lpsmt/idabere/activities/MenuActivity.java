@@ -28,6 +28,7 @@ import it.unitn.disi.lpsmt.idabere.session.AppSession;
 public class MenuActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener{
 
+    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
@@ -123,8 +124,22 @@ public class MenuActivity extends AppCompatActivity implements
 
     public void addNewChoice (View v) {
         Intent newChoiceIntent = new Intent();
+        newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());
         newChoiceIntent.setClass(this, AddChoiceActivity.class);
-        startActivity(newChoiceIntent);
+        startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SELECT_NEW_CHOICE_REQUEST){
+            if(resultCode == RESULT_OK){
+                System.out.println("choicesIds" + data.getIntegerArrayListExtra("choicesIds"));
+                System.out.println("sizeId" + data.getIntExtra("sizeId",-1));
+                // TODO 1 GESTIRE IL FATTO CHE UN ITEM POSSA NON AVERE ADDITIONS
+                // TODO 2 RETRIEVE THE CHOICE INFORMATION FROM THE INTENT
+                // TODO 3 ADD NEW ORDER_ITEM TO THE ORDER OF THE CUSTOMER
+            }
+        }
     }
 
     public void openItemInfo (View v) {
@@ -149,8 +164,8 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-
-            barMenu = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).getBarMenu();
+            AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
+            barMenu = AppSession.getInstance().getmBar().getBarMenu();
             Log.d("BAR_MENU", barMenu.toString());
 
             return barMenu;

@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 
@@ -119,6 +121,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             }
         });
 
+        //il bottone "Nuova Scelta"
+        final View newChoiceButton = convertView.findViewById(R.id.new_chioce_button);
+        newChoiceButton.setTag(child.getId()); //imposto come tag il barMenuItem.getId()
 
         return convertView;
 }
