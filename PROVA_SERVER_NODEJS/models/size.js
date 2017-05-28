@@ -5,8 +5,8 @@ class size {
         return this;
     }
 
-    setDescription(description){
-        this.description = description;
+    setName(name){
+        this.name = name;
         return this;
     }
 

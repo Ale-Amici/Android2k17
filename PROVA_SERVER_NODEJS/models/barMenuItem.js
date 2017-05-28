@@ -20,18 +20,18 @@ class menuItem {
         return this;
     }
 
-    setIngredientList(ingredientList){
-        this.ingredientList = ingredientList;
+    setIngredients(ingredients){
+        this.ingredients = ingredients;
         return this;
     }
 
-    setAdditionList(additionList){
-        this.additionList = additionList;
+    setAdditions(additions){
+        this.additions = additions;
         return this;
     }
 
-    setSizeList(sizeList){
-        this.sizeList = sizeList;
+    setSizes(sizes){
+        this.sizes = sizes;
         return this;
     }
 }

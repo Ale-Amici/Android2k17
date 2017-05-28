@@ -40,6 +40,7 @@ var joinArrayWithRows = function(array, rows, key, getObjectFromDbRow, propertyN
             array[arrayIndex][propertyName] = [];
         }
         array[arrayIndex][propertyName].push(getObjectFromDbRow(row));
+        console.log("AGGIUNTO " + index +" " + row);
     });
 
     return true;
@@ -175,8 +176,8 @@ var getBarFromId = function(barId){
                                     + " ORDER BY MIHI.MENU_ITEM_ID ASC ", barId);
           })
           .then(function(itemIngredientsRows){
-
-              joinArrayWithRows(bar.barMenu.barMenuItemList, itemIngredientsRows, "MENU_ITEM_ID", getIngredientFromDbRow, "ingredientList");
+              console.log(itemIngredientsRows);
+              joinArrayWithRows(bar.barMenu.barMenuItemList, itemIngredientsRows, "MENU_ITEM_ID", getIngredientFromDbRow, "ingredients");
               /*****QUERY PER LE ADDITION****/
               return pool.queryAsync( " SELECT  MIHA.MENU_ITEM_ID, MIHA.ITEM_ADDITION_ID, price, addition_name  "
                                     + " FROM MENU_ITEM_HAS_ADDITION MIHA JOIN ITEM_ADDITION IA ON(MIHA.ITEM_ADDITION_ID = IA.ID) "
@@ -186,7 +187,7 @@ var getBarFromId = function(barId){
           })
           .then(function(itemAdditionsRows){
 
-              joinArrayWithRows(bar.barMenu.barMenuItemList,itemAdditionsRows, "MENU_ITEM_ID", getAdditionFromDbRow, "additionList" );
+              joinArrayWithRows(bar.barMenu.barMenuItemList,itemAdditionsRows, "MENU_ITEM_ID", getAdditionFromDbRow, "additions" );
 
               /*****QUERY PER LE SIZE****/
               return pool.queryAsync( " SELECT  MIHS.MENU_ITEM_ID, MIHS.ITEM_SIZE_ID, price, size_description "
@@ -198,7 +199,7 @@ var getBarFromId = function(barId){
           })
           .then(function(itemSizesRows){
 
-              joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizeList");
+              joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizes");
               //WORKAROUND PER DIVIDERE GLI ITEM IN CATEGORIES
               /*
               menu1 = bar.menu;
@@ -262,9 +263,9 @@ var getBarMenuItemFromDbRow = function(row){
         .setName(row["menu_item_name"])
         .setDescription(row["description"])
         .setCategory(row["category_name"])
-        .setIngredientList(undefined)
-        .setAdditionList(undefined)
-        .setSizeList(undefined)
+        .setIngredients(undefined)
+        .setAdditions(undefined)
+        .setSizes(undefined)
 }
 
 var getIngredientFromDbRow = function(row){
@@ -284,7 +285,7 @@ var getAdditionFromDbRow = function(row){
 var getSizeFromDbRow = function(row){
     return new Size()
         .setId(row["ITEM_SIZE_ID"])
-        .setDescription(row["size_description"])
+        .setName(row["size_description"])
         .setPrice(row["price"])
 
 }
