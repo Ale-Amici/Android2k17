@@ -6,6 +6,7 @@ package it.unitn.disi.lpsmt.idabere.models;
 
 public class Size {
 
+    private int id;
     private String name;
     private double price;
     private double discount;
@@ -14,6 +15,14 @@ public class Size {
         this.name = name;
         this.price = price;
         this.discount = discount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

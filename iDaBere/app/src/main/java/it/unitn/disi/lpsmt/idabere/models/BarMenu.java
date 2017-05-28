@@ -25,4 +25,19 @@ public class BarMenu {
         this.barMenuItemList = barMenuItemList;
     }
 
+    public BarMenuItem getBarMenuItemFromId(int id){
+        for(BarMenuItem item: barMenuItemList){
+            if(item.getId() == id){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "BarMenu{" +
+                "barMenuItemList=" + barMenuItemList +
+                '}';
+    }
 }

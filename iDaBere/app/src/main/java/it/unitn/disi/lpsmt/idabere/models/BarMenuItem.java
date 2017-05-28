@@ -72,4 +72,16 @@ public class BarMenuItem {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "BarMenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sizes=" + sizes +
+                ", additions=" + additions +
+                ", ingredients=" + ingredients +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }
