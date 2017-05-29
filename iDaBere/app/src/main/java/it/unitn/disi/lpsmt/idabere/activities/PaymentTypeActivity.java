@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -25,6 +26,8 @@ public class PaymentTypeActivity extends AppCompatActivity {
 
 
         initViewComps();
+
+        // TODO Creare l'adapter per inserire i dati nel dropdown
 
         mContext = this;
 
