@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><style name="AppTheme2" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryLight2</item>
+        <item name="colorAccent">@color/colorAccent2</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
+    </style></resources>
