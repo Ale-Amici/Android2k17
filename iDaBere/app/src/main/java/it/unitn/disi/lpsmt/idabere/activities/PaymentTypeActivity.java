@@ -7,12 +7,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Spinner;
 
 import it.unitn.disi.lpsmt.idabere.R;
 
 public class PaymentTypeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationMenu;
+    private Spinner creditCardSpinner;
 
     private Context mContext;
 
@@ -36,8 +38,6 @@ public class PaymentTypeActivity extends AppCompatActivity {
                 switch (itemId) {
                     case  R.id.navigation_delivery_type :
                         PaymentTypeActivity.super.onBackPressed();
-//                        intent.setClass(mContext,DeliveryPlaceActivity.class);
-//                        startActivity(intent);
                         result = true;
                         break;
 
@@ -57,6 +57,7 @@ public class PaymentTypeActivity extends AppCompatActivity {
     private void initViewComps () {
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.payment_bottom_navigation);
+        creditCardSpinner = (Spinner) findViewById(R.id.credit_card_drop_down);
     }
 
 }
