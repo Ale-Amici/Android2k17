@@ -7,12 +7,19 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import it.unitn.disi.lpsmt.idabere.R;
 
 public class DeliveryPlaceActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationMenu;
+    private Spinner countersSpinner;
+    private Spinner tablesSpinner;
+
+    private ArrayAdapter counterSpinnerAdapter;
+    private ArrayAdapter tableSpinnerAdapter;
 
     private Context mContext;
 
@@ -25,7 +32,6 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
         initViewComps();
 
         mContext = this;
-
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -52,6 +58,8 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
 
@@ -59,6 +67,9 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
     private void initViewComps () {
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.delivery_bottom_navigation);
+
+        tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
+        countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
     }
 
 }
