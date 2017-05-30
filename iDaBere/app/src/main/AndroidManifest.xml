@@ -57,7 +57,7 @@
 
 
         <activity
-            android:name=".activities.AddToppingsActivity"
+            android:name=".activities.AddChoiceActivity"
             android:theme="@style/DialogTheme">
         </activity>
 

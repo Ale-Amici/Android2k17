@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
 import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
@@ -124,21 +125,24 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
 
         final View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        final View toppingsSectionLayout = convertView.findViewById(R.id.toppings_section_layout);
+        final View ChoicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (toppingsSectionLayout.isShown()){
-                    toppingsSectionLayout.setVisibility(View.GONE);
+                if (ChoicesSectionLayout.isShown()){
+                    ChoicesSectionLayout.setVisibility(View.GONE);
                 } else {
-                    toppingsSectionLayout.setVisibility(View.VISIBLE);
+                    ChoicesSectionLayout.setVisibility(View.VISIBLE);
                 }
 
             }
         });
 
+        //il bottone "Nuova Scelta"
+        final View newChoiceButton = convertView.findViewById(R.id.new_chioce_button);
+        newChoiceButton.setTag(child.getId()); //imposto come tag il barMenuItem.getId()
 
         return convertView;
 }

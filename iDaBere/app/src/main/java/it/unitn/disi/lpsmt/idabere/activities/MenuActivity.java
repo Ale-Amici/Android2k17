@@ -23,12 +23,12 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
-import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class MenuActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener{
 
+    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
@@ -97,7 +97,7 @@ public class MenuActivity extends AppCompatActivity implements
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
         progressBar = findViewById(R.id.loading_indicator);
-        newChoiceButton = (Button) findViewById(R.id.add_topping_button);
+        newChoiceButton = (Button) findViewById(R.id.add_choice_button);
         itemInfoButton = (ImageButton) findViewById(R.id.item_info_button);
 
         //set activity title based to bar instance
@@ -124,8 +124,22 @@ public class MenuActivity extends AppCompatActivity implements
 
     public void addNewChoice (View v) {
         Intent newChoiceIntent = new Intent();
-        newChoiceIntent.setClass(this, AddToppingsActivity.class);
-        startActivity(newChoiceIntent);
+        newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());
+        newChoiceIntent.setClass(this, AddChoiceActivity.class);
+        startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SELECT_NEW_CHOICE_REQUEST){
+            if(resultCode == RESULT_OK){
+                System.out.println("choicesIds" + data.getIntegerArrayListExtra("choicesIds"));
+                System.out.println("sizeId" + data.getIntExtra("sizeId",-1));
+                // TODO 1 GESTIRE IL FATTO CHE UN ITEM POSSA NON AVERE ADDITIONS
+                // TODO 2 RETRIEVE THE CHOICE INFORMATION FROM THE INTENT
+                // TODO 3 ADD NEW ORDER_ITEM TO THE ORDER OF THE CUSTOMER
+            }
+        }
     }
 
 //    public void openItemInfo (View v) {
@@ -153,8 +167,8 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-
-            barMenu = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).getBarMenu();
+            AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
+            barMenu = AppSession.getInstance().getmBar().getBarMenu();
             Log.d("BAR_MENU", barMenu.toString());
 
             return barMenu;

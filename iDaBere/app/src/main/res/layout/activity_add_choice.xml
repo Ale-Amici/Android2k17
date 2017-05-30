@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
     android:gravity="center_horizontal"
-    tools:context="it.unitn.disi.lpsmt.idabere.activities.AddToppingsActivity"
+    tools:context="it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity"
     android:orientation="vertical">
 
     <!-- Size picker section -->
@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <!-- Toppings multiple choiche section -->
+    <!-- Additions multiple choiche section -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,17 +74,17 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin">
 
         <TextView
-            android:id="@+id/toppings_title_label"
+            android:id="@+id/additions_title_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/toppings_label_title"
+            android:text="@string/additions_label_title"
             android:textSize="@dimen/title_text_size"
-            tools:text="@string/toppings_label_title"
+            tools:text="@string/additions_label_title"
             android:textStyle="bold"/>
 
         <ListView
-            android:id="@+id/toppings_list_view"
+            android:id="@+id/additions_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -98,18 +98,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/add_topping_button"
+            android:id="@+id/add_choice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_topping_button_label"
+            android:text="@string/add_choice_button_label"
             android:layout_gravity="center"/>
 
         <Button
-            android:id="@+id/cancel_topping_button"
+            android:id="@+id/cancel_chioce_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/cancel_topping_button_label" />
+            android:text="@string/cancel_choice_button_label" />
 
     </LinearLayout>
 

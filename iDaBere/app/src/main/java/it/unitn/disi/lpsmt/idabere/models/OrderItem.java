@@ -13,16 +13,16 @@ public class OrderItem {
     private int rating;
     private double totalPrice;
     private Size size;
-    private ArrayList<Topping> toppings;
+    private ArrayList<Addition> additions;
     private ArrayList<BarMenuItem> barMenuItems;
 
-    public OrderItem(int id, int quantyty, int rating, double totalPrice, Size size, ArrayList<Topping> toppings, ArrayList<BarMenuItem> barMenuItems) {
+    public OrderItem(int id, int quantyty, int rating, double totalPrice, Size size, ArrayList<Addition> additions, ArrayList<BarMenuItem> barMenuItems) {
         this.id = id;
         this.quantyty = quantyty;
         this.rating = rating;
         this.totalPrice = totalPrice;
         this.size = size;
-        this.toppings = toppings;
+        this.additions = additions;
         this.barMenuItems = barMenuItems;
     }
 
@@ -66,12 +66,12 @@ public class OrderItem {
         this.size = size;
     }
 
-    public ArrayList<Topping> getToppings() {
-        return toppings;
+    public ArrayList<Addition> getAdditions() {
+        return additions;
     }
 
-    public void setToppings(ArrayList<Topping> toppings) {
-        this.toppings = toppings;
+    public void setAdditions(ArrayList<Addition> additions) {
+        this.additions = additions;
     }
 
     public ArrayList<BarMenuItem> getBarMenuItems() {
