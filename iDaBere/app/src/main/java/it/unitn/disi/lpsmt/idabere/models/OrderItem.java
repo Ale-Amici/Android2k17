@@ -11,19 +11,30 @@ public class OrderItem {
     private int id;
     private int quantity;
     private int rating;
-    private double totalPrice;
+    private double singleItemPrice;
     private Size size;
     private ArrayList<Addition> additions;
-    private ArrayList<BarMenuItem> barMenuItems;
-    
-    public OrderItem(int id, int quantity, int rating, double totalPrice, Size size, ArrayList<Addition> additions, ArrayList<BarMenuItem> barMenuItems) {
+    private BarMenuItem barMenuItem;
+
+    public OrderItem(int quantity, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItem){
+        this.id = -1;
+        this.rating = -1;
+        this.quantity = quantity;
+        this.singleItemPrice = singleItemPrice;
+        this.size = size;
+        this.additions = additions;
+        this.barMenuItem = barMenuItem;
+
+    }
+
+    public OrderItem(int id, int quantity, int rating, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItems) {
         this.id = id;
         this.quantity = quantity;
         this.rating = rating;
-        this.totalPrice = totalPrice;
+        this.singleItemPrice = singleItemPrice;
         this.size = size;
         this.additions = additions;
-        this.barMenuItems = barMenuItems;
+        this.barMenuItem = barMenuItem;
     }
 
     public int getId() {
@@ -50,12 +61,12 @@ public class OrderItem {
         this.rating = rating;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getSingleItemPrice() {
+        return singleItemPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setSingleItemPrice(double singleItemPrice) {
+        this.singleItemPrice = singleItemPrice;
     }
 
     public Size getSize() {
@@ -74,11 +85,11 @@ public class OrderItem {
         this.additions = additions;
     }
 
-    public ArrayList<BarMenuItem> getBarMenuItems() {
-        return barMenuItems;
+    public BarMenuItem getBarMenuItem() {
+        return barMenuItem;
     }
 
-    public void setBarMenuItems(ArrayList<BarMenuItem> barMenuItems) {
-        this.barMenuItems = barMenuItems;
+    public void setBarMenuItem(BarMenuItem barMenuItem) {
+        this.barMenuItem = barMenuItem;
     }
 }
