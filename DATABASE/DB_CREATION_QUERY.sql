@@ -48,32 +48,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `android2k17`.`BAR_TABLE`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`BAR_TABLE` ;
-
-CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_TABLE` (
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `number` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE INDEX `number_UNIQUE` (`number` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `android2k17`.`BAR_COUNTER`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`BAR_COUNTER` ;
-
-CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_COUNTER` (
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `android2k17`.`EVENT`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`EVENT` ;
@@ -203,6 +177,43 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `android2k17`.`DELIVERY_PLACE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`DELIVERY_PLACE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`DELIVERY_PLACE` (
+  `ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR_HAS_DELIVERY_PLACE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` (
+  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `floor_number` INT UNSIGNED NOT NULL,
+  `BAR_ID` INT UNSIGNED NOT NULL,
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  INDEX `fk_BAR_HAS_DELIVERY_PLACE_BAR1_idx` (`BAR_ID` ASC),
+  PRIMARY KEY (`ID`),
+  INDEX `fk_BAR_HAS_DELIVERY_PLACE_DELIVERY_PLACE1_idx` (`DELIVERY_PLACE_ID` ASC),
+  CONSTRAINT `fk_BAR_HAS_DELIVERY_PLACE_BAR1`
+    FOREIGN KEY (`BAR_ID`)
+    REFERENCES `android2k17`.`BAR` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_BAR_HAS_DELIVERY_PLACE_DELIVERY_PLACE1`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `android2k17`.`CUSTOMER_ORDER`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`CUSTOMER_ORDER` ;
@@ -213,11 +224,18 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_ORDER` (
   `paid` TINYINT(1) NOT NULL DEFAULT 0,
   `process_status` VARCHAR(255) NOT NULL,
   `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ID`),
+  `BAR_HAS_DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`, `BAR_HAS_DELIVERY_PLACE_ID`),
   INDEX `fk_CUSTOMER_ORDER_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  INDEX `fk_CUSTOMER_ORDER_BAR_HAS_DELIVERY_PLACE1_idx` (`BAR_HAS_DELIVERY_PLACE_ID` ASC),
   CONSTRAINT `fk_CUSTOMER_ORDER_CUSTOMER1`
     FOREIGN KEY (`CUSTOMER_ID`)
     REFERENCES `android2k17`.`CUSTOMER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CUSTOMER_ORDER_BAR_HAS_DELIVERY_PLACE1`
+    FOREIGN KEY (`BAR_HAS_DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -262,30 +280,6 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`QUEUED_GROUP` (
   `on_pause` TINYINT(1) NOT NULL DEFAULT 0,
   `queue_time` DATETIME NOT NULL,
   PRIMARY KEY (`ID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `android2k17`.`BAR_HAS_TABLE`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`BAR_HAS_TABLE` ;
-
-CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_HAS_TABLE` (
-  `floor_number` INT UNSIGNED NOT NULL,
-  `BAR_ID` INT UNSIGNED NOT NULL,
-  `BAR_TABLE_ID` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`BAR_ID`, `BAR_TABLE_ID`),
-  INDEX `fk_BAR_HAS_TABLE_BAR_TABLE1_idx` (`BAR_TABLE_ID` ASC),
-  CONSTRAINT `fk_BAR_HAS_TABLE_BAR1`
-    FOREIGN KEY (`BAR_ID`)
-    REFERENCES `android2k17`.`BAR` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_BAR_HAS_TABLE_BAR_TABLE1`
-    FOREIGN KEY (`BAR_TABLE_ID`)
-    REFERENCES `android2k17`.`BAR_TABLE` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -474,25 +468,34 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `android2k17`.`BAR_HAS_TABLE_copy1`
+-- Table `android2k17`.`BAR_TABLE`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `android2k17`.`BAR_HAS_TABLE_copy1` ;
+DROP TABLE IF EXISTS `android2k17`.`BAR_TABLE` ;
 
-CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_HAS_TABLE_copy1` (
-  `BAR_ID` INT UNSIGNED NOT NULL,
-  `BAR_COUNTER_ID` INT UNSIGNED NOT NULL,
-  `floor_number` INT UNSIGNED NOT NULL,
-  INDEX `fk_BAR_HAS_DELIVERY_PLACE_BAR1_idx` (`BAR_ID` ASC),
-  PRIMARY KEY (`BAR_ID`, `BAR_COUNTER_ID`),
-  INDEX `fk_BAR_HAS_TABLE_copy1_BAR_COUNTER1_idx` (`BAR_COUNTER_ID` ASC),
-  CONSTRAINT `fk_BAR_HAS_DELIVERY_PLACE_BAR10`
-    FOREIGN KEY (`BAR_ID`)
-    REFERENCES `android2k17`.`BAR` (`ID`)
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_TABLE` (
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  `number` INT NULL,
+  PRIMARY KEY (`DELIVERY_PLACE_ID`),
+  CONSTRAINT `fk_BAR_TABLE_DELIVERY_PLACE1`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_BAR_HAS_TABLE_copy1_BAR_COUNTER1`
-    FOREIGN KEY (`BAR_COUNTER_ID`)
-    REFERENCES `android2k17`.`BAR_COUNTER` (`ID`)
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `android2k17`.`BAR_COUNTER`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`BAR_COUNTER` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_COUNTER` (
+  `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  `name` VARCHAR(255) NULL,
+  PRIMARY KEY (`DELIVERY_PLACE_ID`),
+  CONSTRAINT `fk_BAR_TABLE_DELIVERY_PLACE10`
+    FOREIGN KEY (`DELIVERY_PLACE_ID`)
+    REFERENCES `android2k17`.`DELIVERY_PLACE` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -520,30 +523,6 @@ START TRANSACTION;
 USE `android2k17`;
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (1, 'mario', 1990, 'mario@gmail.com', 'mario');
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (2, 'giulia', 1991, 'giulia@gmail.com', 'giulia');
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `android2k17`.`BAR_TABLE`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_TABLE` (`ID`, `number`) VALUES (1, 1);
-INSERT INTO `android2k17`.`BAR_TABLE` (`ID`, `number`) VALUES (2, 2);
-INSERT INTO `android2k17`.`BAR_TABLE` (`ID`, `number`) VALUES (3, 3);
-INSERT INTO `android2k17`.`BAR_TABLE` (`ID`, `number`) VALUES (4, 4);
-INSERT INTO `android2k17`.`BAR_TABLE` (`ID`, `number`) VALUES (5, 5);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `android2k17`.`BAR_COUNTER`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_COUNTER` (`ID`, `name`) VALUES (1, 'Counter1');
 
 COMMIT;
 
@@ -633,20 +612,37 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `android2k17`.`BAR_HAS_TABLE`
+-- Data for table `android2k17`.`DELIVERY_PLACE`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 1, 1);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 1, 2);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 1, 3);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 1, 4);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 1, 5);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 2, 1);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 2, 2);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 2, 3);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 2, 4);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE` (`floor_number`, `BAR_ID`, `BAR_TABLE_ID`) VALUES (1, 2, 5);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (1);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (2);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (3);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (4);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (5);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (6);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`BAR_HAS_DELIVERY_PLACE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (1, 1, 1, 1);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (2, 1, 1, 2);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (3, 1, 1, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (4, 1, 1, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (5, 1, 1, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (6, 1, 1, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (7, 1, 2, 1);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (8, 1, 2, 2);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (9, 1, 2, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (10, 1, 2, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (11, 1, 2, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (12, 1, 2, 6);
 
 COMMIT;
 
@@ -707,12 +703,25 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `android2k17`.`BAR_HAS_TABLE_copy1`
+-- Data for table `android2k17`.`BAR_TABLE`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_HAS_TABLE_copy1` (`BAR_ID`, `BAR_COUNTER_ID`, `floor_number`) VALUES (1, 1, 1);
-INSERT INTO `android2k17`.`BAR_HAS_TABLE_copy1` (`BAR_ID`, `BAR_COUNTER_ID`, `floor_number`) VALUES (2, 1, 1);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (2, 1);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (3, 2);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (4, 3);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (5, 4);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (6, 5);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`BAR_COUNTER`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `name`) VALUES (1, 'Bancone');
 
 COMMIT;
 
