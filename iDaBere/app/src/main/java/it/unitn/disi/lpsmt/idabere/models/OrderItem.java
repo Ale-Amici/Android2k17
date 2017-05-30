@@ -9,16 +9,16 @@ import java.util.ArrayList;
 public class OrderItem {
 
     private int id;
-    private int quantyty;
+    private int quantity;
     private int rating;
     private double totalPrice;
     private Size size;
     private ArrayList<Addition> additions;
     private ArrayList<BarMenuItem> barMenuItems;
-
-    public OrderItem(int id, int quantyty, int rating, double totalPrice, Size size, ArrayList<Addition> additions, ArrayList<BarMenuItem> barMenuItems) {
+    
+    public OrderItem(int id, int quantity, int rating, double totalPrice, Size size, ArrayList<Addition> additions, ArrayList<BarMenuItem> barMenuItems) {
         this.id = id;
-        this.quantyty = quantyty;
+        this.quantity = quantity;
         this.rating = rating;
         this.totalPrice = totalPrice;
         this.size = size;
@@ -34,12 +34,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public int getQuantyty() {
-        return quantyty;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantyty(int quantyty) {
-        this.quantyty = quantyty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getRating() {
