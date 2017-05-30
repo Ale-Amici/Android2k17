@@ -142,10 +142,13 @@ public class MenuActivity extends AppCompatActivity implements
         }
     }
 
-    public void openItemInfo (View v) {
-        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
-        startActivity(itemInfoIntend);
-    }
+//    public void openItemInfo (View v) {
+//        Log.d("############### ID",Long.toString(v.getId()));
+//        String ITEM_CLICKED_ID_KEY = "ITEM_ID";
+//        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
+//        //itemInfoIntend.putExtra(ITEM_CLICKED_ID_KEY, );
+//        //startActivity(itemInfoIntend);
+//    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -177,6 +180,7 @@ public class MenuActivity extends AppCompatActivity implements
                     //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
                     new MenuCategoryExpandableListAdapter(mContext, barMenu)
             );
+            AppSession.getInstance().getmBar().setBarMenu(barMenu);
             super.onPostExecute(barMenu);
         }
     }

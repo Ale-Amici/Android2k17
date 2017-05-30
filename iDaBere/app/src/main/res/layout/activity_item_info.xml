@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/item_image_view"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         app:srcCompat="@color/colorAccent"/>
@@ -19,7 +19,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -32,6 +32,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/add_preferred_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -46,50 +47,39 @@
             android:orientation="horizontal"
             android:layout_gravity="center">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <RatingBar
+                android:id="@+id/item_rating_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_weight="1"
+                />
 
         </LinearLayout>
 
         <!-- Item Description -->
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/item_info_description_title"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textSize="@dimen/title_text_size"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/activity_vertical_margin">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_info_description_title"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:textSize="@dimen/title_text_size"
-                android:textStyle="bold" />
-
-            <TextView
+                android:id="@+id/item_info_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/item_info_description_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
