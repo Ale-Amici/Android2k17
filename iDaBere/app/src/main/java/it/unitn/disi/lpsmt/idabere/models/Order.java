@@ -15,6 +15,11 @@ public class Order {
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
 
+    public Order(){
+        id = -1;
+        isPaid = false;
+        orderItems = new ArrayList<>();
+    }
     public Order(int id, boolean isPaid, ArrayList<OrderItem> orderItems) {
         this.id = id;
         this.isPaid = isPaid;
