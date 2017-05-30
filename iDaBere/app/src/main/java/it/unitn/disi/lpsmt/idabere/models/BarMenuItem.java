@@ -84,4 +84,22 @@ public class BarMenuItem {
                 ", category='" + category + '\'' +
                 '}';
     }
+
+    public Size getSizeFromId(int id){
+        for(Size s: this.sizes){
+            if(s.getId() == id){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Addition getAdditionFromId(int id){
+        for(Addition a: this.additions){
+            if(a.getId() == id){
+                return a;
+            }
+        }
+        return null;
+    }
 }
