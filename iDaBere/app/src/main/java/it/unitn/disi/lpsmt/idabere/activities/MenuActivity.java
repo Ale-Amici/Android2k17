@@ -18,11 +18,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
+import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.Order;
+import it.unitn.disi.lpsmt.idabere.models.OrderItem;
+import it.unitn.disi.lpsmt.idabere.models.Size;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class MenuActivity extends AppCompatActivity implements
@@ -133,13 +142,67 @@ public class MenuActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == SELECT_NEW_CHOICE_REQUEST){
             if(resultCode == RESULT_OK){
-                System.out.println("choicesIds" + data.getIntegerArrayListExtra("choicesIds"));
-                System.out.println("sizeId" + data.getIntExtra("sizeId",-1));
-                // TODO 1 GESTIRE IL FATTO CHE UN ITEM POSSA NON AVERE ADDITIONS
-                // TODO 2 RETRIEVE THE CHOICE INFORMATION FROM THE INTENT
-                // TODO 3 ADD NEW ORDER_ITEM TO THE ORDER OF THE CUSTOMER
+                //TAKE DATA FROM INTENT CHOICE
+                OrderItem newOrderItem = createNewOrderItemFromIntent(data);
+
+                //ADD THE ORDER OBJECT TO THE ORDER OF THE CUSTOMER
+                addOrderItemToSessionOrder(newOrderItem);
+
+                Log.d("ORDER", AppSession.getInstance().getmCustomer().getOrder().toString());
+                // TODO CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
+
+
+                // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
             }
         }
+    }
+
+    OrderItem createNewOrderItemFromIntent(Intent data){
+        System.out.println("chosenAdditionsIds" + data.getIntegerArrayListExtra("chosenAdditionsIds"));
+        System.out.println("chosenSizeId" + data.getIntExtra("chosenSizeId",-1));
+        ArrayList<Integer> chosenAdditionsIds = data.getIntegerArrayListExtra("chosenAdditionsIds");
+        int chosenSizeId = data.getIntExtra("chosenSizeId",-1);
+        int chosenMenuItemId = data.getIntExtra("chosenBarMenuItemId", -1);
+
+        if(chosenMenuItemId  != -1 && chosenSizeId != -1){ //gli id sono passati correttamente
+
+            int quantity = 1;
+            BarMenuItem chosenBarMenuItem = AppSession.getInstance().getmBar().getBarMenu().getBarMenuItemFromId(chosenMenuItemId);
+            Size chosenSize = chosenBarMenuItem.getSizeFromId(chosenSizeId);
+            ArrayList<Addition> chosenAdditions = new ArrayList<>();
+            for(Integer additionId: chosenAdditionsIds){
+                chosenAdditions.add(chosenBarMenuItem.getAdditionFromId(additionId));
+            }
+            double newSingleItemPrice = chosenSize.getPrice();
+            for(Addition a: chosenAdditions){
+                newSingleItemPrice += a.getPrice();
+            }
+
+            OrderItem newOrderItem = new OrderItem(
+                    1,
+                    newSingleItemPrice,
+                    chosenSize,
+                    chosenAdditions,
+                    chosenBarMenuItem
+            );
+
+            return newOrderItem;
+        }
+        else{
+            Toast.makeText(this,"ERROR: ERRORE NELLA CREAZIONE DELL'ORDINE", Toast.LENGTH_LONG);
+        }
+        return null;
+
+    }
+
+    void addOrderItemToSessionOrder(OrderItem newOrderItem){
+        Customer customer = AppSession.getInstance().getmCustomer();
+        if(customer == null){
+            AppSession.getInstance().setmCustomer(new Customer());
+            customer = AppSession.getInstance().getmCustomer();
+        }
+        Order userOrder = customer.getOrder();
+        userOrder.getOrderItems().add(newOrderItem);
     }
 
     public void openItemInfo (View v) {
