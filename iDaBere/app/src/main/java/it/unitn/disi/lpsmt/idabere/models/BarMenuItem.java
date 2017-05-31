@@ -73,17 +73,7 @@ public class BarMenuItem {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "BarMenuItem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sizes=" + sizes +
-                ", additions=" + additions +
-                ", ingredients=" + ingredients +
-                ", category='" + category + '\'' +
-                '}';
-    }
+
 
     public Size getSizeFromId(int id){
         for(Size s: this.sizes){
@@ -101,5 +91,21 @@ public class BarMenuItem {
             }
         }
         return null;
+    }
+
+    public int getCountPossibleChoices(){ //il numero di possibili combinazini Size-Additions
+        return sizes.size() * ((int)Math.pow(2, additions.size()));
+    }
+
+    @Override
+    public String toString() {
+        return "BarMenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sizes=" + sizes +
+                ", additions=" + additions +
+                ", ingredients=" + ingredients +
+                ", category='" + category + '\'' +
+                '}';
     }
 }
