@@ -49,4 +49,13 @@ public class Order {
     public void setOrderItems(ArrayList<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", isPaid=" + isPaid +
+                ", orderItems=" + orderItems +
+                '}';
+    }
 }

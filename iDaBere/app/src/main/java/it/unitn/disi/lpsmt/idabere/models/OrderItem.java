@@ -92,4 +92,17 @@ public class OrderItem {
     public void setBarMenuItem(BarMenuItem barMenuItem) {
         this.barMenuItem = barMenuItem;
     }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", rating=" + rating +
+                ", singleItemPrice=" + singleItemPrice +
+                ", size=" + size +
+                ", additions=" + additions +
+                ", barMenuItem=" + barMenuItem +
+                '}';
+    }
 }
