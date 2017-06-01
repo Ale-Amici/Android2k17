@@ -1,6 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light"></style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimaryLight</item>
+    </style>
 
     <style name="Dialog" parent="Theme.AppCompat.Light.Dialog"></style>
 </resources>
