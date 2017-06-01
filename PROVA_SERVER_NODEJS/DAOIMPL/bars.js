@@ -219,8 +219,14 @@ var getBarFromId = function(barId){
                   //item.category = undefined;//per eliminare la categoria dall'item
               })
               */
-              console.log(bar.barMenu.barMenuItemList)
-              resolve(bar);
+              return pool.queryAsync("QUERY",params);
+
+          })
+          .then(function(tableRows) {
+
+
+            console.log(bar.barMenu.barMenuItemList)
+            resolve(bar);
           })
           .catch(function(err){
               reject(err);
