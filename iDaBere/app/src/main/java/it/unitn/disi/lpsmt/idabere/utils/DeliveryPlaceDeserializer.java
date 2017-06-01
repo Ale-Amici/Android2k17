@@ -37,7 +37,7 @@ public class DeliveryPlaceDeserializer implements JsonDeserializer<DeliveryPlace
                 return context.deserialize(jsonObject, dataType);
             }
         }
-        throw new RuntimeException("Oops");
+        throw new RuntimeException("DeliveryPlaceDeserializer deserialization error");
     }
 
 }
