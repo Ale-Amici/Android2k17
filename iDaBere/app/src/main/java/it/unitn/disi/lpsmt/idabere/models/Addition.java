@@ -1,10 +1,12 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by giovanni on 15/05/2017.
  */
 
-public class Addition {
+public class Addition implements Comparable{
 
     private int id;
     private String name;
@@ -38,5 +40,15 @@ public class Addition {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if(this.equals(o)) return 0;
+        Addition otherAddition = (Addition) o;
+        if(this.getId() < otherAddition.getId()) return -1;
+        if(this.getId() > otherAddition.getId()) return 1;
+        return 0;
     }
 }
