@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:text="Choice_description" />
 
-    <NumberPicker
-        android:id="@+id/choice_quantity_number_picker"
+    <TextView
+        android:id="@+id/choice_quantity"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:solidColor="@color/cardview_shadow_start_color" />
+        android:layout_height="match_parent" />
 
 
     <TextView
