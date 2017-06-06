@@ -50,6 +50,16 @@ public class Order {
         this.orderItems = orderItems;
     }
 
+    public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){
+        ArrayList<OrderItem> ordItems = new ArrayList<>();
+        for(OrderItem item: orderItems){
+            if(item.getBarMenuItem().getId() == barMenuItemId){
+                ordItems.add(item);
+            }
+        }
+        return ordItems;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
