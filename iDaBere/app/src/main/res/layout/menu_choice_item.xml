@@ -11,18 +11,24 @@
         android:id="@+id/choice_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="3dp"
+
         android:text="Choice_description" />
 
     <TextView
         android:id="@+id/choice_quantity"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:text="1" />
 
 
     <TextView
         android:id="@+id/choice_single_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="3dp"
+
         android:text="3€" />
 
 </LinearLayout>

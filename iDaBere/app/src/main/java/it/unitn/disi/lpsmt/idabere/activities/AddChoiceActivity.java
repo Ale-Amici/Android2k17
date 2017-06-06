@@ -75,7 +75,7 @@ public class AddChoiceActivity extends AppCompatActivity {
                     ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
                     newChoice.putExtra("chosenAdditionsIds", selectedAdditionsIds);//ArrayList of Ids of Addition
                 }
-                newChoice.putExtra("chosenSizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId()); //Id of the szie
+                newChoice.putExtra("chosenSizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId()); //Id of the size
                 newChoice.putExtra("chosenBarMenuItemId", mBarMenuItem.getId());
 
                 setResult(RESULT_OK, newChoice);
@@ -115,9 +115,11 @@ public class AddChoiceActivity extends AppCompatActivity {
         for (int i = 0; i < mBarMenuItem.getSizes().size(); i++) {
             RadioButton button = new RadioButton(this);
             button.setId(i);
+            //button.setTag(i);
             button.setText(mBarMenuItem.getSizes().get(i).getName());
             sizeRadioGroup.addView(button);
         }
+        sizeRadioGroup.check(0);
 
     }
 

@@ -93,7 +93,7 @@ public class MenuActivity extends AppCompatActivity implements
             }
         });
 
-        new MenuLoader().execute(AppSession.getInstance().getmBar());
+        //new MenuLoader().execute(AppSession.getInstance().getmBar());
 
     }
 
