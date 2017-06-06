@@ -248,6 +248,7 @@ public class MenuActivity extends AppCompatActivity implements
                     //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
                     new MenuCategoryExpandableListAdapter(mContext, barMenu)
             );
+            AppSession.getInstance().getmBar().setBarMenu(barMenu);
             super.onPostExecute(barMenu);
         }
     }

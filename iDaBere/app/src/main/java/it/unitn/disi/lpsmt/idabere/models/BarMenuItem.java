@@ -10,6 +10,7 @@ public class BarMenuItem {
 
     private int id;
     private String name;
+    private String description;
     private ArrayList<Size> sizes;
     private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
@@ -107,5 +108,11 @@ public class BarMenuItem {
                 ", ingredients=" + ingredients +
                 ", category='" + category + '\'' +
                 '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

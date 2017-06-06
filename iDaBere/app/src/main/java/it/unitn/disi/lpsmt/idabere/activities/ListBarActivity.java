@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -37,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsApi;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
@@ -44,6 +46,7 @@ import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.BarsArrayAdapter;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
 
 public class ListBarActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener,
@@ -141,8 +144,13 @@ public class ListBarActivity extends AppCompatActivity implements
 
     @Override
     protected void onStart() {
-        mGoogleApiClient.connect();
-        startLocationUpdates();
+        if (AppStatus.getInstance(this).isOnline()) {
+            mGoogleApiClient.connect();
+            startLocationUpdates();
+        } else {
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show();
+        }
+
         super.onStart();
     }
 
@@ -340,8 +348,8 @@ public class ListBarActivity extends AppCompatActivity implements
         ).setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
             public void onResult(LocationSettingsResult locationSettingsResult) {
-                final Status status = locationSettingsResult.getStatus();
-                switch (status.getStatusCode()) {
+                final Status gpsSettingsStatus = locationSettingsResult.getStatus();
+                switch (gpsSettingsStatus.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         Log.i(TAG, "All location settings are satisfied.");
 
@@ -358,7 +366,7 @@ public class ListBarActivity extends AppCompatActivity implements
                             try {
                                 // Show the dialog by calling startResolutionForResult(), and check the
                                 // result in onActivityResult().
-                                status.startResolutionForResult(ListBarActivity.this, REQUEST_CHECK_SETTINGS);
+                                gpsSettingsStatus.startResolutionForResult(ListBarActivity.this, REQUEST_CHECK_SETTINGS);
                             } catch (IntentSender.SendIntentException e) {
                                 Log.i(TAG, "PendingIntent unable to execute request.");
                             }
@@ -376,7 +384,6 @@ public class ListBarActivity extends AppCompatActivity implements
 
             }
         });
-
     }
 
     /**
@@ -489,7 +496,7 @@ public class ListBarActivity extends AppCompatActivity implements
                 result = true;
                 break;
             case R.id.update_coordinates :
-                updateCoordinates();
+                this.onStart();
                 break;
             default:
                 result = super.onOptionsItemSelected(item);
