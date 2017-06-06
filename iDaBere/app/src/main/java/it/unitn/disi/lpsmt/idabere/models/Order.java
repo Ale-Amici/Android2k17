@@ -11,6 +11,8 @@ public class Order {
     // TODO Modellazione della posizione in coda
     // TODO Modellazione del creation date
     private int id;
+
+
     private enum status {PAUSED, IN_PROCESS};
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
@@ -58,6 +60,17 @@ public class Order {
             }
         }
         return ordItems;
+    }
+
+
+    public OrderItem getExistentOrderItem(OrderItem newOrderItem) {
+        ArrayList<OrderItem> possibleItems = getOrderListFromBarMenuItemId(newOrderItem.getBarMenuItem().getId());
+        for(OrderItem orderItem:possibleItems){
+            if(newOrderItem.equals(orderItem)){
+                return orderItem;
+            }
+        }
+        return null;
     }
 
     @Override

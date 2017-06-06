@@ -144,22 +144,27 @@ public class MenuActivity extends AppCompatActivity implements
             if(resultCode == RESULT_OK){
                 //TAKE DATA FROM INTENT CHOICE
                 OrderItem newOrderItem = createNewOrderItemFromIntent(data);
-
                 //ADD THE ORDER OBJECT TO THE ORDER OF THE CUSTOMER
                 if(newOrderItem != null) {
-                    addOrderItemToSessionOrder(newOrderItem);
-                    int i = 0;
-                    for (OrderItem orderItem : AppSession.getInstance().getmCustomer().getOrder().getOrderItems()) {
-                        String description = orderItem.getSize().getName();
-                        for (Addition a : orderItem.getAdditions()) {
-                            description += ", " + a.getName();
-                        }
-                        Log.d("ORDER Item" + i, description);
-                        i++;
+                    OrderItem existentOrderItem = AppSession.getInstance().getmCustomer().getOrder().getExistentOrderItem(newOrderItem);
+                    if(existentOrderItem == null) {
+                        addOrderItemToSessionOrder(newOrderItem);
+                        int i = 0;
+                        for (OrderItem orderItem : AppSession.getInstance().getmCustomer().getOrder().getOrderItems()) {
+                            String description = orderItem.getSize().getName();
+                            for (Addition a : orderItem.getAdditions()) {
+                                description += ", " + a.getName();
+                            }
+                            Log.d("ORDER Item" + i, description);
+                            i++;
 
+                        }
+                    }else{
+                        existentOrderItem.setQuantity(existentOrderItem.getQuantity() + 1);
+                        Toast.makeText(this.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
                     }
 
-                    // TODO CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
+                    // CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
                     MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
                     menuAdapter.notifyDataSetChanged();
                 }

@@ -1,6 +1,9 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -91,6 +94,23 @@ public class OrderItem {
 
     public void setBarMenuItem(BarMenuItem barMenuItem) {
         this.barMenuItem = barMenuItem;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(other == null) return false;
+        if(other == this) return true;
+        if(!(other instanceof OrderItem)) return false;
+
+        OrderItem orderItem2 = (OrderItem) other;
+        if(orderItem2.getSize().getId() != this.getSize().getId()) return false;
+        if(orderItem2.getAdditions().size() != this.getAdditions().size()) return false;
+        Collections.sort(orderItem2.getAdditions());
+        Collections.sort(this.getAdditions());
+        for(int i = 0; i < this.getAdditions().size(); i++){
+            if(this.getAdditions().get(i).getId() != orderItem2.getAdditions().get(i).getId()) return false;
+        }
+        return true;
     }
 
     @Override
