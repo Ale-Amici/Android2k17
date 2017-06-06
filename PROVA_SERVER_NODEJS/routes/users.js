@@ -15,12 +15,12 @@ var usersCtrl = require('../controllers/users.js');
 
 /* POST authenticate user. */
 router.post('/create', function (req, res, next) {
-  usersCtrl.create(req, res);
+  usersCtrl.authenticateUser(req, res);
 });
 
 /* POST create user. */
 router.post('/create', function (req, res, next) {
-  usersCtrl.create(req, res);
+  usersCtrl.createUser(req, res);
 });
 
 /* GET edit user. */
@@ -30,12 +30,12 @@ router.post('/create', function (req, res, next) {
 
 /* POST update user. */
 router.post('/update/:id', function (req, res, next) {
-  usersCtrl.update(req, res);
+  usersCtrl.updateUser(req, res);
 });
 
 /* GET delete user. */
 router.get('/destroy/:id', function (req, res, next) {
-  usersCtrl.destroy(req, res);
+  usersCtrl.destroyUser(req, res);
 });
 
 module.exports = router;
