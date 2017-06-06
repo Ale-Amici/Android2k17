@@ -9,21 +9,32 @@ import java.util.ArrayList;
 public class OrderItem {
 
     private int id;
-    private int quantyty;
+    private int quantity;
     private int rating;
-    private double totalPrice;
+    private double singleItemPrice;
     private Size size;
     private ArrayList<Addition> additions;
-    private ArrayList<BarMenuItem> barMenuItems;
+    private BarMenuItem barMenuItem;
 
-    public OrderItem(int id, int quantyty, int rating, double totalPrice, Size size, ArrayList<Addition> additions, ArrayList<BarMenuItem> barMenuItems) {
-        this.id = id;
-        this.quantyty = quantyty;
-        this.rating = rating;
-        this.totalPrice = totalPrice;
+    public OrderItem(int quantity, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItem){
+        this.id = -1;
+        this.rating = -1;
+        this.quantity = quantity;
+        this.singleItemPrice = singleItemPrice;
         this.size = size;
         this.additions = additions;
-        this.barMenuItems = barMenuItems;
+        this.barMenuItem = barMenuItem;
+
+    }
+
+    public OrderItem(int id, int quantity, int rating, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItems) {
+        this.id = id;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.singleItemPrice = singleItemPrice;
+        this.size = size;
+        this.additions = additions;
+        this.barMenuItem = barMenuItem;
     }
 
     public int getId() {
@@ -34,12 +45,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public int getQuantyty() {
-        return quantyty;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantyty(int quantyty) {
-        this.quantyty = quantyty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getRating() {
@@ -50,12 +61,12 @@ public class OrderItem {
         this.rating = rating;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getSingleItemPrice() {
+        return singleItemPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setSingleItemPrice(double singleItemPrice) {
+        this.singleItemPrice = singleItemPrice;
     }
 
     public Size getSize() {
@@ -74,11 +85,24 @@ public class OrderItem {
         this.additions = additions;
     }
 
-    public ArrayList<BarMenuItem> getBarMenuItems() {
-        return barMenuItems;
+    public BarMenuItem getBarMenuItem() {
+        return barMenuItem;
     }
 
-    public void setBarMenuItems(ArrayList<BarMenuItem> barMenuItems) {
-        this.barMenuItems = barMenuItems;
+    public void setBarMenuItem(BarMenuItem barMenuItem) {
+        this.barMenuItem = barMenuItem;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", rating=" + rating +
+                ", singleItemPrice=" + singleItemPrice +
+                ", size=" + size +
+                ", additions=" + additions +
+                ", barMenuItem=" + barMenuItem +
+                '}';
     }
 }

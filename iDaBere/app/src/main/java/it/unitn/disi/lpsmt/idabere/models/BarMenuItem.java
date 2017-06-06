@@ -74,6 +74,30 @@ public class BarMenuItem {
         this.category = category;
     }
 
+
+
+    public Size getSizeFromId(int id){
+        for(Size s: this.sizes){
+            if(s.getId() == id){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Addition getAdditionFromId(int id){
+        for(Addition a: this.additions){
+            if(a.getId() == id){
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public int getCountPossibleChoices(){ //il numero di possibili combinazini Size-Additions
+        return sizes.size() * ((int)Math.pow(2, additions.size()));
+    }
+
     @Override
     public String toString() {
         return "BarMenuItem{" +

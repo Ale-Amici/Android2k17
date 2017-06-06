@@ -15,6 +15,11 @@ public class Order {
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
 
+    public Order(){
+        id = -1;
+        isPaid = false;
+        orderItems = new ArrayList<>();
+    }
     public Order(int id, boolean isPaid, ArrayList<OrderItem> orderItems) {
         this.id = id;
         this.isPaid = isPaid;
@@ -43,5 +48,24 @@ public class Order {
 
     public void setOrderItems(ArrayList<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){
+        ArrayList<OrderItem> ordItems = new ArrayList<>();
+        for(OrderItem item: orderItems){
+            if(item.getBarMenuItem().getId() == barMenuItemId){
+                ordItems.add(item);
+            }
+        }
+        return ordItems;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", isPaid=" + isPaid +
+                ", orderItems=" + orderItems +
+                '}';
     }
 }

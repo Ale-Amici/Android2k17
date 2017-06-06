@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,10 +70,14 @@ public class AddChoiceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //INSERISCO I RISULTATI E LI RESTITUISCO AL MENU
                 Intent newChoice = new Intent();
-                ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
 
-                newChoice.putExtra("choicesIds", selectedAdditionsIds);//HashSet of Ids of Addition
-                newChoice.putExtra("sizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId());
+                if(mBarMenuItem.getAdditions() != null) {
+                    ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
+                    newChoice.putExtra("chosenAdditionsIds", selectedAdditionsIds);//ArrayList of Ids of Addition
+                }
+                newChoice.putExtra("chosenSizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId()); //Id of the size
+                newChoice.putExtra("chosenBarMenuItemId", mBarMenuItem.getId());
+
                 setResult(RESULT_OK, newChoice);
                 finish();
             }
@@ -92,9 +97,14 @@ public class AddChoiceActivity extends AppCompatActivity {
         displaySizesList();
 
 
-
-        additionListArrayListAdapter = new AdditionListArrayListAdapter(this, R.layout.addition_choice, mBarMenuItem.getAdditions());
-        additionListView.setAdapter(additionListArrayListAdapter);
+        if(mBarMenuItem.getAdditions() != null) {
+            additionListArrayListAdapter = new AdditionListArrayListAdapter(this, R.layout.addition_choice, mBarMenuItem.getAdditions());
+            additionListView.setAdapter(additionListArrayListAdapter);
+        }
+        else{
+            TextView additionsLabel = (TextView)findViewById(R.id.additions_title_label);
+            additionsLabel.setText("");
+        }
 
     }
 
@@ -105,9 +115,11 @@ public class AddChoiceActivity extends AppCompatActivity {
         for (int i = 0; i < mBarMenuItem.getSizes().size(); i++) {
             RadioButton button = new RadioButton(this);
             button.setId(i);
+            //button.setTag(i);
             button.setText(mBarMenuItem.getSizes().get(i).getName());
             sizeRadioGroup.addView(button);
         }
+        sizeRadioGroup.check(0);
 
     }
 
