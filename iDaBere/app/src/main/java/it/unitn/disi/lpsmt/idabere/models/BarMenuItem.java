@@ -108,6 +108,8 @@ public class BarMenuItem {
                 ", ingredients=" + ingredients +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
     public String getDescription() {
         return description;
     }

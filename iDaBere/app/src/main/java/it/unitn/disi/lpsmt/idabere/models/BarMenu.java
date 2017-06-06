@@ -27,7 +27,7 @@ public class BarMenu {
         this.barMenuItemList = barMenuItemList;
     }
 
-    public BarMenuItem getBarMenuItemFromId1(int id){
+    public BarMenuItem getBarMenuItemFromId(int id){
         for(BarMenuItem item: barMenuItemList){
             if(item.getId() == id){
                 return item;

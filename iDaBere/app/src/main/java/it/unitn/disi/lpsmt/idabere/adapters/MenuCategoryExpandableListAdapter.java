@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
