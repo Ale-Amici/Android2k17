@@ -146,13 +146,25 @@ public class MenuActivity extends AppCompatActivity implements
                 OrderItem newOrderItem = createNewOrderItemFromIntent(data);
 
                 //ADD THE ORDER OBJECT TO THE ORDER OF THE CUSTOMER
-                addOrderItemToSessionOrder(newOrderItem);
+                if(newOrderItem != null) {
+                    addOrderItemToSessionOrder(newOrderItem);
+                    int i = 0;
+                    for (OrderItem orderItem : AppSession.getInstance().getmCustomer().getOrder().getOrderItems()) {
+                        String description = orderItem.getSize().getName();
+                        for (Addition a : orderItem.getAdditions()) {
+                            description += ", " + a.getName();
+                        }
+                        Log.d("ORDER Item" + i, description);
+                        i++;
 
-                Log.d("ORDER", AppSession.getInstance().getmCustomer().getOrder().toString());
-                // TODO CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
+                    }
 
-
+                    // TODO CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
+                    MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+                    menuAdapter.notifyDataSetChanged();
+                }
                 // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
+
             }
         }
     }
@@ -197,10 +209,6 @@ public class MenuActivity extends AppCompatActivity implements
 
     void addOrderItemToSessionOrder(OrderItem newOrderItem){
         Customer customer = AppSession.getInstance().getmCustomer();
-        if(customer == null){
-            AppSession.getInstance().setmCustomer(new Customer());
-            customer = AppSession.getInstance().getmCustomer();
-        }
         Order userOrder = customer.getOrder();
         userOrder.getOrderItems().add(newOrderItem);
     }
