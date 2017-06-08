@@ -168,14 +168,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
             // INSERISCO I DATI NELLA NUOVA VIEW
             TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
+            TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
             TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
             TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
 
-            String description = orderItem.getSize().getName();
+            String description = "";
             for(Addition a: orderItem.getAdditions()){
-                description += ", " + a.getName();
+                description += a.getName() + ", ";
             }
+
             choiceDescriptionTV.setText(description);
+            choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
             choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + "€");
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
 
