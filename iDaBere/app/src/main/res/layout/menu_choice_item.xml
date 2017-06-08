@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:visibility="visible"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
@@ -14,60 +14,61 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <!-- Choices list -->
-        <TextView
-            android:id="@+id/choice_description"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:layout_weight="2"
-            android:text="Choicesdescrptiondescrptiondescrptiondescrptiondescrptiondescrptiondescrptiondescrptiondescrption "
-            android:textSize="@dimen/paragraph_text_size" />
 
 
-        <!-- Choices right elements -->
-        <!-- The layut containing this elements must have a fixed size -->
+            <TextView
+                android:id="@+id/choice_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="2"
+                android:text="Choices description"
+                android:textSize="@dimen/paragraph_text_size" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
 
-            <!-- Quantity modifiers -->
+            <!-- Choices right elements -->
+            <!-- The layut containing this elements must have a fixed size -->
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <!-- Quantity modifiers -->
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:layout_weight="1">
 
-                 <ImageButton xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/plus_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    card_view:srcCompat="@drawable/ic_add_circle_black_24dp" />
+                    <ImageButton xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/plus_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        card_view:srcCompat="@drawable/ic_add_circle_black_24dp" />
 
                     <TextView
                         android:id="@+id/choice_quantity"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/title_text_size"
                         android:textStyle="bold"
-                        android:text="10"
-                        android:paddingLeft="@dimen/quantity_number_horizontal_padding"
-                        android:paddingRight="@dimen/quantity_number_horizontal_padding" />
+                        android:text="134"
+                        android:textAlignment="center"
+                        android:layout_weight="1"/>
 
-                <ImageButton xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/minus_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    card_view:srcCompat="@drawable/ic_remove_circle_black_24dp" />
+                    <ImageButton xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/minus_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        card_view:srcCompat="@drawable/ic_remove_circle_black_24dp" />
 
                 </LinearLayout>
 
@@ -75,21 +76,26 @@
 
 
 
-            <!-- Price total -->
+                <!-- Price total -->
 
-            <TextView
-                android:id="@+id/choice_single_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAlignment="center"
-                android:textSize="@dimen/title_text_size"
-                android:textStyle="bold"
-                android:text="3€"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/choice_single_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    android:text="3€"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"/>
 
-        </LinearLayout>
+            </LinearLayout>
+
+
+
+
+        <!-- Choices list -->
 
 
     </LinearLayout>
