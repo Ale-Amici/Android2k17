@@ -30,9 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:paddingRight="@dimen/quantity_number_horizontal_padding"
             android:text="Media"
+            android:textAlignment="center"
             android:textSize="@dimen/paragraph_text_size" />
 
 
@@ -66,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="134"
+                    android:text="13"
                     android:textAlignment="center"
                     android:textSize="@dimen/title_text_size"
                     android:textStyle="bold" />
