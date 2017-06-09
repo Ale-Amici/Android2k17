@@ -163,7 +163,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
         choicesLinearLayout.removeAllViewsInLayout();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
-        for(OrderItem orderItem: choices){
+        for(final OrderItem orderItem: choices){
             View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
 
             // INSERISCO I DATI NELLA NUOVA VIEW
@@ -179,8 +179,34 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
             choiceDescriptionTV.setText(description);
             choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
-            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + "€");
+            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
+
+            //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
+            ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
+            ImageButton minussIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
+
+            plusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderItem.setQuantity(orderItem.getQuantity() + 1);
+                    notifyDataSetChanged();
+                }
+            });
+
+            minussIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+                    if (orderItem.getQuantity() > 0) {
+                        orderItem.setQuantity(orderItem.getQuantity() - 1);
+                    } else {
+
+                    }
+
+                    notifyDataSetChanged();
+                }
+            });
 
             //AGGIUNGO LA VIEW NEL LINEAR LAYOUT
             choicesLinearLayout.addView(newChoiceView);
