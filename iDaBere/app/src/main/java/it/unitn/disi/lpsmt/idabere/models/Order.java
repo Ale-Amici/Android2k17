@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -71,6 +73,20 @@ public class Order {
             }
         }
         return null;
+    }
+
+    // Remove an order item from the order
+    public int removeExistentOrderItem(OrderItem orderItem) {
+        int result = -1;
+        for (int i = 0; i < orderItems.size(); i++) {
+            if(orderItem.equals(orderItems.get(i))){
+                result = i;
+            }
+        }
+
+        orderItems.remove(result);
+
+        return result;
     }
 
     @Override
