@@ -47,14 +47,15 @@
                 android:layout_gravity="center"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/closed_title_label"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/circle_shape"
-                card_view:srcCompat="@android:drawable/ic_menu_info_details" />
+                android:background="@color/transparent"
+                card_view:srcCompat="@drawable/ic_info_black_24dp" />
 
         </LinearLayout>
 
