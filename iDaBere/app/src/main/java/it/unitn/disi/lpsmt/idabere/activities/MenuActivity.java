@@ -206,7 +206,7 @@ public class MenuActivity extends AppCompatActivity implements
             return newOrderItem;
         }
         else{
-            Toast.makeText(this,"ERROR: ERRORE NELLA CREAZIONE DELL'ORDINE", Toast.LENGTH_LONG);
+            Toast.makeText(this,"ERROR: ERRORE NELLA CREAZIONE DELL'ORDINE", Toast.LENGTH_LONG).show();
         }
         return null;
 

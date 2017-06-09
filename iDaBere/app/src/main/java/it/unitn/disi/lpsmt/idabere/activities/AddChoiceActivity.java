@@ -70,11 +70,11 @@ public class AddChoiceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //INSERISCO I RISULTATI E LI RESTITUISCO AL MENU
                 Intent newChoice = new Intent();
-
+                ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer>();
                 if(mBarMenuItem.getAdditions() != null) {
-                    ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
-                    newChoice.putExtra("chosenAdditionsIds", selectedAdditionsIds);//ArrayList of Ids of Addition
+                    selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
                 }
+                newChoice.putExtra("chosenAdditionsIds", selectedAdditionsIds);//ArrayList of Ids of Addition
                 newChoice.putExtra("chosenSizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId()); //Id of the size
                 newChoice.putExtra("chosenBarMenuItemId", mBarMenuItem.getId());
 
