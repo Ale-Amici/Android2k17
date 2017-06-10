@@ -54,6 +54,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     private BarMenu barMenu;
 
+    private MenuCategoryExpandableListAdapter menuAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,14 @@ public class MenuActivity extends AppCompatActivity implements
 
         //new MenuLoader().execute(AppSession.getInstance().getmBar());
 
+    }
+
+    @Override
+    protected void onResume() {
+        if (AppSession.getInstance().getmCustomer() != null && AppSession.getInstance().getmCustomer().getOrder() != null){
+            totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+        }
+        super.onResume();
     }
 
     // Instantiate layout elements
@@ -174,7 +184,7 @@ public class MenuActivity extends AppCompatActivity implements
                     }
 
                     // CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
-                    MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+                    menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
                     menuAdapter.notifyDataSetChanged();
                 }
                 // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
@@ -262,7 +272,6 @@ public class MenuActivity extends AppCompatActivity implements
                     //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
                     new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo)
             );
-            AppSession.getInstance().getmBar().setBarMenu(barMenu);
             super.onPostExecute(barMenu);
         }
     }
