@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -167,6 +169,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         for(final OrderItem orderItem: choices){
             final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
 
+            final Button removeChoiceBT = (Button) newChoiceView.findViewById(R.id.remove_choice_button);
+
             // INSERISCO I DATI NELLA NUOVA VIEW
             TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
             TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
@@ -203,21 +207,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             minusIB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
-                    if (orderItem.getQuantity() > 1) {
-                        orderItem.setQuantity(orderItem.getQuantity() - 1);
-                    } else {
-                        choicesLinearLayout.removeView(newChoiceView);
-                        int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
-                        if (removedItemIndex != -1) {
-                            Toast.makeText(context,"Scelta rimossa",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context,"Scelta non rimossa",Toast.LENGTH_SHORT).show();
-                        }
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                }
+            });
 
-                    }
+            // AGGIUNGO LA SWIPE GESTURE PER ELIMINARE LA SCELTA PER INTERO
+            ((SwipeLayout) newChoiceView).setShowMode(SwipeLayout.ShowMode.PullOut);
 
-                    notifyDataSetChanged();
+            removeChoiceBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
                 }
             });
 
@@ -225,6 +225,24 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             choicesLinearLayout.addView(newChoiceView);
 
         }
+    }
+
+    private void removeChoice(OrderItem orderItem, LinearLayout choicesLinearLayout, View newChoiceView ) {
+        // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+        if (orderItem.getQuantity() > 1) {
+            orderItem.setQuantity(orderItem.getQuantity() - 1);
+        } else {
+            choicesLinearLayout.removeView(newChoiceView);
+            int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
+            if (removedItemIndex != -1) {
+                Toast.makeText(context,"Scelta rimossa",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,"Scelta NON rimossa",Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override
