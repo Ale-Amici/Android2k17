@@ -73,6 +73,8 @@
     <string name="additions_label_title">Aggiunte</string>
     <string name="add_choice_button_label">Aggiungi</string>
     <string name="cancel_choice_button_label">Annulla</string>
+    <string name="no_choice_description">Nessuna aggiunta</string>
+    <string name="remove_choice_button_label">Rimuovi</string>
 
     <!-- Default sizes -->
     <string name="drinks_measure_units">cl</string>

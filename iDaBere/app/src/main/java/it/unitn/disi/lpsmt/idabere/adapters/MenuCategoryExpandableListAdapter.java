@@ -13,6 +13,9 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -159,30 +162,87 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         return convertView;
     }
 
-    private void insertChoices(LinearLayout choicesLinearLayout, ArrayList<OrderItem> choices) {
+    private void insertChoices(final LinearLayout choicesLinearLayout, final ArrayList<OrderItem> choices) {
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
         choicesLinearLayout.removeAllViewsInLayout();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
-        for(OrderItem orderItem: choices){
-            View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
+        for(final OrderItem orderItem: choices){
+            final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
+
+            final Button removeChoiceBT = (Button) newChoiceView.findViewById(R.id.remove_choice_button);
 
             // INSERISCO I DATI NELLA NUOVA VIEW
             TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
+            TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
             TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
             TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
 
-            String description = orderItem.getSize().getName();
+            String description = "";
             for(Addition a: orderItem.getAdditions()){
-                description += ", " + a.getName();
+                description += a.getName() + ", ";
             }
+
+            // TODO inserire nel DB il valore --Nessuna Scelta--
+            if (description.equals("")){
+                description = context.getResources().getString(R.string.no_choice_description);
+            }
+
             choiceDescriptionTV.setText(description);
-            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + "€");
+            choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
+            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
+
+            //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
+            ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
+            ImageButton minusIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
+
+            plusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderItem.setQuantity(orderItem.getQuantity() + 1);
+                    notifyDataSetChanged();
+                }
+            });
+
+            minusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                }
+            });
+
+            // AGGIUNGO LA SWIPE GESTURE PER ELIMINARE LA SCELTA PER INTERO
+            ((SwipeLayout) newChoiceView).setShowMode(SwipeLayout.ShowMode.PullOut);
+
+            removeChoiceBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                }
+            });
 
             //AGGIUNGO LA VIEW NEL LINEAR LAYOUT
             choicesLinearLayout.addView(newChoiceView);
 
         }
+    }
+
+    private void removeChoice(OrderItem orderItem, LinearLayout choicesLinearLayout, View newChoiceView ) {
+        // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+        if (orderItem.getQuantity() > 1) {
+            orderItem.setQuantity(orderItem.getQuantity() - 1);
+        } else {
+            choicesLinearLayout.removeView(newChoiceView);
+            int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
+            if (removedItemIndex != -1) {
+                Toast.makeText(context,"Scelta rimossa",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,"Scelta NON rimossa",Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override
