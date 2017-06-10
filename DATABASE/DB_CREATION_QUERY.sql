@@ -533,8 +533,8 @@ COMMIT;
 START TRANSACTION;
 USE `android2k17`;
 INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (1, 'piccola');
-INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (2, 'grande');
-INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (3, 'media');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (2, 'media');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (3, 'grande');
 
 COMMIT;
 
@@ -668,6 +668,8 @@ INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, 
 INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 3, 8.00);
 INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 3, 2.50);
 INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (2, 3, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (4, 2, 5.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (4, 3, 10.00);
 
 COMMIT;
 
