@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -13,17 +14,26 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.AdditionListArrayListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.Order;
+import it.unitn.disi.lpsmt.idabere.models.OrderItem;
+import it.unitn.disi.lpsmt.idabere.models.Size;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class AddChoiceActivity extends AppCompatActivity {
+
+    public static final int RESULT_QUANTITY_PLUS_1 = 111111111;
+    public static final int RESULT_ERROR = 222222;
 
     private Button addChoiceButton;
     private Button cancelChoiceButton;
@@ -68,17 +78,27 @@ public class AddChoiceActivity extends AppCompatActivity {
         addChoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //INSERISCO I RISULTATI E LI RESTITUISCO AL MENU
-                Intent newChoice = new Intent();
-                ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer>();
-                if(mBarMenuItem.getAdditions() != null) {
-                    selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
-                }
-                newChoice.putExtra("chosenAdditionsIds", selectedAdditionsIds);//ArrayList of Ids of Addition
-                newChoice.putExtra("chosenSizeId", mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId()); //Id of the size
-                newChoice.putExtra("chosenBarMenuItemId", mBarMenuItem.getId());
+                //CREO L'OrderItem CON LE SCELTE DELL'UTENTE
+                OrderItem newOrderItem = createNewOrderItemFromUserInput();
 
-                setResult(RESULT_OK, newChoice);
+                //AGGIUNGO IL NUOVO ITEM ALL'ORDINE
+                int result = addOrderItemToSessionOrder(newOrderItem);
+
+                //INVIO ALL'ACTIVITY RICHIEDENTE SE L'OPERAZIONE È ANDATA O NO A BUON FINE
+                switch (result) {
+                    case RESULT_OK:
+                        setResult(RESULT_OK);
+                        break;
+                    case RESULT_QUANTITY_PLUS_1:
+                        setResult(RESULT_QUANTITY_PLUS_1);
+                        break;
+                    case RESULT_ERROR:
+                        setResult(RESULT_ERROR);
+                        break;
+                    default:
+                        setResult(RESULT_CANCELED);
+                        break;
+                }
                 finish();
             }
         });
@@ -91,8 +111,6 @@ public class AddChoiceActivity extends AppCompatActivity {
             }
         });
         /* ***************************** */
-
-        initData();
 
         displaySizesList();
 
@@ -110,7 +128,7 @@ public class AddChoiceActivity extends AppCompatActivity {
 
 
     private void displaySizesList () {
-
+        //TODO QUA BUG, mBarMenuItem.getSizes() ritorna null, l'item birra weizen del bar bellissimo non ha le size???
 
         for (int i = 0; i < mBarMenuItem.getSizes().size(); i++) {
             RadioButton button = new RadioButton(this);
@@ -123,16 +141,73 @@ public class AddChoiceActivity extends AppCompatActivity {
 
     }
 
-    private void initData () {
+    OrderItem createNewOrderItemFromUserInput(){
+        //PRENDO LA LISTA DI ID DELLE ADDITIONS E L'ID DELLA SIZE
+        ArrayList<Integer> selectedAdditionsIds = new ArrayList<Integer>();
+        if(mBarMenuItem.getAdditions() != null) {
+            selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
+        }
+        int chosenSizeId = mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId();
 
-        SIZE_LIST = new ArrayList();
-        SIZE_LIST.add("25");
-        SIZE_LIST.add("50");
-        SIZE_LIST.add("75");
+        System.out.println("chosenAdditionsIds" + selectedAdditionsIds);
+        System.out.println("chosenSizeId" + chosenSizeId);
 
-        ADDITION_LIST = new ArrayList();
-        ADDITION_LIST.add("Ghiaccio");
-        ADDITION_LIST.add("Limone");
 
+        if(chosenSizeId != -1){ //gli id sono passati correttamente
+
+            int quantity = 1;
+            Size chosenSize = mBarMenuItem.getSizeFromId(chosenSizeId);
+            ArrayList<Addition> chosenAdditions = new ArrayList<>();
+            for(Integer additionId: selectedAdditionsIds){
+                chosenAdditions.add(mBarMenuItem.getAdditionFromId(additionId));
+            }
+            double newSingleItemPrice = chosenSize.getPrice();
+            for(Addition a: chosenAdditions){
+                newSingleItemPrice += a.getPrice();
+            }
+
+            OrderItem newOrderItem = new OrderItem(
+                    quantity,
+                    newSingleItemPrice,
+                    chosenSize,
+                    chosenAdditions,
+                    mBarMenuItem
+            );
+
+            return newOrderItem;
+        }
+        else{
+            Toast.makeText(this,"ERROR: ERRORE NELLA CREAZIONE DELL'ORDINE", Toast.LENGTH_LONG).show();
+        }
+        return null;
+
+    }
+
+    int addOrderItemToSessionOrder(OrderItem newOrderItem){
+        if(newOrderItem != null) {
+            OrderItem existentOrderItem = AppSession.getInstance().getmCustomer().getOrder().getExistentOrderItem(newOrderItem);
+            if (existentOrderItem == null) {
+                Customer customer = AppSession.getInstance().getmCustomer();
+                Order userOrder = customer.getOrder();
+                userOrder.getOrderItems().add(newOrderItem);
+                /*
+                int i = 0;
+                for (OrderItem orderItem : AppSession.getInstance().getmCustomer().getOrder().getOrderItems()) {
+                    String description = orderItem.getSize().getName();
+                    for (Addition a : orderItem.getAdditions()) {
+                        description += ", " + a.getName();
+                    }
+                    Log.d("ORDER Item" + i, description);
+                    i++;
+
+                }*/
+                return RESULT_OK;
+            } else {
+                existentOrderItem.setQuantity(existentOrderItem.getQuantity() + 1);
+                return RESULT_QUANTITY_PLUS_1;
+            }
+        }else{
+            return RESULT_ERROR;
+        }
     }
 }
