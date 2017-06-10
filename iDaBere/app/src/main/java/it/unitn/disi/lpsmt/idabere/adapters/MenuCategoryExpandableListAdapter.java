@@ -16,12 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
+import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -42,14 +44,14 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
+    private TextView totalPriceInfo;
 
-    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu) {
+    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
+        this.totalPriceInfo = totalPriceInfo;
         setMenuForAdapter(filteredBarMenu);
-
-
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -207,7 +209,13 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             minusIB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+                    if (orderItem.getQuantity() > 1) {
+                        orderItem.setQuantity(orderItem.getQuantity() - 1);
+                    } else {
+                        removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    }
+                    notifyDataSetChanged();
                 }
             });
 
@@ -218,6 +226,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 @Override
                 public void onClick(View v) {
                     removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    notifyDataSetChanged();
                 }
             });
 
@@ -228,10 +237,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     private void removeChoice(OrderItem orderItem, LinearLayout choicesLinearLayout, View newChoiceView ) {
-        // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
-        if (orderItem.getQuantity() > 1) {
-            orderItem.setQuantity(orderItem.getQuantity() - 1);
-        } else {
+
             choicesLinearLayout.removeView(newChoiceView);
             int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
             if (removedItemIndex != -1) {
@@ -240,9 +246,19 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 Toast.makeText(context,"Scelta NON rimossa",Toast.LENGTH_SHORT).show();
             }
 
-        }
+    }
 
-        notifyDataSetChanged();
+    public void updateTotalPrice () {
+        AppSession.getInstance().getmCustomer().getOrder().calculateTotalPrice();
+        double price = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
+        Log.d("PRICE", "updateTotalPrice: "+Double.toString(price));
+        totalPriceInfo.setText(Double.toString(price));
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        updateTotalPrice();
+        super.notifyDataSetChanged();
     }
 
     @Override

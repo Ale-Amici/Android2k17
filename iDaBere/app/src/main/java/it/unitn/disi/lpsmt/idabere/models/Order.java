@@ -14,10 +14,10 @@ public class Order {
     // TODO Modellazione del creation date
     private int id;
 
-
     private enum status {PAUSED, IN_PROCESS};
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
+    private double totalPrice;
 
     public Order(){
         id = -1;
@@ -52,6 +52,18 @@ public class Order {
 
     public void setOrderItems(ArrayList<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public double getTotalPrice() {return totalPrice;}
+
+    public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+
+    public void calculateTotalPrice() {
+        double total = 0;
+        for (OrderItem orderItem : orderItems){
+            total += (orderItem.getSingleItemPrice()*orderItem.getQuantity());
+        }
+        totalPrice = total;
     }
 
     public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){

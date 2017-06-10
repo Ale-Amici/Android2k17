@@ -4,8 +4,8 @@
     <!-- Strings samples -->
     <string name="bar_list_bar_name">Bar name</string>
     <string name="menu_list_item_name">Item name</string>
-    <string name="menu_list_item_price">3.50</string>
-    <string name="menu_list_item_currency">$</string>
+    <string name="menu_list_item_price">0.00</string>
+    <string name="menu_list_item_currency">€</string>
     <string-array name="counter_position_list">
         <item>Primo piano</item>
         <item>Secondo piano</item>

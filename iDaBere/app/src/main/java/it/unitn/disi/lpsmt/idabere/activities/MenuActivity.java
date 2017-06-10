@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import it.unitn.disi.lpsmt.idabere.session.AppSession;
 public class MenuActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener{
 
+    // The index of total price menu item associated with bottom navigation menu
+    final int TOTAL_PRICE_MENU_ITEM_INDEX = 1;
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
@@ -45,9 +48,13 @@ public class MenuActivity extends AppCompatActivity implements
     private Button newChoiceButton;
     private ImageButton itemInfoButton;
 
+    private TextView totalPriceInfo;
+
     private Context mContext;
 
     private BarMenu barMenu;
+
+    private MenuCategoryExpandableListAdapter menuAdapter;
 
 
     @Override
@@ -97,6 +104,14 @@ public class MenuActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    protected void onResume() {
+        if (AppSession.getInstance().getmCustomer() != null && AppSession.getInstance().getmCustomer().getOrder() != null){
+            totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+        }
+        super.onResume();
+    }
+
     // Instantiate layout elements
     private void initViewComps () {
         // get the listview
@@ -109,8 +124,12 @@ public class MenuActivity extends AppCompatActivity implements
         newChoiceButton = (Button) findViewById(R.id.add_choice_button);
         itemInfoButton = (ImageButton) findViewById(R.id.item_info_button);
 
+        // the total price at the bottom menu
+        totalPriceInfo = (TextView) findViewById(R.id.menu_total_order_price);
+
         //set activity title based to bar instance
         setTitle(AppSession.getInstance().getmBar().getName());
+
 
     }
 
@@ -165,7 +184,7 @@ public class MenuActivity extends AppCompatActivity implements
                     }
 
                     // CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
-                    MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+                    menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
                     menuAdapter.notifyDataSetChanged();
                 }
                 // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
@@ -251,9 +270,8 @@ public class MenuActivity extends AppCompatActivity implements
         protected void onPostExecute(BarMenu barMenu) {
             categoriesExpandableListView.setAdapter(
                     //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
-                    new MenuCategoryExpandableListAdapter(mContext, barMenu)
+                    new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo)
             );
-            AppSession.getInstance().getmBar().setBarMenu(barMenu);
             super.onPostExecute(barMenu);
         }
     }
