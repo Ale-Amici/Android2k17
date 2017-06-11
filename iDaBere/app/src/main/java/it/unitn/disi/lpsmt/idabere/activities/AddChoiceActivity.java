@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.annotation.IdRes;
 import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,9 +43,12 @@ public class AddChoiceActivity extends AppCompatActivity {
     private ListView sizeListView;
     private ListView additionListView;
     private RadioGroup sizeRadioGroup;
-
+    private TextView descriptionPreview;
+    private TextView pricePreview;
+    private TextView menuItemNameTv;
 
     private AdditionListArrayListAdapter additionListArrayListAdapter;
+
 
 
     BarMenuItem mBarMenuItem;
@@ -52,7 +56,6 @@ public class AddChoiceActivity extends AppCompatActivity {
     private final String UNIT_MEASURE = "cl";
     private ArrayList<String> SIZE_LIST;
     private ArrayList<String> ADDITION_LIST;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,9 @@ public class AddChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_choice);
         sizeRadioGroup = (RadioGroup) findViewById(R.id.sizeRadioGroup);
         additionListView = (ListView) findViewById(R.id.additions_list_view);
+        descriptionPreview = (TextView) findViewById(R.id.choice_preview_description);
+        pricePreview = (TextView) findViewById(R.id.choice_preview_price);
+        menuItemNameTv = (TextView) findViewById(R.id.menu_item_name_tv);
 
         /* ***GET THE BAR_MENU_ITEM SELECTED*** */
         int itemId = this.getIntent().getIntExtra("barMenuItemId",-1);
@@ -70,6 +76,7 @@ public class AddChoiceActivity extends AppCompatActivity {
             finish();
         }
         /* ************************************* */
+
 
         /* *** BUTTONS CONFIGURATION *** */
         addChoiceButton = (Button) findViewById(R.id.add_choice_button);
@@ -112,6 +119,8 @@ public class AddChoiceActivity extends AppCompatActivity {
         });
         /* ***************************** */
 
+        /* *** CONTENT'S VIEW CREATION *** */
+        menuItemNameTv.setText(mBarMenuItem.getName());
         displaySizesList();
 
 
@@ -123,13 +132,12 @@ public class AddChoiceActivity extends AppCompatActivity {
             TextView additionsLabel = (TextView)findViewById(R.id.additions_title_label);
             additionsLabel.setText("");
         }
+        updatePreview();
+        /* ******************************* */
 
     }
 
-
     private void displaySizesList () {
-        //TODO QUA BUG, mBarMenuItem.getSizes() ritorna null, l'item birra weizen del bar bellissimo non ha le size???
-
         for (int i = 0; i < mBarMenuItem.getSizes().size(); i++) {
             RadioButton button = new RadioButton(this);
             button.setId(i);
@@ -138,7 +146,18 @@ public class AddChoiceActivity extends AppCompatActivity {
             sizeRadioGroup.addView(button);
         }
         sizeRadioGroup.check(0);
+        sizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                updatePreview();
+            }
+        });
+    }
 
+    public void updatePreview(){
+        OrderItem tempOrderItem = createNewOrderItemFromUserInput();
+        descriptionPreview.setText(tempOrderItem.getDescription());
+        pricePreview.setText(tempOrderItem.getSingleItemPrice() + getResources().getString(R.string.menu_list_item_currency));
     }
 
     OrderItem createNewOrderItemFromUserInput(){

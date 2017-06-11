@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 
 /**
@@ -63,6 +64,7 @@ public class AdditionListArrayListAdapter extends ArrayAdapter<Addition> {
                 }else{
                     selectedAdditionsIds.remove(itemId);
                 }
+                ((AddChoiceActivity)mContext).updatePreview();
 
             }
         });
