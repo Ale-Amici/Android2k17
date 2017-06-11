@@ -60,7 +60,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         });
 
-        mCheckoutListAdapter = new CheckoutExpandableListAdapter(this, AppSession.getInstance().getmBar().getBarMenu(), totalOrderInfo,AppSession.getInstance().getmCustomer().getOrder());
+        mCheckoutListAdapter = new CheckoutExpandableListAdapter();
         mCheckoutExpandableListView.setAdapter(mCheckoutListAdapter);
     }
 

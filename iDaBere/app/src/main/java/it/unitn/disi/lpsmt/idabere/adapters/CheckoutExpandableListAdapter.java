@@ -20,20 +20,58 @@ import it.unitn.disi.lpsmt.idabere.models.Order;
  * Created by giovanni on 11/06/2017.
  */
 
-public class CheckoutExpandableListAdapter extends MenuCategoryExpandableListAdapter {
+public class CheckoutExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Order currentOrder;
 
-    public CheckoutExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, Order order) {
-        super(context, originalBarMenu, totalPriceInfo);
-        currentOrder = order;
+
+    @Override
+    public int getGroupCount() {
+        return 0;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return super.getChild(groupPosition, childPosititon);
+    public int getChildrenCount(int groupPosition) {
+        return 0;
     }
 
+    @Override
+    public Object getGroup(int groupPosition) {
+        return null;
+    }
 
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return null;
+    }
 
+    @Override
+    public long getGroupId(int groupPosition) {
+        return 0;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return 0;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        return null;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        return null;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
 }
