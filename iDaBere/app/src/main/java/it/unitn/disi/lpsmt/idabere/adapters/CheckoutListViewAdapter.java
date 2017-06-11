@@ -80,7 +80,7 @@ public class CheckoutListViewAdapter extends BaseAdapter {
                     break;
                 case TYPE_SEPARATOR:
                     convertView = mInflater.inflate(R.layout.menu_list_category, null);
-                    //holder.textView = (TextView) convertView.findViewById(R.id.textSeparator);
+                    holder.textView = (TextView) convertView.findViewById(R.id.category_text_name);
                     break;
             }
             convertView.setTag(holder);
