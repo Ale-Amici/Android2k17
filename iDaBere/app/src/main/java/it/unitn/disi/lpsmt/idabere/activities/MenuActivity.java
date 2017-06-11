@@ -159,83 +159,30 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+
         if(requestCode == SELECT_NEW_CHOICE_REQUEST){
-            if(resultCode == RESULT_OK){
-                //TAKE DATA FROM INTENT CHOICE
-                OrderItem newOrderItem = createNewOrderItemFromIntent(data);
-                //ADD THE ORDER OBJECT TO THE ORDER OF THE CUSTOMER
-                if(newOrderItem != null) {
-                    OrderItem existentOrderItem = AppSession.getInstance().getmCustomer().getOrder().getExistentOrderItem(newOrderItem);
-                    if(existentOrderItem == null) {
-                        addOrderItemToSessionOrder(newOrderItem);
-                        int i = 0;
-                        for (OrderItem orderItem : AppSession.getInstance().getmCustomer().getOrder().getOrderItems()) {
-                            String description = orderItem.getSize().getName();
-                            for (Addition a : orderItem.getAdditions()) {
-                                description += ", " + a.getName();
-                            }
-                            Log.d("ORDER Item" + i, description);
-                            i++;
-
-                        }
-                    }else{
-                        existentOrderItem.setQuantity(existentOrderItem.getQuantity() + 1);
-                        Toast.makeText(this.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
-                    }
-
-                    // CHANGE THE DATA IN THE ADAPTER TO UPDATE THE GUI
-                    menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+            switch(resultCode) {
+                case RESULT_OK:
                     menuAdapter.notifyDataSetChanged();
-                }
-                // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
-
+                    break;
+                case AddChoiceActivity.RESULT_QUANTITY_PLUS_1:
+                    Toast.makeText(this.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
+                    menuAdapter.notifyDataSetChanged();
+                    break;
+                case AddChoiceActivity.RESULT_ERROR:
+                    Toast.makeText(this.getApplicationContext(),"C'è stato un errore nell'aggiunta dell'item",Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
             }
+            // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
+
         }
     }
 
-    OrderItem createNewOrderItemFromIntent(Intent data){
-        System.out.println("chosenAdditionsIds" + data.getIntegerArrayListExtra("chosenAdditionsIds"));
-        System.out.println("chosenSizeId" + data.getIntExtra("chosenSizeId",-1));
-        ArrayList<Integer> chosenAdditionsIds = data.getIntegerArrayListExtra("chosenAdditionsIds");
-        int chosenSizeId = data.getIntExtra("chosenSizeId",-1);
-        int chosenMenuItemId = data.getIntExtra("chosenBarMenuItemId", -1);
 
-        if(chosenMenuItemId  != -1 && chosenSizeId != -1){ //gli id sono passati correttamente
 
-            int quantity = 1;
-            BarMenuItem chosenBarMenuItem = AppSession.getInstance().getmBar().getBarMenu().getBarMenuItemFromId(chosenMenuItemId);
-            Size chosenSize = chosenBarMenuItem.getSizeFromId(chosenSizeId);
-            ArrayList<Addition> chosenAdditions = new ArrayList<>();
-            for(Integer additionId: chosenAdditionsIds){
-                chosenAdditions.add(chosenBarMenuItem.getAdditionFromId(additionId));
-            }
-            double newSingleItemPrice = chosenSize.getPrice();
-            for(Addition a: chosenAdditions){
-                newSingleItemPrice += a.getPrice();
-            }
-
-            OrderItem newOrderItem = new OrderItem(
-                    1,
-                    newSingleItemPrice,
-                    chosenSize,
-                    chosenAdditions,
-                    chosenBarMenuItem
-            );
-
-            return newOrderItem;
-        }
-        else{
-            Toast.makeText(this,"ERROR: ERRORE NELLA CREAZIONE DELL'ORDINE", Toast.LENGTH_LONG).show();
-        }
-        return null;
-
-    }
-
-    void addOrderItemToSessionOrder(OrderItem newOrderItem){
-        Customer customer = AppSession.getInstance().getmCustomer();
-        Order userOrder = customer.getOrder();
-        userOrder.getOrderItems().add(newOrderItem);
-    }
 
     public void openItemInfo (View v) {
         Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);

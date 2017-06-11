@@ -40,6 +40,14 @@ public class OrderItem {
         this.barMenuItem = barMenuItem;
     }
 
+    public String getDescription(){
+        String description = this.size.getName();
+        for(Addition a: this.additions){
+            description += ", +" + a.getName();
+        }
+        return description;
+    }
+
     public int getId() {
         return id;
     }

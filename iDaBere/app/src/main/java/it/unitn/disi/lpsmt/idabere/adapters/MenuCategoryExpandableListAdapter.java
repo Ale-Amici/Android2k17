@@ -139,7 +139,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View choicesSection = view.findViewById(R.id.choices_section_layout);
+                View choicesSection = ((View)(view.getParent())).findViewById(R.id.choices_section_layout);
+
                 if (choicesSection.isShown()){
                     choicesSection.setVisibility(View.GONE);
                 } else {
