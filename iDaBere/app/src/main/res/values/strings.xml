@@ -4,8 +4,8 @@
     <!-- Strings samples -->
     <string name="bar_list_bar_name">Bar name</string>
     <string name="menu_list_item_name">Item name</string>
-    <string name="menu_list_item_price">3.50</string>
-    <string name="menu_list_item_currency">$</string>
+    <string name="menu_list_item_price">0.00</string>
+    <string name="menu_list_item_currency">€</string>
     <string-array name="counter_position_list">
         <item>Primo piano</item>
         <item>Secondo piano</item>
@@ -73,6 +73,8 @@
     <string name="additions_label_title">Aggiunte</string>
     <string name="add_choice_button_label">Aggiungi</string>
     <string name="cancel_choice_button_label">Annulla</string>
+    <string name="no_choice_description">Nessuna aggiunta</string>
+    <string name="remove_choice_button_label">Rimuovi</string>
 
     <!-- Default sizes -->
     <string name="drinks_measure_units">cl</string>

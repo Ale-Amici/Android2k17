@@ -13,12 +13,17 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
+import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -39,14 +44,14 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
+    private TextView totalPriceInfo;
 
-    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu) {
+    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
+        this.totalPriceInfo = totalPriceInfo;
         setMenuForAdapter(filteredBarMenu);
-
-
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -160,30 +165,101 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         return convertView;
     }
 
-    private void insertChoices(LinearLayout choicesLinearLayout, ArrayList<OrderItem> choices) {
+    private void insertChoices(final LinearLayout choicesLinearLayout, final ArrayList<OrderItem> choices) {
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
         choicesLinearLayout.removeAllViewsInLayout();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
-        for(OrderItem orderItem: choices){
-            View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
+        for(final OrderItem orderItem: choices){
+            final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
+
+            final Button removeChoiceBT = (Button) newChoiceView.findViewById(R.id.remove_choice_button);
 
             // INSERISCO I DATI NELLA NUOVA VIEW
             TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
+            TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
             TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
             TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
 
-            String description = orderItem.getSize().getName();
+            String description = "";
             for(Addition a: orderItem.getAdditions()){
-                description += ", " + a.getName();
+                description += a.getName() + ", ";
             }
+
+            // TODO inserire nel DB il valore --Nessuna Scelta--
+            if (description.equals("")){
+                description = context.getResources().getString(R.string.no_choice_description);
+            }
+
             choiceDescriptionTV.setText(description);
-            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + "€");
+            choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
+            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
+
+            //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
+            ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
+            ImageButton minusIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
+
+            plusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderItem.setQuantity(orderItem.getQuantity() + 1);
+                    notifyDataSetChanged();
+                }
+            });
+
+            minusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+                    if (orderItem.getQuantity() > 1) {
+                        orderItem.setQuantity(orderItem.getQuantity() - 1);
+                    } else {
+                        removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+
+            // AGGIUNGO LA SWIPE GESTURE PER ELIMINARE LA SCELTA PER INTERO
+            ((SwipeLayout) newChoiceView).setShowMode(SwipeLayout.ShowMode.PullOut);
+
+            removeChoiceBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    notifyDataSetChanged();
+                }
+            });
 
             //AGGIUNGO LA VIEW NEL LINEAR LAYOUT
             choicesLinearLayout.addView(newChoiceView);
 
         }
+    }
+
+    private void removeChoice(OrderItem orderItem, LinearLayout choicesLinearLayout, View newChoiceView ) {
+
+            choicesLinearLayout.removeView(newChoiceView);
+            int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
+            if (removedItemIndex != -1) {
+                Toast.makeText(context,"Scelta rimossa",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,"Scelta NON rimossa",Toast.LENGTH_SHORT).show();
+            }
+
+    }
+
+    public void updateTotalPrice () {
+        AppSession.getInstance().getmCustomer().getOrder().calculateTotalPrice();
+        double price = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
+        Log.d("PRICE", "updateTotalPrice: "+Double.toString(price));
+        totalPriceInfo.setText(Double.toString(price));
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        updateTotalPrice();
+        super.notifyDataSetChanged();
     }
 
     @Override

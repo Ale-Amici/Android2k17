@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -12,10 +14,10 @@ public class Order {
     // TODO Modellazione del creation date
     private int id;
 
-
     private enum status {PAUSED, IN_PROCESS};
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
+    private double totalPrice;
 
     public Order(){
         id = -1;
@@ -52,6 +54,18 @@ public class Order {
         this.orderItems = orderItems;
     }
 
+    public double getTotalPrice() {return totalPrice;}
+
+    public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+
+    public void calculateTotalPrice() {
+        double total = 0;
+        for (OrderItem orderItem : orderItems){
+            total += (orderItem.getSingleItemPrice()*orderItem.getQuantity());
+        }
+        totalPrice = total;
+    }
+
     public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){
         ArrayList<OrderItem> ordItems = new ArrayList<>();
         for(OrderItem item: orderItems){
@@ -71,6 +85,20 @@ public class Order {
             }
         }
         return null;
+    }
+
+    // Remove an order item from the order
+    public int removeExistentOrderItem(OrderItem orderItem) {
+        int result = -1;
+        for (int i = 0; i < orderItems.size(); i++) {
+            if(orderItem.equals(orderItems.get(i))){
+                result = i;
+            }
+        }
+
+        orderItems.remove(result);
+
+        return result;
     }
 
     @Override
