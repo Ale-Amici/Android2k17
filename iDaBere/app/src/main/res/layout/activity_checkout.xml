@@ -16,7 +16,16 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <ScrollView
+        <ListView
+            android:id="@+id/checkout_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </ListView>
+
+        <!--<ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -569,7 +578,7 @@
             </LinearLayout>
 
 
-        </ScrollView>
+        </ScrollView>-->
 
 
         <LinearLayout
@@ -739,7 +748,7 @@
 
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 

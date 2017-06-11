@@ -7,14 +7,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.adapters.CheckoutListViewAdapter;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
     private Context mContext;
+    private ListView mCheckoutListView;
+    private CheckoutListViewAdapter mCheckoutListAdapter;
 
     BottomNavigationView bottomNavigationView;
 
@@ -51,10 +54,14 @@ public class CheckoutActivity extends AppCompatActivity {
             }
 
         });
+
+        mCheckoutListAdapter = new CheckoutListViewAdapter(this);
+        mCheckoutListView.setAdapter(mCheckoutListAdapter);
     }
 
     private void initViewComps () {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
+        mCheckoutListView = (ListView) findViewById(R.id.checkout_list);
     }
 
 }
