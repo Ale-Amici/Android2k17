@@ -133,17 +133,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
 
         View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        View ChoicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
+        // TODO dev'essere FINAL perche' senno' non funziona l'OnCLick
+        final View choicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View choicesSection = view.findViewById(R.id.choices_section_layout);
-                if (choicesSection.isShown()){
-                    choicesSection.setVisibility(View.GONE);
+                if (choicesSectionLayout.isShown()){
+                    choicesSectionLayout.setVisibility(View.GONE);
                 } else {
-                    choicesSection.setVisibility(View.VISIBLE);
+                    choicesSectionLayout.setVisibility(View.VISIBLE);
                 }
 
             }

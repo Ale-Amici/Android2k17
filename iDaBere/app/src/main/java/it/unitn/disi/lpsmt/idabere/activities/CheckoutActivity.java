@@ -7,21 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.google.android.gms.vision.text.Text;
 
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.adapters.CheckoutListViewAdapter;
-import it.unitn.disi.lpsmt.idabere.models.OrderItem;
+import it.unitn.disi.lpsmt.idabere.adapters.CheckoutExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+
 
 public class CheckoutActivity extends AppCompatActivity {
 
     private Context mContext;
-    private ListView mCheckoutListView;
-    private CheckoutListViewAdapter mCheckoutListAdapter;
+    private ExpandableListView mCheckoutExpandableListView;
+    private CheckoutExpandableListAdapter mCheckoutListAdapter;
+    private TextView totalOrderInfo;
 
     BottomNavigationView bottomNavigationView;
 
@@ -59,23 +60,14 @@ public class CheckoutActivity extends AppCompatActivity {
 
         });
 
-        mCheckoutListAdapter = new CheckoutListViewAdapter(this);
-        mCheckoutListView.setAdapter(mCheckoutListAdapter);
-        fillData();
+        mCheckoutListAdapter = new CheckoutExpandableListAdapter(this, AppSession.getInstance().getmBar().getBarMenu(), totalOrderInfo,AppSession.getInstance().getmCustomer().getOrder());
+        mCheckoutExpandableListView.setAdapter(mCheckoutListAdapter);
     }
 
     private void initViewComps () {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
-        mCheckoutListView = (ListView) findViewById(R.id.checkout_list);
-    }
-
-//    TODO Integrare con un adapter piu' strutturato
-    private void fillData () {
-        ArrayList<OrderItem> orderItems = AppSession.getInstance().getmCustomer().getOrder().getOrderItems();
-        for (OrderItem item : orderItems) {
-            mCheckoutListAdapter.addSectionHeaderItem(item.getBarMenuItem().getCategory());
-            mCheckoutListAdapter.addItem(item.getBarMenuItem().getName());
-        }
+        mCheckoutExpandableListView = (ExpandableListView) findViewById(R.id.checkout_list);
+        totalOrderInfo = (TextView) findViewById(R.id.checkout_total_order_price);
     }
 
 }
