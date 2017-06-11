@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.IdRes;
@@ -7,15 +8,19 @@ import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +35,7 @@ import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.OrderItem;
 import it.unitn.disi.lpsmt.idabere.models.Size;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+import it.unitn.disi.lpsmt.idabere.utils.MyRadioGroup;
 
 public class AddChoiceActivity extends AppCompatActivity {
 
@@ -40,9 +46,9 @@ public class AddChoiceActivity extends AppCompatActivity {
     private Button cancelChoiceButton;
 
 
-    private ListView sizeListView;
     private ListView additionListView;
-    private RadioGroup sizeRadioGroup;
+    private LinearLayout sizesLinearLayout; //TODO CAMBIA TUTTA LA LOGICA DEL RADIO GROUP AL MyRadioGroup
+    private MyRadioGroup sizeRadioGroup;
     private TextView descriptionPreview;
     private TextView pricePreview;
     private TextView menuItemNameTv;
@@ -61,12 +67,13 @@ public class AddChoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_choice);
-        sizeRadioGroup = (RadioGroup) findViewById(R.id.sizeRadioGroup);
+        sizesLinearLayout = (LinearLayout) findViewById(R.id.sizes_linear_layout);
         additionListView = (ListView) findViewById(R.id.additions_list_view);
         descriptionPreview = (TextView) findViewById(R.id.choice_preview_description);
         pricePreview = (TextView) findViewById(R.id.choice_preview_price);
         menuItemNameTv = (TextView) findViewById(R.id.menu_item_name_tv);
-
+        sizeRadioGroup = new MyRadioGroup();
+        sizesLinearLayout = (LinearLayout) findViewById(R.id.sizes_linear_layout);
         /* ***GET THE BAR_MENU_ITEM SELECTED*** */
         int itemId = this.getIntent().getIntExtra("barMenuItemId",-1);
         mBarMenuItem = AppSession.getInstance().getmBar().getBarMenu().getBarMenuItemFromId(itemId);
@@ -138,20 +145,29 @@ public class AddChoiceActivity extends AppCompatActivity {
     }
 
     private void displaySizesList () {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         for (int i = 0; i < mBarMenuItem.getSizes().size(); i++) {
-            RadioButton button = new RadioButton(this);
+
+            View choiceSizeView = layoutInflater.inflate(R.layout.size_choice,null);
+            RadioButton button = (RadioButton) choiceSizeView.findViewById(R.id.choice_size_rb);
+            TextView priceTextView = (TextView) choiceSizeView.findViewById(R.id.size_price_label);
             button.setId(i);
-            //button.setTag(i);
             button.setText(mBarMenuItem.getSizes().get(i).getName());
-            sizeRadioGroup.addView(button);
+            priceTextView.setText(mBarMenuItem.getSizes().get(i).getPrice() + "");
+            sizesLinearLayout.addView(choiceSizeView);
+            sizeRadioGroup.add(button);
         }
-        sizeRadioGroup.check(0);
-        sizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        sizeRadioGroup.initialize();
+        sizeRadioGroup.addOnCheckedElementChangeListener(new MyRadioGroup.OnCheckedElementChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                updatePreview();
+            public void onCheckedElementChange(MyRadioGroup.CheckedElementChangeEvent event) {
+                Log.d("BBBBBBBBBBBBBBBBBB", "event" + event.isChanged());
+                if(event.isChanged()) {
+                    updatePreview();
+                }
             }
         });
+
     }
 
     public void updatePreview(){
@@ -166,7 +182,7 @@ public class AddChoiceActivity extends AppCompatActivity {
         if(mBarMenuItem.getAdditions() != null) {
             selectedAdditionsIds = new ArrayList<Integer> (((AdditionListArrayListAdapter)additionListView.getAdapter()).getSelectedAdditionsIds());
         }
-        int chosenSizeId = mBarMenuItem.getSizes().get(sizeRadioGroup.getCheckedRadioButtonId()).getId();
+        int chosenSizeId = mBarMenuItem.getSizes().get(sizeRadioGroup.getCurrentCheckedButton().getId()).getId();
 
         System.out.println("chosenAdditionsIds" + selectedAdditionsIds);
         System.out.println("chosenSizeId" + chosenSizeId);
