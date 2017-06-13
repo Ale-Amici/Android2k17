@@ -101,6 +101,16 @@ public class Order {
         return result;
     }
 
+    public double getTotalPriceByItemName (String itemName) {
+        double result = 0;
+        for (OrderItem item : orderItems) {
+            if (item.getBarMenuItem().getName() == itemName){
+                result += item.getSingleItemPrice()*item.getQuantity();
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
