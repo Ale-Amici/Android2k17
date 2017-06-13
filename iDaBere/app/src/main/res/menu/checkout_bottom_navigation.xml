@@ -7,10 +7,6 @@
         android:title="@string/title_payment_type" />
 
     <item
-        android:id="@+id/navigation_total_price"
-        android:title="@string/title_total_price" />
-
-    <item
         android:id="@+id/navigation_confirm_payment"
         android:icon="@drawable/ic_keyboard_arrow_right_white_24dp"
         android:title="@string/title_confirm_payment" />

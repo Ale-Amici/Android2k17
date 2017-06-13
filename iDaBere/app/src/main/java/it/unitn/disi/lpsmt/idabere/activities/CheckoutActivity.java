@@ -15,6 +15,7 @@ import com.google.android.gms.vision.text.Text;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.CheckoutExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 
@@ -24,6 +25,8 @@ public class CheckoutActivity extends AppCompatActivity {
     private ExpandableListView mCheckoutExpandableListView;
     private CheckoutExpandableListAdapter mCheckoutListAdapter;
     private TextView totalOrderInfo;
+    private TextView deliveryType;
+    private TextView getDeliveryTypeDetails;
 
     BottomNavigationView bottomNavigationView;
 
@@ -61,16 +64,24 @@ public class CheckoutActivity extends AppCompatActivity {
 
         });
 
-        totalOrderInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
         mCheckoutListAdapter = new CheckoutExpandableListAdapter(this, AppSession.getInstance().getmCustomer().getOrder());
         mCheckoutExpandableListView.setAdapter(mCheckoutListAdapter);
 
     }
 
+    @Override
+    protected void onResume() {
+        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+        totalOrderInfo.setText(Double.toString(currentOrder.getTotalPrice()));
+        super.onResume();
+    }
+
     private void initViewComps () {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
         mCheckoutExpandableListView = (ExpandableListView) findViewById(R.id.checkout_list);
-        totalOrderInfo = (TextView) findViewById(R.id.checkout_total_order_price);
+        totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
+        deliveryType = (TextView) findViewById(R.id.delivery_type_choosen);
+        getDeliveryTypeDetails = (TextView) findViewById(R.id.delivery_type_value);
     }
 
 }
