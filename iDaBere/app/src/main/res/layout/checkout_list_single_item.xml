@@ -84,6 +84,12 @@
                 android:text="@string/menu_list_item_price"
                 android:textSize="@dimen/paragraph_text_size" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_list_item_currency"
+                android:textSize="@dimen/paragraph_text_size" />
+
 
         </LinearLayout>
 
