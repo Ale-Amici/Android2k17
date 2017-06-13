@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -60,8 +61,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
         });
 
-        mCheckoutListAdapter = new CheckoutExpandableListAdapter();
+        totalOrderInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+        mCheckoutListAdapter = new CheckoutExpandableListAdapter(this, AppSession.getInstance().getmCustomer().getOrder());
         mCheckoutExpandableListView.setAdapter(mCheckoutListAdapter);
+
     }
 
     private void initViewComps () {

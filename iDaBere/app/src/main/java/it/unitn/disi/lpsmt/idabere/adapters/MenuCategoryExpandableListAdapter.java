@@ -179,17 +179,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
             TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
 
-            String description = "";
-            for(Addition a: orderItem.getAdditions()){
-                description += a.getName() + ", ";
-            }
-
-            // TODO inserire nel DB il valore --Nessuna Scelta--
-            if (description.equals("")){
-                description = context.getResources().getString(R.string.no_choice_description);
-            }
-
-            choiceDescriptionTV.setText(description);
+            choiceDescriptionTV.setText(orderItem.getAdditionsAsString());
             choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
             choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");

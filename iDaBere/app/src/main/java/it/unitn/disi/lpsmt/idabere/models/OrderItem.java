@@ -113,6 +113,16 @@ public class OrderItem {
         return true;
     }
 
+    public String getAdditionsAsString() {
+        String result = "";
+        int i;
+        for (i=0; i < additions.size()-1; i++) {
+            result += additions.get(i).getName().toString() + ", ";
+        }
+        result+= additions.get(i).getName();
+        return result;
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +
