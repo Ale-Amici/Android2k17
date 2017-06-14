@@ -729,7 +729,9 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimaryLight"
                     android:translationZ="-10sp"
-                    app:menu="@menu/checkout_bottom_navigation" />
+                    app:menu="@menu/checkout_bottom_navigation"
+                    app:itemIconTint="@drawable/nav_item_color_state"
+                    app:itemTextColor="@drawable/nav_item_color_state"/>
 
             </FrameLayout>
 
