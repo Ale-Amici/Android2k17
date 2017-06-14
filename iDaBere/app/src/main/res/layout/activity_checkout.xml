@@ -166,7 +166,9 @@
         android:id="@+id/checkout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/toolbarbottom">
+        android:layout_above="@id/toolbarbottom"
+        android:groupIndicator="@null"
+        >
 
 
     </ExpandableListView>

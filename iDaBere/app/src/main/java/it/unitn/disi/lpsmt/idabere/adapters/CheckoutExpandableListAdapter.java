@@ -164,11 +164,12 @@ public class CheckoutExpandableListAdapter extends BaseExpandableListAdapter {
 
         singleItemSizeTV.setText(child.getSize().getName());
         singleItemQntyTV.setText(Integer.toString(child.getQuantity()));
-        singleItemPriceTV.setText(Double.toString(child.getSingleItemPrice()));
+        singleItemPriceTV.setText(Double.toString(child.getSingleItemPrice()*child.getQuantity()));
 
 
         return convertView;
     }
+
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
