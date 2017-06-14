@@ -120,7 +120,15 @@ public class CheckoutExpandableListAdapter extends BaseExpandableListAdapter {
         TextView itemTotalPriceTV = (TextView) convertView.findViewById(R.id.item_total_price);
 
         itemNameTV.setText(headerTitle);
-        itemTotalQntyTV.setText(Integer.toString(mMenuForAdapter.get(mItemsNames.get(groupPosition)).size()));
+        itemTotalQntyTV.setText(Integer.toString(mMenuForAdapter.get(headerTitle).size()));
+
+        // Calculate total items for the specified group of items
+        ArrayList<OrderItem> orderItems = mMenuForAdapter.get(mItemsNames.get(groupPosition));
+        int total = 0;
+        for (OrderItem item :orderItems){
+            total += item.getQuantity();
+        }
+        itemTotalQntyTV.setText(Integer.toString(total));
         itemTotalPriceTV.setText(Double.toString(mCurrentOrder.getTotalPriceByItemName(headerTitle)));
 
         ExpandableListView mExpandableListView = (ExpandableListView) parent;

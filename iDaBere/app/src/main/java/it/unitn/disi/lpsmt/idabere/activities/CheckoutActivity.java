@@ -73,6 +73,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         totalOrderInfo.setText(Double.toString(currentOrder.getTotalPrice()));
+        mCheckoutListAdapter.notifyDataSetChanged();
         super.onResume();
     }
 

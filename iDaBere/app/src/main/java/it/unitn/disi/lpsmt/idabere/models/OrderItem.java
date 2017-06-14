@@ -115,11 +115,16 @@ public class OrderItem {
 
     public String getAdditionsAsString() {
         String result = "";
-        int i;
-        for (i=0; i < additions.size()-1; i++) {
-            result += additions.get(i).getName().toString() + ", ";
+        if (additions.size() > 0){
+            int i;
+            for (i=0; i < additions.size()-1; i++) {
+                result += additions.get(i).getName().toString() + ", ";
+            }
+            result+= additions.get(i).getName();
+        } else {
+            result += "Nessuna scelta";
         }
-        result+= additions.get(i).getName();
+
         return result;
     }
 
