@@ -1,6 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryLight">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/left_menu_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
+                android:background="@color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_menu_center_element"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/bottom_menu_total_order_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:text="@string/menu_list_item_price"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                android:textAlignment="textEnd"
+                android:layout_weight="2"
+                android:textColor="@android:color/primary_text_dark"
+                />
+
+            <TextView
+                android:id="@+id/bottom_menu_total_order_price_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/menu_list_item_currency"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                android:textColor="@android:color/primary_text_dark"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/right_menu_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_keyboard_arrow_right_white_24dp"
+                android:background="@color/transparent"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:id="@+id/left_menu_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Sinistra"
+            android:textAlignment="center"
+            android:textColor="@android:color/primary_text_dark" />
+
+        <TextView
+            android:id="@+id/center_menu_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Totale"
+            android:textAlignment="center"
+            android:textColor="@android:color/primary_text_dark" />
+
+        <TextView
+            android:id="@+id/righ_menu_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Destra"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:textColor="@android:color/primary_text_dark"
+            />
+
+    </LinearLayout>
+
 
 </LinearLayout>
+
