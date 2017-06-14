@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -17,7 +20,13 @@ public class PaymentTypeActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationMenu;
     private Spinner creditCardSpinner;
 
-    
+    private RadioGroup paymentsRadioGroup;
+
+    private RadioButton firstChoiceRadioButton;
+    private RadioButton secondChoiceRadioButton;
+
+    private LinearLayout firstChoiceLayout;
+    private LinearLayout secondChoideLayout;
 
     private Context mContext;
 
