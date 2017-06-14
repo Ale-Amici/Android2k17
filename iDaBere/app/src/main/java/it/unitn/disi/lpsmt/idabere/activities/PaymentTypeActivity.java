@@ -29,7 +29,6 @@ public class PaymentTypeActivity extends AppCompatActivity {
     private RadioButton secondChoiceRadioButton;
 
     private LinearLayout firstChoiceLayout;
-    private LinearLayout secondChoideLayout;
 
     private Context mContext;
 
@@ -59,9 +58,12 @@ public class PaymentTypeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_confirm_payment :
-                        intent.setClass(mContext,CheckoutActivity.class);
-                        startActivity(intent);
-                        result = true;
+                        if (checkSelection()){
+                            intent.setClass(mContext,CheckoutActivity.class);
+                            startActivity(intent);
+                            result = true;
+                        }
+
                         break;
                 }
                 return result;
@@ -72,7 +74,6 @@ public class PaymentTypeActivity extends AppCompatActivity {
 
         paymentsRadioGroup.clearCheck();
         toggleRadioButtonDetails(firstChoiceLayout);
-        toggleRadioButtonDetails(secondChoideLayout);
 
 
         firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -82,15 +83,6 @@ public class PaymentTypeActivity extends AppCompatActivity {
             }
         });
 
-        secondChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleRadioButtonDetails(secondChoideLayout);
-            }
-        });
-
-
-
     }
 
     public boolean checkSelection () {
@@ -99,7 +91,7 @@ public class PaymentTypeActivity extends AppCompatActivity {
         if(paymentsRadioGroup.getCheckedRadioButtonId() != -1){
             result = true;
         } else {
-            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
 
         return result;
@@ -121,6 +113,14 @@ public class PaymentTypeActivity extends AppCompatActivity {
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.payment_bottom_navigation);
         creditCardSpinner = (Spinner) findViewById(R.id.credit_card_drop_down);
+
+        paymentsRadioGroup = (RadioGroup) findViewById(R.id.payments_radiogroup);
+
+        firstChoiceRadioButton = (RadioButton) findViewById(R.id.first_choice_radiobutton);
+        secondChoiceRadioButton = (RadioButton) findViewById(R.id.second_choice_radiobutton);
+
+        firstChoiceLayout = (LinearLayout) findViewById(R.id.first_choice_layout);
+
     }
 
 }
