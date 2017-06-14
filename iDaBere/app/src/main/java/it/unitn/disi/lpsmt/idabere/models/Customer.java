@@ -16,6 +16,13 @@ public class Customer {
     private Order order;
     private ArrayList<BarMenuItem> preferredItems;
 
+    public Customer(){
+        id = -1;
+        username = "unknown";
+        age = -1;
+        order = new Order();
+    }
+
     public Customer(int id, String username, int age, String email, String password, Order order, ArrayList<BarMenuItem> preferredItems) {
         this.id = id;
         this.username = username;

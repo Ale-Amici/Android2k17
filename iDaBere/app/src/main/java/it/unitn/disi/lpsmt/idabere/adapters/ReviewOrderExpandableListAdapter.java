@@ -1,7 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,16 +60,16 @@ public class ReviewOrderExpandableListAdapter extends BaseExpandableListAdapter 
         */
 
         final View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        final View toppingsSectionLayout = convertView.findViewById(R.id.toppings_section_layout);
+        final View choicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (toppingsSectionLayout.isShown()){
-                    toppingsSectionLayout.setVisibility(View.GONE);
+                if (choicesSectionLayout.isShown()){
+                    choicesSectionLayout.setVisibility(View.GONE);
                 } else {
-                    toppingsSectionLayout.setVisibility(View.VISIBLE);
+                    choicesSectionLayout.setVisibility(View.VISIBLE);
                 }
 
             }

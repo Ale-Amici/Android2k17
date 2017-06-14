@@ -11,7 +11,12 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +24,12 @@ import java.util.HashMap;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
 import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
+import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
+import it.unitn.disi.lpsmt.idabere.models.Order;
+import it.unitn.disi.lpsmt.idabere.models.OrderItem;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 /**
  * Created by giovanni on 06/05/2017.
@@ -32,17 +41,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private BarMenu originalBarMenu;
     private BarMenu filteredBarMenu;
     private ArrayList<String> categories;
-    private Button addPreferredButton;
-    private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;
+    private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
+    //private Button addPreferredButton;
     private MenuFilter menuFilter;
+    private TextView totalPriceInfo;
 
-    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu) {
+    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
+        this.totalPriceInfo = totalPriceInfo;
         setMenuForAdapter(filteredBarMenu);
-
-
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -94,9 +103,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
+            LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.menu_list_item,null);
+            convertView = inflater.inflate(R.layout.menu_list_item, null);
         }
 
         /**INSERISCI DATI NELLA CARD **/
@@ -123,25 +132,135 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         */
 
 
-        final View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        final View toppingsSectionLayout = convertView.findViewById(R.id.toppings_section_layout);
+        View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
+        View ChoicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (toppingsSectionLayout.isShown()){
-                    toppingsSectionLayout.setVisibility(View.GONE);
+                View choicesSection = ((View)(view.getParent())).findViewById(R.id.choices_section_layout);
+
+                if (choicesSection.isShown()){
+                    choicesSection.setVisibility(View.GONE);
                 } else {
-                    toppingsSectionLayout.setVisibility(View.VISIBLE);
+                    choicesSection.setVisibility(View.VISIBLE);
                 }
 
             }
         });
 
+        // Prendo la lista delle scelte, imposto l'adapter e lo aggiungo alla mappa barMenuItemId-ChoicesAdapter
+        Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
+        ArrayList<OrderItem> choices = sessionOrder.getOrderListFromBarMenuItemId(child.getId());//le scelte
+        Log.d("LE SCELTE:", choices.toString());
+        LinearLayout choicesLinearLayout = (LinearLayout) convertView.findViewById(R.id.choices_linear_layout);//il linear layout delle scelte
+        //choicesLinearLayout.setAdapter(new ChoicesListArrayAdapter(convertView.getContext(), R.layout.menu_choice_item, choices));//impost l'adapter per la list view delle scelte
+        //menuOrderMap.put(child.getId(),(ChoicesListArrayAdapter) choicesLinearLayout.getAdapter());//aggiungo l'adapter alla mappa per poi aggiornarla se cambia la lista degli ordini
 
+        //il bottone "Nuova Scelta"
+        insertChoices(choicesLinearLayout, choices);
+        View newChoiceButton = convertView.findViewById(R.id.new_chioce_button);
+        newChoiceButton.setTag(child.getId()); //imposto come tag il barMenuItem.getId()
         return convertView;
-}
+    }
+
+    private void insertChoices(final LinearLayout choicesLinearLayout, final ArrayList<OrderItem> choices) {
+        LayoutInflater inflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
+        choicesLinearLayout.removeAllViewsInLayout();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
+        for(final OrderItem orderItem: choices){
+            final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
+
+            final Button removeChoiceBT = (Button) newChoiceView.findViewById(R.id.remove_choice_button);
+
+            // INSERISCO I DATI NELLA NUOVA VIEW
+            TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
+            TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
+            TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
+            TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
+
+            String description = "";
+            for(Addition a: orderItem.getAdditions()){
+                description += a.getName() + ", ";
+            }
+
+            // TODO inserire nel DB il valore --Nessuna Scelta--
+            if (description.equals("")){
+                description = context.getResources().getString(R.string.no_choice_description);
+            }
+
+            choiceDescriptionTV.setText(description);
+            choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
+            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
+            choiceQuantityTV.setText(orderItem.getQuantity() + "");
+
+            //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
+            ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
+            ImageButton minusIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
+
+            plusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderItem.setQuantity(orderItem.getQuantity() + 1);
+                    notifyDataSetChanged();
+                }
+            });
+
+            minusIB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // CONTROLLO SE SIA PRESENTE UNA SOLA QUANTITA', QUINDI RIMUOVO L'ITEM
+                    if (orderItem.getQuantity() > 1) {
+                        orderItem.setQuantity(orderItem.getQuantity() - 1);
+                    } else {
+                        removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+
+            // AGGIUNGO LA SWIPE GESTURE PER ELIMINARE LA SCELTA PER INTERO
+            ((SwipeLayout) newChoiceView).setShowMode(SwipeLayout.ShowMode.PullOut);
+
+            removeChoiceBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeChoice(orderItem, choicesLinearLayout, newChoiceView);
+                    notifyDataSetChanged();
+                }
+            });
+
+            //AGGIUNGO LA VIEW NEL LINEAR LAYOUT
+            choicesLinearLayout.addView(newChoiceView);
+
+        }
+    }
+
+    private void removeChoice(OrderItem orderItem, LinearLayout choicesLinearLayout, View newChoiceView ) {
+
+            choicesLinearLayout.removeView(newChoiceView);
+            int removedItemIndex = AppSession.getInstance().getmCustomer().getOrder().removeExistentOrderItem(orderItem);
+            if (removedItemIndex != -1) {
+                Toast.makeText(context,"Scelta rimossa",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,"Scelta NON rimossa",Toast.LENGTH_SHORT).show();
+            }
+
+    }
+
+    public void updateTotalPrice () {
+        AppSession.getInstance().getmCustomer().getOrder().calculateTotalPrice();
+        double price = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
+        Log.d("PRICE", "updateTotalPrice: "+Double.toString(price));
+        totalPriceInfo.setText(Double.toString(price));
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        updateTotalPrice();
+        super.notifyDataSetChanged();
+    }
 
     @Override
     public int getChildrenCount(int groupPosition) {
