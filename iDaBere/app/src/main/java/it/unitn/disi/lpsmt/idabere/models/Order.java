@@ -18,6 +18,8 @@ public class Order {
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
     private double totalPrice;
+    private DeliveryPlace choosenDeliveryPlace;
+    private PaymentMethod choosenPayment;
 
     public Order(){
         id = -1;
@@ -57,6 +59,22 @@ public class Order {
     public double getTotalPrice() {return totalPrice;}
 
     public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+
+    public DeliveryPlace getChoosenDeliveryPlace() {
+        return choosenDeliveryPlace;
+    }
+
+    public void setChoosenDeliveryPlace(DeliveryPlace choosenDeliveryPlace) {
+        this.choosenDeliveryPlace = choosenDeliveryPlace;
+    }
+
+    public PaymentMethod getChoosenPayment() {
+        return choosenPayment;
+    }
+
+    public void setChoosenPayment(PaymentMethod choosenPayment) {
+        this.choosenPayment = choosenPayment;
+    }
 
     public void calculateTotalPrice() {
         double total = 0;
