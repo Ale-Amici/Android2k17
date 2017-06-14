@@ -10,6 +10,7 @@
     <color name="colorAccent">#E8DFDA</color>
 
 
+    <color name="white">#FFFF</color>
     <color name="transparent">#0000</color>
 
     <color name="expandableListChildDivider">#00000000</color>
