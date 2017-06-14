@@ -68,7 +68,9 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryLight"
                 app:menu="@menu/review_order_bottom_navigation"
-                android:translationZ="-10sp"/>
+                android:translationZ="-10sp"
+                app:itemIconTint="@drawable/nav_item_color_state"
+                app:itemTextColor="@drawable/nav_item_color_state"/>
 
         </FrameLayout>
 
