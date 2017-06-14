@@ -1,4 +1,5 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -14,5 +15,10 @@
 
     <!-- Quantity choices padding -->
     <dimen name="quantity_number_horizontal_padding">8dp</dimen>
+
+    <!-- Bottom navigation bar text size -->
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">@dimen/paragraph_text_size</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">@dimen/paragraph_text_size</dimen>
+
 
 </resources>
