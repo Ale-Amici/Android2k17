@@ -109,7 +109,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
         if(deliveriesRadioGroup.getCheckedRadioButtonId() != -1){
             result = true;
         } else {
-            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
 
         return result;
