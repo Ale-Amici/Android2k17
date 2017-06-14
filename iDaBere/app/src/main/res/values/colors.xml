@@ -13,6 +13,7 @@
     <color name="colorSecondaryLight">#d7463d</color>
     <color name="colorAccent">#9f0215</color>
 
+    <color name="white">#FFFF</color>
     <color name="transparent">#0000</color>
 
     <color name="expandableListChildDivider">#00000000</color>
