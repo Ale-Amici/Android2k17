@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.session;
 
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.Order;
 
 /**
  * Created by ale on 15/05/17.
@@ -16,6 +17,7 @@ public class AppSession {
     public static AppSession getInstance(){
         if(instance == null){
             instance = new AppSession();
+            instance.setmCustomer(new Customer());//creo già un customer nuovo per la sessione
         }
         return instance;
     }

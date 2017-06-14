@@ -18,17 +18,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.Order;
+import it.unitn.disi.lpsmt.idabere.models.OrderItem;
+import it.unitn.disi.lpsmt.idabere.models.Size;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class MenuActivity extends AppCompatActivity implements
         SearchView.OnQueryTextListener{
 
+    // The index of total price menu item associated with bottom navigation menu
+    final int TOTAL_PRICE_MENU_ITEM_INDEX = 1;
+    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
@@ -36,9 +48,13 @@ public class MenuActivity extends AppCompatActivity implements
     private Button newChoiceButton;
     private ImageButton itemInfoButton;
 
+    private TextView totalPriceInfo;
+
     private Context mContext;
 
     private BarMenu barMenu;
+
+    private MenuCategoryExpandableListAdapter menuAdapter;
 
 
     @Override
@@ -84,8 +100,16 @@ public class MenuActivity extends AppCompatActivity implements
             }
         });
 
-        new MenuLoader().execute(AppSession.getInstance().getmBar());
+        //new MenuLoader().execute(AppSession.getInstance().getmBar());
 
+    }
+
+    @Override
+    protected void onResume() {
+        if (AppSession.getInstance().getmCustomer() != null && AppSession.getInstance().getmCustomer().getOrder() != null){
+            totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+        }
+        super.onResume();
     }
 
     // Instantiate layout elements
@@ -97,11 +121,15 @@ public class MenuActivity extends AppCompatActivity implements
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
         progressBar = findViewById(R.id.loading_indicator);
-        newChoiceButton = (Button) findViewById(R.id.add_topping_button);
+        newChoiceButton = (Button) findViewById(R.id.add_choice_button);
         itemInfoButton = (ImageButton) findViewById(R.id.item_info_button);
+
+        // the total price at the bottom menu
+        totalPriceInfo = (TextView) findViewById(R.id.menu_total_order_price);
 
         //set activity title based to bar instance
         setTitle(AppSession.getInstance().getmBar().getName());
+
 
     }
 
@@ -124,17 +152,42 @@ public class MenuActivity extends AppCompatActivity implements
 
     public void addNewChoice (View v) {
         Intent newChoiceIntent = new Intent();
-        newChoiceIntent.setClass(this, AddToppingsActivity.class);
-        startActivity(newChoiceIntent);
+        newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());
+        newChoiceIntent.setClass(this, AddChoiceActivity.class);
+        startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
     }
 
-//    public void openItemInfo (View v) {
-//        Log.d("############### ID",Long.toString(v.getId()));
-//        String ITEM_CLICKED_ID_KEY = "ITEM_ID";
-//        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
-//        //itemInfoIntend.putExtra(ITEM_CLICKED_ID_KEY, );
-//        //startActivity(itemInfoIntend);
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+
+        if(requestCode == SELECT_NEW_CHOICE_REQUEST){
+            switch(resultCode) {
+                case RESULT_OK:
+                    menuAdapter.notifyDataSetChanged();
+                    break;
+                case AddChoiceActivity.RESULT_QUANTITY_PLUS_1:
+                    Toast.makeText(this.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
+                    menuAdapter.notifyDataSetChanged();
+                    break;
+                case AddChoiceActivity.RESULT_ERROR:
+                    Toast.makeText(this.getApplicationContext(),"C'è stato un errore nell'aggiunta dell'item",Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+            // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
+
+        }
+    }
+
+
+
+
+    public void openItemInfo (View v) {
+        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
+        startActivity(itemInfoIntend);
+    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -153,8 +206,8 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-
-            barMenu = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).getBarMenu();
+            AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
+            barMenu = AppSession.getInstance().getmBar().getBarMenu();
             Log.d("BAR_MENU", barMenu.toString());
 
             return barMenu;
@@ -164,9 +217,8 @@ public class MenuActivity extends AppCompatActivity implements
         protected void onPostExecute(BarMenu barMenu) {
             categoriesExpandableListView.setAdapter(
                     //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
-                    new MenuCategoryExpandableListAdapter(mContext, barMenu)
+                    new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo)
             );
-            AppSession.getInstance().getmBar().setBarMenu(barMenu);
             super.onPostExecute(barMenu);
         }
     }

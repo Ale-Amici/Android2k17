@@ -12,16 +12,16 @@ public class BarMenuItem {
     private String name;
     private String description;
     private ArrayList<Size> sizes;
-    private ArrayList<Topping> toppings;
+    private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
     private String category;
 
     public BarMenuItem(){}
 
-    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Topping> toppings, ArrayList<Ingredient> ingredients, String category) {
+    public BarMenuItem(int id, ArrayList<Size> sizes, ArrayList<Addition> additions, ArrayList<Ingredient> ingredients, String category) {
         this.id = id;
         this.sizes = sizes;
-        this.toppings = toppings;
+        this.additions = additions;
         this.ingredients = ingredients;
         this.category = category;
     }
@@ -50,12 +50,12 @@ public class BarMenuItem {
         this.sizes = sizes;
     }
 
-    public ArrayList<Topping> getToppings() {
-        return toppings;
+    public ArrayList<Addition> getAdditions() {
+        return additions;
     }
 
-    public void setToppings(ArrayList<Topping> toppings) {
-        this.toppings = toppings;
+    public void setAdditions(ArrayList<Addition> additions) {
+        this.additions = additions;
     }
 
     public ArrayList<Ingredient> getIngredients() {
@@ -72,6 +72,42 @@ public class BarMenuItem {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+
+
+    public Size getSizeFromId(int id){
+        for(Size s: this.sizes){
+            if(s.getId() == id){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Addition getAdditionFromId(int id){
+        for(Addition a: this.additions){
+            if(a.getId() == id){
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public int getCountPossibleChoices(){ //il numero di possibili combinazini Size-Additions
+        return sizes.size() * ((int)Math.pow(2, additions.size()));
+    }
+
+    @Override
+    public String toString() {
+        return "BarMenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sizes=" + sizes +
+                ", additions=" + additions +
+                ", ingredients=" + ingredients +
+                ", category='" + category + '\'' +
+                '}';
     }
 
     public String getDescription() {

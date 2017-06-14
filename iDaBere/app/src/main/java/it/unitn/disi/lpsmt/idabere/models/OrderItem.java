@@ -1,6 +1,9 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -9,21 +12,40 @@ import java.util.ArrayList;
 public class OrderItem {
 
     private int id;
-    private int quantyty;
+    private int quantity;
     private int rating;
-    private double totalPrice;
+    private double singleItemPrice;
     private Size size;
-    private ArrayList<Topping> toppings;
-    private ArrayList<BarMenuItem> barMenuItems;
+    private ArrayList<Addition> additions;
+    private BarMenuItem barMenuItem;
 
-    public OrderItem(int id, int quantyty, int rating, double totalPrice, Size size, ArrayList<Topping> toppings, ArrayList<BarMenuItem> barMenuItems) {
-        this.id = id;
-        this.quantyty = quantyty;
-        this.rating = rating;
-        this.totalPrice = totalPrice;
+    public OrderItem(int quantity, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItem){
+        this.id = -1;
+        this.rating = -1;
+        this.quantity = quantity;
+        this.singleItemPrice = singleItemPrice;
         this.size = size;
-        this.toppings = toppings;
-        this.barMenuItems = barMenuItems;
+        this.additions = additions;
+        this.barMenuItem = barMenuItem;
+
+    }
+
+    public OrderItem(int id, int quantity, int rating, double singleItemPrice, Size size, ArrayList<Addition> additions, BarMenuItem barMenuItems) {
+        this.id = id;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.singleItemPrice = singleItemPrice;
+        this.size = size;
+        this.additions = additions;
+        this.barMenuItem = barMenuItem;
+    }
+
+    public String getDescription(){
+        String description = this.size.getName();
+        for(Addition a: this.additions){
+            description += ", +" + a.getName();
+        }
+        return description;
     }
 
     public int getId() {
@@ -34,12 +56,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public int getQuantyty() {
-        return quantyty;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantyty(int quantyty) {
-        this.quantyty = quantyty;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getRating() {
@@ -50,12 +72,12 @@ public class OrderItem {
         this.rating = rating;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getSingleItemPrice() {
+        return singleItemPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setSingleItemPrice(double singleItemPrice) {
+        this.singleItemPrice = singleItemPrice;
     }
 
     public Size getSize() {
@@ -66,19 +88,49 @@ public class OrderItem {
         this.size = size;
     }
 
-    public ArrayList<Topping> getToppings() {
-        return toppings;
+    public ArrayList<Addition> getAdditions() {
+        return additions;
     }
 
-    public void setToppings(ArrayList<Topping> toppings) {
-        this.toppings = toppings;
+    public void setAdditions(ArrayList<Addition> additions) {
+        this.additions = additions;
     }
 
-    public ArrayList<BarMenuItem> getBarMenuItems() {
-        return barMenuItems;
+    public BarMenuItem getBarMenuItem() {
+        return barMenuItem;
     }
 
-    public void setBarMenuItems(ArrayList<BarMenuItem> barMenuItems) {
-        this.barMenuItems = barMenuItems;
+    public void setBarMenuItem(BarMenuItem barMenuItem) {
+        this.barMenuItem = barMenuItem;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if(other == null) return false;
+        if(other == this) return true;
+        if(!(other instanceof OrderItem)) return false;
+
+        OrderItem orderItem2 = (OrderItem) other;
+        if(orderItem2.getSize().getId() != this.getSize().getId()) return false;
+        if(orderItem2.getAdditions().size() != this.getAdditions().size()) return false;
+        Collections.sort(orderItem2.getAdditions());
+        Collections.sort(this.getAdditions());
+        for(int i = 0; i < this.getAdditions().size(); i++){
+            if(this.getAdditions().get(i).getId() != orderItem2.getAdditions().get(i).getId()) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", rating=" + rating +
+                ", singleItemPrice=" + singleItemPrice +
+                ", size=" + size +
+                ", additions=" + additions +
+                ", barMenuItem=" + barMenuItem +
+                '}';
     }
 }

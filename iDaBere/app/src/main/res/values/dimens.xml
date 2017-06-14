@@ -12,5 +12,7 @@
     <dimen name="card_height_closed">100dp</dimen>
     <dimen name="card_height_open">300dp</dimen>
 
+    <!-- Quantity choices padding -->
+    <dimen name="quantity_number_horizontal_padding">8dp</dimen>
 
 </resources>
