@@ -17,6 +17,8 @@ public class PaymentTypeActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationMenu;
     private Spinner creditCardSpinner;
 
+    
+
     private Context mContext;
 
     @Override
