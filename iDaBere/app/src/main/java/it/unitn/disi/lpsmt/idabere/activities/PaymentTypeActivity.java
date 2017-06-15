@@ -90,12 +90,6 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-        // Disable/enable spinner based on radio button clicked
-
-        paymentsRadioGroup.clearCheck();
-        toggleRadioButtonDetails(firstChoiceLayout);
-
-
         firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -104,8 +98,14 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
         });
 
 
-        creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_list_item_1,AppSession.getInstance().getmCustomer().getPaymentMethods());
+        creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_spinner_dropdown_item,AppSession.getInstance().getmCustomer().getPaymentMethods());
         creditCardSpinner.setAdapter(creditCardSpinnerAdapter);
+
+        // Disable/enable spinner based on radio button clicked
+
+        paymentsRadioGroup.clearCheck();
+        toggleRadioButtonDetails(firstChoiceLayout);
+
     }
 
     public boolean checkSelection () {
