@@ -20,6 +20,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.CashPayment;
+import it.unitn.disi.lpsmt.idabere.models.CreditcardPayment;
 import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
@@ -50,8 +52,8 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
 
         // Set fake datas
         creditCards = new ArrayList<>();
-        PaymentMethod creditCardOne = new PaymentMethod();
-        PaymentMethod creditCardTwo = new PaymentMethod();
+        PaymentMethod creditCardOne = new CreditcardPayment();
+        PaymentMethod creditCardTwo = new CreditcardPayment();
         creditCardOne.setName("Mastercard");
         creditCardTwo.setName("Paypal");
         creditCards.add(creditCardOne);
@@ -150,10 +152,13 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
         int radioButtonId = paymentsRadioGroup.getCheckedRadioButtonId();
         switch (radioButtonId) {
             case R.id.first_choice_layout :
+                paymentMethod = new CreditcardPayment();
                 break;
             case R.id.second_choice_radiobutton :
+                paymentMethod = new CashPayment();
                 break;
         }
+        AppSession.getInstance().getmCustomer().getOrder().setChoosenPayment(paymentMethod);
     }
 
     @Override
