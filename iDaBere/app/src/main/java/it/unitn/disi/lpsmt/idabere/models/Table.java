@@ -8,6 +8,8 @@ public class Table extends DeliveryPlace {
 
     private int tableNumber;
 
+    public Table () {}
+
     public Table(int floor, int tableNumber) {
         super(floor);
         this.tableNumber = tableNumber;

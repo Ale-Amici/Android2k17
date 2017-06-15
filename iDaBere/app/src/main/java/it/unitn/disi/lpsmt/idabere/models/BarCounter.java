@@ -8,6 +8,8 @@ public class BarCounter extends DeliveryPlace {
 
     private String counterName;
 
+    public BarCounter () {}
+
     public BarCounter(int floor, String counterName) {
         super(floor);
         this.counterName = counterName;

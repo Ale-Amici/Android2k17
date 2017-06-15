@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,9 @@ import com.google.android.gms.vision.text.Line;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -47,8 +50,8 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
 
 
     // FAKE DATA
-    String [] tables = new String[]{"1","2","3","4","5","6","7","8","9","10"};
-    String [] counters = new String[]{"Piano Terra", "Primo Piano", "Secondo Piano"};
+    String[] tables = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    String[] counters = new String[]{"Piano Terra", "Primo Piano", "Secondo Piano"};
 
 
     @Override
@@ -89,35 +92,25 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
 
         // Set spinners adapters
 
-        counterSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,counters);
+        counterSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, counters);
         countersSpinner.setAdapter(counterSpinnerAdapter);
 
-        tableSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,tables);
+        tableSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tables);
         tablesSpinner.setAdapter(tableSpinnerAdapter);
 
 
-        // Check whether the session contains an already delivery type choice
+        // Disable/enable spinner based on radio button clicked
+        deliveriesRadioGroup.clearCheck();
+        toggleRadioButtonDetails(firstChoiceLayout);
+        toggleRadioButtonDetails(secondChoideLayout);
 
-        if (AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace() == null) {
-
-            // Disable/enable spinner based on radio button clicked
-            deliveriesRadioGroup.clearCheck();
-            toggleRadioButtonDetails(firstChoiceLayout);
-            toggleRadioButtonDetails(secondChoideLayout);
-
-        } else {
-
-            // Get the choosen delivery type
-
-
-        }
 
     }
 
-    public boolean checkSelection () {
+    public boolean checkSelection() {
         boolean result = false;
 
-        if(deliveriesRadioGroup.getCheckedRadioButtonId() != -1){
+        if (deliveriesRadioGroup.getCheckedRadioButtonId() != -1) {
             result = true;
         } else {
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
@@ -129,7 +122,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
     private void toggleRadioButtonDetails(LinearLayout layout) {
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
-            if(child.isEnabled()) {
+            if (child.isEnabled()) {
                 child.setEnabled(false);
             } else {
                 child.setEnabled(true);
@@ -138,9 +131,9 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
     }
 
     // Instantiate layout elements
-    private void initViewComps () {
+    private void initViewComps() {
         // get the bottom navigation menu
-        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.delivery_bottom_navigation);
+        bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.delivery_bottom_navigation);
 
         tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
         countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
@@ -175,6 +168,22 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        DeliveryPlace choosenDeliveryPlace = null;
+
+        int radioButtonId = deliveriesRadioGroup.getCheckedRadioButtonId();
+        switch (radioButtonId) {
+            case R.id.first_delivery_choice :
+                choosenDeliveryPlace = new BarCounter();
+                ((BarCounter) choosenDeliveryPlace).setCounterName((String)parent.getSelectedItem());
+
+                break;
+            case R.id.second_delivery_choice :
+                choosenDeliveryPlace = new Table();
+                ((Table) choosenDeliveryPlace).setTableNumber(Integer.parseInt((String)parent.getSelectedItem()));
+                break;
+        }
+
+        AppSession.getInstance().getmCustomer().getOrder().setChoosenDeliveryPlace(choosenDeliveryPlace);
 
     }
 
