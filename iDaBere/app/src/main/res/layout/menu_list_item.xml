@@ -113,8 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/add_new_drink_button"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:onClick="addNewChoice"/>
+                        style="@style/Widget.AppCompat.Button.Borderless"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
