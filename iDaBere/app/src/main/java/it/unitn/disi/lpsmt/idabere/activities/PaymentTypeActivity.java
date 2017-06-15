@@ -100,7 +100,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
 
         creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_spinner_dropdown_item,AppSession.getInstance().getmCustomer().getPaymentMethods());
         creditCardSpinner.setAdapter(creditCardSpinnerAdapter);
-
+        creditCardSpinner.setOnItemSelectedListener(this);
         // Disable/enable spinner based on radio button clicked
 
         paymentsRadioGroup.clearCheck();
@@ -127,6 +127,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
                 child.setEnabled(false);
             } else {
                 child.setEnabled(true);
+                this.onItemSelected(null,null,0,child.getId());
             }
         }
     }
@@ -151,8 +152,9 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
         PaymentMethod paymentMethod = null;
         int radioButtonId = paymentsRadioGroup.getCheckedRadioButtonId();
         switch (radioButtonId) {
-            case R.id.first_choice_layout :
+            case R.id.first_choice_radiobutton :
                 paymentMethod = new CreditcardPayment();
+                paymentMethod.setName(((CreditcardPayment)creditCardSpinner.getSelectedItem()).getName());
                 break;
             case R.id.second_choice_radiobutton :
                 paymentMethod = new CashPayment();
