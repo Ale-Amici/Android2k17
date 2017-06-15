@@ -146,7 +146,14 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        
+        PaymentMethod paymentMethod = null;
+        int radioButtonId = paymentsRadioGroup.getCheckedRadioButtonId();
+        switch (radioButtonId) {
+            case R.id.first_choice_layout :
+                break;
+            case R.id.second_choice_radiobutton :
+                break;
+        }
     }
 
     @Override
