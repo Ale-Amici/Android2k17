@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.vision.text.Line;
 
+import java.util.ArrayList;
+
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class DeliveryPlaceActivity extends AppCompatActivity {
 
@@ -41,6 +45,11 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
     private Context mContext;
 
 
+    // FAKE DATA
+    String [] tables = new String[]{"1","2","3","4","5","6","7","8","9","10"};
+    String [] counters = new String[]{"Piano Terra", "Primo Piano", "Secondo Piano"};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +69,14 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
                 Intent intent = new Intent();
 
                 switch (itemId) {
-                    case  R.id.navigation_review_order :
+                    case R.id.navigation_review_order:
                         DeliveryPlaceActivity.super.onBackPressed();
                         result = true;
                         break;
 
-                    case R.id.navigation_payment_type :
-                        if(checkSelection()) {
-                            intent.setClass(mContext,PaymentTypeActivity.class);
+                    case R.id.navigation_payment_type:
+                        if (checkSelection()) {
+                            intent.setClass(mContext, PaymentTypeActivity.class);
                             startActivity(intent);
                             result = true;
                         }
@@ -77,29 +86,26 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
             }
         });
 
+        // Set spinners adapters
 
-        // Disable/enable spinner based on radio button clicked
+        counterSpinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tables);
+        countersSpinner.setAdapter(counterSpinnerAdapter);
 
-        deliveriesRadioGroup.clearCheck();
-        toggleRadioButtonDetails(firstChoiceLayout);
-        toggleRadioButtonDetails(secondChoideLayout);
+        // Check whether the session contains an already delivery type choice
 
+        if (AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace() == null) {
 
-        firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleRadioButtonDetails(firstChoiceLayout);
-            }
-        });
+            // Disable/enable spinner based on radio button clicked
+            deliveriesRadioGroup.clearCheck();
+            toggleRadioButtonDetails(firstChoiceLayout);
+            toggleRadioButtonDetails(secondChoideLayout);
 
-        secondChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleRadioButtonDetails(secondChoideLayout);
-            }
-        });
+        } else {
+
+            // Get the choosen delivery type
 
 
+        }
 
     }
 
@@ -141,6 +147,21 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
 
         firstChoiceLayout = (LinearLayout) findViewById(R.id.first_delivery_choice_layout);
         secondChoideLayout = (LinearLayout) findViewById(R.id.second_delivery_choice_layout);
+
+        firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                toggleRadioButtonDetails(firstChoiceLayout);
+            }
+        });
+
+        secondChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                toggleRadioButtonDetails(secondChoideLayout);
+            }
+        });
+
     }
 
 }
