@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -19,15 +20,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class PaymentTypeActivity extends AppCompatActivity {
+public class PaymentTypeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private BottomNavigationView bottomNavigationMenu;
 
     private Spinner creditCardSpinner;
 
-    private ArrayAdapter<String> creditCardSpinnerAdapter;
+    private ArrayAdapter<PaymentMethod> creditCardSpinnerAdapter;
 
     private RadioGroup paymentsRadioGroup;
 
@@ -37,14 +39,26 @@ public class PaymentTypeActivity extends AppCompatActivity {
 
     private Context mContext;
 
+    // Fake data
+    ArrayList<PaymentMethod> creditCards;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_type);
 
 
-        initViewComps();
+        // Set fake datas
+        creditCards = new ArrayList<>();
+        PaymentMethod creditCardOne = new PaymentMethod();
+        PaymentMethod creditCardTwo = new PaymentMethod();
+        creditCardOne.setName("Mastercard");
+        creditCardTwo.setName("Paypal");
+        creditCards.add(creditCardOne);
+        creditCards.add(creditCardTwo);
+        AppSession.getInstance().getmCustomer().setPaymentMethods(creditCards);
 
+        initViewComps();
 
         mContext = this;
 
@@ -88,8 +102,8 @@ public class PaymentTypeActivity extends AppCompatActivity {
         });
 
 
-        //creditCardSpinnerAdapter = new ArrayAdapter<String>(this,,AppSession.getInstance().getmCustomer().getPaymentMethods());
-
+        creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_list_item_1,AppSession.getInstance().getmCustomer().getPaymentMethods());
+        creditCardSpinner.setAdapter(creditCardSpinnerAdapter);
     }
 
     public boolean checkSelection () {
@@ -130,4 +144,13 @@ public class PaymentTypeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
