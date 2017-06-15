@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -25,7 +26,7 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class DeliveryPlaceActivity extends AppCompatActivity {
+public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
@@ -88,8 +89,12 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
 
         // Set spinners adapters
 
-        counterSpinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tables);
+        counterSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,counters);
         countersSpinner.setAdapter(counterSpinnerAdapter);
+
+        tableSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,tables);
+        tablesSpinner.setAdapter(tableSpinnerAdapter);
+
 
         // Check whether the session contains an already delivery type choice
 
@@ -140,6 +145,10 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
         tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
         countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
 
+        // Set the listeners
+        tablesSpinner.setOnItemSelectedListener(this);
+        countersSpinner.setOnItemSelectedListener(this);
+
         deliveriesRadioGroup = (RadioGroup) findViewById(R.id.deliveries_radio_group);
 
         firstChoiceRadioButton = (RadioButton) findViewById(R.id.first_delivery_choice);
@@ -164,4 +173,13 @@ public class DeliveryPlaceActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
