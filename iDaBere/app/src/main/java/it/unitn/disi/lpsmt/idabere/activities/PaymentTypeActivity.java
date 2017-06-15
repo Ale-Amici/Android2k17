@@ -16,17 +16,22 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class PaymentTypeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationMenu;
+
     private Spinner creditCardSpinner;
+
+    private ArrayAdapter<String> creditCardSpinnerAdapter;
 
     private RadioGroup paymentsRadioGroup;
 
     private RadioButton firstChoiceRadioButton;
-    private RadioButton secondChoiceRadioButton;
 
     private LinearLayout firstChoiceLayout;
 
@@ -40,7 +45,6 @@ public class PaymentTypeActivity extends AppCompatActivity {
 
         initViewComps();
 
-        // TODO Creare l'adapter per inserire i dati nel dropdown
 
         mContext = this;
 
@@ -83,6 +87,9 @@ public class PaymentTypeActivity extends AppCompatActivity {
             }
         });
 
+
+        //creditCardSpinnerAdapter = new ArrayAdapter<String>(this,,AppSession.getInstance().getmCustomer().getPaymentMethods());
+
     }
 
     public boolean checkSelection () {
@@ -117,7 +124,7 @@ public class PaymentTypeActivity extends AppCompatActivity {
         paymentsRadioGroup = (RadioGroup) findViewById(R.id.payments_radiogroup);
 
         firstChoiceRadioButton = (RadioButton) findViewById(R.id.first_choice_radiobutton);
-        secondChoiceRadioButton = (RadioButton) findViewById(R.id.second_choice_radiobutton);
+
 
         firstChoiceLayout = (LinearLayout) findViewById(R.id.first_choice_layout);
 
