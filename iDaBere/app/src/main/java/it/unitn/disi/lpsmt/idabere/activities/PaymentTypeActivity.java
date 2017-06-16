@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,7 @@ import it.unitn.disi.lpsmt.idabere.models.CreditcardPayment;
 import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class PaymentTypeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class PaymentTypeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
     private BottomNavigationView bottomNavigationMenu;
 
@@ -90,12 +91,12 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-        firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleRadioButtonDetails(firstChoiceLayout);
-            }
-        });
+//        firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                toggleRadioButtonDetails(firstChoiceLayout);
+//            }
+//        });
 
 
         creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_spinner_dropdown_item,AppSession.getInstance().getmCustomer().getPaymentMethods());
@@ -103,7 +104,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
         creditCardSpinner.setOnItemSelectedListener(this);
         // Disable/enable spinner based on radio button clicked
 
-        paymentsRadioGroup.clearCheck();
+        paymentsRadioGroup.setOnCheckedChangeListener(this);
         toggleRadioButtonDetails(firstChoiceLayout);
 
     }
@@ -127,7 +128,6 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
                 child.setEnabled(false);
             } else {
                 child.setEnabled(true);
-                this.onItemSelected(null,null,0,child.getId());
             }
         }
     }
@@ -166,5 +166,20 @@ public class PaymentTypeActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+        switch (checkedId) {
+            case R.id.first_choice_radiobutton :
+                toggleRadioButtonDetails(firstChoiceLayout);
+                this.onItemSelected(null,null,0,0);
+                break;
+            case R.id.second_choice_radiobutton :
+                toggleRadioButtonDetails(firstChoiceLayout);
+                this.onItemSelected(null,null,0,0);
+                break;
+        }
     }
 }
