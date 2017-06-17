@@ -27,4 +27,10 @@ public class Table extends DeliveryPlace {
     public String toString() {
         return Integer.toString(tableNumber);
     }
+
+    @Override
+    public String getName() {
+        return "TAVOLO";
+    }
 }
+

@@ -121,6 +121,21 @@ public class OrderItem {
         return true;
     }
 
+    public String getAdditionsAsString() {
+        String result = "";
+        if (additions.size() > 0){
+            int i;
+            for (i=0; i < additions.size()-1; i++) {
+                result += additions.get(i).getName().toString() + ", ";
+            }
+            result+= additions.get(i).getName();
+        } else {
+            result += "Nessuna scelta";
+        }
+
+        return result;
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +

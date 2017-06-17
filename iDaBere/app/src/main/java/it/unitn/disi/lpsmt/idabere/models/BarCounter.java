@@ -27,4 +27,9 @@ public class BarCounter extends DeliveryPlace {
     public String toString() {
         return counterName.toString();
     }
+
+    @Override
+    public String getName() {
+        return "BANCONE";
+    }
 }
