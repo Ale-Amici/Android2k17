@@ -58,7 +58,7 @@
 
         <activity
             android:name=".activities.AddChoiceActivity"
-            android:theme="@style/DialogTheme">
+            android:theme="@style/Theme.AppCompat.Dialog.Alert">
         </activity>
 
         <activity
@@ -86,6 +86,9 @@
         <activity
             android:name=".activities.PaymentTypeActivity"
             android:label="@string/title_payment_type_activity_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
         </activity>
 
         <activity

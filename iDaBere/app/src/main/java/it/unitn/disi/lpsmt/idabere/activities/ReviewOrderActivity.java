@@ -12,20 +12,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.adapters.ReviewOrderExpandableListAdapter;
+import it.unitn.disi.lpsmt.idabere.models.BarMenu;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class ReviewOrderActivity extends AppCompatActivity {
 
     private ReviewOrderExpandableListAdapter reviewOrderExpandableListAdapter;
     private ExpandableListView reviewExpandableList;
     private BottomNavigationView bottomNavigationMenu;
-
+    private TextView totalPriceTV;
     private Context mContext;
 
 
@@ -46,9 +50,9 @@ public class ReviewOrderActivity extends AppCompatActivity {
         prepareListData();
 
         reviewOrderExpandableListAdapter = new ReviewOrderExpandableListAdapter (this, listDataHeader, listDataChild);
-
+        BarMenu barMenuForReview = AppSession.getInstance().getmCustomer().getOrder().getOrderMenuForReview();
         // setting list adapter
-        reviewExpandableList.setAdapter(reviewOrderExpandableListAdapter);
+        reviewExpandableList.setAdapter(new MenuCategoryExpandableListAdapter(mContext,barMenuForReview, totalPriceTV));
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,6 +85,16 @@ public class ReviewOrderActivity extends AppCompatActivity {
         reviewExpandableList = (ExpandableListView) findViewById(R.id.expandable_review_list);
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.review_bottom_navigation);
+
+        totalPriceTV = (TextView) findViewById(R.id.review_total_order_price);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) reviewExpandableList.getExpandableListAdapter();
+        AddChoiceActivity.checkNewChoiceResult(requestCode, resultCode, data, mContext, menuAdapter);
+
+        // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
+
     }
 
     @Override

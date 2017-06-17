@@ -32,6 +32,18 @@ public class Order {
         this.orderItems = orderItems;
     }
 
+    public BarMenu getOrderMenuForReview(){
+        ArrayList<BarMenuItem> barMenuItemsOfOrder = new ArrayList<>();
+        for(OrderItem orderItem: orderItems){
+            if(!barMenuItemsOfOrder.contains(orderItem.getBarMenuItem())){
+                barMenuItemsOfOrder.add(orderItem.getBarMenuItem());
+            }
+        }
+        return new BarMenu(barMenuItemsOfOrder);
+
+    }
+
+
     public int getId() {
         return id;
     }

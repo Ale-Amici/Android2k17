@@ -24,7 +24,11 @@ import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
+import it.unitn.disi.lpsmt.idabere.models.BarCounter;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
+import it.unitn.disi.lpsmt.idabere.utils.DeliveryPlaceDeserializer;
 import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
 
 /**
@@ -172,10 +176,15 @@ public class BarsDAOImpl implements BarsDAO {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+        DeliveryPlaceDeserializer deserializer = new DeliveryPlaceDeserializer();
+        deserializer.registerDeliveryPlace("tableNumber", Table.class);
+        deserializer.registerDeliveryPlace("counterName", BarCounter.class);
+        gsonBuilder.registerTypeAdapter(DeliveryPlace.class, deserializer);
 
         Gson gson = gsonBuilder.create();
 
         result = gson.fromJson(data, Bar.class);
+
 
         return result;
     }

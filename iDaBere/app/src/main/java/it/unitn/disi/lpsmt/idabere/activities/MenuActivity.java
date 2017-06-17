@@ -40,7 +40,6 @@ public class MenuActivity extends AppCompatActivity implements
 
     // The index of total price menu item associated with bottom navigation menu
     final int TOTAL_PRICE_MENU_ITEM_INDEX = 1;
-    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
@@ -64,20 +63,6 @@ public class MenuActivity extends AppCompatActivity implements
 
         initViewComps();
         mContext = this;
-        /*BarMenu tempMenu = new BarMenu();
-        BarMenuItem tempItem1 = new BarMenuItem();
-        tempItem1.setName("Vino Rosso");
-        tempItem1.setCategory("Vini");
-        BarMenuItem tempItem2 = new BarMenuItem();
-        tempItem2.setName("Vino bianco");
-        tempItem2.setCategory("Vini");
-        BarMenuItem tempItem3 = new BarMenuItem();
-        tempItem3.setName("Birra Rossa");
-        tempItem3.setCategory("Birre");
-
-        tempMenu.getBarMenuItemList().add(tempItem1);
-        tempMenu.getBarMenuItemList().add(tempItem2);
-        tempMenu.getBarMenuItemList().add(tempItem3);*/
 
        // menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, AppSession.getInstance().getmBar() );
         // setting list adapter
@@ -108,6 +93,9 @@ public class MenuActivity extends AppCompatActivity implements
     protected void onResume() {
         if (AppSession.getInstance().getmCustomer() != null && AppSession.getInstance().getmCustomer().getOrder() != null){
             totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+        }
+        if(menuAdapter != null){
+            menuAdapter.notifyDataSetChanged();
         }
         super.onResume();
     }
@@ -150,38 +138,14 @@ public class MenuActivity extends AppCompatActivity implements
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void addNewChoice (View v) {
-        Intent newChoiceIntent = new Intent();
-        newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());
-        newChoiceIntent.setClass(this, AddChoiceActivity.class);
-        startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+        menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
+        AddChoiceActivity.checkNewChoiceResult(requestCode, resultCode, data, mContext, menuAdapter);
 
-        if(requestCode == SELECT_NEW_CHOICE_REQUEST){
-            switch(resultCode) {
-                case RESULT_OK:
-                    menuAdapter.notifyDataSetChanged();
-                    break;
-                case AddChoiceActivity.RESULT_QUANTITY_PLUS_1:
-                    Toast.makeText(this.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
-                    menuAdapter.notifyDataSetChanged();
-                    break;
-                case AddChoiceActivity.RESULT_ERROR:
-                    Toast.makeText(this.getApplicationContext(),"C'è stato un errore nell'aggiunta dell'item",Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-            // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
+        // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
 
-        }
     }
-
-
 
 
     public void openItemInfo (View v) {
@@ -209,16 +173,15 @@ public class MenuActivity extends AppCompatActivity implements
             AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
             barMenu = AppSession.getInstance().getmBar().getBarMenu();
             Log.d("BAR_MENU", barMenu.toString());
+            Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
 
             return barMenu;
         }
 
         @Override
         protected void onPostExecute(BarMenu barMenu) {
-            categoriesExpandableListView.setAdapter(
-                    //new MenuCategoryExpandableListAdapter(mContext, AppSession.getInstance().getmBar().getBarMenu())
-                    new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo)
-            );
+            menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo);
+            categoriesExpandableListView.setAdapter(menuAdapter);
             super.onPostExecute(barMenu);
         }
     }
