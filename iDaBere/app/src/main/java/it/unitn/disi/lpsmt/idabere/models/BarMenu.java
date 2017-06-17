@@ -42,6 +42,9 @@ public class BarMenu {
                 "barMenuItemList=" + barMenuItemList +
                 '}';
     }
+
+    // TODO Questo metodo dovrebbe fare parte del DAOImpl ?
+
     public BarMenuItem getBarMenuItemById(int id) {
         BarMenuItem result = null;
         Log.d("IDPARAM",Integer.toString(id));

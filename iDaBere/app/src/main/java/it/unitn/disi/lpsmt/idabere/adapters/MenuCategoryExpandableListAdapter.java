@@ -141,18 +141,20 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
 
         View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        View ChoicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
+        // TODO dev'essere FINAL perche' senno' non funziona l'OnCLick
+        final View choicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
 
 
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 View choicesSection = ((View)(view.getParent())).findViewById(R.id.choices_section_layout);
 
                 if (choicesSection.isShown()){
                     choicesSection.setVisibility(View.GONE);
                 } else {
-                    choicesSection.setVisibility(View.VISIBLE);
+                    choicesSectionLayout.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -192,17 +194,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
             TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
 
-            String description = "";
-            for(Addition a: orderItem.getAdditions()){
-                description += a.getName() + ", ";
-            }
-
-            // TODO inserire nel DB il valore --Nessuna Scelta--
-            if (description.equals("")){
-                description = context.getResources().getString(R.string.no_choice_description);
-            }
-
-            choiceDescriptionTV.setText(description);
+            choiceDescriptionTV.setText(orderItem.getAdditionsAsString());
             choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
             choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");

@@ -48,7 +48,7 @@
     <!-- Strings related to barMenu -->
     <string name="search_list_item_icon_label">Cerca Ordine</string>
     <string name="random_list_item_icon_label">Ordine Random</string>
-    <string name="add_new_drink_button">Nuova Scelta</string>
+    <string name="add_new_drink_button">Aggiungi Scelta</string>
     <string name="item_info_button_label">Dettagli</string>
     <string name="review_order_button_label">Carrello</string>
 
@@ -97,7 +97,7 @@
 
     <!-- Strings related to Delivery Place -->
     <string name="title_delivery_place_activity_title">Consegna</string>
-    <string name="delivery_place_info">Seleziona il metodo di consegna ordinazione</string>
+    <string name="delivery_place_info">Seleziona il metodo di consegna</string>
     <string name="counter_radio_button_label">Bancone</string>
     <string name="counter_place_info">Quando il tuo ordine sarà pronto verrà servito al bancone specificato</string>
     <string name="counter_choice_label">Posizione bancone:</string>

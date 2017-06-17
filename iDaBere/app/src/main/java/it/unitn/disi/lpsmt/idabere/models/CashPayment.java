@@ -5,4 +5,11 @@ package it.unitn.disi.lpsmt.idabere.models;
  */
 
 public class CashPayment extends PaymentMethod {
+
+    @Override
+    public String toString() {
+        return "CONTANTI";
+    }
+
+
 }
