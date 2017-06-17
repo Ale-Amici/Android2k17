@@ -121,4 +121,5 @@ public class Bar {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
 }

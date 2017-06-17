@@ -15,6 +15,7 @@ public class Customer {
     private String password;
     private Order order;
     private ArrayList<BarMenuItem> preferredItems;
+    private ArrayList<PaymentMethod> paymentMethods;
 
     public Customer(){
         id = -1;
@@ -87,5 +88,13 @@ public class Customer {
 
     public void setPreferredItems(ArrayList<BarMenuItem> preferredItems) {
         this.preferredItems = preferredItems;
+    }
+
+    public ArrayList<PaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(ArrayList<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
     }
 }
