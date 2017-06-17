@@ -24,8 +24,7 @@ public class Bar {
     private double longitude;
     private ArrayList<OpeningHour> openingHours;
     private ArrayList<Event> events;
-    private ArrayList<BarCounter> barCounters;
-    private ArrayList<Table> tables;
+    private ArrayList<DeliveryPlace> deliveryPlaces;
     private BarMenu barMenu;
     private double distance;//from user's location (in meters)
 
@@ -99,20 +98,12 @@ public class Bar {
         this.events = events;
     }
 
-    public ArrayList<BarCounter> getBarCounters() {
-        return barCounters;
+    public ArrayList<DeliveryPlace> getDeliveryPlaces() {
+        return deliveryPlaces;
     }
 
-    public void setBarCounters(ArrayList<BarCounter> barCounters) {
-        this.barCounters = barCounters;
-    }
-
-    public ArrayList<Table> getTables() {
-        return tables;
-    }
-
-    public void setTables(ArrayList<Table> tables) {
-        this.tables = tables;
+    public void setDeliveryPlaces(ArrayList<DeliveryPlace> deliveryPlaces) {
+        this.deliveryPlaces = deliveryPlaces;
     }
 
     public ArrayList<OpeningHour> getOpeningHours() {

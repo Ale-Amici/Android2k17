@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,6 +30,7 @@ import java.util.HashSet;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.AdditionListArrayListAdapter;
+import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -41,6 +45,9 @@ public class AddChoiceActivity extends AppCompatActivity {
 
     public static final int RESULT_QUANTITY_PLUS_1 = 111111111;
     public static final int RESULT_ERROR = 222222;
+    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
+
+
 
     private Button addChoiceButton;
     private Button cancelChoiceButton;
@@ -169,6 +176,28 @@ public class AddChoiceActivity extends AppCompatActivity {
         });
 
     }
+
+    public static void checkNewChoiceResult(int requestCode, int resultCode, Intent data, Context context,MenuCategoryExpandableListAdapter menuAdapter){
+        if(requestCode == SELECT_NEW_CHOICE_REQUEST){
+            switch(resultCode) {
+                case RESULT_OK:
+                    menuAdapter.notifyDataSetChanged();
+                    Toast.makeText(context.getApplicationContext(),"Scelta aggiunta",Toast.LENGTH_SHORT).show();
+                    break;
+                case AddChoiceActivity.RESULT_QUANTITY_PLUS_1:
+                    Toast.makeText(context.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
+                    menuAdapter.notifyDataSetChanged();
+                    break;
+                case AddChoiceActivity.RESULT_ERROR:
+                    Toast.makeText(context.getApplicationContext(),"C'è stato un errore nell'aggiunta dell'item",Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
 
     public void updatePreview(){
         OrderItem tempOrderItem = createNewOrderItemFromUserInput();

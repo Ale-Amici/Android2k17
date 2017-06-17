@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
 import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
@@ -38,6 +40,7 @@ import it.unitn.disi.lpsmt.idabere.session.AppSession;
 public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter implements Filterable {
 
     private Context context;
+    private MyAddNewChoiceListener myAddNewChoiceListener;
     private BarMenu originalBarMenu;
     private BarMenu filteredBarMenu;
     private ArrayList<String> categories;
@@ -46,12 +49,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private MenuFilter menuFilter;
     private TextView totalPriceInfo;
 
+
+    static final private int SELECT_NEW_CHOICE_REQUEST = 1;
+
     public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
         this.totalPriceInfo = totalPriceInfo;
+        myAddNewChoiceListener = new MyAddNewChoiceListener();
         setMenuForAdapter(filteredBarMenu);
+        updateTotalPrice();
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -150,6 +158,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             }
         });
 
+
         // Prendo la lista delle scelte, imposto l'adapter e lo aggiungo alla mappa barMenuItemId-ChoicesAdapter
         Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
         ArrayList<OrderItem> choices = sessionOrder.getOrderListFromBarMenuItemId(child.getId());//le scelte
@@ -160,15 +169,18 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         //il bottone "Nuova Scelta"
         insertChoices(choicesLinearLayout, choices);
-        View newChoiceButton = convertView.findViewById(R.id.new_chioce_button);
+        Button newChoiceButton = (Button)convertView.findViewById(R.id.new_chioce_button);
         newChoiceButton.setTag(child.getId()); //imposto come tag il barMenuItem.getId()
+        newChoiceButton.setOnClickListener(myAddNewChoiceListener);
         return convertView;
     }
 
     private void insertChoices(final LinearLayout choicesLinearLayout, final ArrayList<OrderItem> choices) {
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
-        choicesLinearLayout.removeAllViewsInLayout();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
+
+        choicesLinearLayout.removeAllViews();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
+        choicesLinearLayout.invalidate();
         for(final OrderItem orderItem: choices){
             final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
 
@@ -349,6 +361,18 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             filteredBarMenu = (BarMenu) results.values;
             setMenuForAdapter(filteredBarMenu);
             notifyDataSetChanged();
+        }
+    }
+
+    private class MyAddNewChoiceListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent newChoiceIntent = new Intent();
+            newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());//prendo l'id del bar menu item dal tag sul bottone
+            newChoiceIntent.setClass(context, AddChoiceActivity.class);
+            ((Activity)context).startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
+
         }
     }
 }

@@ -8,6 +8,8 @@ public class DeliveryPlace {
 
     private int floor;
 
+    public DeliveryPlace () {}
+
     public DeliveryPlace(int floor) {
         this.floor = floor;
     }
