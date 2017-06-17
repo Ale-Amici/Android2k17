@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
-import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
-import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -129,7 +127,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         }
         final View itemView = convertView;
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
-        final View ChoicesSectionLayout = itemView.findViewById(R.id.choices_section_layout);
+        final LinearLayout ChoicesSectionLayout = (LinearLayout)itemView.findViewById(R.id.choices_section_layout);
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
         final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
         final LinearLayout choicesLinearLayout = (LinearLayout) itemView.findViewById(R.id.choices_linear_layout);
@@ -138,6 +136,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         //IMPOSTO LA VISIBILITÀ DELLA SEZIONE DELLE SCELTE IN BASE ALL'ULTIMO ITEM CHE HA SELEZIONATO L'UTENTE
         if(groupPosition == lastItemExpandedGroupPosition && childPosition == lastItemExpandedChildPosition){
             ChoicesSectionLayout.setVisibility(View.VISIBLE);
+            for(int i = 0; i < ChoicesSectionLayout.getChildCount(); i ++){
+                ChoicesSectionLayout.getChildAt(i).setVisibility(View.VISIBLE);
+            }
             lastItemExpandedView = itemView;
         }
         else{
@@ -167,9 +168,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             public void onClick(View v) {
                 //l'ultimo oggetto espanso
                 //View choicesSection = ((View)(v.getParent())).findViewById(R.id.choices_section_layout);
-                View choicesSection = ChoicesSectionLayout;
-                if (choicesSection.isShown()){
-                    choicesSection.setVisibility(View.GONE);
+                if (ChoicesSectionLayout.isShown()){
+                    ChoicesSectionLayout.setVisibility(View.GONE);
                     lastItemExpandedView = null;
                     lastItemExpandedChildPosition = -1;
                     lastItemExpandedGroupPosition = -1;
@@ -187,9 +187,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                     lastItemExpandedChildPosition = childPosition;
                     lastItemExpandedGroupPosition = groupPosition;
                     lastItemExpandedView = itemView;
-                    choicesSection.setVisibility(View.VISIBLE);
-                }
+                    ChoicesSectionLayout.setVisibility(View.VISIBLE);
 
+                    for(int i = 0 ; i< choicesLinearLayout.getChildCount(); i ++ ){
+                        Log.d("VISIBILITY", choicesLinearLayout.getChildAt(i).getId() + " " + choicesLinearLayout.getChildAt(i).getVisibility());
+                    }
+                }
             }
         });
 
@@ -212,8 +215,11 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
 
-        choicesLinearLayout.removeAllViews();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
-        choicesLinearLayout.invalidate();//NECESSARIO AL CORRETTO AGGIORNAMENTO DELLA VIEW -> NON RIMUOVERE
+        //choicesLinearLayout.removeAllViews();
+        while(choicesLinearLayout.getChildCount() > 0){
+            choicesLinearLayout.removeViewAt(0);
+        }
+        //choicesLinearLayout.invalidate();//NECESSARIO AL CORRETTO AGGIORNAMENTO DELLA VIEW -> NON RIMUOVERE
 
         //AGGIUNGO TUTTI GLI ELEMENTI DELL'ORDINE
         for(final OrderItem orderItem: choices){
