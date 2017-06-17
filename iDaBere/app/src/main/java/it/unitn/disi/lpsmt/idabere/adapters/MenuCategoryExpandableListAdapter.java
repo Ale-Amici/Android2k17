@@ -71,7 +71,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         lastItemExpandedGroupPosition = -1;
         lastItemExpandedChildPosition = -1;
         lastItemExpandedView = null;
-        //TODO togliore l'animazione di apertura della categoria, cambiare colore alle categorie, cambiare card view perchè tiene troppo spazio
+        //TODO togliore l'animazione di apertura della categoria, cambiare colore alle categorie
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -136,9 +136,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         //IMPOSTO LA VISIBILITÀ DELLA SEZIONE DELLE SCELTE IN BASE ALL'ULTIMO ITEM CHE HA SELEZIONATO L'UTENTE
         if(groupPosition == lastItemExpandedGroupPosition && childPosition == lastItemExpandedChildPosition){
             ChoicesSectionLayout.setVisibility(View.VISIBLE);
-            for(int i = 0; i < ChoicesSectionLayout.getChildCount(); i ++){
-                ChoicesSectionLayout.getChildAt(i).setVisibility(View.VISIBLE);
-            }
             lastItemExpandedView = itemView;
         }
         else{
@@ -167,19 +164,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             @Override
             public void onClick(View v) {
                 //l'ultimo oggetto espanso
-                //View choicesSection = ((View)(v.getParent())).findViewById(R.id.choices_section_layout);
                 if (ChoicesSectionLayout.isShown()){
                     ChoicesSectionLayout.setVisibility(View.GONE);
                     lastItemExpandedView = null;
                     lastItemExpandedChildPosition = -1;
                     lastItemExpandedGroupPosition = -1;
-                    //lastItemExpanded = null;
                 } else {
-                    if( true){ //chiudi l'item precedente
-                        //lastItemChoiceSection.setVisibility(View.GONE);
-
-                    }
-                    //lastItemExpanded = v;
                     if(lastItemExpandedView != null){
                         View lastItemChoiceSection = (lastItemExpandedView).findViewById(R.id.choices_section_layout);
                         lastItemChoiceSection.setVisibility(View.GONE);
@@ -188,11 +178,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                     lastItemExpandedGroupPosition = groupPosition;
                     lastItemExpandedView = itemView;
                     ChoicesSectionLayout.setVisibility(View.VISIBLE);
-
-                    for(int i = 0 ; i< choicesLinearLayout.getChildCount(); i ++ ){
-                        Log.d("VISIBILITY", choicesLinearLayout.getChildAt(i).getId() + " " + choicesLinearLayout.getChildAt(i).getVisibility());
-                    }
                 }
+                notifyDataSetChanged();
             }
         });
 
@@ -219,7 +206,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         while(choicesLinearLayout.getChildCount() > 0){
             choicesLinearLayout.removeViewAt(0);
         }
-        //choicesLinearLayout.invalidate();//NECESSARIO AL CORRETTO AGGIORNAMENTO DELLA VIEW -> NON RIMUOVERE
 
         //AGGIUNGO TUTTI GLI ELEMENTI DELL'ORDINE
         for(final OrderItem orderItem: choices){
