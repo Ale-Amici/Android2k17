@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
@@ -50,8 +52,8 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
 
 
     // FAKE DATA
-    String[] tables = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    String[] counters = new String[]{"Piano Terra", "Primo Piano", "Secondo Piano"};
+    ArrayList<String> tables = new ArrayList<>();
+    ArrayList<String> counters = new ArrayList();
 
 
     @Override
@@ -62,6 +64,13 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         initViewComps();
 
         mContext = this;
+
+        // Init fake data
+        for (int i = 1; i < 11; i++) {
+            tables.add(Integer.toString(i));
+            counters.add("Piano "+Integer.toString(i));
+        }
+
 
         // Set the bottom navigation menu
 
@@ -107,6 +116,21 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
 
     }
 
+    @Override
+    protected void onResume() {
+        DeliveryPlace currentDeliveryPlace = AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace();
+        if (currentDeliveryPlace != null) {
+            if (currentDeliveryPlace instanceof BarCounter) {
+                firstChoiceRadioButton.toggle();
+                countersSpinner.setSelection(counters.indexOf(currentDeliveryPlace.toString()));
+            } else {
+                secondChoiceRadioButton.toggle();
+                tablesSpinner.setSelection(tables.indexOf( (currentDeliveryPlace).toString()) );
+            }
+        }
+        super.onResume();
+    }
+
     public boolean checkSelection() {
         boolean result = false;
 
@@ -131,7 +155,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         } else {
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
-        
+
         return result;
     }
 

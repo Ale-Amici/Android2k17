@@ -22,4 +22,9 @@ public class BarCounter extends DeliveryPlace {
     public void setCounterName(String counterName) {
         this.counterName = counterName;
     }
+
+    @Override
+    public String toString() {
+        return counterName.toString();
+    }
 }

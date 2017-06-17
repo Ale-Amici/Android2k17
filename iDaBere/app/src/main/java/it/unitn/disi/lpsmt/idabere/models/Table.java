@@ -22,4 +22,9 @@ public class Table extends DeliveryPlace {
     public void setTableNumber(int tableNumber) {
         this.tableNumber = tableNumber;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(tableNumber);
+    }
 }
