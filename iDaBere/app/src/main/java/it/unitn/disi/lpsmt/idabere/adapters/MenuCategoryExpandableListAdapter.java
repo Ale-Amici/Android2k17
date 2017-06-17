@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
-import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +25,6 @@ import java.util.HashMap;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
 import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
-import it.unitn.disi.lpsmt.idabere.activities.MenuActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -45,21 +44,34 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private BarMenu filteredBarMenu;
     private ArrayList<String> categories;
     private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
+    private ExpandableListView mExpandableListView;
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
     private TextView totalPriceInfo;
 
+    private int lastItemExpandedGroupPosition;
+    private int lastItemExpandedChildPosition;
+    private View lastItemExpandedView;
 
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
 
-    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo) {
+    //l'ultima categoria espansa
+    private int lastCategoryExpandedPosition = -1;
+
+    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, ExpandableListView mExpandableListView) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
         this.totalPriceInfo = totalPriceInfo;
+        this.mExpandableListView = mExpandableListView;
         myAddNewChoiceListener = new MyAddNewChoiceListener();
         setMenuForAdapter(filteredBarMenu);
         updateTotalPrice();
+
+        lastItemExpandedGroupPosition = -1;
+        lastItemExpandedChildPosition = -1;
+        lastItemExpandedView = null;
+        //TODO togliore l'animazione di apertura della categoria, cambiare colore alle categorie, cambiare card view perchè tiene troppo spazio
     }
 
     private void setMenuForAdapter(BarMenu barMenu) {
@@ -106,25 +118,40 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition,
+    public View getChildView(final int groupPosition,final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
-
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.menu_list_item, null);
         }
+        final View itemView = convertView;
+        final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
+        final LinearLayout ChoicesSectionLayout = (LinearLayout)itemView.findViewById(R.id.choices_section_layout);
+        final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
+        final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
+        final LinearLayout choicesLinearLayout = (LinearLayout) itemView.findViewById(R.id.choices_linear_layout);
+        final Button newChoiceButton = (Button)itemView.findViewById(R.id.new_chioce_button);
+
+        //IMPOSTO LA VISIBILITÀ DELLA SEZIONE DELLE SCELTE IN BASE ALL'ULTIMO ITEM CHE HA SELEZIONATO L'UTENTE
+        if(groupPosition == lastItemExpandedGroupPosition && childPosition == lastItemExpandedChildPosition){
+            ChoicesSectionLayout.setVisibility(View.VISIBLE);
+            for(int i = 0; i < ChoicesSectionLayout.getChildCount(); i ++){
+                ChoicesSectionLayout.getChildAt(i).setVisibility(View.VISIBLE);
+            }
+            lastItemExpandedView = itemView;
+        }
+        else{
+            ChoicesSectionLayout.setVisibility(View.GONE);
+        }
 
         /**INSERISCI DATI NELLA CARD **/
-        TextView infoText = (TextView) convertView.findViewById(R.id.info_text);
-
         infoText.setText(child.getName());
 
         /*
         * Open correct Item info when button clicked
         * */
-        final ImageButton itemInfoImageButton = (ImageButton) convertView.findViewById(R.id.item_info_button);
+        final ImageButton itemInfoImageButton = (ImageButton) itemView.findViewById(R.id.item_info_button);
         itemInfoImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,73 +162,101 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             }
         });
 
-        /*
-        * Expand/Collapse card item when clicked
-        */
-
-
-        View cardInfos =  convertView.findViewById(R.id.item_infos_layout);
-        // TODO dev'essere FINAL perche' senno' non funziona l'OnCLick
-        final View choicesSectionLayout = convertView.findViewById(R.id.choices_section_layout);
-
-
+        //GESTIONE CLICK SU ITEM VIEW, espansione o riduzione della choiceSection. Solo 1 item alla volta è aperto
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                View choicesSection = ((View)(view.getParent())).findViewById(R.id.choices_section_layout);
-
-                if (choicesSection.isShown()){
-                    choicesSection.setVisibility(View.GONE);
+            public void onClick(View v) {
+                //l'ultimo oggetto espanso
+                //View choicesSection = ((View)(v.getParent())).findViewById(R.id.choices_section_layout);
+                if (ChoicesSectionLayout.isShown()){
+                    ChoicesSectionLayout.setVisibility(View.GONE);
+                    lastItemExpandedView = null;
+                    lastItemExpandedChildPosition = -1;
+                    lastItemExpandedGroupPosition = -1;
+                    //lastItemExpanded = null;
                 } else {
-                    choicesSectionLayout.setVisibility(View.VISIBLE);
-                }
+                    if( true){ //chiudi l'item precedente
+                        //lastItemChoiceSection.setVisibility(View.GONE);
 
+                    }
+                    //lastItemExpanded = v;
+                    if(lastItemExpandedView != null){
+                        View lastItemChoiceSection = (lastItemExpandedView).findViewById(R.id.choices_section_layout);
+                        lastItemChoiceSection.setVisibility(View.GONE);
+                    }
+                    lastItemExpandedChildPosition = childPosition;
+                    lastItemExpandedGroupPosition = groupPosition;
+                    lastItemExpandedView = itemView;
+                    ChoicesSectionLayout.setVisibility(View.VISIBLE);
+
+                    for(int i = 0 ; i< choicesLinearLayout.getChildCount(); i ++ ){
+                        Log.d("VISIBILITY", choicesLinearLayout.getChildAt(i).getId() + " " + choicesLinearLayout.getChildAt(i).getVisibility());
+                    }
+                }
             }
         });
 
 
-        // Prendo la lista delle scelte, imposto l'adapter e lo aggiungo alla mappa barMenuItemId-ChoicesAdapter
-        Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
-        ArrayList<OrderItem> choices = sessionOrder.getOrderListFromBarMenuItemId(child.getId());//le scelte
-        Log.d("LE SCELTE:", choices.toString());
-        LinearLayout choicesLinearLayout = (LinearLayout) convertView.findViewById(R.id.choices_linear_layout);//il linear layout delle scelte
-        //choicesLinearLayout.setAdapter(new ChoicesListArrayAdapter(convertView.getContext(), R.layout.menu_choice_item, choices));//impost l'adapter per la list view delle scelte
-        //menuOrderMap.put(child.getId(),(ChoicesListArrayAdapter) choicesLinearLayout.getAdapter());//aggiungo l'adapter alla mappa per poi aggiornarla se cambia la lista degli ordini
+        //INSERISCO LE SCELTE NEL LINEAR LAYOUT APPOSITO
+        insertChoices(choicesLinearLayout, child.getId());
 
-        //il bottone "Nuova Scelta"
-        insertChoices(choicesLinearLayout, choices);
-        Button newChoiceButton = (Button)convertView.findViewById(R.id.new_chioce_button);
+        //IMPOSTO IL BOTTONE NUOVA SCELTA
         newChoiceButton.setTag(child.getId()); //imposto come tag il barMenuItem.getId()
         newChoiceButton.setOnClickListener(myAddNewChoiceListener);
-        return convertView;
+
+        return itemView;
     }
 
-    private void insertChoices(final LinearLayout choicesLinearLayout, final ArrayList<OrderItem> choices) {
+    private void insertChoices(final LinearLayout choicesLinearLayout,int barMenuItemId) {
+        // Prendo la lista delle scelte, imposto l'adapter e lo aggiungo alla mappa barMenuItemId-ChoicesAdapter
+        Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
+        ArrayList<OrderItem> choices = sessionOrder.getOrderListFromBarMenuItemId(barMenuItemId);//le scelte
+        //Log.d("LE SCELTE:", choices.toString());
         LayoutInflater inflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);//prendo l'inflater
 
-        choicesLinearLayout.removeAllViews();// TODO ora distruggo tutto, invece conviene aggiungere solo l'item necessario
-        choicesLinearLayout.invalidate();
+        //choicesLinearLayout.removeAllViews();
+        while(choicesLinearLayout.getChildCount() > 0){
+            choicesLinearLayout.removeViewAt(0);
+        }
+        //choicesLinearLayout.invalidate();//NECESSARIO AL CORRETTO AGGIORNAMENTO DELLA VIEW -> NON RIMUOVERE
+
+        //AGGIUNGO TUTTI GLI ELEMENTI DELL'ORDINE
         for(final OrderItem orderItem: choices){
             final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
-
             final Button removeChoiceBT = (Button) newChoiceView.findViewById(R.id.remove_choice_button);
+            final TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
+            final TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
+            final TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
+            final TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
+            final ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
+            final ImageButton minusIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
 
-            // INSERISCO I DATI NELLA NUOVA VIEW
-            TextView choiceDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choice_description);
-            TextView choiceDimensionDescriptionTV = (TextView) newChoiceView.findViewById(R.id.choices_size_description);
-            TextView choiceSinglePriceTV = (TextView) newChoiceView.findViewById(R.id.choice_single_price);
-            TextView choiceQuantityTV = (TextView) newChoiceView.findViewById(R.id.choice_quantity);
+            // LA STRINGA DELLE ADDITION
+            String additionString = "";
+            int i = 0;
+            for(Addition a: orderItem.getAdditions()){
+                if(i ++ == 0){
+                    additionString += a.getName() ;
+                }
+                else{
+                    additionString += ", " + a.getName() ;
+                }
 
-            choiceDescriptionTV.setText(orderItem.getAdditionsAsString());
+            }
+
+            // TODO inserire nel DB il valore --Nessuna Scelta--
+            if (additionString.equals("")){
+                additionString = context.getResources().getString(R.string.no_choice_description);
+            }
+
+            //INSERIMENTO DATI NELLA CHIOCE VIEW
+            choiceDescriptionTV.setText(additionString);
             choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
             choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
 
             //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
-            ImageButton plusIB = (ImageButton) newChoiceView.findViewById(R.id.plus_button);
-            ImageButton minusIB = (ImageButton) newChoiceView.findViewById(R.id.minus_button);
 
             plusIB.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -235,9 +290,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 }
             });
 
-            //AGGIUNGO LA VIEW NEL LINEAR LAYOUT
+            //AGGIUNGO LA CHOICE VIEW NEL LINEAR LAYOUT
             choicesLinearLayout.addView(newChoiceView);
-
         }
     }
 
@@ -307,6 +361,15 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        if (lastCategoryExpandedPosition != -1
+                && groupPosition != lastCategoryExpandedPosition) {
+            mExpandableListView.collapseGroup(lastCategoryExpandedPosition);
+        }
+        lastCategoryExpandedPosition = groupPosition;
     }
 
     @Override

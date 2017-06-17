@@ -52,7 +52,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
         reviewOrderExpandableListAdapter = new ReviewOrderExpandableListAdapter (this, listDataHeader, listDataChild);
         BarMenu barMenuForReview = AppSession.getInstance().getmCustomer().getOrder().getOrderMenuForReview();
         // setting list adapter
-        reviewExpandableList.setAdapter(new MenuCategoryExpandableListAdapter(mContext,barMenuForReview, totalPriceTV));
+        reviewExpandableList.setAdapter(new MenuCategoryExpandableListAdapter(mContext,barMenuForReview, totalPriceTV, reviewExpandableList));
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
