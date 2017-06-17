@@ -173,6 +173,7 @@ public class MenuActivity extends AppCompatActivity implements
             AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
             barMenu = AppSession.getInstance().getmBar().getBarMenu();
             Log.d("BAR_MENU", barMenu.toString());
+            Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
 
             return barMenu;
         }

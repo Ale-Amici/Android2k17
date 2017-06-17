@@ -5,15 +5,16 @@
 
     <item
         android:id="@+id/action_search_bar_icon"
-        android:icon="?android:attr/actionModeWebSearchDrawable"
+        android:enabled="true"
+        android:icon="@drawable/ic_search_black_24dp"
         android:orderInCategory="0"
         android:title="@string/search_list_item_icon_label"
-        app:showAsAction="always"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
 
     <item
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/ic_whatshot_black_24dp"
         android:orderInCategory="1"
         android:title="@string/random_list_item_icon_label"
         app:showAsAction="always" />
