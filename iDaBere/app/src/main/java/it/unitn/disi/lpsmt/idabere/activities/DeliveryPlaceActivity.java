@@ -29,7 +29,7 @@ import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class DeliveryPlaceActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
@@ -110,12 +110,28 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
     public boolean checkSelection() {
         boolean result = false;
 
-        if (deliveriesRadioGroup.getCheckedRadioButtonId() != -1) {
+        DeliveryPlace choosenDeliveryPlace = null;
+        int radioButtonId = deliveriesRadioGroup.getCheckedRadioButtonId();
+
+        if (radioButtonId != -1) {
+            switch (radioButtonId) {
+                case R.id.first_delivery_choice :
+                    choosenDeliveryPlace = new BarCounter();
+                    ((BarCounter) choosenDeliveryPlace).setCounterName((String)countersSpinner.getSelectedItem());
+
+                    break;
+                case R.id.second_delivery_choice :
+                    choosenDeliveryPlace = new Table();
+                    ((Table) choosenDeliveryPlace).setTableNumber(Integer.parseInt((String)tablesSpinner.getSelectedItem()));
+                    break;
+            }
+            AppSession.getInstance().getmCustomer().getOrder().setChoosenDeliveryPlace(choosenDeliveryPlace);
+            Log.d("DELIVERY CHOICE", AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace().toString());
             result = true;
         } else {
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
-
+        
         return result;
     }
 
@@ -137,10 +153,6 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
 
         tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
         countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
-
-        // Set the listeners
-        tablesSpinner.setOnItemSelectedListener(this);
-        countersSpinner.setOnItemSelectedListener(this);
 
         deliveriesRadioGroup = (RadioGroup) findViewById(R.id.deliveries_radio_group);
 
@@ -167,28 +179,14 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements AdapterV
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        DeliveryPlace choosenDeliveryPlace = null;
-
-        int radioButtonId = deliveriesRadioGroup.getCheckedRadioButtonId();
-        switch (radioButtonId) {
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
             case R.id.first_delivery_choice :
-                choosenDeliveryPlace = new BarCounter();
-                ((BarCounter) choosenDeliveryPlace).setCounterName((String)parent.getSelectedItem());
-
+                toggleRadioButtonDetails(firstChoiceLayout);
                 break;
             case R.id.second_delivery_choice :
-                choosenDeliveryPlace = new Table();
-                ((Table) choosenDeliveryPlace).setTableNumber(Integer.parseInt((String)parent.getSelectedItem()));
+                toggleRadioButtonDetails(secondChoideLayout);
                 break;
         }
-
-        AppSession.getInstance().getmCustomer().getOrder().setChoosenDeliveryPlace(choosenDeliveryPlace);
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }
