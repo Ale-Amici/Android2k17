@@ -179,7 +179,7 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(BarMenu barMenu) {
-            menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo);
+            menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo, categoriesExpandableListView);
             categoriesExpandableListView.setAdapter(menuAdapter);
             super.onPostExecute(barMenu);
         }
