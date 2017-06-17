@@ -22,8 +22,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.CashPayment;
 import it.unitn.disi.lpsmt.idabere.models.CreditcardPayment;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
@@ -103,6 +105,20 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
         toggleRadioButtonDetails(firstChoiceLayout);
     }
 
+    @Override
+    protected void onResume() {
+        PaymentMethod currentPaymentMethod = AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment();
+        if (currentPaymentMethod != null) {
+            if (currentPaymentMethod instanceof CreditcardPayment) {
+                firstChoiceRadioButton.toggle();
+                creditCardSpinner.setSelection(creditCards.indexOf(currentPaymentMethod.toString()));
+            } else {
+                secondChoiceRadioButton.toggle();
+            }
+        }
+        super.onResume();
+    }
+
     public boolean checkSelection () {
         boolean result = false;
         PaymentMethod paymentMethod = null;
@@ -118,16 +134,13 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
                     paymentMethod = new CashPayment();
                     break;
             }
+            AppSession.getInstance().getmCustomer().getOrder().setChoosenPayment(paymentMethod);
+            Log.d("CHOICE", "Choice (if null -> Cash): "+AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment().toString() );
             result = true;
         } else {
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
 
-        AppSession.getInstance().getmCustomer().getOrder().setChoosenPayment(paymentMethod);
-
-        if (AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment()!= null){
-            Log.d("CHOICE", "Choice (if null -> Cash): "+AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment().toString() );
-        }
         return result;
     }
 
