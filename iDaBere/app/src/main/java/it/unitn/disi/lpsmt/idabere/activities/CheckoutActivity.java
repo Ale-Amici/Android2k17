@@ -26,7 +26,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private CheckoutExpandableListAdapter mCheckoutListAdapter;
     private TextView totalOrderInfo;
     private TextView deliveryType;
+    private TextView paymentMethod;
     private TextView getDeliveryTypeDetails;
+
 
     BottomNavigationView bottomNavigationView;
 
@@ -73,6 +75,9 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         totalOrderInfo.setText(Double.toString(currentOrder.getTotalPrice()));
+        deliveryType.setText(currentOrder.getChoosenDeliveryPlace().getName());
+        getDeliveryTypeDetails.setText(currentOrder.getChoosenDeliveryPlace().toString());
+        paymentMethod.setText(currentOrder.getChoosenPayment().toString());
         mCheckoutListAdapter.notifyDataSetChanged();
         super.onResume();
     }
@@ -82,6 +87,7 @@ public class CheckoutActivity extends AppCompatActivity {
         mCheckoutExpandableListView = (ExpandableListView) findViewById(R.id.checkout_list);
         totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
         deliveryType = (TextView) findViewById(R.id.delivery_type_choosen);
+        paymentMethod = (TextView) findViewById(R.id.payment_method_choosen);
         getDeliveryTypeDetails = (TextView) findViewById(R.id.delivery_type_value);
     }
 
