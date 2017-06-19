@@ -1,11 +1,7 @@
-var express   =    require("express");
+var express   =    require('express');
 //var logger    =    require('./UTILS/log.js');
 
 var app       =    express();
-
-// Notifications routes
-var notificationsRoutes = require("./routes/users.js")
-app.use("/notifications", notificationsRoutes);
 
 var usersRoutes = require("./routes/users.js")
 app.use("/users", usersRoutes);
@@ -13,6 +9,11 @@ app.use("/users", usersRoutes);
 
 var barsRoutes = require("./routes/bars.js");
 app.use("/bars", barsRoutes);
+
+// Notifications routes
+var notificationsRoutes = require("./routes/notifications.js")
+app.use("/notifications", notificationsRoutes);
+
 
 /*
 app.get("/",function(req,res){-
