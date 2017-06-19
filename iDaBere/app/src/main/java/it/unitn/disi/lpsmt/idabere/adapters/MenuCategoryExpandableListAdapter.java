@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -129,6 +130,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
         final LinearLayout ChoicesSectionLayout = (LinearLayout)itemView.findViewById(R.id.choices_section_layout);
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
+        final TextView itemPriceTv = (TextView) itemView.findViewById(R.id.item_price);
         final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
         final LinearLayout choicesLinearLayout = (LinearLayout) itemView.findViewById(R.id.choices_linear_layout);
         final Button newChoiceButton = (Button)itemView.findViewById(R.id.new_chioce_button);
@@ -144,6 +146,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         /**INSERISCI DATI NELLA CARD **/
         infoText.setText(child.getName());
+        itemPriceTv.setText(new DecimalFormat("##0.00").format(child.getLowestPrice()) );
+
 
         /*
         * Open correct Item info when button clicked
@@ -239,7 +243,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             //INSERIMENTO DATI NELLA CHIOCE VIEW
             choiceDescriptionTV.setText(additionString);
             choiceDimensionDescriptionTV.setText(orderItem.getSize().getName());
-            choiceSinglePriceTV.setText(orderItem.getSingleItemPrice() + context.getResources().getString(R.string.menu_list_item_currency));
+            choiceSinglePriceTV.setText(new DecimalFormat("##0.00").format(orderItem.getSingleItemPrice()));
             choiceQuantityTV.setText(orderItem.getQuantity() + "");
 
             //AGGIUNTA DEI LISTENERS PER I BOTTONI + E -
@@ -297,7 +301,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         AppSession.getInstance().getmCustomer().getOrder().calculateTotalPrice();
         double price = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
         Log.d("PRICE", "updateTotalPrice: "+Double.toString(price));
-        totalPriceInfo.setText(Double.toString(price));
+        totalPriceInfo.setText(new DecimalFormat("##0.00").format(price));
     }
 
     @Override
