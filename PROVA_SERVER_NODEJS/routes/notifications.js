@@ -15,7 +15,17 @@ and store their device token next to their user ID within your database, if you 
 
 */
 
-/*  listing. */
-router.get('/register', function (req, res, next) {
+// Index endpoint
+api.get('/', function (req, res, next) {
     notificationsCtrl.index(req, res);
+});
+
+// Send notifications endpoint
+api.get('/push', function (req, res, next) {
+    notificationsCtrl.push(req, res);
+});
+
+//  register device with token
+api.get('/register/:device', function (req, res, next) {
+    notificationsCtrl.register(req, res);
 });
