@@ -3,8 +3,9 @@ var express   =    require("express");
 
 var app       =    express();
 
-
-
+// Notifications routes
+var notificationsRoutes = require("./routes/users.js")
+app.use("/notifications", notificationsRoutes);
 
 var usersRoutes = require("./routes/users.js")
 app.use("/users", usersRoutes);

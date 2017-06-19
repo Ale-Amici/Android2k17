@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "mysql": "^2.13.0",
+    "pushy": "^2.0.4",
     "winston": "^2.3.1"
   }
 }
