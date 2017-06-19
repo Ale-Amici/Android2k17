@@ -114,6 +114,14 @@ public class BarMenuItem {
         return description;
     }
 
+    public double getLowestPrice(){
+        double lowestPrice = sizes.get(0).getPrice();
+        for(Size size: sizes){
+            if(size.getPrice() < lowestPrice) lowestPrice = size.getPrice();
+        }
+        return lowestPrice;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

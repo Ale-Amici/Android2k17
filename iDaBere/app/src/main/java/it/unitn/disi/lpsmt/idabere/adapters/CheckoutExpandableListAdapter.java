@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.vision.text.Line;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -129,7 +130,7 @@ public class CheckoutExpandableListAdapter extends BaseExpandableListAdapter {
             total += item.getQuantity();
         }
         itemTotalQntyTV.setText(Integer.toString(total));
-        itemTotalPriceTV.setText(Double.toString(mCurrentOrder.getTotalPriceByItemName(headerTitle)));
+        itemTotalPriceTV.setText(new DecimalFormat("##0.00").format(mCurrentOrder.getTotalPriceByItemName(headerTitle)));
 
         ExpandableListView mExpandableListView = (ExpandableListView) parent;
         mExpandableListView.expandGroup(groupPosition);
@@ -164,7 +165,7 @@ public class CheckoutExpandableListAdapter extends BaseExpandableListAdapter {
 
         singleItemSizeTV.setText(child.getSize().getName());
         singleItemQntyTV.setText(Integer.toString(child.getQuantity()));
-        singleItemPriceTV.setText(Double.toString(child.getSingleItemPrice()*child.getQuantity()));
+        singleItemPriceTV.setText(new DecimalFormat("##0.00").format(child.getSingleItemPrice()*child.getQuantity()));
 
 
         return convertView;

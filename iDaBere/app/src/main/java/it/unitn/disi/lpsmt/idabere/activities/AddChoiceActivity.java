@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -160,7 +161,7 @@ public class AddChoiceActivity extends AppCompatActivity {
             TextView priceTextView = (TextView) choiceSizeView.findViewById(R.id.size_price_label);
             button.setId(i);
             button.setText(mBarMenuItem.getSizes().get(i).getName());
-            priceTextView.setText(mBarMenuItem.getSizes().get(i).getPrice() + "");
+            priceTextView.setText(new DecimalFormat("##0.00").format(mBarMenuItem.getSizes().get(i).getPrice()));
             sizesLinearLayout.addView(choiceSizeView);
             sizeRadioGroup.add(button);
         }
@@ -202,7 +203,7 @@ public class AddChoiceActivity extends AppCompatActivity {
     public void updatePreview(){
         OrderItem tempOrderItem = createNewOrderItemFromUserInput();
         descriptionPreview.setText(tempOrderItem.getDescription());
-        pricePreview.setText(tempOrderItem.getSingleItemPrice() + getResources().getString(R.string.menu_list_item_currency));
+        pricePreview.setText(new DecimalFormat("##0.00").format(tempOrderItem.getSingleItemPrice()));
     }
 
     OrderItem createNewOrderItemFromUserInput(){

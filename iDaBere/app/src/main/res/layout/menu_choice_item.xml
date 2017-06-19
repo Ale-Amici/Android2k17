@@ -101,19 +101,31 @@
                     card_view:srcCompat="@drawable/ic_add_circle_black_24dp" />
             </LinearLayout>
 
-
-            <!-- Price total -->
-
-            <TextView
-                android:id="@+id/choice_single_price"
+            <LinearLayout
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:textAlignment="textEnd"
-                android:text="999€"
-                android:textStyle="bold"
-                android:textSize="@dimen/paragraph_text_size"
-                android:layout_weight="2"/>
+                android:orientation="horizontal">
+                <!-- Price total -->
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textAlignment="textEnd"
+                    android:text="@string/menu_list_item_currency"
+                    android:textSize="@dimen/paragraph_text_size"/>
+
+                <TextView
+                    android:id="@+id/choice_single_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textAlignment="textEnd"
+                    android:text="9,90"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/paragraph_text_size"/>
+            </LinearLayout>
 
         </LinearLayout>
 

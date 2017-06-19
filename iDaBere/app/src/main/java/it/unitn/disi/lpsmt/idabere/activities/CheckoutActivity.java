@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.vision.text.Text;
 
+import java.text.DecimalFormat;
+
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.CheckoutExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Order;
@@ -74,7 +76,7 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-        totalOrderInfo.setText(Double.toString(currentOrder.getTotalPrice()));
+        totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         deliveryType.setText(currentOrder.getChoosenDeliveryPlace().getName());
         getDeliveryTypeDetails.setText(currentOrder.getChoosenDeliveryPlace().toString());
         paymentMethod.setText(currentOrder.getChoosenPayment().toString());
