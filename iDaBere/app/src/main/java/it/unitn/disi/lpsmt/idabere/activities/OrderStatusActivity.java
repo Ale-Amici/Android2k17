@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -18,7 +21,8 @@ import me.pushy.sdk.Pushy;
 public class OrderStatusActivity extends AppCompatActivity {
 
     // Url per contattare la macchina in locale tramite il servizio ngrook
-    final String ngrookUrl = "386ffe61.ngrok.io";
+    // TODO Una volta aperto il servizio sostituire <id>
+    final String ngrokUrlId = "<id>";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,15 @@ public class OrderStatusActivity extends AppCompatActivity {
                 Log.d("MyApp", "Pushy device token: " + deviceToken);
 
                 // Send the token to your backend server via an HTTP GET request
-                new URL("http://"+ngrookUrl+"/notifications/register/device?token=" + deviceToken).openConnection();
+                URL url = new URL("http://"+ngrokUrlId+".ngrok.io/notifications/register/" + deviceToken);
+                Log.d("URL", url.toString());
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    Log.d("RESPONSE", in.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
             }
             catch (Exception exc) {
                 // Return exc to onPostExecute

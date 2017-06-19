@@ -45,6 +45,7 @@ function push(request, response){
 function register(request, response){
   var device = request.params.device;
   tokens.push(device);
+  console.log("Device registered");
   response.status(200).send("Register");
 }
 

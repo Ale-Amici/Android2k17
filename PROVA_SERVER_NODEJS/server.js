@@ -20,6 +20,6 @@ app.get("/",function(req,res){-
         handle_database(req,res);
 });
 */
-app.listen(80);
+app.listen(8080);
 
-console.info("aperto alla porta 80");
+console.info("aperto alla porta 8080");
