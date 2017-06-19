@@ -17,6 +17,9 @@ import me.pushy.sdk.Pushy;
 
 public class OrderStatusActivity extends AppCompatActivity {
 
+    // Url per contattare la macchina in locale tramite il servizio ngrook
+    final String ngrookUrl = "386ffe61.ngrok.io";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,7 @@ public class OrderStatusActivity extends AppCompatActivity {
                 Log.d("MyApp", "Pushy device token: " + deviceToken);
 
                 // Send the token to your backend server via an HTTP GET request
-                new URL("https://{YOUR_API_HOSTNAME}/register/device?token=" + deviceToken).openConnection();
+                new URL("http://"+ngrookUrl+"/notifications/register/device?token=" + deviceToken).openConnection();
             }
             catch (Exception exc) {
                 // Return exc to onPostExecute
