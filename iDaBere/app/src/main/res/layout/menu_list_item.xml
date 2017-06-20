@@ -47,6 +47,21 @@
                     android:gravity="center_vertical|right">
 
                     <TextView
+                        android:id="@+id/da_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="da "
+                        android:textSize="@dimen/paragraph_text_size" />
+
+                    <TextView
+                        android:id="@+id/item_price_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_list_item_currency"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+                    <TextView
                         android:id="@+id/item_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,14 +70,7 @@
                         android:textStyle="bold"
                         />
 
-                    <TextView
-                        android:id="@+id/item_price_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignRight="@id/item_price"
-                        android:text="@string/menu_list_item_currency"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/paragraph_text_size" />
+
                 </LinearLayout>
 
 

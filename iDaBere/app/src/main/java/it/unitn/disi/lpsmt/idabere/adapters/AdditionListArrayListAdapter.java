@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -49,7 +50,7 @@ public class AdditionListArrayListAdapter extends ArrayAdapter<Addition> {
 
         TextView price = (TextView) convertView.findViewById(R.id.addition_price_label);
         //default price
-        price.setText(additions.get(position).getPrice() + "");
+        price.setText(new DecimalFormat("##0.00").format(additions.get(position).getPrice()));
         additionCheckBox.setTag(position);
         //View additionChoiceRow = convertView.findViewById(R.id.addition_choice_row);
 
