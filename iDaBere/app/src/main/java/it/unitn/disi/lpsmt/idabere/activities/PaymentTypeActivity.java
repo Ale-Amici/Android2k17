@@ -17,8 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -26,6 +28,7 @@ import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.CashPayment;
 import it.unitn.disi.lpsmt.idabere.models.CreditcardPayment;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
@@ -34,6 +37,8 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
     private BottomNavigationView bottomNavigationMenu;
 
     private Spinner creditCardSpinner;
+
+    private TextView totalOrderInfo;
 
     private ArrayAdapter<PaymentMethod> creditCardSpinnerAdapter;
 
@@ -107,7 +112,8 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
 
     @Override
     protected void onResume() {
-        PaymentMethod currentPaymentMethod = AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment();
+        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+        PaymentMethod currentPaymentMethod = currentOrder.getChoosenPayment();
         if (currentPaymentMethod != null) {
             if (currentPaymentMethod instanceof CreditcardPayment) {
                 firstChoiceRadioButton.toggle();
@@ -116,6 +122,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
                 secondChoiceRadioButton.toggle();
             }
         }
+        totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         super.onResume();
     }
 
@@ -160,7 +167,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.payment_bottom_navigation);
         creditCardSpinner = (Spinner) findViewById(R.id.credit_card_drop_down);
-
+        totalOrderInfo = (TextView) findViewById(R.id.payment_total_order_price);
         paymentsRadioGroup = (RadioGroup) findViewById(R.id.payments_radiogroup);
 
         firstChoiceRadioButton = (RadioButton) findViewById(R.id.first_choice_radiobutton);

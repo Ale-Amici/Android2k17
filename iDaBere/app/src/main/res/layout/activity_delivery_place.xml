@@ -159,7 +159,17 @@
                 android:paddingBottom="@dimen/activity_vertical_margin">
 
                 <TextView
-                    android:id="@+id/review_total_order_price"
+                    android:id="@+id/delivery_total_order_price_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/currency_right_margin"
+                    android:text="@string/menu_list_item_currency"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/delivery_total_order_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menu_list_item_price"
@@ -167,14 +177,7 @@
                     android:textStyle="bold"
                     />
 
-                <TextView
-                    android:id="@+id/review_total_order_price_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu_list_item_currency"
-                    android:textSize="@dimen/title_text_size"
-                    android:textStyle="bold"
-                    />
+
 
 
             </LinearLayout>

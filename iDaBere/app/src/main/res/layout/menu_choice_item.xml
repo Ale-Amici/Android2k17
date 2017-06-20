@@ -113,6 +113,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:textAlignment="textEnd"
+                    android:paddingRight="@dimen/currency_right_margin"
+
                     android:text="@string/menu_list_item_currency"
                     android:textSize="@dimen/paragraph_text_size"/>
 

@@ -4,6 +4,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="menu_item_horizontal_padding">16dp</dimen>
+    <dimen name="menu_item_vertical_padding">8dp</dimen>
+
     <!-- Default text size -->
     <dimen name="title_text_size">20sp</dimen>
     <dimen name="paragraph_text_size">14sp</dimen>
@@ -20,5 +23,6 @@
     <dimen name="design_bottom_navigation_text_size" tools:override="true">@dimen/paragraph_text_size</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">@dimen/paragraph_text_size</dimen>
 
+    <dimen name="currency_right_margin">5dp</dimen>
 
 </resources>

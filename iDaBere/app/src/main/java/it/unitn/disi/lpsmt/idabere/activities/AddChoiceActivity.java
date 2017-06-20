@@ -57,7 +57,6 @@ public class AddChoiceActivity extends AppCompatActivity {
     private ListView additionListView;
     private LinearLayout sizesLinearLayout; //TODO CAMBIA TUTTA LA LOGICA DEL RADIO GROUP AL MyRadioGroup
     private MyRadioGroup sizeRadioGroup;
-    private TextView descriptionPreview;
     private TextView pricePreview;
     private TextView menuItemNameTv;
 
@@ -77,7 +76,6 @@ public class AddChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_choice);
         sizesLinearLayout = (LinearLayout) findViewById(R.id.sizes_linear_layout);
         additionListView = (ListView) findViewById(R.id.additions_list_view);
-        descriptionPreview = (TextView) findViewById(R.id.choice_preview_description);
         pricePreview = (TextView) findViewById(R.id.choice_preview_price);
         menuItemNameTv = (TextView) findViewById(R.id.menu_item_name_tv);
         sizeRadioGroup = new MyRadioGroup();
@@ -202,7 +200,6 @@ public class AddChoiceActivity extends AppCompatActivity {
 
     public void updatePreview(){
         OrderItem tempOrderItem = createNewOrderItemFromUserInput();
-        descriptionPreview.setText(tempOrderItem.getDescription());
         pricePreview.setText(new DecimalFormat("##0.00").format(tempOrderItem.getSingleItemPrice()));
     }
 
