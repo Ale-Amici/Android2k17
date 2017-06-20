@@ -14,8 +14,7 @@
         android:id="@+id/expandable_review_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:childDivider="@color/expandableListChildDivider">
+        android:layout_weight="1">
 
 
     </ExpandableListView>
