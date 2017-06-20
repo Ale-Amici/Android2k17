@@ -23,6 +23,7 @@
                 android:id="@+id/item_infos_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="@dimen/menu_item_vertical_padding"
                 android:orientation="horizontal"
                 >
 
@@ -50,13 +51,15 @@
                         android:id="@+id/da_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="da "
+                        android:paddingRight="@dimen/currency_right_margin"
+                        android:text="da"
                         android:textSize="@dimen/paragraph_text_size" />
 
                     <TextView
                         android:id="@+id/item_price_currency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/currency_right_margin"
                         android:text="@string/menu_list_item_currency"
                         android:textStyle="bold"
                         android:textSize="@dimen/paragraph_text_size" />
@@ -82,22 +85,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_vertical_margin"
-                android:visibility="gone">
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:visibility="visible">
 
                 <!-- List of addition choosen section -->
-
-                <!-- Columns sections -->
-
-                <LinearLayout
-                    android:id="@+id/column_choices_linear_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/choices_linear_layout"
@@ -113,14 +105,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_horizontal_margin">
+                    android:paddingTop="@dimen/menu_item_vertical_padding">
 
                     <Button
                         android:id="@+id/new_chioce_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/add_new_drink_button"
-                        style="@style/Widget.AppCompat.Button.Borderless"/>
+                        style="@style/Widget.AppCompat.Button.Colored"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

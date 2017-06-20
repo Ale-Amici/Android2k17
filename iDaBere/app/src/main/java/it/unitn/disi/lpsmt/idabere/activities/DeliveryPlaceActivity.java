@@ -18,15 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.text.Line;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
 import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -36,6 +39,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
     private Spinner tablesSpinner;
+    private TextView totalOrderInfo;
 
     private RadioGroup deliveriesRadioGroup;
 
@@ -118,7 +122,8 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
 
     @Override
     protected void onResume() {
-        DeliveryPlace currentDeliveryPlace = AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace();
+        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+        DeliveryPlace currentDeliveryPlace = currentOrder.getChoosenDeliveryPlace();
         if (currentDeliveryPlace != null) {
             if (currentDeliveryPlace instanceof BarCounter) {
                 firstChoiceRadioButton.toggle();
@@ -128,6 +133,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
                 tablesSpinner.setSelection(tables.indexOf( (currentDeliveryPlace).toString()) );
             }
         }
+        totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         super.onResume();
     }
 
@@ -177,6 +183,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
 
         tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
         countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
+        totalOrderInfo = (TextView) findViewById(R.id.delivery_total_order_price);
 
         deliveriesRadioGroup = (RadioGroup) findViewById(R.id.deliveries_radio_group);
 

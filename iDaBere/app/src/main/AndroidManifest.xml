@@ -58,7 +58,7 @@
 
         <activity
             android:name=".activities.AddChoiceActivity"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert">
+            android:theme="@style/Dialog">
         </activity>
 
         <activity

@@ -158,21 +158,22 @@
                     android:layout_margin="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical|right">
 
+                    <TextView
+                        android:id="@+id/total_order_price_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/currency_right_margin"
+                        android:text="@string/menu_list_item_currency"
+                        android:textSize="@dimen/paragraph_text_size" />
+
 
                     <TextView
                         android:id="@+id/total_order_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/menu_list_item_price"
                         android:textSize="@dimen/paragraph_text_size" />
 
-                    <TextView
-                        android:id="@+id/total_order_price_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/menu_list_item_currency"
-                        android:textSize="@dimen/paragraph_text_size" />
 
 
                 </LinearLayout>

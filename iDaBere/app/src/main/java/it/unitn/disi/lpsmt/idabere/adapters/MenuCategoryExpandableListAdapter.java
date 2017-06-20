@@ -211,6 +211,11 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             choicesLinearLayout.removeViewAt(0);
         }
 
+        if (choices.size() == 0){
+            choicesLinearLayout.requestLayout();
+
+        }
+
         //AGGIUNGO TUTTI GLI ELEMENTI DELL'ORDINE
         for(final OrderItem orderItem: choices){
             final View newChoiceView = inflater.inflate(R.layout.menu_choice_item, null); //faccio l'inflate del layout della nuova scelta
