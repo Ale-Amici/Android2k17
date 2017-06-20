@@ -165,7 +165,6 @@
                     android:paddingRight="@dimen/currency_right_margin"
                     android:text="@string/menu_list_item_currency"
                     android:textSize="@dimen/title_text_size"
-                    android:textStyle="bold"
                     />
 
                 <TextView
