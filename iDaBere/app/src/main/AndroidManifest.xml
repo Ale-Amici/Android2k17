@@ -19,10 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity
             android:name=".activities.ListBarActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,7 +35,8 @@
 
         <activity
             android:name=".activities.QrCodeScannerActivity"
-            android:label="@string/title_qr_code_scanner_login">
+            android:label="@string/title_qr_code_scanner_login"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:parentActivityName="it.unitn.disi.lpsmt.idabere.ListBarActivity"
@@ -43,12 +44,14 @@
         </activity>
 
         <activity
-            android:name=".activities.MenuActivity">
+            android:name=".activities.MenuActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".activities.ItemInfoActivity"
-            android:label="@string/title_item_info">
+            android:label="@string/title_item_info"
+            android:screenOrientation="portrait">
              <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
@@ -58,12 +61,14 @@
 
         <activity
             android:name=".activities.AddChoiceActivity"
-            android:theme="@style/Dialog">
+            android:theme="@style/Dialog"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".activities.ReviewOrderActivity"
-            android:label="@string/review_order_activity_title">
+            android:label="@string/review_order_activity_title"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
@@ -75,17 +80,20 @@
 
         <activity
             android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"/>
 
 
         <activity
             android:name=".activities.DeliveryPlaceActivity"
-            android:label="@string/title_delivery_place_activity_title">
+            android:label="@string/title_delivery_place_activity_title"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".activities.PaymentTypeActivity"
-            android:label="@string/title_payment_type_activity_title">
+            android:label="@string/title_payment_type_activity_title"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
@@ -93,17 +101,20 @@
 
         <activity
             android:name=".activities.CheckoutActivity"
-            android:label="@string/title_activity_checkout">
+            android:label="@string/title_activity_checkout"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".activities.OrderStatusActivity"
-            android:label="@string/order_status_title_label">
+            android:label="@string/order_status_title_label"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".activities.RateOrderActivity"
-            android:label="@string/rate_order_activity_title">
+            android:label="@string/rate_order_activity_title"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
