@@ -76,10 +76,6 @@
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
-                android:value="it.unitn.disi.lpsmt.idabere.activities.MenuActivity"/>
         </activity>
 
         <activity
