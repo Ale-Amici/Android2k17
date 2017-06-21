@@ -17,7 +17,7 @@ function index(request, response) {
 /*
  * This function authenticate a user given its email/username and password
  */
-function authenticateUser(request, response) {    
+function authenticateUser(request, response) {
 }
 
 // /*
@@ -109,7 +109,7 @@ function destroyUser(request, response) {
             user: user
         });
     }
-// }
+}
 
 module.exports.index = index;
 // module.exports.new = newuser;
