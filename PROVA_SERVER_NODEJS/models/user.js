@@ -1,21 +1,21 @@
 class user {
-  setName(name){
-    this.name = name;
+  setUsername(username){
+    this.username = username;
     return this;
   }
   setId(id){
     this.id =id;
     return this;
   }
-  setAge(age){
-    this.age = age;
+  setDateOfBirth(dateOfBirth){
+    this.dateOfBirth = dateOfBirth;
     return this;
   }
   setEmail(email){
     this.email = email;
     return this;
   }
-  set(password){
+  setPassword(password){
     this.password = password;
     return this;
   }
