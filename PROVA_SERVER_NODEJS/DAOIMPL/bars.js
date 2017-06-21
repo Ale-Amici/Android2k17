@@ -219,14 +219,14 @@ var getBarFromId = function(barId){
                   bar.menu[item.category].push(item);
                   //item.category = undefined;//per eliminare la categoria dall'item
               })
-              */
+              *//*
               return pool.queryAsync("QUERY",params);
 
           })
           .then(function(tableRows) {
 
 
-            console.log(bar.barMenu.barMenuItemList)
+            console.log(bar.barMenu.barMenuItemList)*/
             resolve(bar);
           })
           .catch(function(err){

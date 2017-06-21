@@ -38,10 +38,11 @@ DROP TABLE IF EXISTS `android2k17`.`CUSTOMER` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(255) NULL,
-  `year_of_birth` INT UNSIGNED NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  `date_of_birth` DATE NOT NULL,
   `email` VARCHAR(1024) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  `device_token` VARCHAR(64) NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
@@ -521,8 +522,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (1, 'mario', 1990, 'mario@gmail.com', 'mario');
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (2, 'giulia', 1991, 'giulia@gmail.com', 'giulia');
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', NULL);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', NULL);
 
 COMMIT;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -135,8 +135,7 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="@dimen/currency_right_margin"
                     android:text="@string/menu_list_item_currency"
-                    android:textSize="@dimen/title_text_size"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/title_text_size"/>
 
                 <TextView
                     android:id="@+id/payment_total_order_price"
@@ -153,9 +152,8 @@
                 android:id="@+id/payment_bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryLight"
+                android:background="@color/colorPrimary"
                 android:translationZ="-10sp"
                 app:menu="@menu/payment_bottom_navigation"
                 app:itemIconTint="@drawable/nav_item_color_state"
@@ -170,4 +168,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>
