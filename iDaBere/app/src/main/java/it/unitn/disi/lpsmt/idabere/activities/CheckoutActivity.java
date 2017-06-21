@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.text.Text;
-
 import java.text.DecimalFormat;
 
 import it.unitn.disi.lpsmt.idabere.R;

@@ -21,8 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.text.Line;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 

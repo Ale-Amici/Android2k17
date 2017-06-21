@@ -105,7 +105,12 @@ public class BarsDAOImpl implements BarsDAO {
             urlConnection.disconnect();
         }
 
-        Log.d("DATA", data.toString());
+        try {
+            Log.d("DATA", data.toString());
+        } catch (NullPointerException ex){
+
+        }
+
 
         GsonBuilder gsonBuilder = new GsonBuilder();
 
@@ -169,7 +174,12 @@ public class BarsDAOImpl implements BarsDAO {
             urlConnection.disconnect();
         }
 
-        Log.d("DATA", data.toString());
+        try {
+            Log.d("DATA", data.toString());
+        } catch (NullPointerException ex){
+
+        }
+
 
         // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
 

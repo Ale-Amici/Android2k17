@@ -10,7 +10,6 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.text.Line;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
