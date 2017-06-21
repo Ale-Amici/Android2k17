@@ -28,6 +28,10 @@ function getAllUsers(controller) {
     });
 }
 
+var getUserFromId = function(userId){
+    //TODO PRENDI TUTTI I DATI DELL'UTENTE
+}
+
 
 
 
