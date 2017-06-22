@@ -1,14 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
-import android.location.Address;
-
 import java.util.ArrayList;
-
-import it.unitn.disi.lpsmt.idabere.models.BarCounter;
-import it.unitn.disi.lpsmt.idabere.models.BarMenu;
-import it.unitn.disi.lpsmt.idabere.models.Event;
-import it.unitn.disi.lpsmt.idabere.models.OpeningHour;
-import it.unitn.disi.lpsmt.idabere.models.Table;
 
 /**
  * Created by giovanni on 15/05/2017.

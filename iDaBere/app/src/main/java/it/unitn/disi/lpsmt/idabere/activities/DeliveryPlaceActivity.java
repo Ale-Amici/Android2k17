@@ -2,17 +2,17 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IntegerRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -28,11 +28,10 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
-import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
-import it.unitn.disi.lpsmt.idabere.models.Table;
+import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class DeliveryPlaceActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
@@ -50,12 +49,10 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
     private ArrayAdapter counterSpinnerAdapter;
     private ArrayAdapter tableSpinnerAdapter;
 
+    private ArrayList<DeliveryPlace> mBarCounters;
+    private ArrayList<DeliveryPlace> mBarTables;
+
     private Context mContext;
-
-
-    // FAKE DATA
-    ArrayList<String> tables = new ArrayList<>();
-    ArrayList<String> counters = new ArrayList();
 
 
     @Override
@@ -64,14 +61,10 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         setContentView(R.layout.activity_delivery_place);
 
         initViewComps();
+        setTablesAndCounters();
 
         mContext = this;
 
-        // Init fake data
-        for (int i = 1; i < 11; i++) {
-            tables.add(Integer.toString(i));
-            counters.add("Piano "+Integer.toString(i));
-        }
 
 
         // Set the bottom navigation menu
@@ -103,75 +96,66 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
 
         // Set spinners adapters
 
-        counterSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, counters);
+        counterSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mBarCounters);
         countersSpinner.setAdapter(counterSpinnerAdapter);
 
-        tableSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tables);
+        tableSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mBarTables);
         tablesSpinner.setAdapter(tableSpinnerAdapter);
 
 
         // Disable/enable spinner based on radio button clicked
         deliveriesRadioGroup.clearCheck();
-        toggleRadioButtonDetails(firstChoiceLayout);
-        toggleRadioButtonDetails(secondChoideLayout);
+        enableRadioButtonDetails(null);;
 
 
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
+        setTablesAndCounters();
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         DeliveryPlace currentDeliveryPlace = currentOrder.getChoosenDeliveryPlace();
         if (currentDeliveryPlace != null) {
             if (currentDeliveryPlace instanceof BarCounter) {
-                firstChoiceRadioButton.toggle();
-                countersSpinner.setSelection(counters.indexOf(currentDeliveryPlace.toString()));
+                firstChoiceRadioButton.setChecked(true);
+                countersSpinner.setSelection(mBarCounters.indexOf(currentDeliveryPlace));
+                enableRadioButtonDetails(firstChoiceLayout);
             } else {
-                secondChoiceRadioButton.toggle();
-                tablesSpinner.setSelection(tables.indexOf( (currentDeliveryPlace).toString()) );
+                secondChoiceRadioButton.setChecked(true);
+                tablesSpinner.setSelection(mBarTables.indexOf(currentDeliveryPlace));
+                enableRadioButtonDetails(secondChoideLayout);
             }
         }
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
-        super.onResume();
+        deliveriesRadioGroup.setOnCheckedChangeListener(this);
     }
 
     public boolean checkSelection() {
-        boolean result = false;
-
-        DeliveryPlace choosenDeliveryPlace = null;
-        int radioButtonId = deliveriesRadioGroup.getCheckedRadioButtonId();
-
-        if (radioButtonId != -1) {
-            switch (radioButtonId) {
-                case R.id.first_delivery_choice :
-                    choosenDeliveryPlace = new BarCounter();
-                    ((BarCounter) choosenDeliveryPlace).setCounterName((String)countersSpinner.getSelectedItem());
-
-                    break;
-                case R.id.second_delivery_choice :
-                    choosenDeliveryPlace = new Table();
-                    ((Table) choosenDeliveryPlace).setTableNumber(Integer.parseInt((String)tablesSpinner.getSelectedItem()));
-                    break;
-            }
-            AppSession.getInstance().getmCustomer().getOrder().setChoosenDeliveryPlace(choosenDeliveryPlace);
-            Log.d("DELIVERY CHOICE", AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace().toString());
-            result = true;
-        } else {
+        if(saveDeliveryChoice()){
+            return true;
+        }else {
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
-
-        return result;
+        return false;
     }
 
-    private void toggleRadioButtonDetails(LinearLayout layout) {
+    private void setEnabledOnRadioButtonDetails(LinearLayout layout, boolean enabled){
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
-            if (child.isEnabled()) {
-                child.setEnabled(false);
-            } else {
-                child.setEnabled(true);
-            }
+            child.setEnabled(enabled);
         }
+    }
+    private void enableRadioButtonDetails(LinearLayout layout) {
+        if(layout == null){ //disable all details
+            setEnabledOnRadioButtonDetails(firstChoiceLayout, false);
+            setEnabledOnRadioButtonDetails(secondChoideLayout, false);
+        }else{
+            setEnabledOnRadioButtonDetails(layout, true);//enable the selected details
+            LinearLayout oldEnabledLL = (firstChoiceLayout == layout)? secondChoideLayout : firstChoiceLayout;
+            setEnabledOnRadioButtonDetails(oldEnabledLL, false);//disable the other details
+        }
+
     }
 
     // Instantiate layout elements
@@ -180,7 +164,30 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.delivery_bottom_navigation);
 
         tablesSpinner = (Spinner) findViewById(R.id.tables_drop_down);
+        tablesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                saveDeliveryChoice();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                saveDeliveryChoice();
+            }
+        });
+
         countersSpinner = (Spinner) findViewById(R.id.counters_drop_down);
+        countersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                saveDeliveryChoice();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                saveDeliveryChoice();
+            }
+        });
         totalOrderInfo = (TextView) findViewById(R.id.delivery_total_order_price);
 
         deliveriesRadioGroup = (RadioGroup) findViewById(R.id.deliveries_radio_group);
@@ -191,31 +198,67 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         firstChoiceLayout = (LinearLayout) findViewById(R.id.first_delivery_choice_layout);
         secondChoideLayout = (LinearLayout) findViewById(R.id.second_delivery_choice_layout);
 
-        firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        firstChoiceRadioButton.setId(R.id.first_choice_radiobutton);
+        /*firstChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 toggleRadioButtonDetails(firstChoiceLayout);
             }
-        });
-
-        secondChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        });*/
+        secondChoiceRadioButton.setId(R.id.second_choice_radiobutton);
+        /*secondChoiceRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 toggleRadioButtonDetails(secondChoideLayout);
             }
-        });
+        });*/
 
     }
 
+    private boolean saveDeliveryChoice(){
+        boolean result = false;
+        Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
+        int radioButtonId = deliveriesRadioGroup.getCheckedRadioButtonId();
+
+        if (radioButtonId != -1) {
+            switch (radioButtonId) {
+                case R.id.first_choice_radiobutton :
+                    sessionOrder.setChoosenDeliveryPlace( (DeliveryPlace) countersSpinner.getSelectedItem());
+                    break;
+                case R.id.second_choice_radiobutton :
+                    sessionOrder.setChoosenDeliveryPlace( (DeliveryPlace) tablesSpinner.getSelectedItem());
+                    break;
+            }
+            Log.d("DELIVERY CHOICE", AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace().toString());
+            result = true;
+        }
+        return result;
+    }
+
+    private void setTablesAndCounters(){
+        mBarCounters = new ArrayList<>();
+        mBarTables = new ArrayList<>();
+        for(DeliveryPlace deliveryPlace: AppSession.getInstance().getmBar().getDeliveryPlaces()){
+            if(deliveryPlace instanceof BarCounter){
+                mBarCounters.add(deliveryPlace);
+            }
+            else{
+                mBarTables.add(deliveryPlace);
+            }
+        }
+    }
+
+
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.first_delivery_choice :
-                toggleRadioButtonDetails(firstChoiceLayout);
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        switch (group.getCheckedRadioButtonId()) {
+            case R.id.first_choice_radiobutton :
+                enableRadioButtonDetails(firstChoiceLayout);
                 break;
-            case R.id.second_delivery_choice :
-                toggleRadioButtonDetails(secondChoideLayout);
+            case R.id.second_choice_radiobutton :
+                enableRadioButtonDetails(secondChoideLayout);
                 break;
         }
+        saveDeliveryChoice();
     }
 }

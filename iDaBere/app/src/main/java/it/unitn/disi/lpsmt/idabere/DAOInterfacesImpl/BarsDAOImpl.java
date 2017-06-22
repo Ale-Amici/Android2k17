@@ -8,10 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +22,7 @@ import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
-import it.unitn.disi.lpsmt.idabere.models.Table;
+import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
 import it.unitn.disi.lpsmt.idabere.utils.DeliveryPlaceDeserializer;
 import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
@@ -187,7 +183,7 @@ public class BarsDAOImpl implements BarsDAO {
 
         gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
         DeliveryPlaceDeserializer deserializer = new DeliveryPlaceDeserializer();
-        deserializer.registerDeliveryPlace("tableNumber", Table.class);
+        deserializer.registerDeliveryPlace("tableNumber", BarTable.class);
         deserializer.registerDeliveryPlace("counterName", BarCounter.class);
         gsonBuilder.registerTypeAdapter(DeliveryPlace.class, deserializer);
 
