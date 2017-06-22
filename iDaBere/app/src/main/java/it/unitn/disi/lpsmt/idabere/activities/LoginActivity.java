@@ -28,11 +28,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -40,6 +45,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
+
+    private CustomersDAO customersDAO = ListBarActivity.factoryDAO.newCustomersDAO();
+
+    private String username;
+    private String password;
 
     private EditText mEmailView;
     private EditText mPasswordView;
@@ -72,7 +82,23 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View v) {
-
+        username = mEmailView.getText().toString();
+        password = mPasswordView.getText().toString();
+        if (username.isEmpty() || password.isEmpty()){
+            Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
+        } else {
+            new AuthenticationAsyncTask().execute(username, password);
+        }
     }
+
+    private class AuthenticationAsyncTask extends AsyncTask<String,Void,Customer> {
+        @Override
+        protected Customer doInBackground(String... params) {
+            Customer result = null;
+            customersDAO.loginCustomer(params[0], params[1]);
+            return result;
+        }
+    }
+
 }
 

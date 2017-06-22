@@ -9,6 +9,6 @@ public interface FactoryDAO {
     BarsDAO newBarsDAO ();
     OrderItemsDAO newOrderItemsDAO ();
     OrdersDAO newOrdersDAO ();
-    CustomersDAO newUsersDAO ();
+    CustomersDAO newCustomersDAO();
 
 }

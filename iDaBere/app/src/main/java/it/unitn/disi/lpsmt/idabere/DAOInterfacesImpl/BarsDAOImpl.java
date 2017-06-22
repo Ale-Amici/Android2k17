@@ -8,10 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +33,7 @@ import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
 
 public class BarsDAOImpl implements BarsDAO {
 
-    private final String BARS_API_BASE_URL = "http://151.80.152.226/";
+    private final String API_BASE_URL = "http://151.80.152.226/";
     final String BARS_ROUTE = "bars";
 
     private final String BAR_ID = "id";
@@ -65,7 +61,7 @@ public class BarsDAOImpl implements BarsDAO {
         final String LONGITUDE_PARAMETER = "longitude";
 
 
-        Uri builtUri = Uri.parse(BARS_API_BASE_URL).buildUpon()
+        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
                 .appendPath(BARS_ROUTE)
                 .appendQueryParameter(LATITUDE_PARAMETER, String.valueOf(barLatitude))
                 .appendQueryParameter(LONGITUDE_PARAMETER, String.valueOf(barLongitude))
@@ -133,7 +129,7 @@ public class BarsDAOImpl implements BarsDAO {
 
         int barId = bar.getId();
 
-        Uri builtUri = Uri.parse(BARS_API_BASE_URL).buildUpon()
+        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
                 .appendPath(BARS_ROUTE)
                 .appendPath(String.valueOf(barId))
                 .build();

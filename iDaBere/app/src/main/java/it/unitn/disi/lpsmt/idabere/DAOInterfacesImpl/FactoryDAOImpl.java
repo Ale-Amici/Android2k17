@@ -27,7 +27,7 @@ public class FactoryDAOImpl implements FactoryDAO {
     }
 
     @Override
-    public CustomersDAO newUsersDAO() {
+    public CustomersDAO newCustomersDAO() {
         return new CustomersDAOImpl() {};
     }
 }

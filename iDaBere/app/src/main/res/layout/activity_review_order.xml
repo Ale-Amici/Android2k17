@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_above="@+id/toolbar">
+        android:layout_below="@+id/toolbar">
 
 
     </ExpandableListView>
@@ -26,8 +26,7 @@
         android:layout_height="wrap_content"
         app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:layout_alignParentBottom="true">
+        app:contentInsetStart="0dp">
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -9,14 +9,18 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import it.unitn.disi.lpsmt.idabere.models.Bar;
 import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
@@ -30,25 +34,77 @@ public class BackendConnection {
     public ArrayList<String> errors;
 
     private String BASE_URL;
-    private String [] ROUTES;
-    private String [] PARAMETERS;
-    private String [] PARAMETERS_VALUES;
+    private ArrayList<String> ROUTES;
+    private ArrayList<String> PARAMETERS;
+    private ArrayList<String> PARAMETERS_VALUES;
+
+    private Uri.Builder uriBuilder;
 
     private Uri builtUri ;
     private URL builtURL;
 
     public BackendConnection () {}
 
+    private void addError (String error){
+        if (getErrors() == null){
+            errors = new ArrayList<>();
+        }
+        errors.add(error);
+    }
+
+    private String getPostParametersAsString () {
+        String result = "";
+        int i;
+        for (i = 0; i < PARAMETERS.size() -1; i++) {
+            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
+        }
+        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
+        return result;
+    }
+
+    private String readBuffer (HttpURLConnection urlConnection) {
+        String result = "";
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(
+                    new InputStreamReader(urlConnection.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        try {
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        result = response.toString();
+        return result;
+    }
+
+    public void appendRoutes(){
+        for (int i = 0; i < ROUTES.size(); i++) {
+            uriBuilder.appendPath(ROUTES.get(i));
+        }
+    }
+
+    public void appendQueryParametersGET() {
+        for (int i = 0; i < PARAMETERS.size(); i++) {
+            uriBuilder.appendQueryParameter(PARAMETERS.get(i), PARAMETERS_VALUES.get(i));
+        }
+    }
+
     public void buildUri () {
         builtUri = Uri.parse(BASE_URL);
-        Uri.Builder uriBuilder = builtUri.buildUpon();
-        appendRoutes(uriBuilder);
-        appendQueryParameters(uriBuilder);
-        uriBuilder.build();
-
+        uriBuilder = builtUri.buildUpon();
     }
 
     public void buildURL () {
+        builtUri = uriBuilder.build();
         builtURL = null;
         try {
             builtURL = new URL(builtUri.toString());
@@ -58,23 +114,70 @@ public class BackendConnection {
         }
     }
 
-    private void appendRoutes(Uri.Builder uriBuilder){
-        for (int i = 0; i < ROUTES.length; i++) {
-            uriBuilder.appendPath(ROUTES[i]);
-        }
-    }
-
-    private void appendQueryParameters(Uri.Builder uriBuilder) {
-        for (int i = 0; i < PARAMETERS.length; i++) {
-            uriBuilder.appendQueryParameter(PARAMETERS[i], PARAMETERS_VALUES[i]);
-        }
-    }
-
-    private String connectUrl (URL url) {
+    public String connectUrlPOST() {
         String data = "";
+
+        HttpURLConnection urlConnection = null;
+
+        try {
+            urlConnection = (HttpURLConnection) builtURL.openConnection();
+        } catch (IOException e) {
+            addError("Errore di IO");
+            e.printStackTrace();
+        }
+        //add reuqest header
+        try {
+            urlConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        //con.setRequestProperty("User-Agent", USER_AGENT);
+        //urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+        String urlParameters = getPostParametersAsString();
+
+        // Send post request
+        urlConnection.setDoOutput(true);
+
+        DataOutputStream wr = null;
+        try {
+            wr = new DataOutputStream(urlConnection.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+        } catch (IOException e) {
+            errors.add("Errore di IO in DataOutputStream");
+            e.printStackTrace();
+        }
+
+        int responseCode = 0;
+        try {
+            responseCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            errors.add("Errore nel get response code");
+            e.printStackTrace();
+        }
+
+        System.out.println("\nSending 'POST' request to URL : " + builtURL.toString());
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+
+        if (responseCode == 200){
+            //print result
+            System.out.println(readBuffer(urlConnection));
+        }
+
+        return data;
+    }
+
+
+    public String connectUrlGET() {
+
+        String data = "";
+
         HttpURLConnection urlConnection = null;
         try {
-            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection = (HttpURLConnection) builtURL.openConnection();
         } catch (IOException e) {
             addError("Errore di IO");
             e.printStackTrace();
@@ -111,18 +214,12 @@ public class BackendConnection {
         return errors;
     }
 
-    public void addError (String error){
-        if (getErrors() == null){
-            errors = new ArrayList<>();
-        }
-        errors.add(error);
-    }
 
     public String getBASE_URL() {
         return BASE_URL;
     }
 
-    public void setBASE_URL(@NonNull String BASE_URL) {
+    public void setBASE_URI(@NonNull String BASE_URL) {
         if (BASE_URL != null || BASE_URL.isEmpty()){
             this.BASE_URL = BASE_URL;
         } else {
@@ -131,27 +228,27 @@ public class BackendConnection {
 
     }
 
-    public String[] getROUTES() {
+    public ArrayList<String> getROUTES() {
         return ROUTES;
     }
 
-    public void setROUTES(String[] ROUTES) {
+    public void setROUTES(ArrayList<String> ROUTES) {
         this.ROUTES = ROUTES;
     }
 
-    public String[] getPARAMETERS() {
+    public ArrayList<String> getPARAMETERS() {
         return PARAMETERS;
     }
 
-    public void setPARAMETERS(String[] PARAMETERS) {
+    public void setPARAMETERS(ArrayList<String> PARAMETERS) {
         this.PARAMETERS = PARAMETERS;
     }
 
-    public String[] getPARAMETERS_VALUES() {
+    public ArrayList<String> getPARAMETERS_VALUES() {
         return PARAMETERS_VALUES;
     }
 
-    public void setPARAMETERS_VALUES(String[] PARAMETERS_VALUES) {
+    public void setPARAMETERS_VALUES(ArrayList<String> PARAMETERS_VALUES) {
         this.PARAMETERS_VALUES = PARAMETERS_VALUES;
     }
 }
