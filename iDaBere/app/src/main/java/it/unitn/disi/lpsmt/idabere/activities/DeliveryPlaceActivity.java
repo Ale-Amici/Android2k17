@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IntegerRes;
@@ -33,6 +34,8 @@ import it.unitn.disi.lpsmt.idabere.models.Table;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class DeliveryPlaceActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+
+    private final int LOGIN_REQUEST_CODE = 10;
 
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
@@ -90,7 +93,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
                         break;
 
                     case R.id.navigation_payment_type:
-                        if (checkSelection()) {
+                        if (checkSelection() && isAuthenthicate()) {
                             intent.setClass(mContext, PaymentTypeActivity.class);
                             startActivity(intent);
                             result = true;
@@ -218,4 +221,18 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
                 break;
         }
     }
+
+    private boolean isAuthenthicate () {
+        boolean result = false;
+        if (AppSession.getInstance().getmCustomer().getId() != -1) {
+            result = true;
+        } else {
+            // Start Login activity for authentication
+            Intent loginIntent = new Intent();
+            loginIntent.setClass(mContext, LoginActivity.class);
+            startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+        }
+        return result;
+    }
+
 }

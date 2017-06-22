@@ -39,12 +39,13 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements OnClickListener {
 
     private EditText mEmailView;
     private EditText mPasswordView;
 
     private Button mSignInButton;
+    // TODO Funzione di registrazione non implementata
     private Button mRegisterButton;
 
 
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViewComps();
+        mSignInButton.setOnClickListener(this);
+
 
     }
 
@@ -64,6 +67,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.email_register_button);
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }
