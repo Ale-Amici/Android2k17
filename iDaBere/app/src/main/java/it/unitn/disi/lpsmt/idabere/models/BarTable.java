@@ -4,13 +4,13 @@ package it.unitn.disi.lpsmt.idabere.models;
  * Created by giovanni on 15/05/2017.
  */
 
-public class Table extends DeliveryPlace {
+public class BarTable extends DeliveryPlace {
 
     private int tableNumber;
 
-    public Table () {}
+    public BarTable() {}
 
-    public Table(int floor, int tableNumber) {
+    public BarTable(int floor, int tableNumber) {
         super(floor);
         this.tableNumber = tableNumber;
     }
