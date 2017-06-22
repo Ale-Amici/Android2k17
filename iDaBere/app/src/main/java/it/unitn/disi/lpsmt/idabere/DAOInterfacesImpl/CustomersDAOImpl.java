@@ -1,6 +1,10 @@
 package it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
@@ -16,8 +20,8 @@ import it.unitn.disi.lpsmt.idabere.utils.RequestQueue;
 
 public class CustomersDAOImpl implements CustomersDAO {
 
-//    private final String API_BASE_URI = "http://151.80.152.226/";
-    private final String API_BASE_URI = "http://127.0.0.1:8080/";
+    private final String API_BASE_URI = "http://151.80.152.226/";
+//    private final String API_BASE_URI = "http://127.0.0.1:8080/";
     final String AUTHENTICATION_ROUTE = "authentication";
 
     private Context mContext;
@@ -60,15 +64,13 @@ public class CustomersDAOImpl implements CustomersDAO {
 
         data = backendConnection.connectUrlPOST();
 
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//
-//        Type collectionType = new TypeToken<ArrayList<Bar>>(){}.getType();
-//
-//        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
-//
-//        Gson gson = gsonBuilder.create();
-//
-//        result = gson.fromJson(data, collectionType);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        Gson gson = gsonBuilder.create();
+
+        result = gson.fromJson(data, Customer.class);
+
+        Log.d("CUSTOMER", result.toString());
 
         return result;
     }

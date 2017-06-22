@@ -3,6 +3,7 @@ package it.unitn.disi.lpsmt.idabere.utils;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -135,60 +136,8 @@ public class BackendConnection {
     public String connectUrlPOST() {
         String data = "";
 
-//        HttpURLConnection urlConnection = null;
-//
-//        try {
-//            urlConnection = (HttpURLConnection) builtURL.openConnection();
-//        } catch (IOException e) {
-//            addError("Errore di IO");
-//            e.printStackTrace();
-//        }
-//        //add reuqest header
-//        try {
-//            urlConnection.setRequestMethod("POST");
-//        } catch (ProtocolException e) {
-//            e.printStackTrace();
-//        }
-//        urlConnection.setRequestProperty("User-Agent", USER_AGENT);
-//        urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-//
-//        String urlParameters = getPostParametersAsString();
-//
-//        // Send post request
-//        urlConnection.setDoOutput(true);
-//
-//        DataOutputStream wr = null;
-//        try {
-//            wr = new DataOutputStream(urlConnection.getOutputStream());
-//            wr.writeBytes(urlParameters);
-//            wr.flush();
-//            wr.close();
-//        } catch (IOException e) {
-//            errors.add("Errore di IO in DataOutputStream");
-//            e.printStackTrace();
-//        }
-//
-//        int responseCode = 0;
-//        try {
-//            responseCode = urlConnection.getResponseCode();
-//        } catch (IOException e) {
-//            errors.add("Errore nel get response code");
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println("\nSending 'POST' request to URL : " + builtURL.toString());
-//        System.out.println("Post parameters : " + urlParameters);
-//        System.out.println("Response Code : " + responseCode);
-//
-//        if (responseCode == 200){
-//            //print result
-//            System.out.println(readBuffer(urlConnection));
-//        }
-
-        // Instantiate the RequestQueue.
         String url = builtURL.toString();
-
-
+        
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -201,7 +150,7 @@ public class BackendConnection {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("RESPONSE", "user not found");
+                        error.printStackTrace();
                     }
                 }
         ) {
@@ -219,9 +168,14 @@ public class BackendConnection {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("Authorization",
+                        String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", "<username>", "<password>").getBytes(), Base64.DEFAULT)));
+                params.put(PARAMETERS.get(0), PARAMETERS_VALUES.get(0));
+                params.put(PARAMETERS.get(1), PARAMETERS_VALUES.get(1));
                 return params;
             }
+
         };
 
 
