@@ -9,10 +9,8 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
-import it.unitn.disi.lpsmt.idabere.activities.ListBarActivity;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
-import it.unitn.disi.lpsmt.idabere.utils.RequestQueue;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -21,17 +19,11 @@ import it.unitn.disi.lpsmt.idabere.utils.RequestQueue;
 public class CustomersDAOImpl implements CustomersDAO {
 
     private final String API_BASE_URI = "http://151.80.152.226/";
-//    private final String API_BASE_URI = "http://127.0.0.1:8080/";
     final String AUTHENTICATION_ROUTE = "authentication";
 
     private Context mContext;
 
-    private BackendConnection backendConnection;
-
-    public CustomersDAOImpl (Context context) {
-        mContext = context;
-        backendConnection = new BackendConnection(RequestQueue.getInstance(mContext).getRequestQueue());
-    }
+    private BackendConnection backendConnection = new BackendConnection();
 
     @Override
     public Customer loginCustomer(String username, String password) {
@@ -40,7 +32,7 @@ public class CustomersDAOImpl implements CustomersDAO {
 
         final String LOGING_ROUTE = "login";
 
-        backendConnection.setBASE_URI(API_BASE_URI);
+        backendConnection.setBASE_URL(API_BASE_URI);
         backendConnection.buildUri();
 
         ArrayList<String> routes = new ArrayList<>();
@@ -70,7 +62,9 @@ public class CustomersDAOImpl implements CustomersDAO {
 
         result = gson.fromJson(data, Customer.class);
 
-        Log.d("CUSTOMER", result.toString());
+        if (result != null){
+            Log.d("CUSTOMER", result.toString());
+        }
 
         return result;
     }

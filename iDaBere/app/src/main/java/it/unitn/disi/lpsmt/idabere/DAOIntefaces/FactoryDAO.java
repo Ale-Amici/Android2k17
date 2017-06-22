@@ -11,6 +11,6 @@ public interface FactoryDAO {
     BarsDAO newBarsDAO ();
     OrderItemsDAO newOrderItemsDAO ();
     OrdersDAO newOrdersDAO ();
-    CustomersDAO newCustomersDAO(Context context);
+    CustomersDAO newCustomersDAO();
 
 }

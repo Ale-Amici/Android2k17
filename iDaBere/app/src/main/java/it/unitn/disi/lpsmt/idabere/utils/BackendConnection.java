@@ -28,9 +28,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -44,7 +46,7 @@ import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
 
 public class BackendConnection {
 
-    private final String USER_AGENT = "Mozilla/5.0";
+    private final int RESPONSE_OK = 200;
 
     public ArrayList<String> errors;
 
@@ -58,12 +60,6 @@ public class BackendConnection {
     private Uri builtUri;
     private URL builtURL;
 
-    private RequestQueue queue;
-
-    public BackendConnection(RequestQueue requestQueue) {
-        queue = requestQueue;
-    }
-
     private void addError(String error) {
         if (getErrors() == null) {
             errors = new ArrayList<>();
@@ -71,15 +67,15 @@ public class BackendConnection {
         errors.add(error);
     }
 
-//    private String getPostParametersAsString () {
-//        String result = "";
-//        int i;
-//        for (i = 0; i < PARAMETERS.size() -1; i++) {
-//            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
-//        }
-//        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
-//        return result;
-//    }
+    private String getPostParametersAsString () {
+        String result = "";
+        int i;
+        for (i = 0; i < PARAMETERS.size() -1; i++) {
+            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
+        }
+        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
+        return result;
+    }
 
     private String readBuffer(HttpURLConnection urlConnection) {
         String result = "";
@@ -137,50 +133,56 @@ public class BackendConnection {
         String data = "";
 
         String url = builtURL.toString();
-        
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        error.printStackTrace();
-                    }
-                }
-        ) {
 
+        HttpURLConnection con = null;
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(PARAMETERS.get(0), PARAMETERS_VALUES.get(0));
-                params.put(PARAMETERS.get(1), PARAMETERS_VALUES.get(1));
+        try {
+            con = (HttpURLConnection) builtURL.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                return params;
-            }
+        //add reuqest header
+        try {
+            con.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Authorization",
-                        String.format("Basic %s", Base64.encodeToString(
-                                String.format("%s:%s", "<username>", "<password>").getBytes(), Base64.DEFAULT)));
-                params.put(PARAMETERS.get(0), PARAMETERS_VALUES.get(0));
-                params.put(PARAMETERS.get(1), PARAMETERS_VALUES.get(1));
-                return params;
-            }
+        //con.setRequestProperty("User-Agent", USER_AGENT);
+        //con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        };
+        String urlParameters = getPostParametersAsString();
 
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = null;
+        try {
+            wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Add the request to the RequestQueue.
-        queue.add(postRequest);
+        int responseCode = 0;
+        try {
+            responseCode = con.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+
+        if (responseCode == RESPONSE_OK){
+            data = readBuffer(con);
+        }
+
+        //print result
+        System.out.println(data);
 
         return data;
     }
@@ -197,30 +199,8 @@ public class BackendConnection {
             addError("Errore di IO");
             e.printStackTrace();
         }
-        try {
-            InputStream inputStream = urlConnection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-            StringBuilder sb = new StringBuilder();
 
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-
-            data = sb.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-
-        try {
-            Log.d("DATA", data.toString());
-        } catch (NullPointerException ex) {
-            addError("Nessun dato ricevuto");
-            ex.printStackTrace();
-        }
+        data = readBuffer(urlConnection);
 
         return data;
     }
@@ -234,7 +214,7 @@ public class BackendConnection {
         return BASE_URL;
     }
 
-    public void setBASE_URI(@NonNull String BASE_URL) {
+    public void setBASE_URL(@NonNull String BASE_URL) {
         if (BASE_URL != null || BASE_URL.isEmpty()) {
             this.BASE_URL = BASE_URL;
         } else {

@@ -29,6 +29,6 @@ public class FactoryDAOImpl implements FactoryDAO {
     }
 
     @Override
-    public CustomersDAO newCustomersDAO(Context context) { return new CustomersDAOImpl (context); }
+    public CustomersDAO newCustomersDAO() { return new CustomersDAOImpl (); }
 
 }

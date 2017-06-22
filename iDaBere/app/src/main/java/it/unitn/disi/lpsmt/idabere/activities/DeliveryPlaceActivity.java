@@ -138,6 +138,18 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements Compound
         super.onResume();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case RESULT_OK :
+                Toast.makeText(this, "Autenticazione effettuata", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(this, "Autenticazione non effettuata", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
     public boolean checkSelection() {
         boolean result = false;
 

@@ -3,6 +3,9 @@ package it.unitn.disi.lpsmt.idabere.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -39,6 +42,7 @@ import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.CustomersDAOImpl;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -58,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private Button mSignInButton;
     // TODO Funzione di registrazione non implementata
     private Button mRegisterButton;
+    private Context mContext;
 
 
     @Override
@@ -65,9 +70,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mContext = this;
+
         initViewComps();
 
-        customersDAO = ListBarActivity.factoryDAO.newCustomersDAO(this);
+        customersDAO = ListBarActivity.factoryDAO.newCustomersDAO();
 
         mSignInButton.setOnClickListener(this);
 
@@ -101,8 +108,25 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         @Override
         protected Customer doInBackground(String... params) {
             Customer result = null;
-            customersDAO.loginCustomer(params[0], params[1]);
+            result = customersDAO.loginCustomer(params[0], params[1]);
             return result;
+        }
+
+        @Override
+        protected void onPostExecute(Customer resultCustomer) {
+            if (resultCustomer == null) {
+                Toast.makeText(mContext, "Utente non trovato", Toast.LENGTH_SHORT).show();
+            } else {
+                Customer currentCustomer = AppSession.getInstance().getmCustomer();
+                currentCustomer.setId(resultCustomer.getId());
+                currentCustomer.setUsername(resultCustomer.getUsername());
+                currentCustomer.setEmail(resultCustomer.getEmail());
+                currentCustomer.setPassword(resultCustomer.getPassword());
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+            }
         }
     }
 
