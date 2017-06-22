@@ -2,6 +2,8 @@
 
 var Bar = require('../models/bar.js');
 var OpeningHour = require("../models/openingHour.js")
+var BarTable = require("../models/barTable.js")
+var BarCounter = require("../models/barCounter.js")
 var BarMenu = require("../models/barMenu.js")
 var BarMenuItem = require("../models/barMenuItem.js")
 var Ingredient = require("../models/ingredient.js")
@@ -23,9 +25,9 @@ var dbHelper = require('../DB/dbhelper.js');
  */
 var joinArrayWithRows = function(array, rows, key, getObjectFromDbRow, propertyName){
     arrayIndex = 0;
-    console.log("AAAAAAAAAAAAAAAA" + key +" " + propertyName +"\n" +array);
+    //console.log("AAAAAAAAAAAAAAAA" + key +" " + propertyName +"\n" +array);
     rows.forEach(function(row,index){
-        console.log("BBBBBBBBBBBBBBBBB " + array[arrayIndex].id + " =? " +row[key] +  "\n");
+        //console.log("BBBBBBBBBBBBBBBBB " + array[arrayIndex].id + " =? " +row[key] +  "\n");
         while(array[arrayIndex].id != row[key]){
 
             arrayIndex++;
@@ -40,7 +42,7 @@ var joinArrayWithRows = function(array, rows, key, getObjectFromDbRow, propertyN
             array[arrayIndex][propertyName] = [];
         }
         array[arrayIndex][propertyName].push(getObjectFromDbRow(row));
-        console.log("AGGIUNTO " + index +" " + row);
+        //console.log("AGGIUNTO " + index +" " + row);
     });
 
     return true;
@@ -150,7 +152,7 @@ var getBarFromId = function(barId){
         pool.queryAsync("SELECT * FROM BAR WHERE ID = ? ", barId)
         .then(function(barRows){
             bar = getBarFromDbRow(barRows[0]);
-            /**************SECONDA QUERY***************/
+            /**************QUERY GET OpeningHour***************/
             return pool.queryAsync("SELECT * FROM OPENING_HOUR WHERE BAR_ID = ?", barId);
           })
           .then(function(openingRows){
@@ -159,7 +161,7 @@ var getBarFromId = function(barId){
                       getOpeningHourFromDbRow(row)
                   )
               });
-              /**************TERZA QUERY***************/
+              /**************QUERY GET BarMenuItem***************/
               return pool.queryAsync( " SELECT MI.ID, BAR_ID, ITEM_CATEGORY_ID, GLOBAL_MENU_ITEM_ID,menu_item_name, description, category_name  "
                                     + " FROM MENU_ITEM MI JOIN ITEM_CATEGORY IC ON(MI.ITEM_CATEGORY_ID = IC.ID) "
                                     + " WHERE BAR_ID = ?"
@@ -176,7 +178,7 @@ var getBarFromId = function(barId){
                                     + " ORDER BY MIHI.MENU_ITEM_ID ASC ", barId);
           })
           .then(function(itemIngredientsRows){
-              console.log(itemIngredientsRows);
+              //console.log(itemIngredientsRows);
               joinArrayWithRows(bar.barMenu.barMenuItemList, itemIngredientsRows, "MENU_ITEM_ID", getIngredientFromDbRow, "ingredients");
               /*****QUERY PER LE ADDITION****/
               return pool.queryAsync( " SELECT  MIHA.MENU_ITEM_ID, MIHA.ITEM_ADDITION_ID, price, addition_name  "
@@ -198,36 +200,31 @@ var getBarFromId = function(barId){
 
           })
           .then(function(itemSizesRows){
-
-              joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizes");
-              //WORKAROUND PER DIVIDERE GLI ITEM IN CATEGORIES
-              /*
-              menu1 = bar.menu;
-              bar.setMenu([])
-              menu1.forEach(function(item,index){
-                  console.log(item.category);
-                  var i;
-                  for(i = 0; i < bar.menu.lenght && bar.menu[i].name != item.category; i ++){}
-                  if(i == bar.menu.lenght){
-                      bar.menu.push(new Category{
-
-                      })
-                  }
-                  if(bar.menu[item.category] == undefined){
-                      bar.menu[item.category] = [];
-                  }
-                  bar.menu[item.category].push(item);
-                  //item.category = undefined;//per eliminare la categoria dall'item
-              })
-              *//*
-              return pool.queryAsync("QUERY",params);
-
+            joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizes");
+            /***********QUERY PER I TABLES*************/
+            return pool.queryAsync( " SELECT BT.DELIVERY_PLACE_ID, BHDP.floor, BT.table_number"
+                                  + " FROM BAR_HAS_DELIVERY_PLACE BHDP JOIN DELIVERY_PLACE DP  ON(BHDP.DELIVERY_PLACE_ID = DP.ID) "
+                                  + " JOIN BAR_TABLE BT ON(BT.DELIVERY_PLACE_ID = DP.ID)"
+                                  + " WHERE BHDP.BAR_ID = ?"
+                                  + " ORDER BY BHDP.floor ASC, BT.table_number ASC ", barId);
           })
           .then(function(tableRows) {
+              tableRows.forEach(function(row,index){
+                  bar.deliveryPlaces.push(getBarTableFromDbRow(row));
+              })
+              return pool.queryAsync( " SELECT BC.DELIVERY_PLACE_ID, BHDP.floor, BC.counter_name"
+                                    + " FROM BAR_HAS_DELIVERY_PLACE BHDP JOIN DELIVERY_PLACE DP  ON(BHDP.DELIVERY_PLACE_ID = DP.ID) "
+                                    + " JOIN BAR_COUNTER BC ON(BC.DELIVERY_PLACE_ID = DP.ID)"
+                                    + " WHERE BHDP.BAR_ID = ?"
+                                    + " ORDER BY BHDP.floor ASC, BC.counter_name ASC ", barId);
 
-
-            console.log(bar.barMenu.barMenuItemList)*/
-            resolve(bar);
+          })
+          .then(function(counterRows){
+              counterRows.forEach(function(row,index){
+                  bar.deliveryPlaces.push(getBarCounterFromDbRow(row));
+              })
+              //console.log(bar.barMenu.barMenuItemList);
+              resolve(bar);
           })
           .catch(function(err){
               reject(err);
@@ -239,7 +236,7 @@ var getBarFromId = function(barId){
 
 /************************************************* GET OBJECT FROM DB ROW **********************************************/
 var getBarFromDbRow = function(row){
-    console.log(row)
+    //console.log(row)
     bar = new Bar()
         .setName(row["name"])
         .setId(row["ID"])
@@ -248,11 +245,12 @@ var getBarFromDbRow = function(row){
         .setLatitude(row["latitude"])
         .setLongitude(row["longitude"])
         .setOpeningHours([])//li prendo nella seconda query
+        .setDeliveryPlaces([])
         .setBarMenu(
             new BarMenu().setBarMenuItemList([])
         )
 
-    console.log(bar);
+
     return bar
 }
 
@@ -293,9 +291,21 @@ var getSizeFromDbRow = function(row){
         .setId(row["ITEM_SIZE_ID"])
         .setName(row["size_description"])
         .setPrice(row["price"])
-
 }
 
+var getBarTableFromDbRow = function(row){
+    return new BarTable()
+        .setId(row["DELIVERY_PLACE_ID"])
+        .setFloor(row["floor"])
+        .setTableNumber(row["table_number"])
+}
+
+var getBarCounterFromDbRow = function(row){
+    return new BarCounter()
+        .setId(row["DELIVERY_PLACE_ID"])
+        .setFloor(row["floor"])
+        .setCounterName(row["counter_name"])
+}
 
 module.exports.getBarsFromPosition = getBarsFromPosition;
 module.exports.getBars = getBars;

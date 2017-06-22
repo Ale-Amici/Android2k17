@@ -35,7 +35,10 @@ class bar {
       this.barMenu = barMenu;
       return this;
   }
-
+  setDeliveryPlaces(deliveryPlaces){
+      this.deliveryPlaces = deliveryPlaces;
+      return this;
+  }
 }
 
 module.exports = bar;
