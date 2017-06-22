@@ -171,17 +171,27 @@ public class MenuActivity extends AppCompatActivity implements
         @Override
         protected BarMenu doInBackground(Bar... params) {
             AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
-            barMenu = AppSession.getInstance().getmBar().getBarMenu();
-            Log.d("BAR_MENU", barMenu.toString());
-            Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+            Bar currentBar = AppSession.getInstance().getmBar();
+            if (currentBar != null) {
+                barMenu = AppSession.getInstance().getmBar().getBarMenu();
+                Log.d("BAR_MENU", barMenu.toString());
+                Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+            }
+
 
             return barMenu;
         }
 
         @Override
         protected void onPostExecute(BarMenu barMenu) {
-            menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo, categoriesExpandableListView);
-            categoriesExpandableListView.setAdapter(menuAdapter);
+            if (barMenu != null){
+                menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo, categoriesExpandableListView);
+                categoriesExpandableListView.setAdapter(menuAdapter);
+            } else {
+                Toast.makeText(mContext, "Servizio al momento non disponibile.", Toast.LENGTH_SHORT).show();
+            }
+
+
             super.onPostExecute(barMenu);
         }
     }

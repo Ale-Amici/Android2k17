@@ -115,5 +115,10 @@
     <string name="rate_order_activity_title">Valutazioni Ordine</string>
     <string name="rate_confirm_button">Conferma</string>
     <string name="stars_number">5</string>
+    <string name="no_location_detected">Abilita il GPS per avere una posizione precisa</string>
+    <string name="gps_permission_rationale">Puoi abilitare i permessi per ottenere una posizione più precisa tramite GPS</string>
+    <string name="permission_denied_explanation">Sono necessari i permessi per utilizzare i dati dal GPS</string>
+    <string name="settings">Impostazioni</string>
+    <string name="internet_permission_rationale">Sono necessari i permessi di connessione abilitati</string>
 
 </resources>
