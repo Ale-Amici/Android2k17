@@ -35,6 +35,7 @@ import java.util.List;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.CustomersDAOImpl;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
@@ -46,7 +47,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
 
-    private CustomersDAO customersDAO = ListBarActivity.factoryDAO.newCustomersDAO();
+    private CustomersDAO customersDAO;
 
     private String username;
     private String password;
@@ -65,8 +66,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         setContentView(R.layout.activity_login);
 
         initViewComps();
-        mSignInButton.setOnClickListener(this);
 
+        customersDAO = ListBarActivity.factoryDAO.newCustomersDAO(this);
+
+        mSignInButton.setOnClickListener(this);
 
     }
 
@@ -74,6 +77,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private void initViewComps () {
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        mEmailView.setText("giulia");
+        mPasswordView.setText("giulia");
 
         mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.email_register_button);

@@ -1,11 +1,14 @@
 package it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
 import it.unitn.disi.lpsmt.idabere.activities.ListBarActivity;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
+import it.unitn.disi.lpsmt.idabere.utils.RequestQueue;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -13,11 +16,18 @@ import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 
 public class CustomersDAOImpl implements CustomersDAO {
 
-    private final String API_BASE_URI = "http://151.80.152.226/";
+//    private final String API_BASE_URI = "http://151.80.152.226/";
+    private final String API_BASE_URI = "http://127.0.0.1:8080/";
     final String AUTHENTICATION_ROUTE = "authentication";
 
+    private Context mContext;
 
-    private BackendConnection backendConnection = new BackendConnection();
+    private BackendConnection backendConnection;
+
+    public CustomersDAOImpl (Context context) {
+        mContext = context;
+        backendConnection = new BackendConnection(RequestQueue.getInstance(mContext).getRequestQueue());
+    }
 
     @Override
     public Customer loginCustomer(String username, String password) {
@@ -62,4 +72,5 @@ public class CustomersDAOImpl implements CustomersDAO {
 
         return result;
     }
+
 }
