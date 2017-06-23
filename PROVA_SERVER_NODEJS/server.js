@@ -26,6 +26,9 @@ app.use("/bars", barsRoutes);
 var authenticationRoutes = require("./routes/authentication.js");
 app.use("/authentication", authenticationRoutes);
 
+var ordersRoutes = require("./routes/orders.js");
+app.use("/orders", ordersRoutes);
+
 /*
 app.get("/",function(req,res){-
         handle_database(req,res);

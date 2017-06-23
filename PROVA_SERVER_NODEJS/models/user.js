@@ -19,6 +19,11 @@ class user {
     this.password = password;
     return this;
   }
+  setCreditCards(creditCards){
+    this.creditCards = creditCards;
+    return this;
+
+  }
 }
 
 module.exports = user;
