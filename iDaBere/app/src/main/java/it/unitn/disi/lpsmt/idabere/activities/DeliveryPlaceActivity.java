@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
@@ -32,6 +33,8 @@ import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+
+    private final int LOGIN_REQUEST_CODE = 10;
 
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
@@ -83,7 +86,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
                         break;
 
                     case R.id.navigation_payment_type:
-                        if (checkSelection()) {
+                        if (checkSelection() && isAuthenthicate()) {
                             intent.setClass(mContext, PaymentTypeActivity.class);
                             startActivity(intent);
                             result = true;
@@ -129,6 +132,18 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
         }
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         deliveriesRadioGroup.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case RESULT_OK :
+                Toast.makeText(this, "Autenticazione effettuata", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(this, "Autenticazione non effettuata", Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 
     public boolean checkSelection() {
@@ -261,4 +276,18 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
         }
         saveDeliveryChoice();
     }
+
+    private boolean isAuthenthicate () {
+        boolean result = false;
+        if (AppSession.getInstance().getmCustomer().getId() != -1) {
+            result = true;
+        } else {
+            // Start Login activity for authentication
+            Intent loginIntent = new Intent();
+            loginIntent.setClass(mContext, LoginActivity.class);
+            startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+        }
+        return result;
+    }
+
 }

@@ -148,11 +148,6 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
 
-    public void openItemInfo (View v) {
-        Intent itemInfoIntend = new Intent(mContext, ItemInfoActivity.class);
-        startActivity(itemInfoIntend);
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
