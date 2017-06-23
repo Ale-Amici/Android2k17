@@ -39,8 +39,8 @@ var createOrder = function(customer, order, bar) {
                 OrderStatus.PAYMENT_IN_PROGRESS, //DEFINIRE I PROCESS STATUS
                 order.creationDate,
                 order.destroyCode
-            ])
-        .then(function(rows){
+            ]);
+        }).then(function(rows){
 
         })
         .catch(function(err){
