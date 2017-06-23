@@ -4,6 +4,8 @@
 
 
     <item
+        android:id="@+id/navigation_list_bar"
+
         android:title="" />
 
     <item

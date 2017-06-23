@@ -87,8 +87,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppSession.getInstance().setmBar(barsList.get(position));
-                goToMenu();
+                goToMenu(position);
             }
         });
 
@@ -175,10 +174,18 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     }
 
 
-    public void goToMenu() {
+    public void goToMenu(int position) {
         if (AppStatus.getInstance(mContext).isOnline()) {
             Intent intent = new Intent();
             intent.setClass(mContext, MenuActivity.class);
+
+            Bar currentBar = AppSession.getInstance().getmBar();
+            if (currentBar != null && currentBar.getId() != barsList.get(position).getId()) {
+                intent.putExtra("BAR_CHANGED", true);
+            } else {
+                intent.putExtra("BAR_CHANGED", false);
+            }
+            AppSession.getInstance().setmBar(barsList.get(position));
             startActivity(intent);
         } else {
             Toast.makeText(mContext, "Impossible Connettersi", Toast.LENGTH_SHORT).show();
