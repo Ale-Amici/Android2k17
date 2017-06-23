@@ -19,8 +19,12 @@ class order {
       this.orderItems = orderItems;
       return this;
   }
-  setChosenPayment(chosenPayment){
-      this.chosenPayment = chosenPayment;
+  setUsingCreditCard(usingCreditCard){
+      this.usingCreditCard = usingCreditCard;
+      return this;
+  }
+  setChosenCreditCard(chosenCreditCard){
+      this.chosenCreditCard = chosenCreditCard;
       return this;
   }
   setChosenDeliveryPlace(chosenDeliveryPlace){
