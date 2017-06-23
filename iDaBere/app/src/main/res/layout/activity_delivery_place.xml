@@ -165,6 +165,7 @@
                     android:paddingRight="@dimen/currency_right_margin"
                     android:text="@string/menu_list_item_currency"
                     android:textSize="@dimen/title_text_size"
+                    style="@style/total_price_style"
                     />
 
                 <TextView
@@ -174,6 +175,7 @@
                     android:text="@string/menu_list_item_price"
                     android:textSize="@dimen/title_text_size"
                     android:textStyle="bold"
+                    style="@style/total_price_style"
                     />
 
 

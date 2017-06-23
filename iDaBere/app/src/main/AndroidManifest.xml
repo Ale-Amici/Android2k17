@@ -81,7 +81,12 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:parentActivityName="it.unitn.disi.lpsmt.idabere.DeliveryPlaceActivity"
+                android:value="it.unitn.disi.lpsmt.idabere.activities.DeliveryPlaceActivity"/>
+            </activity>
 
 
         <activity
