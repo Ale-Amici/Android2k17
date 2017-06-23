@@ -38,7 +38,7 @@ import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
 
 public class MenuActivity extends AppCompatActivity implements
-        SearchView.OnQueryTextListener{
+        SearchView.OnQueryTextListener {
 
     // The index of total price menu item associated with bottom navigation menu
     final int TOTAL_PRICE_MENU_ITEM_INDEX = 1;
@@ -66,10 +66,6 @@ public class MenuActivity extends AppCompatActivity implements
         initViewComps();
         mContext = this;
 
-       // menuCategoryExpandableListAdapter = new MenuCategoryExpandableListAdapter(this, AppSession.getInstance().getmBar() );
-        // setting list adapter
-        new MenuLoader().execute();
-
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -77,18 +73,18 @@ public class MenuActivity extends AppCompatActivity implements
                 int itemId = item.getItemId();
                 switch (itemId) {
 
-                    case R.id.navigation_list_bar :
-                        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-                        if (currentOrder != null && currentOrder.getOrderItems().size() > 0) {
-                            currentOrder.getOrderItems().clear();
-                        }
-                        MenuActivity.super.onBackPressed();
-                        result = true;
-                        break;
+//                    case R.id.navigation_list_bar :
+//                        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+//                        if (currentOrder != null && currentOrder.getOrderItems().size() > 0) {
+//                            currentOrder.getOrderItems().clear();
+//                        }
+//                        MenuActivity.super.onBackPressed();
+//                        result = true;
+//                        break;
 
-                    case R.id.navigation_review_order :
+                    case R.id.navigation_review_order:
                         Intent intent = new Intent();
-                        intent.setClass(mContext,ReviewOrderActivity.class);
+                        intent.setClass(mContext, ReviewOrderActivity.class);
                         startActivity(intent);
                         result = true;
                         break;
@@ -97,28 +93,29 @@ public class MenuActivity extends AppCompatActivity implements
             }
         });
 
-        //new MenuLoader().execute(AppSession.getInstance().getmBar());
+        new MenuLoader().execute();
 
     }
 
     @Override
     protected void onResume() {
-        if (AppSession.getInstance().getmCustomer() != null && AppSession.getInstance().getmCustomer().getOrder() != null){
+        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+        if (currentOrder != null) {
             totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
         }
-        if(menuAdapter != null){
+        if (menuAdapter != null) {
             menuAdapter.notifyDataSetChanged();
         }
         super.onResume();
     }
 
     // Instantiate layout elements
-    private void initViewComps () {
+    private void initViewComps() {
         // get the listview
         categoriesExpandableListView = (ExpandableListView) findViewById(R.id.categories_expandable_list);
 
         // get the bottom navigation menu
-        bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
+        bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
         progressBar = findViewById(R.id.loading_indicator);
         newChoiceButton = (Button) findViewById(R.id.add_choice_button);
@@ -136,7 +133,7 @@ public class MenuActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.item_list_menu,menu);
+        menuInflater.inflate(R.menu.item_list_menu, menu);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -154,9 +151,6 @@ public class MenuActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         menuAdapter = (MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter();
         AddChoiceActivity.checkNewChoiceResult(requestCode, resultCode, data, mContext, menuAdapter);
-
-        // TODO 4 FAI SI CHE OGNI ALTRA CATEGORIA SI CHIUDA QUANDO NE APRI UN'ALTRA
-
     }
 
 
@@ -167,39 +161,45 @@ public class MenuActivity extends AppCompatActivity implements
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ((MenuCategoryExpandableListAdapter)categoriesExpandableListView.getExpandableListAdapter())
+        ((MenuCategoryExpandableListAdapter) categoriesExpandableListView.getExpandableListAdapter())
                 .getFilter().filter(newText);
         return true;
     }
 
 
-    private class MenuLoader extends AsyncTask<Bar,Void,BarMenu> {
+    private class MenuLoader extends AsyncTask<Bar, Void, BarMenu> {
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-            AppSession.getInstance().setmBar(ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()));
-            Bar currentBar = AppSession.getInstance().getmBar();
-            if (currentBar != null) {
-                barMenu = AppSession.getInstance().getmBar().getBarMenu();
-                Log.d("BAR_MENU", barMenu.toString());
-                Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+            Bar newBar = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
+            AppSession.getInstance().setmBar(newBar);
+
+            if (getIntent().getBooleanExtra("BAR_CHANGED", false)) {
+                Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+                if (currentOrder != null) {
+                    currentOrder.getOrderItems().clear();
+
+                }
             }
 
+            barMenu = AppSession.getInstance().getmBar().getBarMenu();
+            Log.d("BAR_MENU", barMenu.toString());
+            Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
 
             return barMenu;
         }
 
         @Override
-        protected void onPostExecute(BarMenu barMenu) {
-            if (barMenu != null){
-                menuAdapter = new MenuCategoryExpandableListAdapter(mContext, barMenu, totalPriceInfo, categoriesExpandableListView);
+        protected void onPostExecute(BarMenu retrievedBarMenu) {
+            if (retrievedBarMenu != null) {
+                menuAdapter = new MenuCategoryExpandableListAdapter(mContext, retrievedBarMenu, totalPriceInfo, categoriesExpandableListView);
                 categoriesExpandableListView.setAdapter(menuAdapter);
             } else {
                 Toast.makeText(mContext, "Servizio al momento non disponibile.", Toast.LENGTH_SHORT).show();
             }
 
 
-            super.onPostExecute(barMenu);
+            super.onPostExecute(retrievedBarMenu);
         }
     }
 
