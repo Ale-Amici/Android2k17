@@ -24,6 +24,10 @@ class user {
     return this;
 
   }
+  setDeviceToken(deviceToken){
+      this.deviceToken = deviceToken;
+      return this;
+  }
 }
 
 module.exports = user;

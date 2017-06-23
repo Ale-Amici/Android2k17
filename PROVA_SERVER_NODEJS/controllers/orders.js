@@ -8,7 +8,7 @@ function createOrder(request, response) {
 }
 
 //percorso /orders/:order_id
-function (request, response){
+function getOrderFromId(request, response){
 
 
 }
@@ -20,5 +20,5 @@ function deleteOrder(request, response){
 }
 
 module.exports.createOrder = createOrder;
-module.exports.getOrder = getOrder;
+module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrder = deleteOrder;
