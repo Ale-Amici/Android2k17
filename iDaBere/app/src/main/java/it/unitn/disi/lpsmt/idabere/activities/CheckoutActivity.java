@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -75,9 +74,15 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
-        deliveryType.setText(currentOrder.getChoosenDeliveryPlace().getName());
-        getDeliveryTypeDetails.setText(currentOrder.getChoosenDeliveryPlace().toString());
-        paymentMethod.setText(currentOrder.getChoosenPayment().toString());
+        deliveryType.setText(currentOrder.getChosenDeliveryPlace().getName());
+        getDeliveryTypeDetails.setText(currentOrder.getChosenDeliveryPlace().toString());
+        if(currentOrder.isUsingCreditCard()){
+            paymentMethod.setText(currentOrder.getChosenCreditCard().toString());
+        }
+        else{
+            paymentMethod.setText("CONTANTI");
+        }
+
         mCheckoutListAdapter.notifyDataSetChanged();
         super.onResume();
     }
