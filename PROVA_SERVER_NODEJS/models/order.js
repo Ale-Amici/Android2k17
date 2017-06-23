@@ -1,4 +1,4 @@
-class bar {
+class order {
   setId(id){
     this.id = id;
     return this;
@@ -29,4 +29,4 @@ class bar {
   }
 }
 
-module.exports = bar;
+module.exports = order;
