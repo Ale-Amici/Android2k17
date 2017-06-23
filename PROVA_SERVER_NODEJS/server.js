@@ -1,7 +1,21 @@
-var express   =    require('express');
+
+var express   =  require("express");
+var passport  =  require("./passportConfig.js");
+var bodyParser = require("body-parser");
 //var logger    =    require('./UTILS/log.js');
+//var session = require('express-session')
 
 var app       =    express();
+//app.use(session({ secret: 'xxxxxxx' }));
+
+app.use(bodyParser.json())          // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(passport.initialize());
+//app.use(passport.session());
+
+
 
 var usersRoutes = require("./routes/users.js")
 app.use("/users", usersRoutes);
@@ -13,7 +27,11 @@ app.use("/bars", barsRoutes);
 // Notifications routes
 var notificationsRoutes = require("./routes/notifications.js")
 app.use("/notifications", notificationsRoutes);
+var authenticationRoutes = require("./routes/authentication.js");
+app.use("/authentication", authenticationRoutes);
 
+var ordersRoutes = require("./routes/orders.js");
+app.use("/orders", ordersRoutes);
 
 /*
 app.get("/",function(req,res){-

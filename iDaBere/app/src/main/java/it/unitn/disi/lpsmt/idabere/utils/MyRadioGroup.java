@@ -4,8 +4,6 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
-import com.google.android.gms.games.event.Event;
-
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;

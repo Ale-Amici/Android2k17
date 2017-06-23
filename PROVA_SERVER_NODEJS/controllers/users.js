@@ -15,8 +15,13 @@ function index(request, response) {
 }
 
 /*
+<<<<<<< HEAD
 * This function authenticate a user given its email/username and password
 */
+=======
+ * This function authenticate a user given its email/username and password
+ */
+>>>>>>> development
 function authenticateUser(request, response) {
 }
 
@@ -101,6 +106,7 @@ function updateUser(request, response) {
 * This function destroyes a user with param id
 */
 function destroyUser(request, response) {
+<<<<<<< HEAD
   var id = parseInt(request.params.id);
   if (usersDA.destroy(id)) {
     response.redirect('/users');
@@ -109,6 +115,16 @@ function destroyUser(request, response) {
       user: user
     });
   }
+=======
+    var id = parseInt(request.params.id);
+    if (usersDA.destroy(id)) {
+        response.redirect('/users');
+    } else {
+        response.render('users/edit', {
+            user: user
+        });
+    }
+>>>>>>> development
 }
 
   module.exports.index = index;

@@ -1,6 +1,8 @@
 
 // This imports the model of an employee
 var User = require('../models/user.js');
+var CreditCard = require('../models/creditCard.js');
+
 var dbHelper = require('../DB/dbhelper.js');
 
 /*
@@ -28,7 +30,50 @@ function getAllUsers(controller) {
   });
 }
 
+var getUserFromId = function(userId){
+    var pool = dbHelper.getDBPool();
+    var user;
+    return new Promise(function(resolve, reject){
+        pool.queryAsync("SELECT * FROM CUSTOMER WHERE ID = ? ", userId)
+        .then(function(userRows){
+            user = getUserFromDbRow(userRows[0]);
+            /**************QUERY GET OpeningHour***************/
+            return pool.queryAsync( " SELECT * "
+                                  + " FROM CREDIT_CARD CC "
+                                  + " WHERE CC.CUSTOMER_ID = ?"
+                                  + " ORDER BY CC.name ASC ", userId);
+          })
+          .then(function(creditCardRows){
+              creditCardRows.forEach(function(row,index){
+                  user.creditCards.push(getCreditCardFromDbRow(row))
+              })
+              resolve(user);
+          })
+          .catch(function(err){
+              console.log(err);
+              reject(err);
+          });
+    });
+    //TODO PRENDI TUTTI I DATI DELL'UTENTE
+}
 
 
+var getUserFromDbRow = function(row){
+    return new User()
+        .setId(row["ID"])
+        .setUsername(row["username"])
+        .setDateOfBirth(row["date_of_birth"])
+        .setEmail(row["email"])
+        .setPassword(row["password"])
+        .setCreditCards([])
+}
 
-module.exports.all = getAllUsers;
+getCreditCardFromDbRow = function(row){
+    return new CreditCard()
+        .setId(row["ID"])
+        .setName(row["name"])
+}
+
+
+module.exports.all           = getAllUsers;
+module.exports.getUserFromId = getUserFromId;

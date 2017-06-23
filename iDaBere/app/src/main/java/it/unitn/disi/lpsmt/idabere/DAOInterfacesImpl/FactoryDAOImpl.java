@@ -1,5 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl;
 
+import android.content.Context;
+
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.BarsDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.OrderItemsDAO;
@@ -27,7 +29,6 @@ public class FactoryDAOImpl implements FactoryDAO {
     }
 
     @Override
-    public CustomersDAO newUsersDAO() {
-        return new CustomersDAOImpl() {};
-    }
+    public CustomersDAO newCustomersDAO() { return new CustomersDAOImpl (); }
+
 }

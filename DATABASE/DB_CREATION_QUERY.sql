@@ -38,10 +38,11 @@ DROP TABLE IF EXISTS `android2k17`.`CUSTOMER` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(255) NULL,
-  `year_of_birth` INT UNSIGNED NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  `date_of_birth` DATE NOT NULL,
   `email` VARCHAR(1024) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  `device_token` VARCHAR(64) NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
@@ -194,7 +195,7 @@ DROP TABLE IF EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_HAS_DELIVERY_PLACE` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `floor_number` INT UNSIGNED NOT NULL,
+  `floor` INT UNSIGNED NOT NULL,
   `BAR_ID` INT UNSIGNED NOT NULL,
   `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
   INDEX `fk_BAR_HAS_DELIVERY_PLACE_BAR1_idx` (`BAR_ID` ASC),
@@ -214,20 +215,44 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `android2k17`.`CREDIT_CARD`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `android2k17`.`CREDIT_CARD` ;
+
+CREATE TABLE IF NOT EXISTS `android2k17`.`CREDIT_CARD` (
+  `ID` INT NOT NULL,
+  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_CREDIT_CARD_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
+  CONSTRAINT `fk_CREDIT_CARD_CUSTOMER1`
+    FOREIGN KEY (`CUSTOMER_ID`)
+    REFERENCES `android2k17`.`CUSTOMER` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `android2k17`.`CUSTOMER_ORDER`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `android2k17`.`CUSTOMER_ORDER` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_ORDER` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
-  `paid` TINYINT(1) NOT NULL DEFAULT 0,
-  `process_status` VARCHAR(255) NOT NULL,
-  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `BAR_HAS_DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
+  `CUSTOMER_ID` INT UNSIGNED NOT NULL,
+  `CREDIT_CARD_ID` INT NULL,
+  `using_credit_card` TINYINT(1) NOT NULL,
+  `total_price` DOUBLE NOT NULL,
+  `is_paid` TINYINT(1) NOT NULL DEFAULT 0,
+  `status` VARCHAR(255) NOT NULL,
+  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `destroy_code` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`ID`, `BAR_HAS_DELIVERY_PLACE_ID`),
   INDEX `fk_CUSTOMER_ORDER_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
   INDEX `fk_CUSTOMER_ORDER_BAR_HAS_DELIVERY_PLACE1_idx` (`BAR_HAS_DELIVERY_PLACE_ID` ASC),
+  INDEX `fk_CUSTOMER_ORDER_CREDIT_CARD1_idx` (`CREDIT_CARD_ID` ASC),
   CONSTRAINT `fk_CUSTOMER_ORDER_CUSTOMER1`
     FOREIGN KEY (`CUSTOMER_ID`)
     REFERENCES `android2k17`.`CUSTOMER` (`ID`)
@@ -236,6 +261,11 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_ORDER` (
   CONSTRAINT `fk_CUSTOMER_ORDER_BAR_HAS_DELIVERY_PLACE1`
     FOREIGN KEY (`BAR_HAS_DELIVERY_PLACE_ID`)
     REFERENCES `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CUSTOMER_ORDER_CREDIT_CARD1`
+    FOREIGN KEY (`CREDIT_CARD_ID`)
+    REFERENCES `android2k17`.`CREDIT_CARD` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -474,7 +504,7 @@ DROP TABLE IF EXISTS `android2k17`.`BAR_TABLE` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_TABLE` (
   `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
-  `number` INT NULL,
+  `table_number` INT NULL,
   PRIMARY KEY (`DELIVERY_PLACE_ID`),
   CONSTRAINT `fk_BAR_TABLE_DELIVERY_PLACE1`
     FOREIGN KEY (`DELIVERY_PLACE_ID`)
@@ -491,7 +521,7 @@ DROP TABLE IF EXISTS `android2k17`.`BAR_COUNTER` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`BAR_COUNTER` (
   `DELIVERY_PLACE_ID` INT UNSIGNED NOT NULL,
-  `name` VARCHAR(255) NULL,
+  `counter_name` VARCHAR(255) NULL,
   PRIMARY KEY (`DELIVERY_PLACE_ID`),
   CONSTRAINT `fk_BAR_TABLE_DELIVERY_PLACE10`
     FOREIGN KEY (`DELIVERY_PLACE_ID`)
@@ -521,8 +551,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (1, 'mario', 1990, 'mario@gmail.com', 'mario');
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `year_of_birth`, `email`, `password`) VALUES (2, 'giulia', 1991, 'giulia@gmail.com', 'giulia');
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', NULL);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', NULL);
 
 COMMIT;
 
@@ -622,6 +652,9 @@ INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (3);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (4);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (5);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (6);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (7);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (8);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (9);
 
 COMMIT;
 
@@ -631,18 +664,33 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (1, 1, 1, 1);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (2, 1, 1, 2);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (3, 1, 1, 3);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (4, 1, 1, 4);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (5, 1, 1, 5);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (6, 1, 1, 6);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (7, 1, 2, 1);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (8, 1, 2, 2);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (9, 1, 2, 3);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (10, 1, 2, 4);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (11, 1, 2, 5);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor_number`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (12, 1, 2, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (1, 1, 1, 1);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (2, 1, 1, 2);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (3, 1, 1, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (4, 1, 1, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (5, 1, 1, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (6, 1, 1, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (7, 1, 2, 1);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (8, 1, 2, 2);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (9, 1, 2, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (10, 1, 2, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (11, 1, 2, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (12, 1, 2, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (13, 1, 2, 7);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (14, 1, 2, 8);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (15, 1, 2, 9);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`CREDIT_CARD`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (1, 1, 'CARTA_PAYPAL');
+INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (2, 1, 'CARTA_MASTERCARD');
+INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (3, 2, 'CARTA_PREPAGATA');
 
 COMMIT;
 
@@ -709,11 +757,13 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (2, 1);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (3, 2);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (4, 3);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (5, 4);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `number`) VALUES (6, 5);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (2, 1);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (3, 2);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (4, 3);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (5, 4);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (6, 5);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (7, 6);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (8, 7);
 
 COMMIT;
 
@@ -723,7 +773,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `name`) VALUES (1, 'Bancone');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (1, 'Bancone');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (9, 'Chiosco cortile');
 
 COMMIT;
 
