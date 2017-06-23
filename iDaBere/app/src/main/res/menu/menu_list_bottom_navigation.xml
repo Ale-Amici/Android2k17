@@ -4,7 +4,9 @@
 
 
     <item
-        android:title="" />
+        android:id="@+id/navigation_list_bar"
+        android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
+        android:title="@string/title_activity_seach_bar" />
 
     <item
         android:id="@+id/navigation_total_price"
