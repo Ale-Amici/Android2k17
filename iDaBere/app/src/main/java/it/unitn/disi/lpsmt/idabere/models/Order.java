@@ -1,7 +1,5 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -18,8 +16,9 @@ public class Order {
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
     private double totalPrice;
-    private DeliveryPlace choosenDeliveryPlace;
-    private PaymentMethod choosenPayment;
+    private DeliveryPlace chosenDeliveryPlace;
+    private boolean usingCreditCard;
+    private CreditCard chosenCreditCard;
 
     public Order(){
         id = -1;
@@ -72,20 +71,28 @@ public class Order {
 
     public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
 
-    public DeliveryPlace getChoosenDeliveryPlace() {
-        return choosenDeliveryPlace;
+    public DeliveryPlace getChosenDeliveryPlace() {
+        return chosenDeliveryPlace;
     }
 
-    public void setChoosenDeliveryPlace(DeliveryPlace choosenDeliveryPlace) {
-        this.choosenDeliveryPlace = choosenDeliveryPlace;
+    public void setChosenDeliveryPlace(DeliveryPlace chosenDeliveryPlace) {
+        this.chosenDeliveryPlace = chosenDeliveryPlace;
     }
 
-    public PaymentMethod getChoosenPayment() {
-        return choosenPayment;
+    public boolean isUsingCreditCard() {
+        return usingCreditCard;
     }
 
-    public void setChoosenPayment(PaymentMethod choosenPayment) {
-        this.choosenPayment = choosenPayment;
+    public void setUsingCreditCard(boolean usingCreditCard) {
+        this.usingCreditCard = usingCreditCard;
+    }
+
+    public CreditCard getChosenCreditCard() {
+        return chosenCreditCard;
+    }
+
+    public void setChosenCreditCard(CreditCard chosenCreditCard) {
+        this.chosenCreditCard = chosenCreditCard;
     }
 
     public void calculateTotalPrice() {
