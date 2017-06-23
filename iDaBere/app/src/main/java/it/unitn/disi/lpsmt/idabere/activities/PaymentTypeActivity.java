@@ -24,15 +24,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.models.BarCounter;
-import it.unitn.disi.lpsmt.idabere.models.CashPayment;
-import it.unitn.disi.lpsmt.idabere.models.CreditcardPayment;
-import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.models.Order;
-import it.unitn.disi.lpsmt.idabere.models.PaymentMethod;
+import it.unitn.disi.lpsmt.idabere.models.CreditCard;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
-public class PaymentTypeActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private BottomNavigationView bottomNavigationMenu;
 
@@ -40,7 +37,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
 
     private TextView totalOrderInfo;
 
-    private ArrayAdapter<PaymentMethod> creditCardSpinnerAdapter;
+    private ArrayAdapter<CreditCard> creditCardSpinnerAdapter;
 
     private RadioGroup paymentsRadioGroup;
 
@@ -51,25 +48,11 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
 
     private Context mContext;
 
-    // Fake data
-    ArrayList<PaymentMethod> creditCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_type);
-
-
-        // Set fake datas
-        creditCards = new ArrayList<>();
-        PaymentMethod creditCardOne = new CreditcardPayment();
-        PaymentMethod creditCardTwo = new CreditcardPayment();
-        creditCardOne.setName("Mastercard");
-        creditCardTwo.setName("Paypal");
-        creditCards.add(creditCardOne);
-        creditCards.add(creditCardTwo);
-        AppSession.getInstance().getmCustomer().setPaymentMethods(creditCards);
-
         initViewComps();
 
         mContext = this;
@@ -100,65 +83,77 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
             }
         });
 
-        creditCardSpinnerAdapter = new ArrayAdapter<PaymentMethod>(this,android.R.layout.simple_spinner_dropdown_item,AppSession.getInstance().getmCustomer().getPaymentMethods());
+        creditCardSpinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,AppSession.getInstance().getmCustomer().getCreditCards());
         creditCardSpinner.setAdapter(creditCardSpinnerAdapter);
 
         // Disable/enable spinner based on radio button clicked
-        firstChoiceRadioButton.setOnCheckedChangeListener(this);
-        secondChoiceRadioButton.setOnCheckedChangeListener(this);
-
-        toggleRadioButtonDetails(firstChoiceLayout);
+        paymentsRadioGroup.clearCheck();
+        enableRadioButtonDetails(null);
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
+        Customer currentCustomer = AppSession.getInstance().getmCustomer();
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-        PaymentMethod currentPaymentMethod = currentOrder.getChoosenPayment();
-        if (currentPaymentMethod != null) {
-            if (currentPaymentMethod instanceof CreditcardPayment) {
-                firstChoiceRadioButton.toggle();
-                creditCardSpinner.setSelection(creditCards.indexOf(currentPaymentMethod.toString()));
-            } else {
-                secondChoiceRadioButton.toggle();
-            }
+        CreditCard currentCreditCard = currentOrder.getChosenCreditCard();
+        if(currentOrder.isUsingCreditCard()){
+            firstChoiceRadioButton.setChecked(true);
+            enableRadioButtonDetails(firstChoiceLayout);
+            creditCardSpinner.setSelection(currentCustomer.getCreditCards().indexOf(currentCreditCard));
+        }
+        else{
+            secondChoiceRadioButton.setChecked(true);
         }
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
-        super.onResume();
+        paymentsRadioGroup.setOnCheckedChangeListener(this);
+
     }
 
     public boolean checkSelection () {
-        boolean result = false;
-        PaymentMethod paymentMethod = null;
-        int radioButtonId = paymentsRadioGroup.getCheckedRadioButtonId();
+        if(savePaymentMethod()){
+            return true;
+        }
+        else{
+            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 
+    private boolean savePaymentMethod(){
+        boolean result = false;
+        int radioButtonId = paymentsRadioGroup.getCheckedRadioButtonId();
+        Order sessionOrder = AppSession.getInstance().getmCustomer().getOrder();
         if(radioButtonId != -1){
             switch (radioButtonId) {
                 case R.id.first_choice_radiobutton :
-                    paymentMethod = new CreditcardPayment();
-                    paymentMethod.setName(((CreditcardPayment)creditCardSpinner.getSelectedItem()).getName());
+                    sessionOrder.setUsingCreditCard(true);
+                    sessionOrder.setChosenCreditCard((CreditCard) creditCardSpinner.getSelectedItem());
                     break;
                 case R.id.second_choice_radiobutton :
-                    paymentMethod = new CashPayment();
+                    sessionOrder.setUsingCreditCard(false);
+                    sessionOrder.setChosenCreditCard(null);
                     break;
             }
-            AppSession.getInstance().getmCustomer().getOrder().setChoosenPayment(paymentMethod);
-            Log.d("CHOICE", "Choice (if null -> Cash): "+AppSession.getInstance().getmCustomer().getOrder().getChoosenPayment().toString() );
+            Log.d("CHOICE", "Choice (if null -> Cash): "+AppSession.getInstance().getmCustomer().getOrder().getChosenCreditCard());
             result = true;
-        } else {
-            Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
-
         return result;
     }
 
-    private void toggleRadioButtonDetails(LinearLayout layout) {
+    private void setEnabledOnRadioButtonDetails(LinearLayout layout, boolean enabled){
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
-            if(child.isEnabled()) {
-                child.setEnabled(false);
-            } else {
-                child.setEnabled(true);
-            }
+            child.setEnabled(enabled);
+        }
+    }
+
+    private void enableRadioButtonDetails(LinearLayout layout) {
+        if(layout == null){
+            setEnabledOnRadioButtonDetails(firstChoiceLayout, false);
+        }
+        else{
+            setEnabledOnRadioButtonDetails(layout, true);
         }
     }
 
@@ -167,6 +162,17 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.payment_bottom_navigation);
         creditCardSpinner = (Spinner) findViewById(R.id.credit_card_drop_down);
+        creditCardSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                savePaymentMethod();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                savePaymentMethod();
+            }
+        });
         totalOrderInfo = (TextView) findViewById(R.id.payment_total_order_price);
         paymentsRadioGroup = (RadioGroup) findViewById(R.id.payments_radiogroup);
 
@@ -178,14 +184,14 @@ public class PaymentTypeActivity extends AppCompatActivity implements CompoundBu
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int checkedId = buttonView.getId();
-        switch (checkedId) {
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        switch (group.getCheckedRadioButtonId()) {
             case R.id.first_choice_radiobutton :
-                toggleRadioButtonDetails(firstChoiceLayout);
+                enableRadioButtonDetails(firstChoiceLayout);
                 break;
             case R.id.second_choice_radiobutton :
                 break;
         }
+        savePaymentMethod();
     }
 }

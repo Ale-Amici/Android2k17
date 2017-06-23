@@ -15,13 +15,14 @@ public class Customer {
     private String password;
     private Order order;
     private ArrayList<BarMenuItem> preferredItems;
-    private ArrayList<PaymentMethod> paymentMethods;
+    private ArrayList<CreditCard> creditCards;
 
     public Customer(){
         id = -1;
         username = "unknown";
         age = -1;
         order = new Order();
+        creditCards = new ArrayList<>();
     }
 
     public Customer(int id, String username, int age, String email, String password, Order order, ArrayList<BarMenuItem> preferredItems) {
@@ -90,11 +91,11 @@ public class Customer {
         this.preferredItems = preferredItems;
     }
 
-    public ArrayList<PaymentMethod> getPaymentMethods() {
-        return paymentMethods;
+    public ArrayList<CreditCard> getCreditCards() {
+        return creditCards;
     }
 
-    public void setPaymentMethods(ArrayList<PaymentMethod> paymentMethods) {
-        this.paymentMethods = paymentMethods;
+    public void setCreditCards(ArrayList<CreditCard> creditCards) {
+        this.creditCards = creditCards;
     }
 }
