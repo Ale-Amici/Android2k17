@@ -43,6 +43,7 @@ import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -95,12 +96,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View v) {
-        username = mEmailView.getText().toString();
-        password = mPasswordView.getText().toString();
-        if (username.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
+        if (AppStatus.getInstance(this).isOnline()) {
+            username = mEmailView.getText().toString();
+            password = mPasswordView.getText().toString();
+            if (username.isEmpty() || password.isEmpty()){
+                Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
+            } else {
+                new AuthenticationAsyncTask().execute(username, password);
+            }
         } else {
-            new AuthenticationAsyncTask().execute(username, password);
+            Toast.makeText(mContext, "Impossibile Connettersi", Toast.LENGTH_SHORT).show();
         }
     }
 
