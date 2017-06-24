@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER` (
   `date_of_birth` DATE NOT NULL,
   `email` VARCHAR(1024) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
-  `device_token` VARCHAR(64) NULL,
+  `device_token` VARCHAR(64) NOT NULL DEFAULT 'NO_TOKEN',
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
@@ -249,7 +249,6 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`CUSTOMER_ORDER` (
   `status` VARCHAR(255) NOT NULL,
   `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `destroy_code` VARCHAR(255) NOT NULL,
-  `customer_session_token` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ID`, `BAR_HAS_DELIVERY_PLACE_ID`),
   INDEX `fk_CUSTOMER_ORDER_CUSTOMER1_idx` (`CUSTOMER_ID` ASC),
   INDEX `fk_CUSTOMER_ORDER_BAR_HAS_DELIVERY_PLACE1_idx` (`BAR_HAS_DELIVERY_PLACE_ID` ASC),
@@ -552,8 +551,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', NULL);
-INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', NULL);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', DEFAULT);
 
 COMMIT;
 
