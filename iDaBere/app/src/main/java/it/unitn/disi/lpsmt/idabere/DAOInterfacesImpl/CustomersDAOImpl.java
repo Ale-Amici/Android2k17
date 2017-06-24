@@ -21,8 +21,6 @@ public class CustomersDAOImpl implements CustomersDAO {
     private final String API_BASE_URI = "http://151.80.152.226/";
     final String AUTHENTICATION_ROUTE = "authentication";
 
-    private Context mContext;
-
     private BackendConnection backendConnection = new BackendConnection();
 
     @Override

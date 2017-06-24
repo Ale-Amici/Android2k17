@@ -19,6 +19,7 @@ import it.unitn.disi.lpsmt.idabere.adapters.CheckoutExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
+import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -121,7 +122,6 @@ public class CheckoutActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-            
             super.onPreExecute();
         }
 
