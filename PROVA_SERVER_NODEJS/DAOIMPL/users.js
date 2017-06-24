@@ -65,6 +65,7 @@ var getUserFromDbRow = function(row){
         .setDateOfBirth(row["date_of_birth"])
         .setEmail(row["email"])
         .setPassword(row["password"])
+        .setDeviceToken(row["device_token"])
         .setCreditCards([])
 }
 

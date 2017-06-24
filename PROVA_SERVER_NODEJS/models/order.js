@@ -39,10 +39,6 @@ class order {
       this.chosenBarId = chosenBarId;
       return this;
     }
-    setCustomerSessionToken(customerSessionToken){
-        this.customerSessionToken = customerSessionToken;
-        return this;
-    }
     setDestroyCode(destroyCode){
         this.destroyCode = destroyCode;
         return this;
