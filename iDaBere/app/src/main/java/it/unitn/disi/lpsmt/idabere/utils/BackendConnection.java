@@ -1,37 +1,19 @@
 package it.unitn.disi.lpsmt.idabere.utils;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Base64;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-
-import javax.net.ssl.HttpsURLConnection;
-
-import it.unitn.disi.lpsmt.idabere.activities.LoginActivity;
-import it.unitn.disi.lpsmt.idabere.models.Bar;
-import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
 
 /**
  * Created by giovanni on 22/06/2017.
@@ -40,18 +22,26 @@ import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
 public class BackendConnection {
 
     private final int RESPONSE_OK = 200;
+    private String CONTENT_TYPE = "application/json";
 
     public ArrayList<String> errors;
-
-    private String BASE_URL;
-    private ArrayList<String> ROUTES;
-    private ArrayList<String> PARAMETERS;
-    private ArrayList<String> PARAMETERS_VALUES;
 
     private Uri.Builder uriBuilder;
 
     private Uri builtUri;
     private URL builtURL;
+
+    private String BASE_URL;
+    private ArrayList<String> ROUTES;
+
+    // GET
+    private ArrayList<String> PARAMETERS;
+    private ArrayList<String> PARAMETERS_VALUES;
+
+    // POST
+    private String POSTParameters;
+
+
 
     private void addError(String error) {
         if (getErrors() == null) {
@@ -60,15 +50,15 @@ public class BackendConnection {
         errors.add(error);
     }
 
-    private String getPostParametersAsString () {
-        String result = "";
-        int i;
-        for (i = 0; i < PARAMETERS.size() -1; i++) {
-            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
-        }
-        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
-        return result;
-    }
+//    private String getPostParametersAsString () {
+//        String result = "";
+//        int i;
+//        for (i = 0; i < PARAMETERS.size() -1; i++) {
+//            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
+//        }
+//        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
+//        return result;
+//    }
 
     private String readBuffer(HttpURLConnection urlConnection) {
         String result = "";
@@ -142,10 +132,11 @@ public class BackendConnection {
             e.printStackTrace();
         }
 
+        con.setRequestProperty("Content-Type", CONTENT_TYPE);
         //con.setRequestProperty("User-Agent", USER_AGENT);
         //con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        String urlParameters = getPostParametersAsString();
+        String urlParameters = getPOSTParameters();
 
         // Send post request
         con.setDoOutput(true);
@@ -238,5 +229,13 @@ public class BackendConnection {
 
     public void setPARAMETERS_VALUES(ArrayList<String> PARAMETERS_VALUES) {
         this.PARAMETERS_VALUES = PARAMETERS_VALUES;
+    }
+
+    public String getPOSTParameters() {
+        return POSTParameters;
+    }
+
+    public void setPOSTParameters(String POSTParameters) {
+        this.POSTParameters = POSTParameters;
     }
 }

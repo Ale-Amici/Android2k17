@@ -133,8 +133,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private class AuthenticationAsyncTask extends AsyncTask<String,Void,Customer> {
         @Override
         protected Customer doInBackground(String... params) {
-            Customer result = null;
-            result = customersDAO.loginCustomer(params[0], params[1]);
+            Customer result = new Customer();
+            result.setUsername(params[0]);
+            result.setPassword(params[1]);
+            result = customersDAO.loginCustomer(result);
+            if (result != null){
+                Log.d("CUSTOMER", result.toString());
+            }
             return result;
         }
 

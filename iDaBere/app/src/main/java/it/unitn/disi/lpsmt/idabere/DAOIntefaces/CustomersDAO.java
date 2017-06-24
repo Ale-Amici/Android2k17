@@ -8,5 +8,5 @@ import it.unitn.disi.lpsmt.idabere.models.Customer;
 
 public interface CustomersDAO {
     // Authentication method /authentication/login
-    Customer loginCustomer (String email, String password);
+    Customer loginCustomer (Customer customer);
 }
