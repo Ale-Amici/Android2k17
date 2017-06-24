@@ -134,18 +134,6 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
         deliveriesRadioGroup.setOnCheckedChangeListener(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode) {
-            case RESULT_OK :
-                Toast.makeText(this, "Autenticazione effettuata", Toast.LENGTH_LONG).show();
-                break;
-            default:
-                Toast.makeText(this, "Autenticazione non effettuata", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
     public boolean checkSelection() {
         if(saveDeliveryChoice()){
             return true;
@@ -285,7 +273,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
             // Start Login activity for authentication
             Intent loginIntent = new Intent();
             loginIntent.setClass(mContext, LoginActivity.class);
-            startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
+            startActivity(loginIntent);
         }
         return result;
     }

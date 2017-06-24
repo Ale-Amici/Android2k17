@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -22,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +37,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +52,7 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
+import me.pushy.sdk.Pushy;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -65,6 +74,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private Button mRegisterButton;
     private Context mContext;
 
+    // Url per contattare la macchina in locale tramite il servizio ngrook
+    // TODO Una volta aperto il servizio sostituire <id>
+    final String ngrokUrlId = "<id>";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +92,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         mSignInButton.setOnClickListener(this);
 
+        Pushy.listen(this);
+        // Check whether the user has granted us the READ/WRITE_EXTERNAL_STORAGE permissions
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Request both READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE so that the
+            // Pushy SDK will be able to persist the device token in the external storage
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+        
     }
 
     // Instantiate layout elements
@@ -122,16 +143,64 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (resultCustomer == null) {
                 Toast.makeText(mContext, "Utente non trovato", Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(mContext, "Autenticazione effettuata", Toast.LENGTH_SHORT).show();
+
+                new RegisterForPushNotificationsAsync().execute();
+
                 Customer currentCustomer = AppSession.getInstance().getmCustomer();
                 currentCustomer.setId(resultCustomer.getId());
                 currentCustomer.setUsername(resultCustomer.getUsername());
                 currentCustomer.setEmail(resultCustomer.getEmail());
                 currentCustomer.setPassword(resultCustomer.getPassword());
 
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
             }
+        }
+    }
+
+    private class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exception> {
+        protected Exception doInBackground(Void... params) {
+            try {
+                // Assign a unique token to this device
+                String deviceToken = Pushy.register(getApplicationContext());
+                AppSession.getInstance().getmCustomer().setDeviceToken(deviceToken);
+
+                // Log it for debugging purposes
+                Log.d("MyApp", "Pushy device token: " + deviceToken);
+
+                // Send the token to your backend server via an HTTP GET request
+                URL url = new URL("http://"+ngrokUrlId+".ngrok.io/notifications/register/" + deviceToken);
+                Log.d("URL", url.toString());
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    Log.d("RESPONSE", in.toString());
+                } finally {
+                    urlConnection.disconnect();
+                }
+            }
+            catch (Exception exc) {
+                // Return exc to onPostExecute
+                return exc;
+            }
+
+            // Success
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Exception exc) {
+            // Failed?
+            if (exc != null) {
+                // Show error as toast message
+                Toast.makeText(getApplicationContext(), exc.toString(), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // Succeeded, do something to alert the user
+
+            Intent intent = new Intent();
+            intent.setClass(mContext, PaymentTypeActivity.class);
+            startActivity(intent);
         }
     }
 
