@@ -1,6 +1,5 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
@@ -9,12 +8,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,7 +26,6 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.BarCounter;
 import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
-import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
@@ -118,7 +114,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
         super.onResume();
         setTablesAndCounters();
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-        DeliveryPlace currentDeliveryPlace = currentOrder.getChoosenDeliveryPlace();
+        DeliveryPlace currentDeliveryPlace = currentOrder.getChosenDeliveryPlace();
         if (currentDeliveryPlace != null) {
             if (currentDeliveryPlace instanceof BarCounter) {
                 firstChoiceRadioButton.setChecked(true);
@@ -226,13 +222,13 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
         if (radioButtonId != -1) {
             switch (radioButtonId) {
                 case R.id.first_choice_radiobutton :
-                    sessionOrder.setChoosenDeliveryPlace( (DeliveryPlace) countersSpinner.getSelectedItem());
+                    sessionOrder.setChosenDeliveryPlace( (DeliveryPlace) countersSpinner.getSelectedItem());
                     break;
                 case R.id.second_choice_radiobutton :
-                    sessionOrder.setChoosenDeliveryPlace( (DeliveryPlace) tablesSpinner.getSelectedItem());
+                    sessionOrder.setChosenDeliveryPlace( (DeliveryPlace) tablesSpinner.getSelectedItem());
                     break;
             }
-            Log.d("DELIVERY CHOICE", AppSession.getInstance().getmCustomer().getOrder().getChoosenDeliveryPlace().toString());
+            Log.d("DELIVERY CHOICE", AppSession.getInstance().getmCustomer().getOrder().getChosenDeliveryPlace().toString());
             result = true;
         }
         return result;

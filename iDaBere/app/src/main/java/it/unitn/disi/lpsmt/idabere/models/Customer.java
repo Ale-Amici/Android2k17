@@ -16,7 +16,7 @@ public class Customer {
     private Order order;
     private String deviceToken;
     private ArrayList<BarMenuItem> preferredItems;
-    private ArrayList<PaymentMethod> paymentMethods;
+    private ArrayList<CreditCard> creditCards;
 
     public Customer(){
         id = -1;
@@ -24,6 +24,7 @@ public class Customer {
         age = -1;
         deviceToken = "";
         order = new Order();
+        creditCards = new ArrayList<>();
     }
 
     public Customer(int id, String username, int age, String email, String password, String deviceToken, Order order, ArrayList<BarMenuItem> preferredItems) {
@@ -93,12 +94,12 @@ public class Customer {
         this.preferredItems = preferredItems;
     }
 
-    public ArrayList<PaymentMethod> getPaymentMethods() {
-        return paymentMethods;
+    public ArrayList<CreditCard> getCreditCards() {
+        return creditCards;
     }
 
-    public void setPaymentMethods(ArrayList<PaymentMethod> paymentMethods) {
-        this.paymentMethods = paymentMethods;
+    public void setCreditCards(ArrayList<CreditCard> creditCards) {
+        this.creditCards = creditCards;
     }
 
     public String getDeviceToken() {

@@ -152,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 currentCustomer.setUsername(resultCustomer.getUsername());
                 currentCustomer.setEmail(resultCustomer.getEmail());
                 currentCustomer.setPassword(resultCustomer.getPassword());
+                currentCustomer.setCreditCards(resultCustomer.getCreditCards());
 
             }
         }
