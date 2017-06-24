@@ -75,7 +75,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         //TODO togliore l'animazione di apertura della categoria, cambiare colore alle categorie
     }
 
-    private void setMenuForAdapter(BarMenu barMenu) {
+    protected void setMenuItemCategories(BarMenu barMenu){
         menuForAdapter = new HashMap<>();
         this.categories = new ArrayList<>();
 
@@ -94,11 +94,26 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             }
 
         }
+    }
 
-
+    protected void setMenuDealsCategory(BarMenu barMenu){
         //TODO INSERISCO LA CATEGORIA DELLE OFFERTE
 
+
+    }
+
+    protected void setMenuFavouritesCategory(BarMenu barMenu){
         //TODO INSERISCO LA CATEGORIA DEI PREFERITI
+
+
+    }
+
+    protected void setMenuForAdapter(BarMenu barMenu) {
+
+        setMenuItemCategories(barMenu);
+        setMenuDealsCategory(barMenu);
+        setMenuFavouritesCategory(barMenu);
+
     }
 
     @Override
