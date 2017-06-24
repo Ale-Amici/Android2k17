@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             // Pushy SDK will be able to persist the device token in the external storage
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
-        
+
     }
 
     // Instantiate layout elements
@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 Log.d("MyApp", "Pushy device token: " + deviceToken);
 
                 // Send the token to your backend server via an HTTP GET request
-                URL url = new URL("http://"+ngrokUrlId+".ngrok.io/notifications/register/" + deviceToken);
+                /*URL url = new URL("http://"+ngrokUrlId+".ngrok.io/notifications/register/" + deviceToken);
                 Log.d("URL", url.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                     Log.d("RESPONSE", in.toString());
                 } finally {
                     urlConnection.disconnect();
-                }
+                }*/
             }
             catch (Exception exc) {
                 // Return exc to onPostExecute

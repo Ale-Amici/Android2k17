@@ -105,7 +105,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             }
         } else {
             toggleLoading(false);
-            Toast.makeText(mContext, "Nessuna Connessione", Toast.LENGTH_SHORT).show();
+            showSnackbar("E' necessaria una connessione dati abilitata");
+            //Toast.makeText(mContext, "Nessuna Connessione", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -188,7 +189,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             AppSession.getInstance().setmBar(barsList.get(position));
             startActivity(intent);
         } else {
-            Toast.makeText(mContext, "Impossible Connettersi", Toast.LENGTH_SHORT).show();
+            showSnackbar("E' necessaria una connessione dati abilitata");
+//            Toast.makeText(mContext, "Impossible Connettersi", Toast.LENGTH_SHORT).show();
         }
 
     }
