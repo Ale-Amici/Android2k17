@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,8 +60,12 @@ public class ReviewOrderActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_delivery_type :
-                        intent.setClass(mContext,DeliveryPlaceActivity.class);
-                        startActivity(intent);
+                        if (AppSession.getInstance().getmCustomer().getOrder().getOrderItems().size() > 0){
+                            intent.setClass(mContext,DeliveryPlaceActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(mContext, "Devi prima effettuare almeno una scelta", Toast.LENGTH_SHORT).show();
+                        }
                         result = true;
                         break;
                 }

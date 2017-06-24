@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     private String username;
     private String password;
+    private String deviceToken;
 
     private EditText mEmailView;
     private EditText mPasswordView;
@@ -132,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (username.isEmpty() || password.isEmpty()){
                 Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
             } else {
-                new AuthenticationAsyncTask().execute(username, password);
+                new RegisterForPushNotificationsAsync().execute();
             }
         } else {
             Toast.makeText(mContext, "Impossibile Connettersi", Toast.LENGTH_SHORT).show();
@@ -142,17 +143,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private class AuthenticationAsyncTask extends AsyncTask<String,Void,Customer> {
 
         @Override
-        protected void onPreExecute() {
-            emailLoginForm.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-        @Override
         protected Customer doInBackground(String... params) {
             Customer result = new Customer();
             result.setUsername(params[0]);
             result.setPassword(params[1]);
+            result.setDeviceToken(params[2]);
             result = customersDAO.loginCustomer(result);
             if (result != null){
                 Log.d("CUSTOMER", result.toString());
@@ -170,8 +165,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             } else {
                 Toast.makeText(mContext, "Autenticazione effettuata", Toast.LENGTH_SHORT).show();
 
-                new RegisterForPushNotificationsAsync().execute();
-
                 Customer currentCustomer = AppSession.getInstance().getmCustomer();
                 currentCustomer.setId(resultCustomer.getId());
                 currentCustomer.setUsername(resultCustomer.getUsername());
@@ -179,15 +172,32 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 currentCustomer.setPassword(password);
                 currentCustomer.setCreditCards(resultCustomer.getCreditCards());
 
+                // Succeeded, do something to alert the user
+
+                Intent intent = new Intent();
+
+                intent.setClass(mContext, PaymentTypeActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
             }
+
         }
     }
 
     private class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exception> {
+
+        @Override
+        protected void onPreExecute() {
+            emailLoginForm.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
         protected Exception doInBackground(Void... params) {
             try {
                 // Assign a unique token to this device
-                String deviceToken = Pushy.register(getApplicationContext());
+                deviceToken = Pushy.register(getApplicationContext());
                 AppSession.getInstance().getmCustomer().setDeviceToken(deviceToken);
 
                 // Log it for debugging purposes
@@ -222,13 +232,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 return;
             }
 
-            // Succeeded, do something to alert the user
+            new AuthenticationAsyncTask().execute(username, password, deviceToken);
 
-            Intent intent = new Intent();
-
-            intent.setClass(mContext, PaymentTypeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
         }
     }
 

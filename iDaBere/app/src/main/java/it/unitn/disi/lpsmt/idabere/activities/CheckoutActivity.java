@@ -143,6 +143,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
             if (retrievedOrder != null) {
                 Log.d("retrievedOrder", retrievedOrder.toString());
+            } else {
+                Toast.makeText(mContext, "Errore di sistema. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }
 
             super.onPostExecute(retrievedOrder);

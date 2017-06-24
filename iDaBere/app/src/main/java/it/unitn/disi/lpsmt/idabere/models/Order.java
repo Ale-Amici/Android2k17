@@ -1,6 +1,10 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -19,6 +23,8 @@ public class Order {
     private DeliveryPlace chosenDeliveryPlace;
     private boolean usingCreditCard;
     private CreditCard chosenCreditCard;
+    private int chosenBarId;
+    private String creationDate;
 
     public Order(){
         id = -1;
@@ -94,6 +100,24 @@ public class Order {
     public void setChosenCreditCard(CreditCard chosenCreditCard) {
         this.chosenCreditCard = chosenCreditCard;
     }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        this.creationDate = df.format(creationDate);
+    }
+
+    public int getChosenBarId() {
+        return chosenBarId;
+    }
+
+    public void setChosenBarId(int chosenBarId) {
+        this.chosenBarId = chosenBarId;
+    }
+
 
     public void calculateTotalPrice() {
         double total = 0;

@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.OrdersDAO;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
@@ -50,6 +51,9 @@ public class OrdesDAOImpl implements OrdersDAO {
         backendConnection.appendRoutes();
 
         JsonObject jsonObject = new JsonObject();
+
+        order.setCreationDate(Calendar.getInstance().getTime());
+
         jsonObject.add("order", gson.toJsonTree(order));
         jsonObject.addProperty("username", customer.getUsername());
         jsonObject.addProperty("password", customer.getPassword());

@@ -178,7 +178,7 @@ public class MenuActivity extends AppCompatActivity implements
                 Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
                 if (currentOrder != null) {
                     currentOrder.getOrderItems().clear();
-
+                    currentOrder.setChosenBarId(newBar.getId());
                 }
             }
 
