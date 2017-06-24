@@ -7,19 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import it.unitn.disi.lpsmt.idabere.R;
-import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.adapters.ReviewOrderExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -43,7 +35,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
 
         BarMenu barMenuForReview = AppSession.getInstance().getmCustomer().getOrder().getOrderMenuForReview();
         // setting list adapter
-        reviewExpandableList.setAdapter(new MenuCategoryExpandableListAdapter(mContext,barMenuForReview, totalPriceTV, reviewExpandableList));
+        reviewExpandableList.setAdapter(new ReviewOrderExpandableListAdapter(mContext,barMenuForReview, totalPriceTV, reviewExpandableList));
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -81,8 +73,8 @@ public class ReviewOrderActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        MenuCategoryExpandableListAdapter menuAdapter = (MenuCategoryExpandableListAdapter) reviewExpandableList.getExpandableListAdapter();
-        AddChoiceActivity.checkNewChoiceResult(requestCode, resultCode, data, mContext, menuAdapter);
+        ReviewOrderExpandableListAdapter reviewAdapter = (ReviewOrderExpandableListAdapter) reviewExpandableList.getExpandableListAdapter();
+        AddChoiceActivity.checkNewChoiceResult(requestCode, resultCode, data, mContext, reviewAdapter);
     }
 
 
