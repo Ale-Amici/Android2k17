@@ -1,4 +1,4 @@
-// Import to use in this file
+ // Import to use in this file
 var passport  =  require("../passportConfig.js")
 var authenticationDAOImpl = require('../DAOIMPL/authentication.js');
 var usersDAOImpl = require('../DAOIMPL/users.js');
@@ -16,8 +16,12 @@ function login(request, response) {
         console.log(msg)
 
         if(err == null && user != false){
-            userPromise = usersDAOImpl.getUserFromId(user.id);
-            userPromise.then(function(newUser){
+            usersDAOImpl.updateDeviceToken(user.id, request.body.deviceToken)
+            .then(function(updateResults){
+                console.log("RISULTATI UPDATE")
+                console.log(updateResults)
+                return usersDAOImpl.getUserFromId(user.id);
+            }).then(function(newUser){
                 response.status(200).json(newUser);
             })
             .catch(function(){
