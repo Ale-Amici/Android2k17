@@ -57,6 +57,20 @@ var getUserFromId = function(userId){
     //TODO PRENDI TUTTI I DATI DELL'UTENTE
 }
 
+var updateDeviceToken = function(userId, deviceToken){
+    var pool = dbHelper.getDBPool();
+    return new Promise(function(resolve, reject){
+        pool.queryAsync("UPDATE CUSTOMER SET device_token = ? WHERE ID = ? ",[deviceToken, userId])
+        .then(function(updateResults){
+              resolve(updateResults);
+          })
+          .catch(function(err){
+              console.log(err);
+              reject(err);
+          });
+    });
+}
+
 
 var getUserFromDbRow = function(row){
     return new User()
@@ -65,6 +79,7 @@ var getUserFromDbRow = function(row){
         .setDateOfBirth(row["date_of_birth"])
         .setEmail(row["email"])
         .setPassword(row["password"])
+        .setDeviceToken(row["device_token"])
         .setCreditCards([])
 }
 
@@ -77,3 +92,4 @@ getCreditCardFromDbRow = function(row){
 
 module.exports.all           = getAllUsers;
 module.exports.getUserFromId = getUserFromId;
+module.exports.updateDeviceToken = updateDeviceToken;

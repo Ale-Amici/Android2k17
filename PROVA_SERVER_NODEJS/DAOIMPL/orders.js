@@ -36,9 +36,8 @@ var createOrder = function(customer, order) {
             + " is_paid, "
             + " status, "
             + " creation_date, "
-            + " destroy_code, "
-            + " customer_session_token) "
-            + " VALUES (?,?,?,?,?,?,?,?,?,?)",
+            + " destroy_code) "
+            + " VALUES (?,?,?,?,?,?,?,?,?)",
             [
                 customer.id,
                 chosenDeliveryPlaceId,
@@ -48,8 +47,7 @@ var createOrder = function(customer, order) {
                 order.isPaid,
                 OrderStatus.PAYMENT_IN_PROGRESS, //DEFINIRE I PROCESS STATUS
                 order.creationDate,
-                generateDestroyCode(),
-                order.customerSessionToken
+                generateDestroyCode()
             ]);
         }).then(function(results){
             console.log("INSERIMENTO");
@@ -98,7 +96,6 @@ var generateDestroyCode = function(){
          .setUsingCreditCard(row["using_credit_card"])
          .setChosenCreditCard({})
          .setChosenDeliveryPlace({})
-         .setCustomerSessionToken(row["customer_session_token"])
          .setDestroyCode(row["destroy_code"])
  }
 
