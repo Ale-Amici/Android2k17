@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.DAOIntefaces;
 
+import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 
 /**
@@ -8,7 +9,7 @@ import it.unitn.disi.lpsmt.idabere.models.Order;
 
 public interface OrdersDAO {
 
-    Order createOrder (Order order);
+    Order createOrder (Order order, Customer customer);
 
 
 }

@@ -34,6 +34,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +64,9 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
 
     private CustomersDAO customersDAO;
+
+    private ProgressBar progressBar;
+    private LinearLayout emailLoginForm;
 
     private String username;
     private String password;
@@ -104,6 +109,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     // Instantiate layout elements
     private void initViewComps () {
+        progressBar = (ProgressBar) findViewById(R.id.login_progress);
+
+        emailLoginForm = (LinearLayout) findViewById(R.id.email_login_form);
+
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
@@ -131,6 +140,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     }
 
     private class AuthenticationAsyncTask extends AsyncTask<String,Void,Customer> {
+
+        @Override
+        protected void onPreExecute() {
+            emailLoginForm.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
         @Override
         protected Customer doInBackground(String... params) {
             Customer result = new Customer();
@@ -145,7 +162,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         @Override
         protected void onPostExecute(Customer resultCustomer) {
+
             if (resultCustomer == null) {
+                emailLoginForm.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(mContext, "Utente non trovato", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(mContext, "Autenticazione effettuata", Toast.LENGTH_SHORT).show();
@@ -156,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 currentCustomer.setId(resultCustomer.getId());
                 currentCustomer.setUsername(resultCustomer.getUsername());
                 currentCustomer.setEmail(resultCustomer.getEmail());
-                currentCustomer.setPassword(resultCustomer.getPassword());
+                currentCustomer.setPassword(password);
                 currentCustomer.setCreditCards(resultCustomer.getCreditCards());
 
             }
@@ -205,7 +225,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             // Succeeded, do something to alert the user
 
             Intent intent = new Intent();
+
             intent.setClass(mContext, PaymentTypeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }

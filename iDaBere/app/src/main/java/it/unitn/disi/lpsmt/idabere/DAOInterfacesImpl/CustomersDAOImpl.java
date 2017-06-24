@@ -22,7 +22,7 @@ public class CustomersDAOImpl implements CustomersDAO {
     final String AUTHENTICATION_ROUTE = "authentication";
 
     private GsonBuilder gsonBuilder = new GsonBuilder();
-    Gson gson = gsonBuilder.create();
+    private Gson gson = gsonBuilder.create();
 
     private BackendConnection backendConnection = new BackendConnection();
 

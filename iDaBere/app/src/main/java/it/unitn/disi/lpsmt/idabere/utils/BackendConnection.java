@@ -50,16 +50,6 @@ public class BackendConnection {
         errors.add(error);
     }
 
-//    private String getPostParametersAsString () {
-//        String result = "";
-//        int i;
-//        for (i = 0; i < PARAMETERS.size() -1; i++) {
-//            result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i) + "&";
-//        }
-//        result += PARAMETERS.get(i) + "=" + PARAMETERS_VALUES.get(i);
-//        return result;
-//    }
-
     private String readBuffer(HttpURLConnection urlConnection) {
         String result = "";
         BufferedReader in = null;
