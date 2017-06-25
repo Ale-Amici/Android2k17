@@ -45,7 +45,7 @@
                 android:visibility="visible"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/bar_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bar_distance_value"
@@ -73,7 +73,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/bar_details_view"
+                android:id="@+id/bar_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bar_list_bar_details"
