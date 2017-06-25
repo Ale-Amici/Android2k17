@@ -28,11 +28,22 @@ var passportAuthFunction = function(username, password, done) {
     });
 }
 
+var barmanAuthFunction = function(username, password, done){
+    if(username == "barman" && password == "barman"){
+        var user = "barman";
+        return done(null, user);
+    }
+    else{
+        return done(null, false, { message: 'Incorrect username or password.' });
+    }
+}
 
-//LE DUE STRATEGIE DI AUTENTICAZIONE
+//LE TRE STRATEGIE DI AUTENTICAZIONE
 passport.use(new LocalStrategy( passportAuthFunction ));
 
 passport.use(new JsonStrategy( passportAuthFunction ));
+
+passport.use("BARMAN", new LocalStrategy(barmanAuthFunction));
 ///////////////////////////////////
 
 
