@@ -18,9 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
@@ -42,6 +44,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     // The index of total price menu item associated with bottom navigation menu
     final int TOTAL_PRICE_MENU_ITEM_INDEX = 1;
+
+    private View loadingIndicator;
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
@@ -101,7 +105,8 @@ public class MenuActivity extends AppCompatActivity implements
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         if (currentOrder != null) {
-            totalPriceInfo.setText(Double.toString(AppSession.getInstance().getmCustomer().getOrder().getTotalPrice()));
+            double totalPrice = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
+            totalPriceInfo.setText(new DecimalFormat("##0.00").format(totalPrice));
         }
         if (menuAdapter != null) {
             menuAdapter.notifyDataSetChanged();
@@ -113,6 +118,7 @@ public class MenuActivity extends AppCompatActivity implements
     private void initViewComps() {
         // get the listview
         categoriesExpandableListView = (ExpandableListView) findViewById(R.id.categories_expandable_list);
+        loadingIndicator = findViewById(R.id.loading_indicator);
 
         // get the bottom navigation menu
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
@@ -170,6 +176,12 @@ public class MenuActivity extends AppCompatActivity implements
     private class MenuLoader extends AsyncTask<Bar, Void, BarMenu> {
 
         @Override
+        protected void onPreExecute() {
+            toggleLoading(true);
+            super.onPreExecute();
+        }
+
+        @Override
         protected BarMenu doInBackground(Bar... params) {
             Bar newBar = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
             AppSession.getInstance().setmBar(newBar);
@@ -198,9 +210,21 @@ public class MenuActivity extends AppCompatActivity implements
                 Toast.makeText(mContext, "Servizio al momento non disponibile.", Toast.LENGTH_SHORT).show();
             }
 
+            toggleLoading(false);
 
             super.onPostExecute(retrievedBarMenu);
         }
+    }
+
+    private void toggleLoading(boolean isVisible) {
+        if (isVisible) {
+            loadingIndicator.setVisibility(View.VISIBLE);
+            categoriesExpandableListView.setVisibility(View.GONE);
+        } else {
+            loadingIndicator.setVisibility(View.GONE);
+            categoriesExpandableListView.setVisibility(View.VISIBLE);
+        }
+
     }
 
 }
