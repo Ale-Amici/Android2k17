@@ -71,8 +71,13 @@ public class BarsArrayAdapter extends ArrayAdapter<Bar> implements Filterable {
         convertView = vi.inflate(rowLayout, null);
 
         Bar bar = filteredBarsList.get(position);
-        TextView t = (TextView) convertView.findViewById(R.id.bar_text_view);
-        t.setText(bar.getName());
+        TextView barName = (TextView) convertView.findViewById(R.id.bar_text_view);
+        TextView barDistance = (TextView) convertView.findViewById(R.id.bar_distance);;
+        TextView barAddress = (TextView) convertView.findViewById(R.id.bar_address);;
+
+        barName.setText(bar.getName());
+        barAddress.setText(bar.getAddress());
+        barDistance.setText(bar.distanceToString());
         return convertView;
     }
 

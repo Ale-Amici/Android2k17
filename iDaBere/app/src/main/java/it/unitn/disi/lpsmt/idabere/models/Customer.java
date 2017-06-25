@@ -24,6 +24,7 @@ public class Customer {
         age = -1;
         deviceToken = "";
         order = new Order();
+        preferredItems = new ArrayList<>();
         creditCards = new ArrayList<>();
     }
 

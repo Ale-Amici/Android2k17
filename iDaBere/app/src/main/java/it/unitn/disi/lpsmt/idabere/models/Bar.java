@@ -42,6 +42,21 @@ public class Bar {
         return distance;
     }
 
+    public String distanceToString () {
+        String distance = "";
+        if (this.distance < 999){
+            distance += Double.toHexString(this.distance);
+        } else if (this.distance < 4999) {
+            distance += "> 1km";
+        } else if (this.distance < 9999) {
+            distance += "> 5km";
+        } else {
+            distance += "> 10km";
+        }
+
+        return distance;
+    }
+
     public void setDistance(int distance) {
         this.distance = distance;
     }
