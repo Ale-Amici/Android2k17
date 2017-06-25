@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
@@ -32,6 +34,8 @@ public class ItemInfoActivity extends AppCompatActivity {
 
     final String ITEM_CLICKED_ID_KEY = "ITEM_ID";
 
+    private float randomRating = new Random().nextFloat();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         initViewComps();
 
         // TODO set del valore del rating
+        mItemRatingBar.setRating(5*randomRating);
 
     }
 
