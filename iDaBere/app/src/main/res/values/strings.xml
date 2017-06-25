@@ -122,5 +122,7 @@
     <string name="internet_permission_rationale">Sono necessari i permessi di connessione abilitati</string>
     <string name="bar_list_bar_details">via Milano , 56</string>
     <string name="bar_distance_value">130m</string>
+    <string name="preferreds_added_banner">Aggiunto ai preferiti</string>
+    <string name="add_preferred_button_label">Aggiungi ai preferiti</string>
 
 </resources>
