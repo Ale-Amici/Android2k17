@@ -143,6 +143,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
             if (retrievedOrder != null) {
                 Log.d("RETRIEVED ORDER", retrievedOrder.toString());
+                Intent intent = new Intent();
+                intent.setClass(mContext, OrderStatusActivity.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(mContext, "Errore di sistema. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }
