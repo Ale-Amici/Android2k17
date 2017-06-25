@@ -17,4 +17,10 @@ router.get('delete/:order_id/:destroy_code', function (req, res, next) {
   ordersCtrl.deleteOrder(req, res);
 });
 
+/* GET NEXT ORDER -> for barman */
+router.post('/getNext', function (req, res, next) {
+    ordersCtrl.getNextOrder(req, res);
+});
+
+
 module.exports = router;
