@@ -43,9 +43,7 @@ public class ItemInfoActivity extends AppCompatActivity {
         menuItem = AppSession.getInstance().getmBar().getBarMenu().getBarMenuItemById(menuItemId);
         initViewComps();
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            togglePreferredButtonState();
-//        }
+        // TODO set del valore del rating
 
     }
 
