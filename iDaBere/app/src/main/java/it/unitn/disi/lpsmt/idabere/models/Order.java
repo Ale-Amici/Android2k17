@@ -1,6 +1,12 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by giovanni on 15/05/2017.
@@ -12,13 +18,16 @@ public class Order {
     // TODO Modellazione del creation date
     private int id;
 
-    private enum status {PAUSED, IN_PROCESS};
+    private String status;
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
     private double totalPrice;
     private DeliveryPlace chosenDeliveryPlace;
     private boolean usingCreditCard;
     private CreditCard chosenCreditCard;
+    private int chosenBarId;
+    private String creationDate;
+    public String destroyCode;
 
     public Order(){
         id = -1;
@@ -95,6 +104,32 @@ public class Order {
         this.chosenCreditCard = chosenCreditCard;
     }
 
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public String getDestroyCode() {
+        return destroyCode;
+    }
+
+    public void setDestroyCode(String destroyCode) {
+        this.destroyCode = destroyCode;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        this.creationDate = df.format(creationDate);
+    }
+
+    public int getChosenBarId() {
+        return chosenBarId;
+    }
+
+    public void setChosenBarId(int chosenBarId) {
+        this.chosenBarId = chosenBarId;
+    }
+
+
     public void calculateTotalPrice() {
         double total = 0;
         for (OrderItem orderItem : orderItems){
@@ -151,9 +186,9 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", isPaid=" + isPaid +
-                ", orderItems=" + orderItems +
+                "  \nid=" + id +
+                ", \nisPaid=" + isPaid +
+                ", \norderItems=" + orderItems +
                 '}';
     }
 }

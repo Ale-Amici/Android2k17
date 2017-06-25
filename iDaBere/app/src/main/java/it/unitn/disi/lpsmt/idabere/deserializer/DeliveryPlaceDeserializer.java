@@ -1,10 +1,14 @@
-package it.unitn.disi.lpsmt.idabere.utils;
+package it.unitn.disi.lpsmt.idabere.deserializer;
+
+import android.util.Log;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -25,19 +29,23 @@ public class DeliveryPlaceDeserializer implements JsonDeserializer<DeliveryPlace
         dataTypeRegistry.put(jsonElementName, javaType);
     }
 
+
+
     @Override
     public DeliveryPlace deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
+        DeliveryPlace result = null;
         JsonObject jsonObject = json.getAsJsonObject();
         for (String elementName : dataTypeRegistry.keySet())
         {
             if (jsonObject.has(elementName))
             {
                 Class<? extends DeliveryPlace> dataType = dataTypeRegistry.get(elementName);
-                return context.deserialize(jsonObject, dataType);
+                result = context.deserialize(jsonObject, dataType);
             }
         }
-        throw new RuntimeException("DeliveryPlaceDeserializer deserialization error");
+        //throw new RuntimeException("DeliveryPlaceDeserializer deserialization error");
+        return result;
     }
 
 }
