@@ -228,7 +228,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             // Failed?
             if (exc != null) {
                 // Show error as toast message
-                Toast.makeText(getApplicationContext(), exc.toString(), Toast.LENGTH_LONG).show();
+                emailLoginForm.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                Log.d("PUSHY", exc.toString());
+                Toast.makeText(getApplicationContext(), "Errore di sistema. Riprova piu' tardi", Toast.LENGTH_LONG).show();
                 return;
             }
 

@@ -142,7 +142,7 @@ public class CheckoutActivity extends AppCompatActivity {
         protected void onPostExecute(Order retrievedOrder) {
 
             if (retrievedOrder != null) {
-                Log.d("retrievedOrder", retrievedOrder.toString());
+                Log.d("RETRIEVED ORDER", retrievedOrder.toString());
             } else {
                 Toast.makeText(mContext, "Errore di sistema. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }

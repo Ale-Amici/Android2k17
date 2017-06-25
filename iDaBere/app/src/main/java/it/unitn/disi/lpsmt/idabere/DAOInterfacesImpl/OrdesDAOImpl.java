@@ -1,21 +1,21 @@
 package it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.OrdersDAO;
+import it.unitn.disi.lpsmt.idabere.deserializer.BooleanSerializer;
+import it.unitn.disi.lpsmt.idabere.deserializer.DeliveryPlaceDeserializer;
+import it.unitn.disi.lpsmt.idabere.models.BarCounter;
+import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 
@@ -30,8 +30,26 @@ public class OrdesDAOImpl implements OrdersDAO {
 
     private BackendConnection backendConnection = new BackendConnection();
 
-    private GsonBuilder gsonBuilder = new GsonBuilder();
-    private Gson gson = gsonBuilder.create();
+    private GsonBuilder gsonBuilder;
+    private Gson gson;
+
+    private BooleanSerializer booleanSerializer;
+    private DeliveryPlaceDeserializer deliveryPlaceDeserializer;
+
+    public OrdesDAOImpl(){
+        gsonBuilder = new GsonBuilder();
+        booleanSerializer = new BooleanSerializer();
+        deliveryPlaceDeserializer = new DeliveryPlaceDeserializer();
+
+        deliveryPlaceDeserializer.registerDeliveryPlace("tableNumber", BarTable.class);
+        deliveryPlaceDeserializer.registerDeliveryPlace("counterName", BarCounter.class);
+        gsonBuilder.registerTypeAdapter(DeliveryPlace.class, deliveryPlaceDeserializer);
+
+        gsonBuilder.registerTypeAdapter(Boolean.class, booleanSerializer);
+        gsonBuilder.registerTypeAdapter(boolean.class, booleanSerializer);
+
+        gson = gsonBuilder.create();
+    }
 
     @Override
     public Order createOrder(Order order, Customer customer) {
@@ -65,10 +83,6 @@ public class OrdesDAOImpl implements OrdersDAO {
         data = backendConnection.connectUrlPOST();
 
         result = gson.fromJson(data, Order.class);
-
-        if (result != null){
-            Log.d("ORDER RESULT", result.toString());
-        }
 
         return result;
     }
