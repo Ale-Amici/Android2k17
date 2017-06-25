@@ -55,8 +55,20 @@ function getNextOrder(request, response){
 }
 
 function updateStatus(request, response){
-    newStatus = request.body.newStatus;
-
+    var orderId = parseInt(request.params.order_id);
+    passport.authenticate('BARMAN', function (err,user,msg) {
+        if(err == null && user != false){
+            newStatus = request.body.newStatus;
+            ordersDAOImpl.updateOrderStatus(orderId, newStatus)
+            .then(function(success){
+                response.status(200).json(success);
+            }).catch(function(err){
+                response.status(500).json("ERRORE NELL'aggiornare lo stato")
+            });
+        }else{
+            response.status(500).json("ERRORE di autenticazione")
+        }
+    })(request, response);
 }
 
 //percorso /orders/:order_id
@@ -76,3 +88,4 @@ module.exports.createOrder = createOrder;
 module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrder = deleteOrder;
 module.exports.getNextOrder = getNextOrder;
+module.exports.updateStatus = updateStatus;

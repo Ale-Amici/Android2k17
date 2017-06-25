@@ -96,7 +96,7 @@ var getNextOrder = function(){
                         }
                         else{
                             order = getOrderFromDbRow(orderRows[0])
-                            return UpdateOrderStatus(order, OrderStatus.IN_QUEUE)
+                            return updateOrderStatus(order.id, OrderStatus.IN_QUEUE)
                         }
                     }).then(function(res){
                         return connection.commitAsync();
@@ -121,12 +121,12 @@ var getNextOrder = function(){
     });
 }
 
-var UpdateOrderStatus = function(order, status){
+var updateOrderStatus = function(orderId, status){
     var pool = dbHelper.getDBPool();
     return new Promise(function(resolve, reject){
         pool.queryAsync("UPDATE CUSTOMER_ORDER "
         + " SET status = ? "
-        + " WHERE ID = ?", [status, order.id])
+        + " WHERE ID = ?", [status, orderId])
         .then(function(results){
             resolve(results)
         }).catch(function(err){
@@ -166,3 +166,4 @@ module.exports.createOrder    = createOrder;
 module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrderFromId = deleteOrderFromId;
 module.exports.getNextOrder = getNextOrder;
+module.exports.updateOrderStatus = updateOrderStatus;
