@@ -1,0 +1,14 @@
+{
+  "name": "fake_barman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fakeBarman.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ale",
+  "license": "ISC",
+  "dependencies": {
+    "sleep": "^5.1.1"
+  }
+}

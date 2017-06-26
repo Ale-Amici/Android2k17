@@ -1,6 +1,6 @@
 // Import to use in this file
 var ordersDAOImpl = require('../DAOIMPL/orders.js');
-var order = require('../models/order.js');
+var Order = require('../models/order.js');
 var passport  =  require("../passportConfig.js")
 
 
@@ -19,7 +19,7 @@ function createOrder(request, response) {
             customer = user;
             console.log("BODY");
             console.log(request.body);
-            orderCreationPromise = ordersDAOImpl.createOrder(customer, request.body.order)//order si prende così?
+            orderCreationPromise = ordersDAOImpl.createOrder(customer, request.body.order)
             orderCreationPromise.then(function(orderId){
                 //ordine aggiunto al db
                 return ordersDAOImpl.getOrderFromId(orderId);
@@ -31,6 +31,42 @@ function createOrder(request, response) {
             });
         }else{
             response.status(401).json(msg);
+        }
+    })(request, response);
+}
+
+//percorso /orders/getNext
+function getNextOrder(request, response){
+    console.log("GET NEXT ORDER");
+    passport.authenticate('BARMAN', function (err,user,msg) {
+        if(err == null && user != false){
+            nextOrderPromise = ordersDAOImpl.getNextOrder()
+            nextOrderPromise.then(function(order){
+                response.status(200).json(order);
+            }).catch(function(err){
+                console.log(err);
+                response.status(500).json("ERRORE NEL PRENDERE IL NEXT ORDER")
+            })
+        }
+        else{
+            response.status(500).json("ERRORE di autenticazione")
+        }
+    })(request, response);
+}
+
+function updateStatus(request, response){
+    var orderId = parseInt(request.params.order_id);
+    passport.authenticate('BARMAN', function (err,user,msg) {
+        if(err == null && user != false){
+            newStatus = request.body.newStatus;
+            ordersDAOImpl.updateOrderStatus(orderId, newStatus)
+            .then(function(success){
+                response.status(200).json(success);
+            }).catch(function(err){
+                response.status(500).json("ERRORE NELL'aggiornare lo stato")
+            });
+        }else{
+            response.status(500).json("ERRORE di autenticazione")
         }
     })(request, response);
 }
@@ -51,3 +87,5 @@ function deleteOrder(request, response){
 module.exports.createOrder = createOrder;
 module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrder = deleteOrder;
+module.exports.getNextOrder = getNextOrder;
+module.exports.updateStatus = updateStatus;
