@@ -67,9 +67,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
                 switch (itemId) {
                     case  R.id.navigation_delivery_type :
-                        intent.setClass(mContext, DeliveryPlaceActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        returnDeliveryIfLogged(intent);
                         result = true;
                         break;
 
@@ -113,6 +111,16 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (AppSession.getInstance().getmCustomer().getId() != -1){
+            Intent intent = new Intent();
+            returnDeliveryIfLogged(intent);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public boolean checkSelection () {
         if(savePaymentMethod()){
             return true;
@@ -121,6 +129,12 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    private void returnDeliveryIfLogged (Intent intent) {
+        intent.setClass(mContext, DeliveryPlaceActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private boolean savePaymentMethod(){
