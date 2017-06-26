@@ -21,6 +21,8 @@ import com.daimajia.swipe.SwipeLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -71,7 +73,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         this.categories = new ArrayList<>();
 
         setMenuForAdapter(filteredBarMenu);
-        setMenuFavouritesCategory(originalBarMenu);
 
         updateTotalPrice();
 
@@ -124,14 +125,14 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         }
 
         if (!menuForAdapter.get(preferredsCategory).isEmpty()){
-            categories.add(preferredsCategory);
+            categories.add(0,preferredsCategory);
         }
 
     }
 
     protected void setMenuForAdapter(BarMenu barMenu) {
         setMenuItemCategories(barMenu);
-        //setMenuFavouritesCategory(barMenu);
+        setMenuFavouritesCategory(originalBarMenu);
         //setMenuDealsCategory(barMenu);
 
 
