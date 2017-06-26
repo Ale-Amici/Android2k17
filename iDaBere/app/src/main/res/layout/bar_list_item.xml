@@ -14,19 +14,55 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/closed_title_label"
+                android:textStyle="italic"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                card_view:srcCompat="@drawable/ic_location_on_black_24dp"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/bar_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bar_distance_value"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false">
-
 
             <TextView
                 android:id="@+id/bar_text_view"
@@ -36,30 +72,17 @@
                 android:textSize="@dimen/title_text_size"
                 android:textStyle="bold" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <TextView
+                android:id="@+id/bar_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="@string/closed_title_label"
+                android:text="@string/bar_list_bar_details"
                 android:textStyle="italic"
-                android:visibility="invisible"/>
-
-            <ImageButton
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                card_view:srcCompat="@drawable/ic_info_black_24dp" />
+                android:textSize="@dimen/paragraph_text_size" />
 
         </LinearLayout>
+
+
 
 
     </LinearLayout>

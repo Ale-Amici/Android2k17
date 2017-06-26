@@ -21,6 +21,8 @@ import com.daimajia.swipe.SwipeLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -29,6 +31,7 @@ import it.unitn.disi.lpsmt.idabere.activities.ItemInfoActivity;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
 import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
+import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.OrderItem;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -66,24 +69,28 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         this.totalPriceInfo = totalPriceInfo;
         this.mExpandableListView = mExpandableListView;
         myAddNewChoiceListener = new MyAddNewChoiceListener();
+        menuForAdapter = new HashMap<>();
+        this.categories = new ArrayList<>();
+
         setMenuForAdapter(filteredBarMenu);
+
         updateTotalPrice();
+
 
         lastItemExpandedGroupPosition = -1;
         lastItemExpandedChildPosition = -1;
         lastItemExpandedView = null;
-        //TODO togliore l'animazione di apertura della categoria, cambiare colore alle categorie
+        //TODO togliere l'animazione di apertura della categoria, cambiare colore alle categorie
     }
 
     protected void setMenuItemCategories(BarMenu barMenu){
-        menuForAdapter = new HashMap<>();
-        this.categories = new ArrayList<>();
+
 
         //INSERISCO LE CATEGORIE ASSEGNATE A CIASCUN MENUITEM
         for(BarMenuItem item: barMenu.getBarMenuItemList()){
             if(item.getCategory() == null || item.getCategory().isEmpty()){
                 System.err.println("ERRORE");
-                //throw new Exception("ITEM SENZA CATEGORIA"); //TODO decidere come gestire gli errori nell'applicazione
+                //throw new Exception("ITEM SENZA CATEG ORIA"); //TODO decidere come gestire gli errori nell'applicazione
             }
             else{
                 if(menuForAdapter.get(item.getCategory()) == null){
@@ -103,16 +110,31 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     protected void setMenuFavouritesCategory(BarMenu barMenu){
-        //TODO INSERISCO LA CATEGORIA DEI PREFERITI
+        String preferredsCategory = context.getResources().getString(R.string.preferreds_category_name);
+        Customer currentCustomer = AppSession.getInstance().getmCustomer();
+        menuForAdapter.put(preferredsCategory, new ArrayList<BarMenuItem>());
+        if (currentCustomer.getId() != -1 && currentCustomer.getPreferredItems() != null && ! currentCustomer.getPreferredItems().isEmpty() ){
+            for(BarMenuItem item: currentCustomer.getPreferredItems()){
+                if(item.getCategory() == null || item.getCategory().isEmpty()){
+                    System.err.println("ERRORE");
+                    //throw new Exception("ITEM SENZA CATEGORIA"); //TODO decidere come gestire gli errori nell'applicazione
+                } else if (barMenu.getBarMenuItemById(item.getId()) != null) {
+                    menuForAdapter.get(preferredsCategory).add(item);
+                }
+            }
+        }
 
+        if (!menuForAdapter.get(preferredsCategory).isEmpty()){
+            categories.add(0,preferredsCategory);
+        }
 
     }
 
     protected void setMenuForAdapter(BarMenu barMenu) {
-
         setMenuItemCategories(barMenu);
-        setMenuDealsCategory(barMenu);
-        setMenuFavouritesCategory(barMenu);
+        setMenuFavouritesCategory(originalBarMenu);
+        //setMenuDealsCategory(barMenu);
+
 
     }
 

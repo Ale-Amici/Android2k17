@@ -76,6 +76,16 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_bar);
 
+        AppSession appSession = AppSession.getInstance();
+        if (    appSession.getmCustomer() != null &&
+                appSession.getmCustomer().getOrder() != null &&
+                appSession.getmCustomer().getOrder().getId() != -1){
+            // Start order status activity to wait order to process
+            Intent intent = new Intent();
+            intent.setClass(this, OrderStatusActivity.class);
+            startActivity(intent);
+        }
+
         initViewComps();
         mContext = this;
         barsList = new ArrayList<Bar>();
@@ -105,7 +115,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             }
         } else {
             toggleLoading(false);
-            Toast.makeText(mContext, "Nessuna Connessione", Toast.LENGTH_SHORT).show();
+            showSnackbar("E' necessaria una connessione dati abilitata");
+            //Toast.makeText(mContext, "Nessuna Connessione", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -188,7 +199,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             AppSession.getInstance().setmBar(barsList.get(position));
             startActivity(intent);
         } else {
-            Toast.makeText(mContext, "Impossible Connettersi", Toast.LENGTH_SHORT).show();
+            showSnackbar("E' necessaria una connessione dati abilitata");
+//            Toast.makeText(mContext, "Impossible Connettersi", Toast.LENGTH_SHORT).show();
         }
 
     }

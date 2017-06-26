@@ -125,4 +125,13 @@ public class BarMenuItem {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = false;
+        if (((BarMenuItem)obj).getId() == this.getId()){
+            result = true;
+        }
+        return result;
+    }
 }

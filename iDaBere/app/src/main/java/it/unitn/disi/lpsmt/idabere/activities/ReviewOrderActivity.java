@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.ReviewOrderExpandableListAdapter;
@@ -51,8 +52,12 @@ public class ReviewOrderActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_delivery_type :
-                        intent.setClass(mContext,DeliveryPlaceActivity.class);
-                        startActivity(intent);
+                        if (AppSession.getInstance().getmCustomer().getOrder().getOrderItems().size() > 0){
+                            intent.setClass(mContext,DeliveryPlaceActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(mContext, "Devi prima effettuare almeno una scelta", Toast.LENGTH_SHORT).show();
+                        }
                         result = true;
                         break;
                 }

@@ -20,6 +20,10 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -32,7 +36,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.0.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
-    compile 'com.android.volley:volley:1.0.0'
+    compile 'me.pushy:sdk:1.0.28'
+
+    compile 'com.github.kenglxn.QRGen:android:2.2.0'
+
 
     testCompile 'junit:junit:4.12'
 }

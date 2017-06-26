@@ -14,6 +14,7 @@ public class Customer {
     private String email;
     private String password;
     private Order order;
+    private String deviceToken;
     private ArrayList<BarMenuItem> preferredItems;
     private ArrayList<CreditCard> creditCards;
 
@@ -21,16 +22,19 @@ public class Customer {
         id = -1;
         username = "unknown";
         age = -1;
+        deviceToken = "";
         order = new Order();
+        preferredItems = new ArrayList<>();
         creditCards = new ArrayList<>();
     }
 
-    public Customer(int id, String username, int age, String email, String password, Order order, ArrayList<BarMenuItem> preferredItems) {
+    public Customer(int id, String username, int age, String email, String password, String deviceToken, Order order, ArrayList<BarMenuItem> preferredItems) {
         this.id = id;
         this.username = username;
         this.age = age;
         this.email = email;
         this.password = password;
+        this.deviceToken = deviceToken;
         this.order = order;
         this.preferredItems = preferredItems;
     }
@@ -97,5 +101,13 @@ public class Customer {
 
     public void setCreditCards(ArrayList<CreditCard> creditCards) {
         this.creditCards = creditCards;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

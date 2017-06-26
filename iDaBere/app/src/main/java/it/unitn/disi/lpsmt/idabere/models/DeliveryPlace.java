@@ -7,6 +7,7 @@ package it.unitn.disi.lpsmt.idabere.models;
 public abstract class DeliveryPlace {
 
     private int floor;
+    private int id;
 
     public DeliveryPlace () {}
 
@@ -24,4 +25,11 @@ public abstract class DeliveryPlace {
 
     public String getName() {return "";};
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

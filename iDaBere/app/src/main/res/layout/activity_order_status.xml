@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/main_activity_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,6 +19,7 @@
         android:textStyle="bold" />
 
     <ImageView
+        android:id="@+id/qr_code_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -36,12 +38,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/menu_item_vertical_padding"
             android:text="@string/identification_number_label"
-            android:textSize="@dimen/title_text_size"
+            android:textSize="@dimen/paragraph_text_size"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/oder_status_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -51,12 +54,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/menu_item_vertical_padding"
             android:text="@string/queue_number_label"
-            android:textSize="@dimen/title_text_size"
+            android:textSize="@dimen/paragraph_text_size"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/oder_status_queue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"

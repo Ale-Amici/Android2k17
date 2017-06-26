@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.CreditCard;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -66,7 +67,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
                 switch (itemId) {
                     case  R.id.navigation_delivery_type :
-                        PaymentTypeActivity.super.onBackPressed();
+                        returnDeliveryIfLogged(intent);
                         result = true;
                         break;
 
@@ -110,6 +111,16 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (AppSession.getInstance().getmCustomer().getId() != -1){
+            Intent intent = new Intent();
+            returnDeliveryIfLogged(intent);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public boolean checkSelection () {
         if(savePaymentMethod()){
             return true;
@@ -118,6 +129,12 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
             Toast.makeText(mContext, "Devi effettuare una scelta", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    private void returnDeliveryIfLogged (Intent intent) {
+        intent.setClass(mContext, DeliveryPlaceActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private boolean savePaymentMethod(){
