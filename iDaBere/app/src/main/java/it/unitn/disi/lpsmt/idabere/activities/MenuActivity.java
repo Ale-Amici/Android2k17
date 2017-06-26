@@ -72,16 +72,6 @@ public class MenuActivity extends AppCompatActivity implements
                 boolean result = false;
                 int itemId = item.getItemId();
                 switch (itemId) {
-
-//                    case R.id.navigation_list_bar :
-//                        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-//                        if (currentOrder != null && currentOrder.getOrderItems().size() > 0) {
-//                            currentOrder.getOrderItems().clear();
-//                        }
-//                        MenuActivity.super.onBackPressed();
-//                        result = true;
-//                        break;
-
                     case R.id.navigation_review_order:
                         Intent intent = new Intent();
                         intent.setClass(mContext, ReviewOrderActivity.class);

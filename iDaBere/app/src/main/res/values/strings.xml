@@ -124,5 +124,6 @@
     <string name="bar_distance_value">130m</string>
     <string name="preferreds_added_banner">Aggiunto ai preferiti</string>
     <string name="add_preferred_button_label">Aggiungi ai preferiti</string>
+    <string name="preferreds_category_name">Preferiti</string>
 
 </resources>
