@@ -112,7 +112,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         String preferredsCategory = context.getResources().getString(R.string.preferreds_category_name);
         Customer currentCustomer = AppSession.getInstance().getmCustomer();
         menuForAdapter.put(preferredsCategory, new ArrayList<BarMenuItem>());
-        if (currentCustomer.getPreferredItems() != null && ! currentCustomer.getPreferredItems().isEmpty() ){
+        if (currentCustomer.getId() != -1 && currentCustomer.getPreferredItems() != null && ! currentCustomer.getPreferredItems().isEmpty() ){
             for(BarMenuItem item: currentCustomer.getPreferredItems()){
                 if(item.getCategory() == null || item.getCategory().isEmpty()){
                     System.err.println("ERRORE");
