@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.CreditCard;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -66,7 +67,9 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
                 switch (itemId) {
                     case  R.id.navigation_delivery_type :
-                        PaymentTypeActivity.super.onBackPressed();
+                        intent.setClass(mContext, DeliveryPlaceActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         result = true;
                         break;
 

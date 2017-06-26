@@ -142,6 +142,10 @@ public class CheckoutActivity extends AppCompatActivity {
         protected void onPostExecute(Order retrievedOrder) {
 
             if (retrievedOrder != null) {
+                Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+                currentOrder.setId(retrievedOrder.getId());
+                currentOrder.setStatus(retrievedOrder.getStatus());
+                currentOrder.setDestroyCode(retrievedOrder.getDestroyCode());
                 Log.d("RETRIEVED ORDER", retrievedOrder.toString());
                 Intent intent = new Intent();
                 intent.setClass(mContext, OrderStatusActivity.class);
