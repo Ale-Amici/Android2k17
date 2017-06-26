@@ -19,6 +19,7 @@ router.get('delete/:order_id/:destroy_code', function (req, res, next) {
 
 /* GET NEXT ORDER -> for barman */
 router.post('/getNext', function (req, res, next) {
+    console.log("GETNEXT");
     ordersCtrl.getNextOrder(req, res);
 });
 

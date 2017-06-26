@@ -2,7 +2,8 @@ var OrderStatus = {
     PAYMENT_IN_PROGRESS : "PAYMENT_IN_PROGRESS",
     IN_QUEUE : "IN_QUEUE",
     IN_PREPARATION : "IN_PREPARATION",
-    READY : "READY"
+    READY : "READY",
+    ARRAY: ["PAYMENT_IN_PROGRESS", "IN_QUEUE", "IN_PREPARATION", "READY"]
 }
 
 module.exports = OrderStatus;
