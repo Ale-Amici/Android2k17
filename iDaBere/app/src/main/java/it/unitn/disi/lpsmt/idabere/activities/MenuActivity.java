@@ -49,10 +49,6 @@ public class MenuActivity extends AppCompatActivity implements
     private ExpandableListView categoriesExpandableListView;
     private BottomNavigationView bottomNavigationMenu;
 
-    private View progressBar;
-    private Button newChoiceButton;
-    private ImageButton itemInfoButton;
-
     private TextView totalPriceInfo;
 
     private Context mContext;
@@ -122,10 +118,6 @@ public class MenuActivity extends AppCompatActivity implements
 
         // get the bottom navigation menu
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
-
-        progressBar = findViewById(R.id.loading_indicator);
-        newChoiceButton = (Button) findViewById(R.id.add_choice_button);
-        itemInfoButton = (ImageButton) findViewById(R.id.item_info_button);
 
         // the total price at the bottom menu
         totalPriceInfo = (TextView) findViewById(R.id.menu_total_order_price);
