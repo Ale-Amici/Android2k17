@@ -60,6 +60,11 @@ public class ItemInfoActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             togglePreferredButtonState();
         }
+        if (AppSession.getInstance().getmCustomer() == null || AppSession.getInstance().getmCustomer().getId() == -1){
+            preferredButton.setVisible(false);
+        } else {
+            preferredButton.setVisible(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

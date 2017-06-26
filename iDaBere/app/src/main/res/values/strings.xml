@@ -81,9 +81,9 @@
     <string name="small_size_label">25</string>
 
     <!-- Strings related to Order status -->
-    <string name="order_status_title_label">Stato Ordine</string>
-    <string name="identification_number_label">Codice Ordine</string>
-    <string name="queue_number_label">Posizione Coda</string>
+    <string name="order_status_title_label">STATO ORDINE</string>
+    <string name="identification_number_label">IDENTIFICATIVO ORDINE</string>
+    <string name="queue_number_label">POSIZIONE IN CODA</string>
 
     <!-- Strings related to Payment type -->
     <string name="title_payment_type_activity_title">Pagamento</string>
@@ -124,5 +124,7 @@
     <string name="bar_distance_value">130m</string>
     <string name="preferreds_added_banner">Aggiunto ai preferiti</string>
     <string name="add_preferred_button_label">Aggiungi ai preferiti</string>
+    <string name="preferreds_category_name">Preferiti</string>
+    <string name="wait_order_message">E\' necessario attendere che l\'ordine venga consegnato</string>
 
 </resources>

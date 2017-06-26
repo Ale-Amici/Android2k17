@@ -76,6 +76,16 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_bar);
 
+        AppSession appSession = AppSession.getInstance();
+        if (    appSession.getmCustomer() != null &&
+                appSession.getmCustomer().getOrder() != null &&
+                appSession.getmCustomer().getOrder().getId() != -1){
+            // Start order status activity to wait order to process
+            Intent intent = new Intent();
+            intent.setClass(this, OrderStatusActivity.class);
+            startActivity(intent);
+        }
+
         initViewComps();
         mContext = this;
         barsList = new ArrayList<Bar>();
