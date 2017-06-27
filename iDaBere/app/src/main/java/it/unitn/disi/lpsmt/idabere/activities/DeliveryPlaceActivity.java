@@ -132,11 +132,16 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Intent intent = new Intent();
         switch (resultCode) {
             case RESULT_OK :
-                Intent paymentIntent = new Intent();
-                paymentIntent.setClass(this, PaymentTypeActivity.class);
-                startActivity(paymentIntent);
+                if (getIntent().getIntExtra("ORDER_ID", -1 ) != -1 ){
+                    intent.setClass(this, OrderStatusActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(this, PaymentTypeActivity.class);
+                    startActivity(intent);
+                }
                 break;
             default:
                 Toast.makeText(this, getResources().getString(R.string.authentication_failed_message), Toast.LENGTH_SHORT).show();

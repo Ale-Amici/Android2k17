@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
+import it.unitn.disi.lpsmt.idabere.deserializer.BooleanSerializer;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 
@@ -22,14 +23,22 @@ public class CustomersDAOImpl implements CustomersDAO {
     final String AUTHENTICATION_ROUTE = "authentication";
 
     private GsonBuilder gsonBuilder = new GsonBuilder();
-    private Gson gson = gsonBuilder.create();
+    private BooleanSerializer booleanSerializer;
+    private Gson gson;
 
     private BackendConnection backendConnection = new BackendConnection();
+
 
     @Override
     public Customer loginCustomer(Customer customer) {
         Customer result;
         String data;
+
+        booleanSerializer = new BooleanSerializer();
+        gsonBuilder.registerTypeAdapter(Boolean.class, booleanSerializer);
+        gsonBuilder.registerTypeAdapter(boolean.class, booleanSerializer);
+
+        gson = gsonBuilder.create();
 
         final String LOGIN_ROUTE = "login";
 
