@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class ReviewOrderExpandableListAdapter extends MenuCategoryExpandableList
 
     @Override
     protected void setMenuForAdapter(BarMenu barMenu) {
+        menuForAdapter = new HashMap<>();
+        this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
 
     }
