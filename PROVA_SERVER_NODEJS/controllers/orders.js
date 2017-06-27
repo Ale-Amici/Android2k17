@@ -1,6 +1,7 @@
 // Import to use in this file
 var ordersDAOImpl = require('../DAOIMPL/orders.js');
 var Order = require('../models/order.js');
+var OrderStatus = require('../models/orderStatus.js');
 var passport  =  require("../passportConfig.js")
 
 
@@ -82,12 +83,13 @@ function completeOrder(request, response){
     passport.authenticate('BARMAN', function (err,user,msg) {
         if(err == null && user != false){
             ordersDAOImpl.checkOrderReady(orderId)
-            .then(function(result)){
+            .then(function(result){
                 if(result == true){
                     ordersDAOImpl.updateOrderStatus(orderId, OrderStatus.COMPLETED)
-                    then(function(success){
+                    .then(function(success){
                         response.status(200).json(success);
                     }).catch(function(err){
+                        console.log(err)
                         response.status(500).json("ERRORE NEL COMPLETARE L'ORDINE")
                     });
                 }
@@ -96,8 +98,12 @@ function completeOrder(request, response){
                 }
 
             }).catch(function(err){
+                console.log(err);
                 response.status(500).json("ERRORE NEL COMPLETARE L'ORDINE")
             });
+        }
+        else{
+            response.status(401).json("NON AUTORIZZATO")
         }
     })(request, response);
 }

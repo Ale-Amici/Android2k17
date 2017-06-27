@@ -142,7 +142,7 @@ var checkOrderReady = function(orderId){
         pool.queryAsync("SELECT status FROM CUSTOMER_ORDER "
         + " WHERE ID = ?", orderId)
         .then(function(orderRows){
-            if(orderRows[0].length > 0){
+            if(orderRows.length > 0){
                 var result = orderRows[0].status == OrderStatus.READY;
                 resolve(result);
             }
