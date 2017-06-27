@@ -131,5 +131,7 @@
     <string name="login_text_button">Autenticati</string>
     <string name="proceed_order_button">Ordina</string>
     <string name="authentication_failed_message">Autenticazione non effettuata</string>
+    <string name="server_error_text">Si è verificato un errore.\n Riprovare più tardi</string>
+    <string name="no_data_error_text">Nessun risultato trovato</string>
 
 </resources>

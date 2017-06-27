@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_search_bar_icon"
         android:enabled="true"
-        android:icon="@drawable/ic_search_black_24dp"
+        android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="0"
         android:title="@string/title_menu_seach_bar_icon"
         app:actionViewClass="android.support.v7.widget.SearchView"
@@ -15,7 +15,7 @@
     <item
         android:id="@+id/action_qr_scanner_icon"
         android:enabled="true"
-        android:icon="@drawable/ic_camera_black_24dp"
+        android:icon="@drawable/ic_camera_white_24dp"
         android:orderInCategory="1"
         android:title="@string/title_qr_scanner_icon"
         app:showAsAction="always" />
@@ -23,7 +23,7 @@
     <item
         android:id="@+id/update_coordinates"
         android:enabled="true"
-        android:icon="@drawable/ic_refresh_black_24dp"
+        android:icon="@drawable/ic_refresh_white_24dp"
         android:orderInCategory="1"
         android:title="updateCoordinates"
         app:showAsAction="always" />

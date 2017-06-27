@@ -74,6 +74,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
 
     private View loadingIndicator;
     private View errorConnectionLayout;
+    private View serverErrorLayout;
+    private View noDataErrorLayout;
     private ListView barsListView;
 
 
@@ -430,14 +432,17 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             if (bars != null) {
                 if (bars.size() != 0) {
                     ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
+                    showInfoElement(barsListView.getId());
                 } else {
-                    Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
+                    showInfoElement(noDataErrorLayout.getId());
+                    //Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(mContext, "Errore. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
+                showInfoElement(serverErrorLayout.getId());
+                //Toast.makeText(mContext, "Errore. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }
 
-            showInfoElement(barsListView.getId());
+
             super.onPostExecute(bars);
         }
 
@@ -452,6 +457,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         barsListView = (ListView) this.findViewById(R.id.bars_list_view);
         errorConnectionLayout = findViewById(R.id.no_connection_layout);
         loadingIndicator = findViewById(R.id.loading_indicator);
+        serverErrorLayout = findViewById(R.id.server_error_layout);
+        noDataErrorLayout = findViewById(R.id.no_data_error_layout);
     }
 
     private void showInfoElement(int resourceId) {
@@ -461,26 +468,32 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 loadingIndicator.setVisibility(View.VISIBLE);
                 barsListView.setVisibility(View.GONE);
                 errorConnectionLayout.setVisibility(View.GONE);
+                serverErrorLayout.setVisibility(View.GONE);
+                noDataErrorLayout.setVisibility(View.GONE);
                 break;
             case R.id.bars_list_view :
                 loadingIndicator.setVisibility(View.GONE);
                 barsListView.setVisibility(View.VISIBLE);
                 errorConnectionLayout.setVisibility(View.GONE);
+                serverErrorLayout.setVisibility(View.GONE);
+                noDataErrorLayout.setVisibility(View.GONE);
                 break;
             case R.id.no_connection_layout :
                 loadingIndicator.setVisibility(View.GONE);
                 barsListView.setVisibility(View.GONE);
                 errorConnectionLayout.setVisibility(View.VISIBLE);
+                serverErrorLayout.setVisibility(View.GONE);
+                noDataErrorLayout.setVisibility(View.GONE);
                 break;
-        }
+            case R.id.server_error_layout :
+                loadingIndicator.setVisibility(View.GONE);
+                barsListView.setVisibility(View.GONE);
+                errorConnectionLayout.setVisibility(View.GONE);
+                serverErrorLayout.setVisibility(View.GONE);
+                noDataErrorLayout.setVisibility(View.VISIBLE);
+                break;
 
-//        if (isVisible) {
-//            loadingIndicator.setVisibility(View.VISIBLE);
-//            barsListView.setVisibility(View.GONE);
-//        } else {
-//            loadingIndicator.setVisibility(View.GONE);
-//            barsListView.setVisibility(View.VISIBLE);
-//        }
+        }
 
     }
 }

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -90,9 +89,9 @@ public class ItemInfoActivity extends AppCompatActivity {
         BarMenuItem currentBarMenuItem = currentBarMenu.getBarMenuItemById(menuItemId);
         Log.d("INDEX", Integer.toString(currentCustomer.getPreferredItems().indexOf(currentBarMenuItem)));
         if (currentCustomer.getPreferredItems().size() == 0 || currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) == -1 ){
-            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_border_black_24dp));
+            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_border_white_24dp));
         } else {
-            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_black_24dp));
+            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_white_24dp));
         }
 
     }

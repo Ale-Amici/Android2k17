@@ -33,6 +33,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         authenticateButton.setOnClickListener(this);
         orderButton.setOnClickListener(this);
 
+        setTitle("");
+
     }
 
     @Override
