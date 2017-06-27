@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -44,10 +45,11 @@ public class Bar {
 
     public String distanceToString () {
         String distance = "";
-        if (this.distance == -1) {
-            distance += "";
+
+        if (this.distance == 0.0){
+            // Print nothing
         } else if (this.distance < 999){
-            distance += Double.toString(this.distance);
+            distance += new DecimalFormat("#00").format(this.distance) + "m";
         } else if (this.distance < 4999) {
             distance += "> 1km";
         } else if (this.distance < 9999) {
