@@ -388,7 +388,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         protected void onPostExecute(ArrayList<Bar> bars) {
 
             ((BarsArrayAdapter) barsListView.getAdapter()).clear();
-            if (bars != null || barsList.size() == 0) {
+            if (bars != null || bars.size() == 0) {
                 ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
             } else {
                 Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
