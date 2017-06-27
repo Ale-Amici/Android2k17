@@ -99,7 +99,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goToMenu(position);
+                goToMenu(barsList.get(position).getId());
             }
         });
 
@@ -130,9 +130,11 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                int scannedID = Integer.parseInt(result.getContents());
+                goToMenu(scannedID);
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -174,6 +176,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
                 integrator.setBeepEnabled(false);
                 integrator.setOrientationLocked(true);
+                integrator.setPrompt("");
                 integrator.initiateScan();
                 result = true;
                 break;
@@ -201,18 +204,20 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     }
 
 
-    public void goToMenu(int position) {
+    public void goToMenu(int barId) {
         if (AppStatus.getInstance(mContext).isOnline()) {
             Intent intent = new Intent();
             intent.setClass(mContext, MenuActivity.class);
 
             Bar currentBar = AppSession.getInstance().getmBar();
-            if (currentBar != null && currentBar.getId() != barsList.get(position).getId()) {
+            if (currentBar != null && currentBar.getId() != barId) {
                 intent.putExtra("BAR_CHANGED", true);
             } else {
                 intent.putExtra("BAR_CHANGED", false);
             }
-            AppSession.getInstance().setmBar(barsList.get(position));
+            Bar tmp = new Bar();
+            tmp.setId(barId);
+            AppSession.getInstance().setmBar(tmp);
             startActivity(intent);
         } else {
             showSnackbar("E' necessaria una connessione dati abilitata");
