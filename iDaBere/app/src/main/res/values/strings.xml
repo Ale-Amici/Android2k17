@@ -126,5 +126,6 @@
     <string name="add_preferred_button_label">Aggiungi ai preferiti</string>
     <string name="preferreds_category_name">Preferiti</string>
     <string name="wait_order_message">E\' necessario attendere che l\'ordine venga consegnato</string>
+    <string name="no_connection_text">Abilitare una connessione dati</string>
 
 </resources>

@@ -28,6 +28,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -68,6 +69,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     /* Ui comps */
 
     private View loadingIndicator;
+    private View errorConnectionLayout;
     private ListView barsListView;
 
 
@@ -105,7 +107,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
 
     @Override
     protected void onStart() {
-        toggleLoading(true);
+        showInfoElement(loadingIndicator.getId());
 
         if (AppStatus.getInstance(mContext).isOnline()) {
             if (!checkLocationPermissions()) {
@@ -114,8 +116,8 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 getLastLocation();
             }
         } else {
-            toggleLoading(false);
-            showSnackbar("E' necessaria una connessione dati abilitata");
+            showInfoElement(errorConnectionLayout.getId());
+            showSnackbar("Abilita una connessione dati per procedere");
             //Toast.makeText(mContext, "Nessuna Connessione", Toast.LENGTH_SHORT).show();
         }
 
@@ -392,7 +394,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
             }
 
-            toggleLoading(false);
+            showInfoElement(barsListView.getId());
             super.onPostExecute(bars);
         }
 
@@ -405,17 +407,37 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     // Instantiate layout elements
     private void initViewComps() {
         barsListView = (ListView) this.findViewById(R.id.bars_list_view);
+        errorConnectionLayout = findViewById(R.id.no_connection_layout);
         loadingIndicator = findViewById(R.id.loading_indicator);
     }
 
-    private void toggleLoading(boolean isVisible) {
-        if (isVisible) {
-            loadingIndicator.setVisibility(View.VISIBLE);
-            barsListView.setVisibility(View.GONE);
-        } else {
-            loadingIndicator.setVisibility(View.GONE);
-            barsListView.setVisibility(View.VISIBLE);
+    private void showInfoElement(int resourceId) {
+
+        switch (resourceId) {
+            case R.id.loading_indicator :
+                loadingIndicator.setVisibility(View.VISIBLE);
+                barsListView.setVisibility(View.GONE);
+                errorConnectionLayout.setVisibility(View.GONE);
+                break;
+            case R.id.bars_list_view :
+                loadingIndicator.setVisibility(View.GONE);
+                barsListView.setVisibility(View.VISIBLE);
+                errorConnectionLayout.setVisibility(View.GONE);
+                break;
+            case R.id.no_connection_layout :
+                loadingIndicator.setVisibility(View.GONE);
+                barsListView.setVisibility(View.GONE);
+                errorConnectionLayout.setVisibility(View.VISIBLE);
+                break;
         }
+
+//        if (isVisible) {
+//            loadingIndicator.setVisibility(View.VISIBLE);
+//            barsListView.setVisibility(View.GONE);
+//        } else {
+//            loadingIndicator.setVisibility(View.GONE);
+//            barsListView.setVisibility(View.VISIBLE);
+//        }
 
     }
 }
