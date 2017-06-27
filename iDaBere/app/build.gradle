@@ -22,6 +22,7 @@ android {
 
 repositories {
     maven { url "https://jitpack.io" }
+    jcenter()
 }
 
 dependencies {
@@ -40,6 +41,7 @@ dependencies {
 
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
 
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
 
     testCompile 'junit:junit:4.12'
 }

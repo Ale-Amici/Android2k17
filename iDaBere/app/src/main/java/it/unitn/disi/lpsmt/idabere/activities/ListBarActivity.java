@@ -36,6 +36,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.unitn.disi.lpsmt.idabere.BuildConfig;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
@@ -104,7 +106,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goToMenu(position);
+                goToMenu(barsList.get(position).getId());
             }
         });
 
@@ -130,6 +132,21 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         super.onStart();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+//                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                int scannedID = Integer.parseInt(result.getContents());
+                goToMenu(scannedID);
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     /**
      * menu bar methods
@@ -162,10 +179,12 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         switch (itemId) {
             case R.id.action_qr_scanner_icon:
 
-                Intent intent = new Intent();
-                intent.setClass(mContext, QrCodeScannerActivity.class);
-                startActivity(intent);
-
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setBeepEnabled(false);
+                integrator.setOrientationLocked(true);
+                integrator.setPrompt("");
+                integrator.initiateScan();
                 result = true;
                 break;
             case R.id.action_clear_search_bar_icon:
@@ -192,18 +211,20 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     }
 
 
-    public void goToMenu(int position) {
+    public void goToMenu(int barId) {
         if (AppStatus.getInstance(mContext).isOnline()) {
             Intent intent = new Intent();
             intent.setClass(mContext, MenuActivity.class);
 
             Bar currentBar = AppSession.getInstance().getmBar();
-            if (currentBar != null && currentBar.getId() != barsList.get(position).getId()) {
+            if (currentBar != null && currentBar.getId() != barId) {
                 intent.putExtra("BAR_CHANGED", true);
             } else {
                 intent.putExtra("BAR_CHANGED", false);
             }
-            AppSession.getInstance().setmBar(barsList.get(position));
+            Bar tmp = new Bar();
+            tmp.setId(barId);
+            AppSession.getInstance().setmBar(tmp);
             startActivity(intent);
         } else {
             showSnackbar("E' necessaria una connessione dati abilitata");
@@ -403,10 +424,15 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         protected void onPostExecute(ArrayList<Bar> bars) {
 
             ((BarsArrayAdapter) barsListView.getAdapter()).clear();
-            if (bars != null || bars.size() == 0) {
-                ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
+
+            if (bars != null) {
+                if (bars.size() != 0) {
+                    ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
+                } else {
+                    Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Errore. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }
 
             showInfoElement(barsListView.getId());
