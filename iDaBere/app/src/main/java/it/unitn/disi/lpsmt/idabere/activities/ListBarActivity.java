@@ -139,7 +139,13 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             if(result.getContents() == null) {
 //                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                int scannedID = Integer.parseInt(result.getContents());
+                int scannedID = -1;
+                try {
+                    scannedID = Integer.parseInt(result.getContents());
+                } catch (NumberFormatException ex){
+                    ex.printStackTrace();
+                }
+
                 goToMenu(scannedID);
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
@@ -409,13 +415,11 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 address.setLongitude(mLastLocation.getLongitude());
                 address.setLatitude(mLastLocation.getLatitude());
                 Log.d("ADDRESS", address.toString());
+                barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
             } else {
-                address.setLatitude(0.0);
-                address.setLongitude(0.0);
+                barsList = ListBarActivity.factoryDAO.newBarsDAO().getAllBars();
             }
 
-
-            barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
 
             return barsList;
         }
