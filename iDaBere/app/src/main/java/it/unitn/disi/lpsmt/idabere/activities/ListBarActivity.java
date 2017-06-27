@@ -489,10 +489,16 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 loadingIndicator.setVisibility(View.GONE);
                 barsListView.setVisibility(View.GONE);
                 errorConnectionLayout.setVisibility(View.GONE);
+                serverErrorLayout.setVisibility(View.VISIBLE);
+                noDataErrorLayout.setVisibility(View.GONE);
+                break;
+            case R.id.no_data_error_layout :
+                loadingIndicator.setVisibility(View.GONE);
+                barsListView.setVisibility(View.GONE);
+                errorConnectionLayout.setVisibility(View.GONE);
                 serverErrorLayout.setVisibility(View.GONE);
                 noDataErrorLayout.setVisibility(View.VISIBLE);
                 break;
-
         }
 
     }
