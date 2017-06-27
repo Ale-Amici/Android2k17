@@ -24,6 +24,10 @@ class user {
     return this;
 
   }
+  setOrder(order){
+      this.order = order;
+      return this;
+  }
   setDeviceToken(deviceToken){
       this.deviceToken = deviceToken;
       return this;
