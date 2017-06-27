@@ -59,14 +59,45 @@ function updateStatus(request, response){
     passport.authenticate('BARMAN', function (err,user,msg) {
         if(err == null && user != false){
             newStatus = request.body.newStatus;
-            ordersDAOImpl.updateOrderStatus(orderId, newStatus)
-            .then(function(success){
-                response.status(200).json(success);
-            }).catch(function(err){
-                response.status(500).json("ERRORE NELL'aggiornare lo stato")
-            });
+            if(newStatus != OrderStatus.COMPLETED){
+                ordersDAOImpl.updateOrderStatus(orderId, newStatus)
+                .then(function(success){
+                    response.status(200).json(success);
+                }).catch(function(err){
+                    response.status(500).json("ERRORE NELL'aggiornare lo stato")
+                });
+            }
+            else{
+                response.status(500).json("ERRORE: NON PUOI COMPLETARE L'ORDINE,chiama /");
+            }
         }else{
             response.status(500).json("ERRORE di autenticazione")
+        }
+    })(request, response);
+}
+
+//percorso /orders/complete/:order_id
+function completeOrder(request, response){
+    var orderId = parseInt(request.params.order_id);
+    passport.authenticate('BARMAN', function (err,user,msg) {
+        if(err == null && user != false){
+            ordersDAOImpl.checkOrderReady(orderId)
+            .then(function(result)){
+                if(result == true){
+                    ordersDAOImpl.updateOrderStatus(orderId, OrderStatus.COMPLETED)
+                    then(function(success){
+                        response.status(200).json(success);
+                    }).catch(function(err){
+                        response.status(500).json("ERRORE NEL COMPLETARE L'ORDINE")
+                    });
+                }
+                else{
+                    response.status(500).json("ERRORE: ORDINE NON ANCORA READY")
+                }
+
+            }).catch(function(err){
+                response.status(500).json("ERRORE NEL COMPLETARE L'ORDINE")
+            });
         }
     })(request, response);
 }
@@ -89,3 +120,4 @@ module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrder = deleteOrder;
 module.exports.getNextOrder = getNextOrder;
 module.exports.updateStatus = updateStatus;
+module.exports.completeOrder = completeOrder;

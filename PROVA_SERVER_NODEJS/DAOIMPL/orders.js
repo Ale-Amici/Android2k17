@@ -136,6 +136,24 @@ var updateOrderStatus = function(orderId, status){
     });
 }
 
+var checkOrderReady = function(orderId){
+    var pool = dbHelper.getDBPool();
+    return new Promise(function(resolve, reject){
+        pool.queryAsync("SELECT status FROM CUSTOMER_ORDER "
+        + " WHERE ID = ?", orderId)
+        .then(function(orderRows){
+            if(orderRows[0].length > 0){
+                var result = orderRows[0].status == OrderStatus.READY;
+                resolve(result);
+            }
+            reject("NESSUN ORDINE CON QUESTO ID")
+        }).catch(function(err){
+            console.log(err);
+            reject(err);
+        })
+    });
+}
+
 
 var deleteOrderFromId = function(orderId, destroyCode){
  //Elimino l'ordine con quell'ID se il codice matcha
@@ -167,3 +185,4 @@ module.exports.getOrderFromId = getOrderFromId;
 module.exports.deleteOrderFromId = deleteOrderFromId;
 module.exports.getNextOrder = getNextOrder;
 module.exports.updateOrderStatus = updateOrderStatus;
+module.exports.checkOrderReady = checkOrderReady;
