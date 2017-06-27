@@ -45,7 +45,7 @@ public class Bar {
     public String distanceToString () {
         String distance = "";
         if (this.distance < 999){
-            distance += Double.toHexString(this.distance);
+            distance += Double.toString(this.distance);
         } else if (this.distance < 4999) {
             distance += "> 1km";
         } else if (this.distance < 9999) {

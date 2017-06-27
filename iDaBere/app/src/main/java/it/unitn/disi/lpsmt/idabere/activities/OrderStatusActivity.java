@@ -32,7 +32,7 @@ import me.pushy.sdk.Pushy;
 public class OrderStatusActivity extends AppCompatActivity {
 
     // TODO inserire l'url corretto di disturzione ordine
-    private final String DESTROY_ORDER_API_URL = "http://151.80.152.226/orders/destroy";
+    private final String DESTROY_ORDER_API_URL = "http://151.80.152.226/orders/complete/";
     private ImageView qrCode;
     private TextView orderId;
     private TextView orderQueue;
