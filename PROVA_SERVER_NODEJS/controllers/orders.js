@@ -41,8 +41,8 @@ function getNextOrder(request, response){
     console.log("GET NEXT ORDER");
     passport.authenticate('BARMAN', function (err,user,msg) {
         if(err == null && user != false){
-            nextOrderPromise = ordersDAOImpl.getNextOrder()
-            nextOrderPromise.then(function(order){
+            ordersDAOImpl.getNextOrder()
+            .then(function(order){
                 response.status(200).json(order);
             }).catch(function(err){
                 console.log(err);
@@ -80,8 +80,8 @@ function updateStatus(request, response){
 //percorso /orders/complete/:order_id
 function completeOrder(request, response){
     var orderId = parseInt(request.params.order_id);
-    passport.authenticate('BARMAN', function (err,user,msg) {
-        if(err == null && user != false){
+    //passport.authenticate('BARMAN', function (err,user,msg) {
+    //    if(err == null && user != false){
             ordersDAOImpl.checkOrderReady(orderId)
             .then(function(result){
                 if(result == true){
@@ -101,29 +101,30 @@ function completeOrder(request, response){
                 console.log(err);
                 response.status(500).json("ERRORE NEL COMPLETARE L'ORDINE")
             });
-        }
-        else{
-            response.status(401).json("NON AUTORIZZATO")
-        }
-    })(request, response);
+    //    }
+    //    else{
+    //        response.status(401).json("NON AUTORIZZATO")
+    //    }
+    //})(request, response);
 }
 
 //percorso /orders/:order_id
 function getOrderFromId(request, response){
+    var orderId = request.params.order_id;
+    ordersDAOImpl.getOrderFromId(orderId)
+    .then(function(order){
+        response.status(200).json(order);
+    }).catch(function(err){
+        response.status(500).json("ERRORE NEL PRENDERE L'ORDINE")
+    })
 
 }
 
-//percorso /orders/:order_id/:destroy_code
-function deleteOrder(request, response){
-
-
-}
 
 
 
 module.exports.createOrder = createOrder;
 module.exports.getOrderFromId = getOrderFromId;
-module.exports.deleteOrder = deleteOrder;
 module.exports.getNextOrder = getNextOrder;
 module.exports.updateStatus = updateStatus;
 module.exports.completeOrder = completeOrder;

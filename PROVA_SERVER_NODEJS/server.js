@@ -26,8 +26,8 @@ app.use("/bars", barsRoutes);
 var notificationsRoutes = require("./routes/notifications.js")
 app.use("/notifications", notificationsRoutes);
 
-/*var authenticationRoutes = require("./routes/authentication.js");
-app.use("/authentication", authenticationRoutes);*/
+var authenticationRoutes = require("./routes/authentication.js");
+app.use("/authentication", authenticationRoutes);
 
 var ordersRoutes = require("./routes/orders.js");
 app.use("/orders", ordersRoutes);

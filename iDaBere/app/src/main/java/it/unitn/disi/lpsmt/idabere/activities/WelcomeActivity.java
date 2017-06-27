@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent();
         switch (resultCode) {
             case RESULT_OK :
-                if (hasActiveOrder()) {
+                if (getIntent().getIntExtra("ORDER_ID", -1) == -1) {
                     intent.setClass(this, OrderStatusActivity.class);
                     startActivity(intent);
                 } else {
@@ -62,16 +63,16 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         orderButton = (Button) findViewById(R.id.welcome_proceed_button);
     }
 
-    private boolean hasActiveOrder() {
-        boolean result = false;
-        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-        if (currentOrder != null) {
-            if (currentOrder.getId() != -1){
-                result = true;
-            }
-        }
-        return result;
-    }
+//    private boolean hasActiveOrder() {
+//        boolean result = false;
+//        Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+//        if (currentOrder != null) {
+//            if (currentOrder.getId() != -1){
+//                result = true;
+//            }
+//        }
+//        return result;
+//    }
 
     @Override
     public void onClick(View v) {
@@ -93,4 +94,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
+
+    private class CheckCurrentOrderAsyncTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            return null;
+        }
+    }
+
 }
