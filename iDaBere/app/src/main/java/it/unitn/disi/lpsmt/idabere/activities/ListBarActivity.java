@@ -139,7 +139,13 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             if(result.getContents() == null) {
 //                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                int scannedID = Integer.parseInt(result.getContents());
+                int scannedID = -1;
+                try {
+                    scannedID = Integer.parseInt(result.getContents());
+                } catch (NumberFormatException ex){
+                    ex.printStackTrace();
+                }
+                
                 goToMenu(scannedID);
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
