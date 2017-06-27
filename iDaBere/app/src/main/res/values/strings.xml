@@ -130,5 +130,6 @@
     <string name="list_bar_activity_name">Ricerca Locale</string>
     <string name="login_text_button">Autenticati</string>
     <string name="proceed_order_button">Ordina</string>
+    <string name="authentication_failed_message">Autenticazione non effettuata</string>
 
 </resources>
