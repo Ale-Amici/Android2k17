@@ -177,6 +177,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 // Succeeded, do something to alert the user
 
                 setResult(Activity.RESULT_OK);
+                getIntent().putExtra("ORDER_ID", resultCustomer.getOrder().getId());
                 finish();
 
             }
