@@ -27,5 +27,9 @@ router.post('/updateStatus/:order_id', function (req, res, next) {
     ordersCtrl.updateStatus(req, res);
 });
 
+/* DELETE STATUS OF ORDER -> for barman*/
+router.post('/updateStatus/:order_id', function (req, res, next) {
+    ordersCtrl.updateStatus(req, res);//TODO CAMBIAAAAA
+});
 
 module.exports = router;
