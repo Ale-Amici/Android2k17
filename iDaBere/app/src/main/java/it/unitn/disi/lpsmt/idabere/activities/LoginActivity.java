@@ -63,6 +63,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
 
+    public static final int IS_LOGGED_REQUEST_CODE = 100;
+
     private CustomersDAO customersDAO;
 
     private ProgressBar progressBar;
@@ -174,11 +176,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
                 // Succeeded, do something to alert the user
 
-                Intent intent = new Intent();
-
-                intent.setClass(mContext, PaymentTypeActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                setResult(Activity.RESULT_OK);
+                finish();
 
             }
 
