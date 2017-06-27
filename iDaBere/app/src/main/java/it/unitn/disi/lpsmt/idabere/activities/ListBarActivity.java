@@ -53,8 +53,6 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
 
     private NetworkStateReceiver networkStateReceiver;
 
-    public static FactoryDAO factoryDAO = new FactoryDAOImpl();
-
     private static final String TAG = ListBarActivity.class.getSimpleName();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -415,9 +413,9 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 address.setLongitude(mLastLocation.getLongitude());
                 address.setLatitude(mLastLocation.getLatitude());
                 Log.d("ADDRESS", address.toString());
-                barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
+                barsList = WelcomeActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
             } else {
-                barsList = ListBarActivity.factoryDAO.newBarsDAO().getAllBars();
+                barsList = WelcomeActivity.factoryDAO.newBarsDAO().getAllBars();
             }
 
 

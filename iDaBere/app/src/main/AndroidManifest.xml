@@ -45,7 +45,6 @@
 
         <activity
             android:name=".activities.ListBarActivity"
-            android:label="@string/list_bar_activity_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

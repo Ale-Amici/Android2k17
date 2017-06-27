@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="it.unitn.disi.lpsmt.idabere.activities.WelcomeActivity">
 
     <TextView
@@ -15,6 +16,7 @@
         android:textAlignment="center"
         android:id="@+id/textView2"
         android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:textColor="@color/white"
         android:layout_above="@+id/welcome_login_button"
         android:layout_centerHorizontal="true" />
 

@@ -4,7 +4,7 @@
 
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimaryLight</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="drawerArrowStyle">@style/MyDrawerArrowToggle</item>
 
@@ -30,6 +30,11 @@
 
     <style name="MyDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/white</item>
+    </style>
+
+    <style name="checkout_bottom_bar" >
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

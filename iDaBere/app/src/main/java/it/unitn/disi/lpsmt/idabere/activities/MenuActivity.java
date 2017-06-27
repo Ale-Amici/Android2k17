@@ -162,7 +162,7 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-            Bar newBar = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
+            Bar newBar = WelcomeActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
 
             if (newBar != null){
                 AppSession.getInstance().setmBar(newBar);
@@ -177,7 +177,7 @@ public class MenuActivity extends AppCompatActivity implements
 
                 barMenu = AppSession.getInstance().getmBar().getBarMenu();
                 Log.d("BAR_MENU", barMenu.toString());
-                Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+                Log.d("BAR", WelcomeActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
             }
 
             return barMenu;

@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
+import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static FactoryDAO factoryDAO = new FactoryDAOImpl();
+
 
     private Button authenticateButton;
     private Button orderButton;
@@ -36,8 +42,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent();
         switch (id) {
             case R.id.welcome_login_button :
-                intent.setClass(this, LoginActivity.class);
-                startActivity(intent);
+                if (AppSession.getInstance().getmCustomer().getId() == -1){
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.welcome_proceed_button :
                 intent.setClass(this, ListBarActivity.class);
