@@ -150,6 +150,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancel_chioce_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/cancel_choice_button_label" />
+
+        <Button
             android:id="@+id/add_choice_button"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
@@ -157,12 +164,6 @@
             android:text="@string/add_choice_button_label"
             android:layout_gravity="center"/>
 
-        <Button
-            android:id="@+id/cancel_chioce_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/cancel_choice_button_label" />
 
     </LinearLayout>
 

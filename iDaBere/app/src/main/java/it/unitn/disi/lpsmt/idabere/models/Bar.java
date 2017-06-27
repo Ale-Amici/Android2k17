@@ -18,7 +18,7 @@ public class Bar {
     private ArrayList<Event> events;
     private ArrayList<DeliveryPlace> deliveryPlaces;
     private BarMenu barMenu;
-    private double distance;//from user's location (in meters)
+    private double distance = -1;//from user's location (in meters)
 
     public Bar(){}
 
@@ -44,8 +44,10 @@ public class Bar {
 
     public String distanceToString () {
         String distance = "";
-        if (this.distance < 999){
-            distance += Double.toHexString(this.distance);
+        if (this.distance == -1) {
+            distance += "";
+        } else if (this.distance < 999){
+            distance += Double.toString(this.distance);
         } else if (this.distance < 4999) {
             distance += "> 1km";
         } else if (this.distance < 9999) {
