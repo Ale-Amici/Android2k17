@@ -34,6 +34,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import it.unitn.disi.lpsmt.idabere.BuildConfig;
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.FactoryDAO;
@@ -123,6 +125,19 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         super.onStart();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     /**
      * menu bar methods
@@ -155,10 +170,11 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         switch (itemId) {
             case R.id.action_qr_scanner_icon:
 
-                Intent intent = new Intent();
-                intent.setClass(mContext, QrCodeScannerActivity.class);
-                startActivity(intent);
-
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setBeepEnabled(false);
+                integrator.setOrientationLocked(true);
+                integrator.initiateScan();
                 result = true;
                 break;
             case R.id.action_clear_search_bar_icon:
@@ -386,10 +402,14 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         protected void onPostExecute(ArrayList<Bar> bars) {
 
             ((BarsArrayAdapter) barsListView.getAdapter()).clear();
-            if (bars != null || barsList.size() == 0) {
-                ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
+            if (bars != null) {
+                if (bars.size() != 0) {
+                    ((BarsArrayAdapter) barsListView.getAdapter()).addAll(bars);
+                } else {
+                    Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(mContext, "Nessun dato disponibile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Errore. Riprovare piu' tardi", Toast.LENGTH_SHORT).show();
             }
 
             toggleLoading(false);
