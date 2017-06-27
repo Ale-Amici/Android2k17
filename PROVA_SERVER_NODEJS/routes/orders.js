@@ -28,5 +28,9 @@ router.post('/updateStatus/:order_id', function (req, res, next) {
     ordersCtrl.updateStatus(req, res);
 });
 
+/* COMPLETE STATUS OF ORDER -> for barman*/
+router.post('/complete/:order_id', function (req, res, next) {
+    ordersCtrl.completeOrder(req, res);
+});
 
 module.exports = router;
