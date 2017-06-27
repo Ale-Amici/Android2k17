@@ -57,7 +57,24 @@ var sendUpdateStatus = function(orderId, newStatus){
             });
     });
 }
+var sendGetOrderFromId = function(orderId){
+    return new Promise(function(resolve, reject){
+        var post_getOrder_options = JSON.parse(JSON.stringify(post_getNext_options))
+        post_getOrder_options.uri = 'http://151.80.152.226/orders/' + orderId;
+        post_getOrder_options.method = "GET";
+        requestp(post_getOrder_options)
+            .then(function (response) {
+                console.log(response.body);
+                console.log("AAAA  " + response.body);
+                resolve( response.body);
+            })
+            .catch(function (err) {
+                reject("NO ORDER FOUND");
+            });
+    });
+}
 
 
 module.exports.sendGetNextOrder = sendGetNextOrder;
 module.exports.sendUpdateStatus = sendUpdateStatus;
+module.exports.sendGetOrderFromId = sendGetOrderFromId;

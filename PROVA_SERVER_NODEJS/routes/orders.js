@@ -8,8 +8,8 @@ router.post('/create', function (req, res, next) {
 });
 
 /* GET order */
-router.get('/:id', function (req, res, next) {
-  ordersCtrl.getOrder(req, res);
+router.get('/:order_id', function (req, res, next) {
+  ordersCtrl.getOrderFromId(req, res);
 });
 
 /* GET to delete order */
@@ -29,7 +29,7 @@ router.post('/updateStatus/:order_id', function (req, res, next) {
 });
 
 /* COMPLETE STATUS OF ORDER -> for barman*/
-router.post('/complete/:order_id', function (req, res, next) {
+router.get('/complete/:order_id', function (req, res, next) {
     ordersCtrl.completeOrder(req, res);
 });
 

@@ -27,7 +27,7 @@ var updateStatus = function(orderId,newStatus){
 
         return new Promise(function(resolve,reject){
             new Promise(function (resolve, reject) {
-                setTimeout(resolve, 1000); // (A)
+                setTimeout(resolve, 3000); // (A)
             }).then(function(res){
                 return httpDAO.sendUpdateStatus(orderId,newStatus);
             }).then(function(response){
@@ -61,7 +61,7 @@ var prepareOrder = function(){
             if(nextOrder.status != OrderStatus.READY){
                 prepareOrder()
                 .then(function(res){
-                    resolve("res");
+                    resolve(res);
                 });
             }
             else{
@@ -74,6 +74,33 @@ var prepareOrder = function(){
     })
 }
 
+var deliverOrder = function(){
+    return new Promise(function(resolve,reject){
+        new Promise(function (resolve, reject) {
+            setTimeout(resolve, 3000); // (A)
+        }).then(function(res){
+            return httpDAO.sendGetOrderFromId(nextOrder.id)
+        }).then(function(order){
+            if(order == undefined) order = {};
+            if(order.status != OrderStatus.COMPLETED){
+                deliverOrder()
+                .then(function(res){
+                    resolve(res);
+                })
+            }
+            else{
+                nextOrder.status = order.status ;
+                resolve(order.status);
+            }
+        }).catch(function(err){
+            console.log("ERRORE DELIVERY:" + err)
+            nextOrder = undefined;
+            reject(err);
+        })
+
+    })
+}
+
 var getWorkPromise = function(){
     return new Promise(function(resolve,reject){
         console.log("ESEGUITO")
@@ -81,10 +108,11 @@ var getWorkPromise = function(){
         .then(function(){
             return prepareOrder()
         }).then(function(res){
+            return deliverOrder()
+        }).then(function(res){
             resolve(res);
         }).catch(function(err){
             console.log(err);
-            working = false;
             reject("errr")
         })
     })
@@ -93,11 +121,17 @@ var getWorkPromise = function(){
 var start = function(){
     if(working == false){
         working = true;
-        getWorkPromise().then(function(res){
+        new Promise(function (resolve, reject) {
+            setTimeout(resolve, 3000); // (A)
+        }).then(function(res){
+            return getWorkPromise()
+        }).then(function(res){
             working = false;
+            nextOrder = undefined;
         })
         .catch(function(err){
             working = false;
+            nextOrder = undefined;
         })
     }
     setTimeout(start, 1000);
