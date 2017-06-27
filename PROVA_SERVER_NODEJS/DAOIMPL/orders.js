@@ -12,8 +12,8 @@ var Size = require("../models/size.js")
 var dbHelper = require('../DB/dbhelper.js');
 
 /*
- * This function retrieves all employees
- */
+* This function retrieves all employees
+*/
 var createOrder = function(customer, order) {
     var pool = dbHelper.getDBPool();
 
@@ -65,7 +65,7 @@ var getOrderFromId = function(orderId){
     var pool = dbHelper.getDBPool();
     var order;
     return new Promise(function(resolve, reject){
-        pool.queryAsync("SELECT * FROM CUSTOMER_ORDER WHERE ID = ? ", orderId)
+        pool.queryAsync("SELECT * FROM CUSTOMER_ORDER WHERE ID = ?", orderId)
         .then(function(orderRows){
             order = getOrderFromDbRow(orderRows[0]);
             resolve(order);
@@ -81,52 +81,40 @@ var getNextOrder = function(){
     var pool = dbHelper.getDBPool();
     var order;
     return new Promise(function(resolve, reject){
-        pool.getConnection(function(err,connection){
-            connection.beginTransaction(function(err){
-                if(err) reject(err);
-                else{
-                    connection.queryAsync("SELECT * "
-                    + " FROM CUSTOMER_ORDER CO "
-                    + " WHERE CO.status = ?"
-                    + " ORDER BY CO.creation_date "
-                    + " LIMIT 1",  OrderStatus.PAYMENT_IN_PROGRESS)
-                    .then(function(orderRows){
-                        if(orderRows.length == 0){
-                            throw 0;
-                        }
-                        else{
-                            order = getOrderFromDbRow(orderRows[0])
-                            return updateOrderStatus(order.id, OrderStatus.IN_QUEUE)
-                        }
-                    }).then(function(res){
-                        return connection.commitAsync();
-                    }).then(function(res){
+        pool.queryAsync(
+            " SELECT * FROM CUSTOMER_ORDER WHERE status = ? "
+            + " ORDER BY creation_date ASC "
+            + " LIMIT 1",OrderStatus.PAYMENT_IN_PROGRESS )
+            .then(function(orderRows){
+                if(orderRows.length > 0 ){
+                    order = getOrderFromDbRow(orderRows[0]);
+                    console.log(order);
+                    return pool.queryAsync(" UPDATE CUSTOMER_ORDER SET status=? WHERE status=? AND ID=? ",
+                        [ OrderStatus.IN_QUEUE, OrderStatus.PAYMENT_IN_PROGRESS, order.id ])
+                    }
+                    else{
+                        reject("NO ORDER")
+                    }
+                }).then(function(results){
+                    console.log(results)
+                    if(results.affectedRows == 1){
                         resolve(order);
-                    }).catch(function(err){
-                        console.log(err);
-                        if(err == 0){
-                            resolve(null);
-                        }
-                        else{
-                            connection.rollback(function(){
-                                reject(err);
-                            });
-                        }
-                    });
-                }
-            })
-        })
-
-
+                    }
+                    else{
+                        reject("ERROR")
+                    }
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
     });
 }
 
 var updateOrderStatus = function(orderId, status){
     var pool = dbHelper.getDBPool();
     return new Promise(function(resolve, reject){
-        pool.queryAsync("UPDATE CUSTOMER_ORDER "
-        + " SET status = ? "
-        + " WHERE ID = ?", [status, orderId])
+        pool.queryAsync("UPDATE CUSTOMER_ORDER SET status = ? WHERE ID = ?",
+         [status, orderId])
         .then(function(results){
             resolve(results)
         }).catch(function(err){
@@ -155,34 +143,29 @@ var checkOrderReady = function(orderId){
 }
 
 
-var deleteOrderFromId = function(orderId, destroyCode){
- //Elimino l'ordine con quell'ID se il codice matcha
-}
-
 var generateDestroyCode = function(){
     //GENERARE UNA STRINGA CASUALE
     return "DESTROY_124234";
 }
 
 
- var getOrderFromDbRow = function(row){
-     return new Order()
-         .setId(row["ID"])
-         .setStatus(row["status"])
-         .setCreationDate(row["creation_date"])
-         .setIsPaid(row["is_paid"])
-         .setTotalPrice(row["total_price"])
-         .setOrderItems([])
-         .setUsingCreditCard(row["using_credit_card"])
-         //.setChosenCreditCard({})
-         //.setChosenDeliveryPlace({})
-         .setDestroyCode(row["destroy_code"])
- }
+var getOrderFromDbRow = function(row){
+    return new Order()
+    .setId(row["ID"])
+    .setStatus(row["status"])
+    .setCreationDate(row["creation_date"])
+    .setIsPaid(row["is_paid"])
+    .setTotalPrice(row["total_price"])
+    .setOrderItems([])
+    .setUsingCreditCard(row["using_credit_card"])
+    //.setChosenCreditCard({})
+    //.setChosenDeliveryPlace({})
+    .setDestroyCode(row["destroy_code"])
+}
 
 
 module.exports.createOrder    = createOrder;
 module.exports.getOrderFromId = getOrderFromId;
-module.exports.deleteOrderFromId = deleteOrderFromId;
 module.exports.getNextOrder = getNextOrder;
 module.exports.updateOrderStatus = updateOrderStatus;
 module.exports.checkOrderReady = checkOrderReady;
