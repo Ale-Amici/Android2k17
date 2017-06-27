@@ -48,7 +48,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         initViewComps();
 
-        ordersDAO = ListBarActivity.factoryDAO.newOrdersDAO();
+        ordersDAO = WelcomeActivity.factoryDAO.newOrdersDAO();
 
         mContext = this;
 

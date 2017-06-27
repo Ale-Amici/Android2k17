@@ -15,8 +15,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(passport.initialize());
 //app.use(passport.session());
 
-
-
 var usersRoutes = require("./routes/users.js")
 app.use("/users", usersRoutes);
 
@@ -27,6 +25,7 @@ app.use("/bars", barsRoutes);
 // Notifications routes
 var notificationsRoutes = require("./routes/notifications.js")
 app.use("/notifications", notificationsRoutes);
+
 var authenticationRoutes = require("./routes/authentication.js");
 app.use("/authentication", authenticationRoutes);
 
@@ -38,6 +37,6 @@ app.get("/",function(req,res){-
         handle_database(req,res);
 });
 */
-app.listen(8080);
+app.listen(80);
 
-console.info("aperto alla porta 8080");
+console.info("aperto alla porta 80");

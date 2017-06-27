@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,11 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
-import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.models.CreditCard;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
@@ -67,7 +64,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
 
                 switch (itemId) {
                     case  R.id.navigation_delivery_type :
-                        returnDeliveryIfLogged(intent);
+                        returnDeliveryActivity(intent);
                         result = true;
                         break;
 
@@ -115,7 +112,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
     public void onBackPressed() {
         if (AppSession.getInstance().getmCustomer().getId() != -1){
             Intent intent = new Intent();
-            returnDeliveryIfLogged(intent);
+            returnDeliveryActivity(intent);
         } else {
             super.onBackPressed();
         }
@@ -131,7 +128,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
         return false;
     }
 
-    private void returnDeliveryIfLogged (Intent intent) {
+    private void returnDeliveryActivity(Intent intent) {
         intent.setClass(mContext, DeliveryPlaceActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

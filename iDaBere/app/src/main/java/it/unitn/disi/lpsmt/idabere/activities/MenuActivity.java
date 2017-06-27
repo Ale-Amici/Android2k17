@@ -112,9 +112,6 @@ public class MenuActivity extends AppCompatActivity implements
         // the total price at the bottom menu
         totalPriceInfo = (TextView) findViewById(R.id.menu_total_order_price);
 
-        //set activity title based to bar instance
-        setTitle(AppSession.getInstance().getmBar().getName());
-
 
     }
 
@@ -165,20 +162,23 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected BarMenu doInBackground(Bar... params) {
-            Bar newBar = ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
-            AppSession.getInstance().setmBar(newBar);
+            Bar newBar = WelcomeActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar());
 
-            if (getIntent().getBooleanExtra("BAR_CHANGED", false)) {
-                Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-                if (currentOrder != null) {
-                    currentOrder.getOrderItems().clear();
+            if (newBar != null){
+                AppSession.getInstance().setmBar(newBar);
+
+                if (getIntent().getBooleanExtra("BAR_CHANGED", false)) {
+                    Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+                    if (currentOrder != null) {
+                        currentOrder.getOrderItems().clear();
+                    }
                 }
-            }
-            AppSession.getInstance().getmCustomer().getOrder().setChosenBarId(newBar.getId());
+                AppSession.getInstance().getmCustomer().getOrder().setChosenBarId(newBar.getId());
 
-            barMenu = AppSession.getInstance().getmBar().getBarMenu();
-            Log.d("BAR_MENU", barMenu.toString());
-            Log.d("BAR", ListBarActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+                barMenu = AppSession.getInstance().getmBar().getBarMenu();
+                Log.d("BAR_MENU", barMenu.toString());
+                Log.d("BAR", WelcomeActivity.factoryDAO.newBarsDAO().getBarById(AppSession.getInstance().getmBar()).toString());
+            }
 
             return barMenu;
         }
@@ -189,10 +189,14 @@ public class MenuActivity extends AppCompatActivity implements
                 menuAdapter = new MenuCategoryExpandableListAdapter(mContext, retrievedBarMenu, totalPriceInfo, categoriesExpandableListView);
                 categoriesExpandableListView.setAdapter(menuAdapter);
             } else {
-                Toast.makeText(mContext, "Servizio al momento non disponibile.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Nessun Bar Trovato", Toast.LENGTH_SHORT).show();
+                MenuActivity.super.onBackPressed();
             }
 
             toggleLoading(false);
+
+            //set activity title based to bar instance
+            setTitle(AppSession.getInstance().getmBar().getName());
 
             super.onPostExecute(retrievedBarMenu);
         }

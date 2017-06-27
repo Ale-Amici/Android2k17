@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,67 +20,62 @@
 
             <!-- Item basic infos -->
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/item_infos_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/menu_item_vertical_padding"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:paddingBottom="@dimen/menu_item_vertical_padding">
 
-                <LinearLayout
+
+                <TextView
+                    android:id="@+id/info_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_centerVertical="true"
+                    android:text="@string/menu_list_item_name"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/info_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/menu_list_item_name"
-                        android:textSize="@dimen/title_text_size"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/da_label"
+                    android:paddingRight="@dimen/currency_right_margin"
+                    android:text="da"
+                    android:textSize="@dimen/paragraph_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="38dp"
+                    android:layout_marginEnd="38dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/item_price_currency"
+                    android:paddingRight="@dimen/currency_right_margin"
+                    android:text="@string/menu_list_item_currency"
+                    android:textSize="@dimen/paragraph_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/item_price"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|right">
-
-                    <TextView
-                        android:id="@+id/da_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="@dimen/currency_right_margin"
-                        android:text="da"
-                        android:textSize="@dimen/paragraph_text_size" />
-
-                    <TextView
-                        android:id="@+id/item_price_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="@dimen/currency_right_margin"
-                        android:text="@string/menu_list_item_currency"
-                        android:textSize="@dimen/paragraph_text_size" />
-
-                    <TextView
-                        android:id="@+id/item_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/menu_list_item_price"
-                        android:textSize="@dimen/paragraph_text_size"
-                        android:textStyle="bold"
-                        />
+                <TextView
+                    android:id="@+id/item_price"
+                    android:text="@string/menu_list_item_price"
+                    android:textSize="@dimen/paragraph_text_size"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
 
-                </LinearLayout>
-
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <!-- Choices section -->
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/choices_section_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,21 +99,22 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/choices_linear_layout"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/menu_item_vertical_padding">
 
                     <Button
                         android:id="@+id/new_chioce_button"
+                        style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/add_new_drink_button"
-                        style="@style/Widget.AppCompat.Button.Colored"/>
+                        android:text="@string/add_new_drink_button" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
 
                     </LinearLayout>
 
@@ -132,7 +129,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +47,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private MyAddNewChoiceListener myAddNewChoiceListener;
     private BarMenu originalBarMenu;
     private BarMenu filteredBarMenu;
-    private ArrayList<String> categories;
-    private HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
+    protected ArrayList<String> categories;
+    protected HashMap<String, ArrayList<BarMenuItem>> menuForAdapter;//il menu diviso in categorie
     private ExpandableListView mExpandableListView;
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
@@ -69,8 +70,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         this.totalPriceInfo = totalPriceInfo;
         this.mExpandableListView = mExpandableListView;
         myAddNewChoiceListener = new MyAddNewChoiceListener();
-        menuForAdapter = new HashMap<>();
-        this.categories = new ArrayList<>();
+
 
         setMenuForAdapter(filteredBarMenu);
 
@@ -84,8 +84,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     protected void setMenuItemCategories(BarMenu barMenu){
-
-
         //INSERISCO LE CATEGORIE ASSEGNATE A CIASCUN MENUITEM
         for(BarMenuItem item: barMenu.getBarMenuItemList()){
             if(item.getCategory() == null || item.getCategory().isEmpty()){
@@ -98,6 +96,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                     categories.add(item.getCategory());
                 }
                 menuForAdapter.get(item.getCategory()).add(item);
+
             }
 
         }
@@ -131,6 +130,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     protected void setMenuForAdapter(BarMenu barMenu) {
+        menuForAdapter = new HashMap<>();
+        this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
         setMenuFavouritesCategory(originalBarMenu);
         //setMenuDealsCategory(barMenu);
@@ -165,7 +166,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         }
         final View itemView = convertView;
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
-        final LinearLayout ChoicesSectionLayout = (LinearLayout)itemView.findViewById(R.id.choices_section_layout);
+        final RelativeLayout ChoicesSectionLayout = (RelativeLayout)itemView.findViewById(R.id.choices_section_layout);
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
         final TextView itemPriceTv = (TextView) itemView.findViewById(R.id.item_price);
         final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
@@ -381,7 +382,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.menu_list_category, null);
         }
-
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.category_text_name);
         lblListHeader.setText(headerTitle);
