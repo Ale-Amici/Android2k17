@@ -409,13 +409,11 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 address.setLongitude(mLastLocation.getLongitude());
                 address.setLatitude(mLastLocation.getLatitude());
                 Log.d("ADDRESS", address.toString());
+                barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
             } else {
-                address.setLatitude(0.0);
-                address.setLongitude(0.0);
+                barsList = ListBarActivity.factoryDAO.newBarsDAO().getAllBars();
             }
 
-
-            barsList = ListBarActivity.factoryDAO.newBarsDAO().getBarsByCoordinates(address);
 
             return barsList;
         }

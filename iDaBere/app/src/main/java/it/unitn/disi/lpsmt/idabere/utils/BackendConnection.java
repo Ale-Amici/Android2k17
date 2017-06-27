@@ -165,6 +165,7 @@ public class BackendConnection {
     public String connectUrlGET() {
 
         String data = "";
+        String url = builtURL.toString();
 
         HttpURLConnection urlConnection = null;
         try {
@@ -174,7 +175,20 @@ public class BackendConnection {
             e.printStackTrace();
         }
 
-        data = readBuffer(urlConnection);
+        int responseCode = 0;
+        try {
+            responseCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        if (responseCode == RESPONSE_OK){
+            data = readBuffer(urlConnection);
+        }
+
 
         return data;
     }

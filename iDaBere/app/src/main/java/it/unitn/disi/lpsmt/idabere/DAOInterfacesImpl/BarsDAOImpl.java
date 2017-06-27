@@ -25,6 +25,7 @@ import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.models.TimeOpen;
 import it.unitn.disi.lpsmt.idabere.deserializer.DeliveryPlaceDeserializer;
+import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 import it.unitn.disi.lpsmt.idabere.utils.TimeOpenDeserializer;
 
 /**
@@ -36,82 +37,123 @@ public class BarsDAOImpl implements BarsDAO {
     private final String API_BASE_URL = "http://151.80.152.226/";
     final String BARS_ROUTE = "bars";
 
-    private final String BAR_ID = "id";
-    private final String BAR_NAME = "name";
-    private final String BAR_ADDRESS = "address";
-    private final String BAR_OPENING_HOURS_LIST = "openingHours";
-    private final String BAR_LATITUDE = "latitude";
-    private final String BAR_LONGITUDE = "longitude";
-    private final String BAR_DAY_OF_WEEK = "dayOfWeek";
-    private final String BAR_TIME_OPEN = "timeOpen";
-    private final String BAR_WORKING_TIME = "workingTime";
-    private final String BAR_DISTANCE = "distance";
+    private GsonBuilder gsonBuilder = new GsonBuilder();
+
+    private BackendConnection backendConnection = new BackendConnection();
+
+
+    @Override
+    public ArrayList<Bar> getAllBars() {
+        ArrayList<Bar> results;
+        String data;
+
+        backendConnection.setBASE_URL(API_BASE_URL);
+        backendConnection.buildUri();
+
+        ArrayList<String> routes = new ArrayList<>();
+        routes.add(BARS_ROUTE);
+        backendConnection.setROUTES(routes);
+        backendConnection.appendRoutes();
+
+        backendConnection.buildURL();
+
+        data = backendConnection.connectUrlGET();
+
+        Type collectionType = new TypeToken<ArrayList<Bar>>(){}.getType();
+        gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
+
+        Gson gson = gsonBuilder.create();
+
+        results = gson.fromJson(data, collectionType);
+
+        return results;
+    }
 
     @Override
     public ArrayList<Bar> getBarsByCoordinates (Address address) {
-        ArrayList<Bar> results = null;
-        String data = null;
+        ArrayList<Bar> results;
+        String data;
 
         //Expected results
         double barLatitude = address.getLatitude();
         double barLongitude = address.getLongitude();
 
 
-        final String LATITUDE_PARAMETER = "latitude";
-        final String LONGITUDE_PARAMETER = "longitude";
+//        final String LATITUDE_PARAMETER = "latitude";
+//        final String LONGITUDE_PARAMETER = "longitude";
+//
+//
+//
+//        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
+//                .appendPath(BARS_ROUTE)
+//                .appendQueryParameter(LATITUDE_PARAMETER, String.valueOf(barLatitude))
+//                .appendQueryParameter(LONGITUDE_PARAMETER, String.valueOf(barLongitude))
+//                .build();
+//
+//        URL url = null;
+//        try {
+//            url = new URL(builtUri.toString());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        HttpURLConnection urlConnection = null;
+//        try {
+//            urlConnection = (HttpURLConnection) url.openConnection();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            InputStream inputStream = urlConnection.getInputStream();
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+//            StringBuilder sb = new StringBuilder();
+//
+//            String line = null;
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line + "\n");
+//            }
+//
+//
+//            data = sb.toString();
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            urlConnection.disconnect();
+//        }
+//
+//        try {
+//            Log.d("DATA", data.toString());
+//        } catch (NullPointerException ex){
+//
+//        }
 
+        backendConnection.setBASE_URL(API_BASE_URL);
+        backendConnection.buildUri();
 
-        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
-                .appendPath(BARS_ROUTE)
-                .appendQueryParameter(LATITUDE_PARAMETER, String.valueOf(barLatitude))
-                .appendQueryParameter(LONGITUDE_PARAMETER, String.valueOf(barLongitude))
-                .build();
+        ArrayList<String> routes = new ArrayList<>();
+        routes.add(BARS_ROUTE);
+        backendConnection.setROUTES(routes);
+        backendConnection.appendRoutes();
 
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        ArrayList<String> queryParameters = new ArrayList<>();
+        queryParameters.add("latitude");
+        queryParameters.add("longitude");
+        backendConnection.setPARAMETERS(queryParameters);
 
-        HttpURLConnection urlConnection = null;
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            InputStream inputStream = urlConnection.getInputStream();
+        ArrayList<String> queryParametersValues = new ArrayList<>();
+        queryParametersValues.add(Double.toString(barLatitude));
+        queryParametersValues.add(Double.toString(barLongitude));
+        backendConnection.setPARAMETERS_VALUES(queryParametersValues);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-            StringBuilder sb = new StringBuilder();
+        backendConnection.appendQueryParametersGET();
+        backendConnection.buildURL();
 
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-
-
-            data = sb.toString();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-
-        try {
-            Log.d("DATA", data.toString());
-        } catch (NullPointerException ex){
-
-        }
-
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
+        data = backendConnection.connectUrlGET();
 
         Type collectionType = new TypeToken<ArrayList<Bar>>(){}.getType();
-
         gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
 
         Gson gson = gsonBuilder.create();
@@ -124,62 +166,75 @@ public class BarsDAOImpl implements BarsDAO {
 
     @Override
     public Bar getBarById(Bar bar) {
-        Bar result = null;
+        Bar result;
         String data = null;
 
         int barId = bar.getId();
 
-        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
-                .appendPath(BARS_ROUTE)
-                .appendPath(String.valueOf(barId))
-                .build();
+//        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
+//                .appendPath(BARS_ROUTE)
+//                .appendPath(String.valueOf(barId))
+//                .build();
+//
+//        Log.d("URL", builtUri.toString());
+//
+//        URL url = null;
+//        try {
+//            url = new URL(builtUri.toString());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        HttpURLConnection urlConnection = null;
+//        try {
+//            urlConnection = (HttpURLConnection) url.openConnection();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            InputStream inputStream = urlConnection.getInputStream();
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+//            StringBuilder sb = new StringBuilder();
+//
+//            String line = null;
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line + "\n");
+//            }
+//
+//            data = sb.toString();
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            urlConnection.disconnect();
+//        }
+//
+//        try {
+//            Log.d("DATA", data.toString());
+//        } catch (NullPointerException ex){
+//
+//        }
+//
+//
+//        // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
+//
+//        GsonBuilder gsonBuilder = new GsonBuilder();
 
-        Log.d("URL", builtUri.toString());
+        backendConnection.setBASE_URL(API_BASE_URL);
+        backendConnection.buildUri();
 
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        ArrayList<String> routes = new ArrayList<>();
+        routes.add(BARS_ROUTE);
+        routes.add(Integer.toString(barId));
+        backendConnection.setROUTES(routes);
+        backendConnection.appendRoutes();
 
+        backendConnection.buildURL();
 
-        HttpURLConnection urlConnection = null;
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            InputStream inputStream = urlConnection.getInputStream();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-            StringBuilder sb = new StringBuilder();
-
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-
-            data = sb.toString();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-
-        try {
-            Log.d("DATA", data.toString());
-        } catch (NullPointerException ex){
-
-        }
-
-
-        // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
+        data = backendConnection.connectUrlGET();
 
         gsonBuilder.registerTypeAdapter(TimeOpen.class, new TimeOpenDeserializer());
         DeliveryPlaceDeserializer deserializer = new DeliveryPlaceDeserializer();
@@ -193,11 +248,6 @@ public class BarsDAOImpl implements BarsDAO {
 
 
         return result;
-    }
-
-    @Override
-    public ArrayList<Bar> getAllBars() {
-        return null;
     }
 
     @Override
