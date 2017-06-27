@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,7 +166,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         }
         final View itemView = convertView;
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
-        final LinearLayout ChoicesSectionLayout = (LinearLayout)itemView.findViewById(R.id.choices_section_layout);
+        final RelativeLayout ChoicesSectionLayout = (RelativeLayout)itemView.findViewById(R.id.choices_section_layout);
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
         final TextView itemPriceTv = (TextView) itemView.findViewById(R.id.item_price);
         final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
