@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Address;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -44,8 +45,11 @@ import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.BarsArrayAdapter;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
+import it.unitn.disi.lpsmt.idabere.utils.NetworkStateReceiver;
 
-public class ListBarActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ListBarActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, NetworkStateReceiver.NetworkStateReceiverListener {
+
+    private NetworkStateReceiver networkStateReceiver;
 
     public static FactoryDAO factoryDAO = new FactoryDAOImpl();
 
@@ -93,6 +97,9 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         barsList = new ArrayList<Bar>();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
         barsListView.setAdapter(new BarsArrayAdapter(mContext, R.layout.bar_list_item, barsList));
 
@@ -358,6 +365,16 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             startLocationPermissionRequest();
         }
         new GpsLoader().execute();
+    }
+
+    @Override
+    public void networkAvailable() {
+        this.onStart();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        this.onStart();
     }
 
     /**
