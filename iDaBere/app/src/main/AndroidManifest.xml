@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.unitn.disi.lpsmt.idabere">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.location.gps" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Pushy Permissions -->
 
@@ -17,11 +17,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- End Pushy Permissions -->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,24 +28,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
-            android:name=".activities.ListBarActivity"
+            android:name=".activities.WelcomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".activities.ListBarActivity"
+            android:label="@string/list_bar_activity_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
         </activity>
-
         <activity
             android:name=".activities.QrCodeScannerActivity"
             android:label="@string/title_qr_code_scanner_login"
@@ -54,31 +62,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:parentActivityName="it.unitn.disi.lpsmt.idabere.ListBarActivity"
-                android:value="it.unitn.disi.lpsmt.idabere.activities.ListBarActivity"/>
+                android:value="it.unitn.disi.lpsmt.idabere.activities.ListBarActivity" />
         </activity>
-
         <activity
             android:name=".activities.MenuActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.ItemInfoActivity"
             android:label="@string/title_item_info"
             android:screenOrientation="portrait">
-             <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
-                    android:value="it.unitn.disi.lpsmt.idabere.activities.MenuActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:parentActivityName="it.unitn.disi.lpsmt.idabere.MenuActivity"
+                android:value="it.unitn.disi.lpsmt.idabere.activities.MenuActivity" />
         </activity>
-
-
         <activity
             android:name=".activities.AddChoiceActivity"
-            android:theme="@style/Dialog"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/Dialog"></activity>
         <activity
             android:name=".activities.ReviewOrderActivity"
             android:label="@string/review_order_activity_title"
@@ -87,7 +88,6 @@
                 android:name="android.app.search_bar_searchable"
                 android:resource="@xml/search_bar_searchable" />
         </activity>
-
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
@@ -95,37 +95,28 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:parentActivityName="it.unitn.disi.lpsmt.idabere.DeliveryPlaceActivity"
-                android:value="it.unitn.disi.lpsmt.idabere.activities.DeliveryPlaceActivity"/>
-            </activity>
-
-
+                android:value="it.unitn.disi.lpsmt.idabere.activities.DeliveryPlaceActivity" />
+        </activity>
         <activity
             android:name=".activities.DeliveryPlaceActivity"
             android:label="@string/title_delivery_place_activity_title"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.PaymentTypeActivity"
             android:label="@string/title_payment_type_activity_title"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.CheckoutActivity"
             android:label="@string/title_activity_checkout"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.OrderStatusActivity"
             android:label="@string/order_status_title_label"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.RateOrderActivity"
             android:label="@string/rate_order_activity_title"
@@ -137,10 +128,14 @@
 
         <!-- Pushy Declarations -->
 
+
         <!-- Pushy Notification Receiver -->
         <!-- Incoming push notifications will invoke the following BroadcastReceiver -->
-        <receiver android:name=".utils.PushReceiver" android:exported="false">
+        <receiver
+            android:name=".utils.PushReceiver"
+            android:exported="false">
             <intent-filter>
+
                 <!-- Do not modify this -->
                 <action android:name="pushy.me" />
             </intent-filter>
@@ -148,24 +143,29 @@
 
         <!-- Pushy Update Receiver -->
         <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
-        <receiver android:name="me.pushy.sdk.receivers.PushyUpdateReceiver" android:exported="false">
+        <receiver
+            android:name="me.pushy.sdk.receivers.PushyUpdateReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
         <!-- Pushy Boot Receiver -->
         <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
-        <receiver android:name="me.pushy.sdk.receivers.PushyBootReceiver" android:exported="false">
+        <receiver
+            android:name="me.pushy.sdk.receivers.PushyBootReceiver"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <!-- Pushy Socket Service -->
         <!-- Do not modify - internal socket service -->
-        <service android:name="me.pushy.sdk.services.PushySocketService"/>
+        <service android:name="me.pushy.sdk.services.PushySocketService" />
 
         <!-- End Pushy Declarations -->
 
