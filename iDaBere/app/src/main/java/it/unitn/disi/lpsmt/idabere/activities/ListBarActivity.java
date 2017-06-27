@@ -81,7 +81,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_bar);
-
+        initViewComps();
         AppSession appSession = AppSession.getInstance();
         if (    appSession.getmCustomer() != null &&
                 appSession.getmCustomer().getOrder() != null &&
@@ -91,8 +91,6 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
             intent.setClass(this, OrderStatusActivity.class);
             startActivity(intent);
         }
-
-        initViewComps();
         mContext = this;
         barsList = new ArrayList<Bar>();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
