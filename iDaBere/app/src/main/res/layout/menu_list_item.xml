@@ -24,9 +24,8 @@
                 android:id="@+id/item_infos_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/menu_item_vertical_padding"
                 android:orientation="horizontal"
-                >
+                android:paddingBottom="@dimen/menu_item_vertical_padding">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -70,8 +69,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/menu_list_item_price"
                         android:textSize="@dimen/paragraph_text_size"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
@@ -109,16 +107,16 @@
 
                     <Button
                         android:id="@+id/new_chioce_button"
+                        style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/add_new_drink_button"
-                        style="@style/Widget.AppCompat.Button.Colored"/>
+                        android:text="@string/add_new_drink_button" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
 
                     </LinearLayout>
 

@@ -130,22 +130,9 @@ public class OrderItem {
             }
             result+= additions.get(i).getName();
         } else {
-            result += "Nessuna scelta";
+            result += "Nessuna aggiunta";
         }
 
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", quantity=" + quantity +
-                ", rating=" + rating +
-                ", singleItemPrice=" + singleItemPrice +
-                ", size=" + size +
-                ", additions=" + additions +
-                ", barMenuItem=" + barMenuItem +
-                '}';
     }
 }
