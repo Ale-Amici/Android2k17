@@ -4,7 +4,7 @@
     <!-- Strings samples -->
     <string name="bar_list_bar_name">Bar name</string>
     <string name="menu_list_item_name">Item name</string>
-    <string name="menu_list_item_price">0.00</string>
+    <string name="menu_list_item_price">000.00</string>
     <string name="menu_list_item_currency">€</string>
     <string-array name="counter_position_list">
         <item>Primo piano</item>
@@ -62,7 +62,7 @@
     <string name="title_activity_checkout">Checkout</string>
     <string name="title_payment_type">Pagamento</string>
     <string name="title_total_price">Totale</string>
-    <string name="title_confirm_payment">Concludi</string>
+    <string name="title_confirm_payment">Conferma</string>
 
     <!-- Strings related to GPS Loading -->
     <string name="gps_loading_menu_label">Caricamento</string>
@@ -126,5 +126,9 @@
     <string name="add_preferred_button_label">Aggiungi ai preferiti</string>
     <string name="preferreds_category_name">Preferiti</string>
     <string name="wait_order_message">E\' necessario attendere che l\'ordine venga consegnato</string>
+    <string name="no_connection_text">Abilitare una connessione dati</string>
+    <string name="list_bar_activity_name">Ricerca Locale</string>
+    <string name="login_text_button">Autenticati</string>
+    <string name="proceed_order_button">Ordina</string>
 
 </resources>

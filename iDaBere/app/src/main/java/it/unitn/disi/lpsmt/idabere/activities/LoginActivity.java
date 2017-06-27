@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         initViewComps();
 
-        customersDAO = ListBarActivity.factoryDAO.newCustomersDAO();
+        customersDAO = WelcomeActivity.factoryDAO.newCustomersDAO();
 
         mSignInButton.setOnClickListener(this);
 

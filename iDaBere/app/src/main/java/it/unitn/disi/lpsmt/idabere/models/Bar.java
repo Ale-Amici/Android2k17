@@ -19,7 +19,7 @@ public class Bar {
     private ArrayList<Event> events;
     private ArrayList<DeliveryPlace> deliveryPlaces;
     private BarMenu barMenu;
-    private double distance;//from user's location (in meters)
+    private double distance = -1;//from user's location (in meters)
 
     public Bar(){}
 
