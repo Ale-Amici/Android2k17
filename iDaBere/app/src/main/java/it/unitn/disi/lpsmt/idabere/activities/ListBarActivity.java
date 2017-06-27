@@ -145,7 +145,7 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
                 } catch (NumberFormatException ex){
                     ex.printStackTrace();
                 }
-                
+
                 goToMenu(scannedID);
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
