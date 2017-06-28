@@ -28,6 +28,10 @@ class user {
       this.order = order;
       return this;
   }
+  setPreferredItems(preferredItems){
+      this.preferredItems = preferredItems;
+      return this;
+  }
   setDeviceToken(deviceToken){
       this.deviceToken = deviceToken;
       return this;

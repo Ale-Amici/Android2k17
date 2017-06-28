@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var usersCtrl = require('../controllers/users.js');
+var preferredsCtrl = require('../controllers/preferreds.js');
 
 /* GET users listing. */
 // router.get('/', function (req, res, next) {
 //   usersCtrl.index(req, res);
 // });
-// 
+//
 /* GET new user form. */
 // router.get('/new', function (req, res, next) {
 //     usersCtrl.new(req, res);

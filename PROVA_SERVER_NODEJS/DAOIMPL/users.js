@@ -3,7 +3,7 @@
 var User = require('../models/user.js');
 var CreditCard = require('../models/creditCard.js');
 var ordersDAOImpl = require('./orders.js');
-
+var preferredsDAOImpl = require('./preferreds.js');
 var dbHelper = require('../DB/dbhelper.js');
 
 /*
@@ -47,6 +47,9 @@ var getUserFromId = function(userId){
               creditCardRows.forEach(function(row,index){
                   user.creditCards.push(getCreditCardFromDbRow(row))
               })
+              return preferredsDAOImpl.all(user.id);
+          }).then(function(preferredItems){
+              user.setPreferredItems(preferredItems)
               return pool.queryAsync("SELECT ID FROM CUSTOMER_ORDER where CUSTOMER_ID = ?", userId)
           }).then(function(orderRows){
               if(orderRows.length > 0){

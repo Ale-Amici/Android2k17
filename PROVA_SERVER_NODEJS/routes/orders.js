@@ -29,7 +29,7 @@ router.post('/updateStatus/:order_id', function (req, res, next) {
 });
 
 /* COMPLETE STATUS OF ORDER -> for barman*/
-router.get('/complete/:order_id', function (req, res, next) {
+router.get('/complete/:order_id/:destroy_code', function (req, res, next) {
     ordersCtrl.completeOrder(req, res);
 });
 
