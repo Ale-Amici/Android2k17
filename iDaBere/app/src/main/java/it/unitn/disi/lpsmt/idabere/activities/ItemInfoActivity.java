@@ -1,5 +1,6 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,9 @@ import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 public class ItemInfoActivity extends AppCompatActivity {
+
+    private final int ADD_CODE = 0;
+    private final int REMOVE_CODE = 1;
 
     private RatingBar mItemRatingBar;
     private TextView mItemDescription;
@@ -97,19 +101,24 @@ public class ItemInfoActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     private void addtoPreferreds () {
+        int ACTION_CODE = -1;
         AppSession currentSession = AppSession.getInstance();
         BarMenu currentBarMenu = currentSession.getmBar().getBarMenu();
         Customer currentCustomer = currentSession.getmCustomer();
         BarMenuItem currentBarMenuItem = currentBarMenu.getBarMenuItemById(menuItemId);
         if (currentCustomer.getPreferredItems().size() == 0 || currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) == -1 ){
             currentCustomer.getPreferredItems().add(currentBarMenuItem);
-            togglePreferredButtonState();
+            ACTION_CODE = 0;
+            //togglePreferredButtonState();
         } else {
             currentCustomer.getPreferredItems().remove(currentBarMenuItem);
-            togglePreferredButtonState();
+            ACTION_CODE = 1;
+            //togglePreferredButtonState();
         }
+
+        new PreferredsAsyncTask().execute(ACTION_CODE,AppSession.getInstance().getmCustomer().getId(), menuItemId);
         Log.d("PREFERRED ITEMS", currentCustomer.getPreferredItems().toString());
 
     }
@@ -126,4 +135,34 @@ public class ItemInfoActivity extends AppCompatActivity {
         // TODO Inserire il valore del rating
 
     }
+
+
+    private class PreferredsAsyncTask extends AsyncTask<Integer,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            int ACTION = params[0];
+            int CUSTOMER_ID = params[1];
+            int ITEM_ID = params[2];
+
+            switch (ACTION){
+                case ADD_CODE :
+                    WelcomeActivity.factoryDAO.newCustomersDAO().AddPreferred(CUSTOMER_ID, ITEM_ID);
+                    break;
+                case REMOVE_CODE :
+                    WelcomeActivity.factoryDAO.newCustomersDAO().RemovePreferred(CUSTOMER_ID, ITEM_ID);
+                    break;
+            }
+
+            return null;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            togglePreferredButtonState();
+            super.onPostExecute(aVoid);
+        }
+    }
+
 }
