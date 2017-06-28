@@ -7,7 +7,7 @@ var tokens = [];
 
 // Set push payload data to deliver to device(s)
 var data = {
-  message: 'Hello World!'
+  message: 'Hello World!!!!!!!!'
 };
 
 // Set sample iOS notification fields
@@ -15,7 +15,7 @@ var data = {
       notification: {
           badge: 1,
           sound: 'ping.aiff',
-          body: 'Hello World \u270c'
+          body: 'Hello World OPZIONI \u270c'
       },
   };
 
@@ -41,6 +41,26 @@ function push(request, response){
   });
 }
 
+function updateStatusPushPromise(newStatus,token){
+
+    var data1 = {
+      message: newStatus
+    };
+    return new Promise(function(resolve, reject){
+        api.sendPushNotification(data, [token], options, function (err, id) {
+          // Log errors to console
+          if (err) {
+            console.log('Fatal Error', err);
+            reject(err)
+          }
+
+          // Log success
+          console.log('Push sent successfully! (ID: ' + id + ')');
+          resolve("TRUE");
+        });
+    })
+}
+
 //route /notifications/register
 function register(request, response){
   var device = request.params.device;
@@ -52,3 +72,4 @@ function register(request, response){
 module.exports.index = index;
 module.exports.push = push;
 module.exports.register = register;
+module.exports.updateStatusPushPromise = updateStatusPushPromise;
