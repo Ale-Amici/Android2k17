@@ -4,7 +4,7 @@
     <item
         android:title="@string/add_preferred_button_label"
         android:id="@+id/add_preferred_button"
-        android:icon="@drawable/ic_bookmark_border_black_24dp"
+        android:icon="@drawable/ic_bookmark_border_white_24dp"
         app:showAsAction="always"
         />
 </menu>

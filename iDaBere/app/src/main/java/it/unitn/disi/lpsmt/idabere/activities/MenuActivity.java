@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,12 +19,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 import it.unitn.disi.lpsmt.idabere.DAOIntefaces.CustomersDAO;
 import it.unitn.disi.lpsmt.idabere.R;
@@ -83,6 +86,18 @@ public class MenuActivity extends AppCompatActivity implements
             }
         });
 
+        categoriesExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                int index = parent.getFlatListPosition(ExpandableListView
+                        .getPackedPositionForChild(groupPosition, childPosition));
+                parent.setItemChecked(index, true);
+
+                return false;
+            }
+        });
+
         new MenuLoader().execute();
 
     }
@@ -130,6 +145,20 @@ public class MenuActivity extends AppCompatActivity implements
         searchView.setOnQueryTextListener(this);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()){
+            case R.id.random_drink_menu_button :
+                selectRandomDrink();
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+        }
+        return result;
     }
 
     @Override
@@ -210,6 +239,16 @@ public class MenuActivity extends AppCompatActivity implements
             loadingIndicator.setVisibility(View.GONE);
             categoriesExpandableListView.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    private void selectRandomDrink() {
+        int groupPosition = new Random().nextInt(menuAdapter.getGroupCount());
+        int childPosition = new Random().nextInt(menuAdapter.getChildrenCount(groupPosition));
+
+        categoriesExpandableListView.setSelectedChild(groupPosition,childPosition,true);
+        menuAdapter.showItemWithPosition(groupPosition, childPosition);
+
 
     }
 

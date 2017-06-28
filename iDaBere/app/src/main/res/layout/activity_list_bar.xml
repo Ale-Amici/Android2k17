@@ -33,14 +33,15 @@
         android:id="@+id/no_connection_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/no_connection_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_no_signal_interface_symbol"
-            android:layout_above="@+id/textView"
+            android:layout_above="@+id/no_connection_textView"
             android:layout_centerHorizontal="true" />
 
         <TextView
@@ -53,9 +54,64 @@
             android:text="@string/no_connection_text"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/textView" />
+            android:id="@+id/no_connection_textView" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/server_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/server_error_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ic_error_black_24dp"
+            android:layout_above="@+id/server_error_textView"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@string/server_error_text"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/server_error_textView" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_data_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/no_data_error_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_above="@+id/no_data_error_textView"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/ic_search_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@string/no_data_error_text"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/no_data_error_textView" />
+    </RelativeLayout>
 
 
     <ListView

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,6 @@ import com.daimajia.swipe.SwipeLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -53,13 +52,11 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
     private TextView totalPriceInfo;
-
     private int lastItemExpandedGroupPosition;
     private int lastItemExpandedChildPosition;
     private View lastItemExpandedView;
-
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
-
+    private boolean beginning;
     //l'ultima categoria espansa
     private int lastCategoryExpandedPosition = -1;
 
@@ -71,17 +68,18 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         this.mExpandableListView = mExpandableListView;
         myAddNewChoiceListener = new MyAddNewChoiceListener();
 
-
         setMenuForAdapter(filteredBarMenu);
 
         updateTotalPrice();
 
+        beginning = true;
 
         lastItemExpandedGroupPosition = -1;
         lastItemExpandedChildPosition = -1;
         lastItemExpandedView = null;
         //TODO togliere l'animazione di apertura della categoria, cambiare colore alle categorie
     }
+
 
     protected void setMenuItemCategories(BarMenu barMenu){
         //INSERISCO LE CATEGORIE ASSEGNATE A CIASCUN MENUITEM
@@ -129,6 +127,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     protected void setMenuForAdapter(BarMenu barMenu) {
+
         menuForAdapter = new HashMap<>();
         this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
@@ -199,7 +198,6 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 context.startActivity(itemInfoIntend);
             }
         });
-
         //GESTIONE CLICK SU ITEM VIEW, espansione o riduzione della choiceSection. Solo 1 item alla volta è aperto
         cardInfos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +231,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         newChoiceButton.setOnClickListener(myAddNewChoiceListener);
 
         return itemView;
+    }
+
+    public void showItemWithPosition(int groupPosition, int childPosition){
+        lastItemExpandedChildPosition = childPosition;
+        lastItemExpandedGroupPosition = groupPosition;
+        notifyDataSetChanged();
     }
 
     private void insertChoices(final LinearLayout choicesLinearLayout,int barMenuItemId) {
@@ -384,7 +388,10 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.category_text_name);
         lblListHeader.setText(headerTitle);
-
+        if(groupPosition == 0 && beginning){
+            mExpandableListView.expandGroup(0);
+            beginning = false;
+        }
         return convertView;
     }
 

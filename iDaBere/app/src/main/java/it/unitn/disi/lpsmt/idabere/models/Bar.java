@@ -46,10 +46,10 @@ public class Bar {
     public String distanceToString () {
         String distance = "";
 
-        if (this.distance == 0.0){
+        if (this.distance <= 0.0){
             // Print nothing
         } else if (this.distance < 999){
-            distance += new DecimalFormat("#00").format(this.distance) + "m";
+            distance += new DecimalFormat("##0").format(this.distance) + "m";
         } else if (this.distance < 4999) {
             distance += "> 1km";
         } else if (this.distance < 9999) {

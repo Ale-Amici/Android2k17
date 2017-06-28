@@ -77,8 +77,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    card_view:srcCompat="@drawable/ic_remove_circle_black_24dp" />
+                    android:background="@android:color/transparent"
+                    card_view:srcCompat="@drawable/ic_remove_circle_colored_24dp" />
 
                 <TextView
                     android:id="@+id/choice_quantity"
@@ -97,8 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    card_view:srcCompat="@drawable/ic_add_circle_black_24dp" />
+                    android:background="@android:color/transparent"
+                    card_view:srcCompat="@drawable/ic_add_circle_colored_24dp" />
             </LinearLayout>
 
             <LinearLayout
