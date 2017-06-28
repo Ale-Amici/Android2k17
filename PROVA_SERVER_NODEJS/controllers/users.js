@@ -1,7 +1,13 @@
 // Import to use in this file
 var usersDAOImpl = require('../DAOIMPL/users.js');
 var User = require('../models/user.js');
+/*
+comunque per le API si diceva
 
+host/users/:userId/preferreds/  (index)
+host/users/:userId/preferreds/add/:menuItemId  (add)
+host/users/:userId/preferreds/remove/:menuItemId  (remove)
+*/
 
 /*
 * This function lists all users in the system
@@ -13,22 +19,6 @@ function index(request, response) {
     response.json(users);
   });
 }
-
-/*
-* This function authenticate a user given its email/username and password
-*/
-function authenticateUser(request, response) {
-}
-
-// /*
-//  * This function shows a form to insert a new user
-//  */
-// function new(request, response) {
-//     var user = new user();
-//     response.render('users/new', {
-//         user: user
-//     });
-// }
 
 /*
 * This function creates an user managing errors
@@ -44,57 +34,6 @@ function createUser(request, response) {
       user: user
     });
   }
-}
-
-// /*
-//  * This function shows a form to edit a user
-//  */
-// function edituser(request, response) {
-//     var id = parseInt(request.params.id);
-//     var user = usersDA.find(id);
-//     if (user == null) {
-//         response.status(404).send('Not found');
-//     } else {
-//         response.render('users/edit', {
-//             user: user
-//         });
-//     }
-// }
-//
-/*
-* This function shows a form to insert a new user
-*/
-function updateUser(request, response) {
-  //     var id = parseInt(request.params.id);
-  //     var params = request.body;
-  //
-  //     var user = usersDA.find(id);
-  //     if (user == null) {
-  //         response.status(404);
-  //         return;
-  //     }
-  //
-  //     var editeduser = new user();
-  //     editeduser.id = params.id;
-  //     editeduser.name = params.name;
-  //     editeduser.surname = params.surname;
-  //     editeduser.level = params.level;
-  //     editeduser.salary = params.salary;
-  //
-  //     try {
-  //         if (usersDA.update(editeduser, id)) {
-  //             response.redirect('/users');
-  //             return;
-  //         } else {
-  //             response.render('users/edit', {
-  //                 user: user
-  //             });
-  //             return;
-  //         }
-  //     } catch (exception) {
-  //         console.log(exception);
-  //         response.status(500).send(exception);
-  //     }
 }
 
 /*

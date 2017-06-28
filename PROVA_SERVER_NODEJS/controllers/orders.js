@@ -81,14 +81,14 @@ function updateStatus(request, response){
 //percorso /orders/complete/:order_id
 function completeOrder(request, response){
     var orderId = parseInt(request.params.order_id);
+    var destroyCode = request.params.destroy_code;
     //passport.authenticate('BARMAN', function (err,user,msg) {
     //    if(err == null && user != false){
-            ordersDAOImpl.checkOrderReady(orderId)
+            ordersDAOImpl.checkOrderReady(orderId,destroyCode)
             .then(function(result){
                 if(result == true){
                     ordersDAOImpl.updateOrderStatus(orderId, OrderStatus.COMPLETED)
                     .then(function(success){
-                        //TODO CREO LA NOTIFICA DA INVIARE
                         response.status(200).json(success);
                     }).catch(function(err){
                         console.log(err)

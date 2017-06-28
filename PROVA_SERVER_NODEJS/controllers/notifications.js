@@ -43,11 +43,11 @@ function push(request, response){
 
 function updateStatusPushPromise(newStatus,token){
 
-    var data1 = {
+    var dataUpdate = {
       message: newStatus
     };
     return new Promise(function(resolve, reject){
-        api.sendPushNotification(data, [token], options, function (err, id) {
+        api.sendPushNotification(dataUpdate, [token], options, function (err, id) {
           // Log errors to console
           if (err) {
             console.log('Fatal Error', err);
