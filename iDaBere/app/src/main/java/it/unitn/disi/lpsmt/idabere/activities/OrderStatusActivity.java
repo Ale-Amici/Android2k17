@@ -22,6 +22,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Random;
 
 import it.unitn.disi.lpsmt.idabere.R;

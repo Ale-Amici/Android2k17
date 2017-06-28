@@ -52,8 +52,10 @@ import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.CustomersDAOImpl;
 import it.unitn.disi.lpsmt.idabere.DAOInterfacesImpl.FactoryDAOImpl;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
+import it.unitn.disi.lpsmt.idabere.models.DeliveryPlace;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
+import it.unitn.disi.lpsmt.idabere.utils.PushReceiver;
 import me.pushy.sdk.Pushy;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -108,6 +110,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode){
+            case PushReceiver.ORDER_NOTIFICATION_REQUEST_CODE :
+                Log.d("CIAO", "CIAO");
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Instantiate layout elements
@@ -174,11 +186,23 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 currentCustomer.setPassword(password);
                 currentCustomer.setCreditCards(resultCustomer.getCreditCards());
 
-                // Succeeded, do something to alert the user
+                if (resultCustomer.getPreferredItems() != null){
+                    if (!resultCustomer.getPreferredItems().isEmpty()){
+                        currentCustomer.setPreferredItems(resultCustomer.getPreferredItems());
+                    }
+                }
 
-                setResult(Activity.RESULT_OK);
-                getIntent().putExtra("ORDER_ID", resultCustomer.getOrder().getId());
-                finish();
+                // Has an active order
+                if (resultCustomer.getOrder() != null && resultCustomer.getOrder().getId() != -1){
+                        currentCustomer.setOrder(resultCustomer.getOrder());
+                        Intent intent = new Intent();
+                        intent.setClass(mContext,OrderStatusActivity.class);
+                        startActivity(intent);
+                    
+                } else {
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
 
             }
 
