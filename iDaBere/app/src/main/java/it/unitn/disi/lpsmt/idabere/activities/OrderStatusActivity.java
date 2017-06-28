@@ -2,6 +2,7 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -57,13 +58,15 @@ public class OrderStatusActivity extends AppCompatActivity {
         orderId.setText(Integer.toString(currentOrder.getId()));
         //orderQueue.setText(Integer.toString(new Random().nextInt(50)));
         orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
+
     }
 
     @Override
     public void onBackPressed() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         if (currentOrder == null || currentOrder.getId() == -1){
-            super.onBackPressed();
+            Intent intent = new Intent();
+            intent.setClass(this, ListBarActivity.class);
         } else {
             View container = findViewById(R.id.main_activity_container);
             if (container != null) {
