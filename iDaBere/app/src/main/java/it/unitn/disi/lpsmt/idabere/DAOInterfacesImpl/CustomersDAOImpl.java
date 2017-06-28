@@ -20,7 +20,10 @@ import it.unitn.disi.lpsmt.idabere.utils.BackendConnection;
 public class CustomersDAOImpl implements CustomersDAO {
 
     private final String API_BASE_URI = "http://151.80.152.226/";
-    final String AUTHENTICATION_ROUTE = "authentication";
+
+    private final String USERS_ROUTE = "users";
+    private final String AUTHENTICATION_ROUTE = "authentication";
+    private final String PREFERREDS_ROUTE = "preferreds";
 
     private GsonBuilder gsonBuilder = new GsonBuilder();
     private BooleanSerializer booleanSerializer;
@@ -28,6 +31,54 @@ public class CustomersDAOImpl implements CustomersDAO {
 
     private BackendConnection backendConnection = new BackendConnection();
 
+    // /users/:id/preferreds/action/:itemId
+
+    @Override
+    public void AddPreferred(int customerId, int itemId) {
+        gson = gsonBuilder.create();
+        final String ADD_ROUTE = "add";
+
+        backendConnection.setBASE_URL(API_BASE_URI);
+        backendConnection.buildUri();
+
+        ArrayList<String> routes = new ArrayList<>();
+        routes.add(USERS_ROUTE);
+        routes.add(Integer.toString(customerId));
+        routes.add(PREFERREDS_ROUTE);
+        routes.add(ADD_ROUTE);
+        routes.add(Integer.toString(itemId));
+
+        backendConnection.setROUTES(routes);
+        backendConnection.appendRoutes();
+
+        backendConnection.buildURL();
+
+        backendConnection.connectUrlPOST();
+
+    }
+
+    @Override
+    public void RemovePreferred(int customerId, int itemId) {
+        gson = gsonBuilder.create();
+        final String ADD_ROUTE = "remove";
+
+        backendConnection.setBASE_URL(API_BASE_URI);
+        backendConnection.buildUri();
+
+        ArrayList<String> routes = new ArrayList<>();
+        routes.add(USERS_ROUTE);
+        routes.add(Integer.toString(customerId));
+        routes.add(PREFERREDS_ROUTE);
+        routes.add(ADD_ROUTE);
+        routes.add(Integer.toString(itemId));
+
+        backendConnection.setROUTES(routes);
+        backendConnection.appendRoutes();
+
+        backendConnection.buildURL();
+
+        backendConnection.connectUrlPOST();
+    }
 
     @Override
     public Customer loginCustomer(Customer customer) {

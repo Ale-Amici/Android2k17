@@ -9,4 +9,8 @@ import it.unitn.disi.lpsmt.idabere.models.Customer;
 public interface CustomersDAO {
     // Authentication method /authentication/login
     Customer loginCustomer (Customer customer);
+
+    // Preferreds method /users/:id/preferreds/action/:itemId
+    void AddPreferred (int customerId, int itemId);
+    void RemovePreferred (int customerId, int itemId);
 }

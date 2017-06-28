@@ -171,58 +171,6 @@ public class BarsDAOImpl implements BarsDAO {
 
         int barId = bar.getId();
 
-//        Uri builtUri = Uri.parse(API_BASE_URL).buildUpon()
-//                .appendPath(BARS_ROUTE)
-//                .appendPath(String.valueOf(barId))
-//                .build();
-//
-//        Log.d("URL", builtUri.toString());
-//
-//        URL url = null;
-//        try {
-//            url = new URL(builtUri.toString());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        HttpURLConnection urlConnection = null;
-//        try {
-//            urlConnection = (HttpURLConnection) url.openConnection();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            InputStream inputStream = urlConnection.getInputStream();
-//
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-//            StringBuilder sb = new StringBuilder();
-//
-//            String line = null;
-//            while ((line = reader.readLine()) != null) {
-//                sb.append(line + "\n");
-//            }
-//
-//            data = sb.toString();
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            urlConnection.disconnect();
-//        }
-//
-//        try {
-//            Log.d("DATA", data.toString());
-//        } catch (NullPointerException ex){
-//
-//        }
-//
-//
-//        // TODO: Integrazione della libreria GSON per la costruzione del Bean ricevuto dal backend
-//
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-
         backendConnection.setBASE_URL(API_BASE_URL);
         backendConnection.buildUri();
 
