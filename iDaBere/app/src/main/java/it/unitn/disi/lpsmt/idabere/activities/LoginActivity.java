@@ -120,8 +120,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        mEmailView.setText("giulia");
-        mPasswordView.setText("giulia");
+        mEmailView.setText("professore");
+        mPasswordView.setText("professore");
 
         mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.email_register_button);

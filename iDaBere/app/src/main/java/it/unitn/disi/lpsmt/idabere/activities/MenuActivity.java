@@ -248,7 +248,7 @@ public class MenuActivity extends AppCompatActivity implements
 
         categoriesExpandableListView.setSelectedChild(groupPosition,childPosition,true);
         menuAdapter.showItemWithPosition(groupPosition, childPosition);
-        
+
 
     }
 
