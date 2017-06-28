@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -244,8 +245,10 @@ public class MenuActivity extends AppCompatActivity implements
     private void selectRandomDrink() {
         int groupPosition = new Random().nextInt(menuAdapter.getGroupCount());
         int childPosition = new Random().nextInt(menuAdapter.getChildrenCount(groupPosition));
-        categoriesExpandableListView.expandGroup(groupPosition);
+
         categoriesExpandableListView.setSelectedChild(groupPosition,childPosition,true);
+        menuAdapter.showItemWithPosition(groupPosition, childPosition);
+        
 
     }
 
