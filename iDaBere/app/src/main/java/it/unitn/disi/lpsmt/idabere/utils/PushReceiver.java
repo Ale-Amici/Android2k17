@@ -8,6 +8,7 @@ import android.media.RingtoneManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -73,6 +74,10 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Build the notification and display it
         notificationManager.notify(1, builder.build());
+
+        Intent gcm_rec = new Intent("your_action");
+        LocalBroadcastManager.getInstance(context).sendBroadcast(gcm_rec);
+
     }
 
     private String prettifyMessage(String notificationText) {

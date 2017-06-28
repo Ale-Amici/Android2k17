@@ -1,8 +1,11 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -10,6 +13,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +39,8 @@ import me.pushy.sdk.Pushy;
 
 public class OrderStatusActivity extends AppCompatActivity {
 
+    private BroadcastReceiver broadcastReceiver;
+
     // TODO inserire l'url corretto di disturzione ordine
     private final String DESTROY_ORDER_API_URL = "http://151.80.152.226/orders/complete/";
     private ImageView qrCode;
@@ -58,8 +64,36 @@ public class OrderStatusActivity extends AppCompatActivity {
         orderId.setText(Integer.toString(currentOrder.getId()));
         //orderQueue.setText(Integer.toString(new Random().nextInt(50)));
         orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                // Here you can refresh your listview or other UI
+                Toast.makeText(getApplicationContext(), "Receiver", Toast.LENGTH_SHORT).show();
+            }
+        };
+        try {
+
+            LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,new IntentFilter("UPDATE_UI"));
+
+        } catch (Exception e)
+        {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    }
+
 
     @Override
     public void onBackPressed() {
