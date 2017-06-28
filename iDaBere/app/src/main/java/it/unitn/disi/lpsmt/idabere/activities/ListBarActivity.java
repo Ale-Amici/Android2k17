@@ -111,6 +111,12 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     }
 
     @Override
+    protected void onStop() {
+        this.unregisterReceiver(networkStateReceiver);
+        super.onStop();
+    }
+
+    @Override
     protected void onStart() {
         showInfoElement(loadingIndicator.getId());
 

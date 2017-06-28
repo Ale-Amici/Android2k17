@@ -41,14 +41,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent();
         switch (resultCode) {
             case RESULT_OK :
-                if (getIntent().getIntExtra("ORDER_ID", -1) == -1) {
-                    intent.setClass(this, OrderStatusActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "Autenticazione Effettuata", Toast.LENGTH_SHORT).show();
-                    intent.setClass(this, ListBarActivity.class);
-                    startActivity(intent);
-                }
+                intent.setClass(this, ListBarActivity.class);
+                startActivity(intent);
                 break;
             default:
                 //Toast.makeText(this, "Autenticazione", Toast.LENGTH_SHORT).show();

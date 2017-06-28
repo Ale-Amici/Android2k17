@@ -8,8 +8,15 @@ import android.media.RingtoneManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import it.unitn.disi.lpsmt.idabere.activities.LoginActivity;
 import it.unitn.disi.lpsmt.idabere.activities.OrderStatusActivity;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 /**
  * Created by giovanni on 19/06/2017.
@@ -29,15 +36,30 @@ import it.unitn.disi.lpsmt.idabere.activities.OrderStatusActivity;
  *
  */
 public class PushReceiver extends BroadcastReceiver {
+
+    public static final int ORDER_NOTIFICATION_REQUEST_CODE = 200;
+
+    public static final HashMap<String,String> ORDER_STATUSES = new HashMap<String, String>() {{
+        put("PAYMENT_IN_PROGRESS","In attesa di pagamento");
+        put("IN_QUEUE","In coda");
+        put("IN_PREPARATION","In preparazione");
+        put("READY","Pronto per la consegna");
+        put("COMPLETED","Completato");
+
+    }};
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        String notificationTitle = "Pushy";
+        String notificationTitle = "Aggiornamento dello stato dell'ordine";
         String notificationText = "Test notification";
 
         // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
         if (intent.getStringExtra("message") != null) {
-            notificationText = intent.getStringExtra("message");
+            Log.d("MESSAGE", intent.getStringExtra("message"));
+            notificationText = prettifyMessage(intent.getStringExtra("message"));
         }
+
+        AppSession.getInstance().getmCustomer().getOrder().setStatus(intent.getStringExtra("message"));
 
         // Prepare a notification with vibration, sound and lights
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -47,12 +69,27 @@ public class PushReceiver extends BroadcastReceiver {
                 .setLights(Color.RED, 1000, 1000)
                 .setVibrate(new long[]{0, 400, 250, 400})
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, OrderStatusActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
+                .setContentIntent(PendingIntent.getActivity(context, ORDER_NOTIFICATION_REQUEST_CODE, new Intent(context, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
 
         // Get an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
         // Build the notification and display it
         notificationManager.notify(1, builder.build());
+
+        Intent updateStatusIntent = new Intent("UPDATE_UI");
+        if (OrderStatusActivity.isAppInFg){
+            LocalBroadcastManager.getInstance(context).sendBroadcast(updateStatusIntent);
+        }
     }
+
+    private String prettifyMessage(String notificationText) {
+        String message = "";
+        String status = ORDER_STATUSES.get(notificationText);
+        if (! status.isEmpty()){
+            message += "Lo stato del tuo ordine è: " + status;
+        }
+        return message;
+    }
+
 }
