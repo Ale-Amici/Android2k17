@@ -132,5 +132,8 @@
     <string name="proceed_order_button">Ordina</string>
     <string name="authentication_failed_message">Autenticazione non effettuata</string>
     <string name="order_status_current_title">STATO DELL\'ORDINE</string>
+    <string name="greetings_message">La tua ordinazione e conclusa.\n Grazie per aver usato iDaBere!</string>
+    <string name="finish_button">Torna al Menu</string>
+    <string name="credits_title">Credits</string>
 
 </resources>

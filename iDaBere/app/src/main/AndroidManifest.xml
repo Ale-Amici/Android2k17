@@ -38,11 +38,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".activities.ListBarActivity"
             android:screenOrientation="portrait">
@@ -65,7 +64,7 @@
         </activity>
         <activity
             android:name=".activities.MenuActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ItemInfoActivity"
             android:label="@string/title_item_info"
@@ -78,7 +77,7 @@
         <activity
             android:name=".activities.AddChoiceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Dialog"></activity>
+            android:theme="@style/Dialog" />
         <activity
             android:name=".activities.ReviewOrderActivity"
             android:label="@string/review_order_activity_title"
@@ -99,7 +98,7 @@
         <activity
             android:name=".activities.DeliveryPlaceActivity"
             android:label="@string/title_delivery_place_activity_title"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PaymentTypeActivity"
             android:label="@string/title_payment_type_activity_title"
@@ -111,11 +110,11 @@
         <activity
             android:name=".activities.CheckoutActivity"
             android:label="@string/title_activity_checkout"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.OrderStatusActivity"
             android:label="@string/order_status_title_activity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.RateOrderActivity"
             android:label="@string/rate_order_activity_title"

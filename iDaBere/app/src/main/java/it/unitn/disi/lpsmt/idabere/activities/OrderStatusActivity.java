@@ -49,6 +49,33 @@ public class OrderStatusActivity extends AppCompatActivity {
     //private TextView orderQueue;
     private TextView orderStatusDescription;
 
+    public static boolean isAppInFg = false;
+    public static boolean isScrInFg = false;
+    public static boolean isChangeScrFg = false;
+
+    @Override
+    protected void onStart() {
+        if (!isAppInFg) {
+            isAppInFg = true;
+            isChangeScrFg = false;
+        } else {
+            isChangeScrFg = true;
+        }
+        isScrInFg = true;
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (!isScrInFg || !isChangeScrFg) {
+            isAppInFg = false;
+        }
+        isScrInFg = false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +100,14 @@ public class OrderStatusActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent)
             {
+                Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
                 // Here you can refresh your listview or other UI
-                Toast.makeText(getApplicationContext(), "Receiver", Toast.LENGTH_SHORT).show();
+                if (currentOrder.getStatus().equals("COMPLETED")) {
+                    currentOrder.setId(-1);
+                    onBackPressed();
+                } else {
+                    orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
+                }
             }
         };
         try {
@@ -101,6 +134,7 @@ public class OrderStatusActivity extends AppCompatActivity {
         if (currentOrder == null || currentOrder.getId() == -1){
             Intent intent = new Intent();
             intent.setClass(this, ListBarActivity.class);
+            startActivity(intent);
         } else {
             View container = findViewById(R.id.main_activity_container);
             if (container != null) {

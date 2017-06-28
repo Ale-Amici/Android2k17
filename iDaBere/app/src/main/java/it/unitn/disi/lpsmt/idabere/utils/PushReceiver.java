@@ -16,6 +16,7 @@ import java.util.Map;
 
 import it.unitn.disi.lpsmt.idabere.activities.LoginActivity;
 import it.unitn.disi.lpsmt.idabere.activities.OrderStatusActivity;
+import it.unitn.disi.lpsmt.idabere.session.AppSession;
 
 /**
  * Created by giovanni on 19/06/2017.
@@ -58,6 +59,7 @@ public class PushReceiver extends BroadcastReceiver {
             notificationText = prettifyMessage(intent.getStringExtra("message"));
         }
 
+        AppSession.getInstance().getmCustomer().getOrder().setStatus(intent.getStringExtra("message"));
 
         // Prepare a notification with vibration, sound and lights
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
@@ -75,9 +77,10 @@ public class PushReceiver extends BroadcastReceiver {
         // Build the notification and display it
         notificationManager.notify(1, builder.build());
 
-        Intent gcm_rec = new Intent("your_action");
-        LocalBroadcastManager.getInstance(context).sendBroadcast(gcm_rec);
-
+        Intent updateStatusIntent = new Intent("UPDATE_UI");
+        if (OrderStatusActivity.isAppInFg){
+            LocalBroadcastManager.getInstance(context).sendBroadcast(updateStatusIntent);
+        }
     }
 
     private String prettifyMessage(String notificationText) {
