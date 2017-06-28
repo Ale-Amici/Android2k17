@@ -11,4 +11,4 @@ L'APK è presente nella directory ESEGUIBILE-APK
 
 - l'applicazione utilizza delle API su un server remoto privato. Per motivi di manutenzione/sviluppo del codice l'app potrebbe non sempre funzionare al 100%.  
 
--Inoltre all'interno della rete dell'università non arriveranno le notifiche in quanto i vincoli imposti dalla rete impediscono di raggiungere il servizio di notifche Pushy(https://pushy.me/)
+- Inoltre all'interno della rete dell'università non arriveranno le notifiche in quanto i vincoli imposti dalla rete impediscono di raggiungere il servizio di notifche Pushy(https://pushy.me/)
