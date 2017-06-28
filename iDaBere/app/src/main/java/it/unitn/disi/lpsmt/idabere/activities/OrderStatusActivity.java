@@ -41,6 +41,8 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     private BroadcastReceiver broadcastReceiver;
 
+    private Context mContext;
+
     // TODO inserire l'url corretto di disturzione ordine
     private final String DESTROY_ORDER_API_URL = "http://151.80.152.226/orders/complete/";
     private ImageView qrCode;
@@ -81,6 +83,8 @@ public class OrderStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_status);
 
+        mContext = this;
+
         initComps();
 
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
@@ -104,7 +108,9 @@ public class OrderStatusActivity extends AppCompatActivity {
                 // Here you can refresh your listview or other UI
                 if (currentOrder.getStatus().equals("COMPLETED")) {
                     currentOrder.setId(-1);
-                    onBackPressed();
+                    Intent concludeIntent = new Intent();
+                    concludeIntent.setClass(mContext, RateOrderActivity.class);
+                    startActivity(concludeIntent);
                 } else {
                     orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
                 }

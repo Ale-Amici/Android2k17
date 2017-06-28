@@ -1,8 +1,12 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,10 +18,11 @@ import it.unitn.disi.lpsmt.idabere.adapters.RatingItemsListAdapter;
 
 public class RateOrderActivity extends AppCompatActivity {
 
+    private Context mContext;
 
     private RatingItemsListAdapter ratingItemsListAdapter;
     private ListView ratingItemsList;
-
+    private Button finishButton;
 
     // Fake Data
     ArrayList<String> listDataHeader;
@@ -27,27 +32,39 @@ public class RateOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_order);
 
+        mContext = this;
+
         initView();
-        fillData();
 
-        ratingItemsListAdapter = new RatingItemsListAdapter(this,R.layout.rate_order_list_item,listDataHeader);
-        ratingItemsList.setAdapter(ratingItemsListAdapter);
+        setTitle("");
 
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListBar();
+            }
+        });
+
+
+    }
+
+
+    private void goToListBar(){
+        Intent finishIntent = new Intent();
+        finishIntent.setClass(mContext, ListBarActivity.class);
+        finishIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(finishIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goToListBar();
     }
 
     private void initView () {
+
         ratingItemsList = (ListView) findViewById(R.id.items_list_view);
+        finishButton = (Button) findViewById(R.id.finish_button);
     }
 
-    private void fillData() {
-        listDataHeader = new ArrayList<>();
-
-        // Adding child data
-        for (int i = 0; i<10; i++) {
-
-            listDataHeader.add(Integer.toString(i));
-
-        }
-
-    }
 }
