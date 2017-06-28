@@ -145,11 +145,12 @@ var updateOrderStatus = function(orderId, status){
 var checkOrderReady = function(orderId, destroyCode){
     var pool = dbHelper.getDBPool();
     return new Promise(function(resolve, reject){
-        pool.queryAsync("SELECT status FROM CUSTOMER_ORDER "
+        pool.queryAsync("SELECT status, destroy_code FROM CUSTOMER_ORDER "
         + " WHERE ID = ?", orderId)
         .then(function(orderRows){
             if(orderRows.length > 0){
                 if(orderRows[0].destroy_code != destroyCode){
+                    console.log(orderRows[0].destroy_code + " diverso da " + destroyCode)
                     reject("INCORRECT DESTROY CODE")
                 }
                 var result = orderRows[0].status == OrderStatus.READY;
