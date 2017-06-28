@@ -1,0 +1,19 @@
+ID,BAR_ID,ITEM_CATEGORY_ID,GLOBAL_MENU_ITEM_ID,menu_item_name,description
+1,1,3,1,CocaCola,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet."
+2,1,1,2,Birra Guinnes,Morbi sollicitudin sed diam semper commodo.
+3,1,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+4,1,3,4,Thè alla pesca,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet."
+5,1,1,5,Birra chiara," Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut."
+6,1,3,6,Thè al limone,Morbi sollicitudin sed diam semper commodo.
+7,1,2,7,Vino rosso della casa,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet."
+8,1,2,8,Vino bianco della casa,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+9,1,6,9,Caffè,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet."
+10,1,1,10,Birra Rossa," Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut."
+11,1,1,11,Birra Scura,Morbi sollicitudin sed diam semper commodo.
+12,1,1,12,Birra Weizen,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet."
+13,2,3,1,Coca-cola," Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut."
+14,3,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+15,4,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+16,5,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+17,6,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
+18,7,2,3,Pinot Grigio,Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros
