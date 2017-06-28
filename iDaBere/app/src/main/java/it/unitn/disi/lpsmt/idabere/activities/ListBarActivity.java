@@ -100,7 +100,6 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-
         barsListView.setAdapter(new BarsArrayAdapter(mContext, R.layout.bar_list_item, barsList));
 
         barsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,9 +112,9 @@ public class ListBarActivity extends AppCompatActivity implements SearchView.OnQ
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         this.unregisterReceiver(networkStateReceiver);
-        super.onStop();
+        super.onDestroy();
     }
 
     @Override
