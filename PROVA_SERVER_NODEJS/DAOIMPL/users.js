@@ -5,7 +5,7 @@ var CreditCard = require('../models/creditCard.js');
 var ordersDAOImpl = require('./orders.js');
 var preferredsDAOImpl = require('./preferreds.js');
 var dbHelper = require('../DB/dbhelper.js');
-
+var OrderStatus = require('../models/orderStatus.js');
 /*
 * This function retrieves all employees
 */
@@ -50,7 +50,7 @@ var getUserFromId = function(userId){
               return preferredsDAOImpl.all(user.id);
           }).then(function(preferredItems){
               user.setPreferredItems(preferredItems)
-              return pool.queryAsync("SELECT ID FROM CUSTOMER_ORDER where CUSTOMER_ID = ?", userId)
+              return pool.queryAsync("SELECT ID FROM CUSTOMER_ORDER where CUSTOMER_ID = ? AND status <> ? ",[ userId, OrderStatus.COMPLETED ])
           }).then(function(orderRows){
               if(orderRows.length > 0){
                   return ordersDAOImpl.getOrderFromId(orderRows[0]['ID']);
