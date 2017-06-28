@@ -39,7 +39,7 @@ public class BackendConnection {
     private ArrayList<String> PARAMETERS_VALUES;
 
     // POST
-    private String POSTParameters;
+    private String POSTParameters = "";
 
 
 
@@ -128,12 +128,15 @@ public class BackendConnection {
 
         String urlParameters = getPOSTParameters();
 
+
         // Send post request
         con.setDoOutput(true);
         DataOutputStream wr = null;
         try {
             wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
+            if (!urlParameters.isEmpty()){
+                wr.writeBytes(urlParameters);
+            }
             wr.flush();
             wr.close();
         } catch (IOException e) {

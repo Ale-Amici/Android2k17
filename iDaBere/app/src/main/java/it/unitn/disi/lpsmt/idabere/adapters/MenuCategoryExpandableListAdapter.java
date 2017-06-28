@@ -112,12 +112,11 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         menuForAdapter.put(preferredsCategory, new ArrayList<BarMenuItem>());
         if (currentCustomer.getId() != -1 && currentCustomer.getPreferredItems() != null && ! currentCustomer.getPreferredItems().isEmpty() ){
             for(BarMenuItem item: currentCustomer.getPreferredItems()){
-                if(item.getCategory() == null || item.getCategory().isEmpty()){
-                    System.err.println("ERRORE");
-                    //throw new Exception("ITEM SENZA CATEGORIA"); //TODO decidere come gestire gli errori nell'applicazione
-                } else if (barMenu.getBarMenuItemById(item.getId()) != null) {
-                    menuForAdapter.get(preferredsCategory).add(item);
+                BarMenuItem tmp = barMenu.getBarMenuItemById(item.getId());
+                if ( tmp != null){
+                    menuForAdapter.get(preferredsCategory).add(tmp);
                 }
+
             }
         }
 
@@ -463,7 +462,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         @Override
         public void onClick(View v) {
             Intent newChoiceIntent = new Intent();
-            newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());//prendo l'id del bar menu item dal tag sul bottone
+            newChoiceIntent.putExtra("barMenuItemId", (Integer) v.getTag());
+            //prendo l'id del bar menu item dal tag sul bottone
             newChoiceIntent.setClass(context, AddChoiceActivity.class);
             ((Activity)context).startActivityForResult(newChoiceIntent, SELECT_NEW_CHOICE_REQUEST);
 
