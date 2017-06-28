@@ -109,17 +109,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             // Pushy SDK will be able to persist the device token in the external storage
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode){
-            case PushReceiver.ORDER_NOTIFICATION_REQUEST_CODE :
-                Log.d("CIAO", "CIAO");
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Instantiate layout elements
@@ -198,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                         Intent intent = new Intent();
                         intent.setClass(mContext,OrderStatusActivity.class);
                         startActivity(intent);
-                    
+
                 } else {
                     setResult(Activity.RESULT_OK);
                     finish();

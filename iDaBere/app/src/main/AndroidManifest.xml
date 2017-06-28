@@ -114,7 +114,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.OrderStatusActivity"
-            android:label="@string/order_status_title_label"
+            android:label="@string/order_status_title_activity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.RateOrderActivity"

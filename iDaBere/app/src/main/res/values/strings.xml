@@ -81,7 +81,7 @@
     <string name="small_size_label">25</string>
 
     <!-- Strings related to Order status -->
-    <string name="order_status_title_label">STATO ORDINE</string>
+    <string name="order_status_title_activity">Informazioni Ordine</string>
     <string name="identification_number_label">IDENTIFICATIVO ORDINE</string>
     <string name="queue_number_label">POSIZIONE IN CODA</string>
 
@@ -131,5 +131,6 @@
     <string name="login_text_button">Autenticati</string>
     <string name="proceed_order_button">Ordina</string>
     <string name="authentication_failed_message">Autenticazione non effettuata</string>
+    <string name="order_status_current_title">STATO DELL\'ORDINE</string>
 
 </resources>

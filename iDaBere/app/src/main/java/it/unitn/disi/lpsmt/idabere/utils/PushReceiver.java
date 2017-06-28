@@ -37,7 +37,7 @@ public class PushReceiver extends BroadcastReceiver {
 
     public static final int ORDER_NOTIFICATION_REQUEST_CODE = 200;
 
-    private final HashMap<String,String> ORDER_STATUSES = new HashMap<String, String>() {{
+    public static final HashMap<String,String> ORDER_STATUSES = new HashMap<String, String>() {{
         put("PAYMENT_IN_PROGRESS","In attesa di pagamento");
         put("IN_QUEUE","In coda");
         put("IN_PREPARATION","In preparazione");

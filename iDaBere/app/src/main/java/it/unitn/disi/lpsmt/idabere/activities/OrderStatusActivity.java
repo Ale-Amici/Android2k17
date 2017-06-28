@@ -1,6 +1,7 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -28,6 +29,7 @@ import java.util.Random;
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+import it.unitn.disi.lpsmt.idabere.utils.PushReceiver;
 import me.pushy.sdk.Pushy;
 
 public class OrderStatusActivity extends AppCompatActivity {
@@ -35,8 +37,10 @@ public class OrderStatusActivity extends AppCompatActivity {
     // TODO inserire l'url corretto di disturzione ordine
     private final String DESTROY_ORDER_API_URL = "http://151.80.152.226/orders/complete/";
     private ImageView qrCode;
+
     private TextView orderId;
-    private TextView orderQueue;
+    //private TextView orderQueue;
+    private TextView orderStatusDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +52,11 @@ public class OrderStatusActivity extends AppCompatActivity {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
 
         // Build destruction QR code
-        Bitmap myBitmap = QRCode.from(DESTROY_ORDER_API_URL + currentOrder.getDestroyCode()).bitmap();
+        Bitmap myBitmap = QRCode.from(DESTROY_ORDER_API_URL + currentOrder.getId() + "/" + currentOrder.getDestroyCode()).bitmap();
         qrCode.setImageBitmap(myBitmap);
         orderId.setText(Integer.toString(currentOrder.getId()));
-        orderQueue.setText(Integer.toString(new Random().nextInt(50)));
-
+        //orderQueue.setText(Integer.toString(new Random().nextInt(50)));
+        orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
     }
 
     @Override
@@ -71,7 +75,8 @@ public class OrderStatusActivity extends AppCompatActivity {
     private void initComps(){
         qrCode = (ImageView) findViewById(R.id.qr_code_image);
         orderId = (TextView) findViewById(R.id.oder_status_id);
-        orderQueue = (TextView) findViewById(R.id.oder_status_queue);
+        //orderQueue = (TextView) findViewById(R.id.oder_status_queue);
+        orderStatusDescription = (TextView) findViewById(R.id.oder_status_description_text);
     }
 
 }
