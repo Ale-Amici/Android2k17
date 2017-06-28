@@ -28,11 +28,13 @@ var findOne = function(username){
 
 var getUserFromDbRow = function(row){
     return new User()
-        .setUsername(row["username"])
         .setId(row["ID"])
-        .setDateOfBirth(row["dateOfBirth"])
+        .setUsername(row["username"])
+        .setDateOfBirth(row["date_of_birth"])
         .setEmail(row["email"])
         .setPassword(row["password"])
+        .setDeviceToken(row["device_token"])
+        .setCreditCards([])
 }
 
 module.exports.findOne = findOne;

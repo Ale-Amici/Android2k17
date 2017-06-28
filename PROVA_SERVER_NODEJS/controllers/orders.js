@@ -63,6 +63,7 @@ function updateStatus(request, response){
             if(newStatus != OrderStatus.COMPLETED){
                 ordersDAOImpl.updateOrderStatus(orderId, newStatus)
                 .then(function(success){
+                    //TODO CREO LA NOTIFICA DA INVIARE
                     response.status(200).json(success);
                 }).catch(function(err){
                     response.status(500).json("ERRORE NELL'aggiornare lo stato")
@@ -87,6 +88,7 @@ function completeOrder(request, response){
                 if(result == true){
                     ordersDAOImpl.updateOrderStatus(orderId, OrderStatus.COMPLETED)
                     .then(function(success){
+                        //TODO CREO LA NOTIFICA DA INVIARE
                         response.status(200).json(success);
                     }).catch(function(err){
                         console.log(err)
