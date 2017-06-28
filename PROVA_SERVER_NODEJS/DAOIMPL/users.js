@@ -2,7 +2,8 @@
 // This imports the model of an employee
 var User = require('../models/user.js');
 var CreditCard = require('../models/creditCard.js');
-
+var ordersDAOImpl = require('./orders.js');
+var preferredsDAOImpl = require('./preferreds.js');
 var dbHelper = require('../DB/dbhelper.js');
 
 /*
@@ -42,11 +43,23 @@ var getUserFromId = function(userId){
                                   + " FROM CREDIT_CARD CC "
                                   + " WHERE CC.CUSTOMER_ID = ?"
                                   + " ORDER BY CC.name ASC ", userId);
-          })
-          .then(function(creditCardRows){
+          }).then(function(creditCardRows){
               creditCardRows.forEach(function(row,index){
                   user.creditCards.push(getCreditCardFromDbRow(row))
               })
+              return preferredsDAOImpl.all(user.id);
+          }).then(function(preferredItems){
+              user.setPreferredItems(preferredItems)
+              return pool.queryAsync("SELECT ID FROM CUSTOMER_ORDER where CUSTOMER_ID = ?", userId)
+          }).then(function(orderRows){
+              if(orderRows.length > 0){
+                  return ordersDAOImpl.getOrderFromId(orderRows[0]['ID']);
+              }
+              else{
+                  resolve(user)
+              }
+          }).then(function(order){
+              user.setOrder(order);
               resolve(user);
           })
           .catch(function(err){

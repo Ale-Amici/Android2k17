@@ -1,3 +1,5 @@
+var notificationsCtrl = require("../controllers/notifications.js");
+
 var Order = require('../models/order.js');
 var OrderStatus = require('../models/orderStatus.js');
 
@@ -112,11 +114,27 @@ var getNextOrder = function(){
 
 var updateOrderStatus = function(orderId, status){
     var pool = dbHelper.getDBPool();
+    var response;
     return new Promise(function(resolve, reject){
         pool.queryAsync("UPDATE CUSTOMER_ORDER SET status = ? WHERE ID = ?",
          [status, orderId])
         .then(function(results){
-            resolve(results)
+            response = results;
+            return pool.queryAsync("SELECT * FROM CUSTOMER CC JOIN CUSTOMER_ORDER CO ON(CC.ID = CO.CUSTOMER_ID) WHERE CO.ID = ?",orderId);
+        }).then(function(userRows){
+            if(userRows.length > 0){
+                if(userRows[0]["device_token"] != undefined) {
+                    return notificationsCtrl.updateStatusPushPromise(status, userRows[0]["device_token"]);
+                }
+                else{
+                    resolve(response)
+                }
+            }
+            else{
+                resolve(response)
+            }
+        }).then(function(userRows){
+            resolve(response);
         }).catch(function(err){
             console.log(err);
             reject(err);
@@ -124,13 +142,17 @@ var updateOrderStatus = function(orderId, status){
     });
 }
 
-var checkOrderReady = function(orderId){
+var checkOrderReady = function(orderId, destroyCode){
     var pool = dbHelper.getDBPool();
     return new Promise(function(resolve, reject){
-        pool.queryAsync("SELECT status FROM CUSTOMER_ORDER "
+        pool.queryAsync("SELECT status, destroy_code FROM CUSTOMER_ORDER "
         + " WHERE ID = ?", orderId)
         .then(function(orderRows){
             if(orderRows.length > 0){
+                if(orderRows[0].destroy_code != destroyCode){
+                    console.log(orderRows[0].destroy_code + " diverso da " + destroyCode)
+                    reject("INCORRECT DESTROY CODE")
+                }
                 var result = orderRows[0].status == OrderStatus.READY;
                 resolve(result);
             }

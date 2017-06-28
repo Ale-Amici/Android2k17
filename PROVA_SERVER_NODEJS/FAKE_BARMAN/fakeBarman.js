@@ -6,6 +6,11 @@ var httpDAO  = require("./httpDAO.js");
 var nextOrder = undefined;
 var working = false;
 
+//WAIT TIMES IN MILLISEC
+var waitBeforeStartWorking = 10000;
+var waitBeforeCheckingDelivered = 10000;
+var waitBeforeUpdateOrderStatus = 5000;
+
 var retrieveNextOrder = function(){
     return new Promise(function(resolve,reject){
         console.log("Chiesto next ORder")
@@ -27,7 +32,7 @@ var updateStatus = function(orderId,newStatus){
 
         return new Promise(function(resolve,reject){
             new Promise(function (resolve, reject) {
-                setTimeout(resolve, 3000); // (A)
+                setTimeout(resolve, waitBeforeUpdateOrderStatus); // (A)
             }).then(function(res){
                 return httpDAO.sendUpdateStatus(orderId,newStatus);
             }).then(function(response){
@@ -77,7 +82,7 @@ var prepareOrder = function(){
 var deliverOrder = function(){
     return new Promise(function(resolve,reject){
         new Promise(function (resolve, reject) {
-            setTimeout(resolve, 3000); // (A)
+            setTimeout(resolve, waitBeforeCheckingDelivered); // (A)
         }).then(function(res){
             return httpDAO.sendGetOrderFromId(nextOrder.id)
         }).then(function(order){
@@ -122,7 +127,7 @@ var start = function(){
     if(working == false){
         working = true;
         new Promise(function (resolve, reject) {
-            setTimeout(resolve, 3000); // (A)
+            setTimeout(resolve, waitBeforeStartWorking); // (A)
         }).then(function(res){
             return getWorkPromise()
         }).then(function(res){
@@ -134,7 +139,7 @@ var start = function(){
             nextOrder = undefined;
         })
     }
-    setTimeout(start, 1000);
+    setTimeout(start, waitBeforeStartWorking);
 }
 
 start();

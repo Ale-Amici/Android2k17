@@ -81,7 +81,7 @@
     <string name="small_size_label">25</string>
 
     <!-- Strings related to Order status -->
-    <string name="order_status_title_label">STATO ORDINE</string>
+    <string name="order_status_title_activity">Informazioni Ordine</string>
     <string name="identification_number_label">IDENTIFICATIVO ORDINE</string>
     <string name="queue_number_label">POSIZIONE IN CODA</string>
 
@@ -133,5 +133,9 @@
     <string name="authentication_failed_message">Autenticazione non effettuata</string>
     <string name="server_error_text">Si è verificato un errore.\n Riprovare più tardi</string>
     <string name="no_data_error_text">Nessun risultato trovato</string>
+    <string name="order_status_current_title">STATO DELL\'ORDINE</string>
+    <string name="greetings_message">La tua ordinazione e conclusa.\n Grazie per aver usato iDaBere!</string>
+    <string name="finish_button">Torna al Menu</string>
+    <string name="credits_title">Credits</string>
 
 </resources>
