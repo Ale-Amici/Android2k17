@@ -13,7 +13,9 @@
         android:id="@+id/item_image_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:srcCompat="@color/colorAccent"/>
+        android:padding="@dimen/activity_vertical_margin"
+        app:srcCompat="@drawable/ic_lemonade_white"
+        android:background="@color/colorPrimaryLight"/>
 
     <!-- Add to preferred button and ratings info -->
 
