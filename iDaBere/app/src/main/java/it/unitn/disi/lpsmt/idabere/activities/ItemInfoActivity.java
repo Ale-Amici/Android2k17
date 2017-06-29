@@ -3,15 +3,19 @@ package it.unitn.disi.lpsmt.idabere.activities;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -20,6 +24,7 @@ import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
+import it.unitn.disi.lpsmt.idabere.utils.AppStatus;
 
 public class ItemInfoActivity extends AppCompatActivity {
 
@@ -29,6 +34,7 @@ public class ItemInfoActivity extends AppCompatActivity {
     private RatingBar mItemRatingBar;
     private TextView mItemDescription;
     private ImageView mItemImage;
+    FloatingActionButton fab;
 
     private MenuItem preferredButton;
 
@@ -53,21 +59,35 @@ public class ItemInfoActivity extends AppCompatActivity {
         // TODO set del valore del rating
         mItemRatingBar.setRating(5*randomRating);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addtoPreferreds();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            togglePreferredButtonState();
+        }
+        super.onResume();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.item_info_menu, menu);
-        preferredButton = menu.findItem(R.id.add_preferred_button);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            togglePreferredButtonState();
-        }
-        if (AppSession.getInstance().getmCustomer() == null || AppSession.getInstance().getmCustomer().getId() == -1){
-            preferredButton.setVisible(false);
-        } else {
-            preferredButton.setVisible(true);
-        }
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.item_info_menu, menu);
+//        preferredButton = menu.findItem(R.id.add_preferred_button);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            togglePreferredButtonState();
+//        }
+//        if (AppSession.getInstance().getmCustomer() == null || AppSession.getInstance().getmCustomer().getId() == -1){
+//            preferredButton.setVisible(false);
+//        } else {
+//            preferredButton.setVisible(true);
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -78,7 +98,11 @@ public class ItemInfoActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.add_preferred_button :
-                addtoPreferreds();
+                if (AppStatus.getInstance(this).isOnline()){
+                    addtoPreferreds();
+                } else {
+                    Toast.makeText(this, "Nessuna connessione dati abilitata", Toast.LENGTH_SHORT).show();
+                }
                 result = true;
                 break;
         }
@@ -92,10 +116,12 @@ public class ItemInfoActivity extends AppCompatActivity {
         Customer currentCustomer = currentSession.getmCustomer();
         BarMenuItem currentBarMenuItem = currentBarMenu.getBarMenuItemById(menuItemId);
         Log.d("INDEX", Integer.toString(currentCustomer.getPreferredItems().indexOf(currentBarMenuItem)));
-        if (currentCustomer.getPreferredItems().size() == 0 || currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) == -1 ){
-            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_border_white_24dp));
+        if (currentCustomer.getPreferredItems().size() != 0 && currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) != -1 ){
+            //preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_border_white_24dp));
+            fab.setImageResource(R.drawable.ic_bookmark_white_24dp);
         } else {
-            preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_white_24dp));
+            //preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_white_24dp));
+            fab.setImageResource(R.drawable.ic_bookmark_border_white_24dp);
         }
 
     }
@@ -107,13 +133,13 @@ public class ItemInfoActivity extends AppCompatActivity {
         BarMenu currentBarMenu = currentSession.getmBar().getBarMenu();
         Customer currentCustomer = currentSession.getmCustomer();
         BarMenuItem currentBarMenuItem = currentBarMenu.getBarMenuItemById(menuItemId);
-        if (currentCustomer.getPreferredItems().size() == 0 || currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) == -1 ){
-            currentCustomer.getPreferredItems().add(currentBarMenuItem);
-            ACTION_CODE = 0;
-            //togglePreferredButtonState();
-        } else {
+        if (currentCustomer.getPreferredItems().size() != 0 && currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) != -1 ){
             currentCustomer.getPreferredItems().remove(currentBarMenuItem);
             ACTION_CODE = 1;
+            //togglePreferredButtonState();
+        } else {
+            currentCustomer.getPreferredItems().add(currentBarMenuItem);
+            ACTION_CODE = 0;
             //togglePreferredButtonState();
         }
 
@@ -130,6 +156,8 @@ public class ItemInfoActivity extends AppCompatActivity {
 
         setTitle(menuItem.getName());
         mItemDescription.setText(menuItem.getDescription());
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         // TODO Inserire il valore del rating
 

@@ -137,5 +137,6 @@
     <string name="greetings_message">La tua ordinazione è conclusa.\n Grazie per aver usato iDaBere!</string>
     <string name="finish_button">Torna al Menu</string>
     <string name="credits_title">Credits</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

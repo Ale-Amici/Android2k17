@@ -122,6 +122,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         if (!menuForAdapter.get(preferredsCategory).isEmpty()){
             categories.add(0,preferredsCategory);
+        } else {
+            categories.remove(preferredsCategory);
         }
 
     }
