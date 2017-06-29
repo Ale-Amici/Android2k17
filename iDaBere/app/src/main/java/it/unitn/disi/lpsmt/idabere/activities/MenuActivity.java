@@ -111,7 +111,7 @@ public class MenuActivity extends AppCompatActivity implements
             totalPriceInfo.setText(new DecimalFormat("##0.00").format(totalPrice));
         }
         if (menuAdapter != null) {
-            menuAdapter.notifyDataSetChanged();
+            menuAdapter.refreshMenuAdapter();
         }
         super.onResume();
     }

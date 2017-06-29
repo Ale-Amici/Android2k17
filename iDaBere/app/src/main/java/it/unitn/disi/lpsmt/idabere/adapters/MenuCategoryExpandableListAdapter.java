@@ -139,6 +139,11 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
     }
 
+    public void refreshMenuAdapter(){
+        this.setMenuForAdapter(originalBarMenu);
+        notifyDataSetChanged();
+    }
+
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
         ArrayList<BarMenuItem> barMenuItems = menuForAdapter.get(categories.get(groupPosition));
