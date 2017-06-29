@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemInfoContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -82,7 +83,7 @@
         android:layout_alignRight="@+id/linearLayout"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="18dp"
-        app:backgroundTint="@color/colorSecondaryLight"
+        app:backgroundTint="@color/infoButtonColor"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 

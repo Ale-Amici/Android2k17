@@ -138,5 +138,7 @@
     <string name="finish_button">Torna al Menu</string>
     <string name="credits_title">Credits</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="item_added_message">Aggiunto ai preferiti</string>
+    <string name="item_removed_message">Rimosso dai preferiti</string>
 
 </resources>

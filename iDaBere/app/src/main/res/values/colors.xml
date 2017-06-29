@@ -3,9 +3,9 @@
 
     <color name="colorPrimary">#2C867A</color>
     <color name="colorPrimaryLight">#a5bfb4</color>
+    <color name="infoButtonColor">#2980b9</color>
 
     <color name="colorSecondary">#a53543</color>
     <color name="colorSecondaryDark">#702738</color>
     <color name="colorSecondaryLight">#D98C84</color>
-    <color name="colorAccent">#E8DFDA</color>
 </resources>

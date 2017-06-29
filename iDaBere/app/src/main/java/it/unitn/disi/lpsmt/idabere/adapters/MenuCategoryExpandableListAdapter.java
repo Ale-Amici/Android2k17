@@ -195,9 +195,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             @Override
             public void onClick(View v) {
                 final String ITEM_CLICKED_ID_KEY = "ITEM_ID";
-                Intent itemInfoIntend = new Intent(context, ItemInfoActivity.class);
-                itemInfoIntend.putExtra(ITEM_CLICKED_ID_KEY,child.getId());
-                context.startActivity(itemInfoIntend);
+                Intent itemInfoIntent = new Intent(context, ItemInfoActivity.class);
+                itemInfoIntent.putExtra(ITEM_CLICKED_ID_KEY,child.getId());
+                context.startActivity(itemInfoIntent);
             }
         });
         //GESTIONE CLICK SU ITEM VIEW, espansione o riduzione della choiceSection. Solo 1 item alla volta è aperto
