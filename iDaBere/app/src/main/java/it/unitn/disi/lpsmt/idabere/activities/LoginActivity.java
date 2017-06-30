@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                         Intent intent = new Intent();
                         intent.setClass(mContext,OrderStatusActivity.class);
                         startActivity(intent);
-
+                    // TODO apertura della listbar activity se un ordine e' completato e l'utente ha visualizzato la schermata finale (RateOrder)
                 } else {
                     setResult(Activity.RESULT_OK);
                     finish();
