@@ -55,6 +55,8 @@ public class OrderStatusActivity extends AppCompatActivity {
     public static boolean isScrInFg = false;
     public static boolean isChangeScrFg = false;
 
+    private Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
+
     @Override
     protected void onStart() {
         if (!isAppInFg) {
@@ -99,21 +101,22 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+
+        // Here you can refresh your listview or other UI
+        if (currentOrder.getStatus().equals("COMPLETED")) {
+            currentOrder.setId(-1);
+            Intent concludeIntent = new Intent();
+            concludeIntent.setClass(mContext, RateOrderActivity.class);
+            startActivity(concludeIntent);
+        }
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent)
             {
-                Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
-                // Here you can refresh your listview or other UI
-                if (currentOrder.getStatus().equals("COMPLETED")) {
-                    currentOrder.setId(-1);
-                    Intent concludeIntent = new Intent();
-                    concludeIntent.setClass(mContext, RateOrderActivity.class);
-                    startActivity(concludeIntent);
-                } else {
-                    orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
-                }
+
+                orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
+
             }
         };
         try {
@@ -125,6 +128,7 @@ public class OrderStatusActivity extends AppCompatActivity {
             // TODO: handle exception
             e.printStackTrace();
         }
+        super.onResume();
     }
 
     @Override
