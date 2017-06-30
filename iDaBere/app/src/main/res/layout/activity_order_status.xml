@@ -82,7 +82,7 @@
         android:id="@+id/order_status_description_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
         android:text="@string/order_status_current_title"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -94,11 +94,17 @@
         android:id="@+id/oder_status_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/paragraph_text_size"
+        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
+        android:textSize="@dimen/title_text_size"
+        android:text="ORDER STATUS"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textStyle="bold"
         android:layout_below="@+id/order_status_description_title"
         android:layout_alignLeft="@+id/order_status_description_title"
-        android:layout_alignStart="@+id/order_status_description_title" />
+        android:layout_alignStart="@+id/order_status_description_title"
+        android:layout_alignRight="@+id/qr_code_image"
+        android:layout_alignEnd="@+id/qr_code_image" />
 
 
 </RelativeLayout>

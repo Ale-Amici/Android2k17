@@ -142,10 +142,12 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
             switch (radioButtonId) {
                 case R.id.first_choice_radiobutton :
                     sessionOrder.setUsingCreditCard(true);
+                    sessionOrder.setPaid(true);
                     sessionOrder.setChosenCreditCard((CreditCard) creditCardSpinner.getSelectedItem());
                     break;
                 case R.id.second_choice_radiobutton :
                     sessionOrder.setUsingCreditCard(false);
+                    sessionOrder.setPaid(false);
                     sessionOrder.setChosenCreditCard(null);
                     break;
             }
