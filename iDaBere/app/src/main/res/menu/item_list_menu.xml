@@ -15,7 +15,7 @@
 
     <item
         android:id="@+id/random_drink_menu_button"
-        android:icon="@drawable/ic_whatshot_white_24dp"
+        android:icon="@drawable/ic_random_drink_white"
         android:orderInCategory="2"
         android:title="@string/random_list_item_icon_label"
         app:showAsAction="always" />
