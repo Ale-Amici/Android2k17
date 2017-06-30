@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemInfoContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +14,9 @@
         android:id="@+id/item_image_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:srcCompat="@color/colorAccent"/>
+        android:padding="@dimen/activity_vertical_margin"
+        app:srcCompat="@drawable/ic_lemonade_white"
+        android:background="@color/colorPrimaryLight"/>
 
     <!-- Add to preferred button and ratings info -->
 
@@ -24,7 +27,9 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
 
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/item_image_view"
+        android:id="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,7 +74,20 @@
     </LinearLayout>
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="18dp"
+        app:backgroundTint="@color/infoButtonColor"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_bookmark_border_white_24dp" />
 
 
 
-</LinearLayout>
+
+</RelativeLayout>

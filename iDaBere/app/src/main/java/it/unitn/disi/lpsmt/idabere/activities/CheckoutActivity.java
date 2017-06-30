@@ -38,6 +38,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView paymentMethod;
     private TextView getDeliveryTypeDetails;
 
+    private MenuItem sendDeliveryButton;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -51,6 +52,8 @@ public class CheckoutActivity extends AppCompatActivity {
         ordersDAO = WelcomeActivity.factoryDAO.newOrdersDAO();
 
         mContext = this;
+
+        sendDeliveryButton = bottomNavigationView.getMenu().findItem(R.id.navigation_confirm_payment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -130,6 +133,13 @@ public class CheckoutActivity extends AppCompatActivity {
     private class SendOrderAsyncTask extends AsyncTask<Object, Void, Order>{
 
         @Override
+        protected void onPreExecute() {
+
+            sendDeliveryButton.setEnabled(false);
+            super.onPreExecute();
+        }
+
+        @Override
         protected Order doInBackground(Object... params) {
             Order result;
 
@@ -140,6 +150,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Order retrievedOrder) {
+
+            sendDeliveryButton.setEnabled(true);
 
             if (retrievedOrder != null) {
                 Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
