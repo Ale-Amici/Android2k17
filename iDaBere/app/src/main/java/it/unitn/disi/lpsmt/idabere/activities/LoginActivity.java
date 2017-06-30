@@ -109,6 +109,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             // Pushy SDK will be able to persist the device token in the external storage
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
+
+        Customer currentCustomer = AppSession.getInstance().getmCustomer();
+        if (currentCustomer != null && currentCustomer.getId() != -1 && ! currentCustomer.getDeviceToken().isEmpty()){
+            setResult(RESULT_OK);
+            finish();
+        }
+
     }
 
     // Instantiate layout elements
@@ -120,8 +127,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        mEmailView.setText("professore");
-        mPasswordView.setText("professore");
+        mEmailView.setText("giulia");
+        mPasswordView.setText("giulia");
 
         mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.email_register_button);
@@ -187,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                         Intent intent = new Intent();
                         intent.setClass(mContext,OrderStatusActivity.class);
                         startActivity(intent);
-
+                    // TODO apertura della listbar activity se un ordine e' completato e l'utente ha visualizzato la schermata finale (RateOrder)
                 } else {
                     setResult(Activity.RESULT_OK);
                     finish();

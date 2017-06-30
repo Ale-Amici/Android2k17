@@ -538,8 +538,13 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (1, 'BAR BELLISSIMO', 'Questo è il bar più bello della storia dei bar!', 'Via dei bei bar 45', 46.06802028, 11.14992142);
-INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (2, 'BAR BRUTTO', 'Bar brutto', 'Via butti 55', 46.0672552, 11.12101110);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (1, 'Star Pub', 'Questo è il bar più bello della storia dei bar!', 'Via Garibaldi 45', 46.06802028, 11.14992142);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (2, 'Pub Losco', 'Bar brutto', 'Via Manci 23', 46.0672552, 11.12101110);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (3, 'Dal Lurido', 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Via Dei Caduti 88', -39.81422, -73.24589);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (4, 'Birra&Birra', 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Via Roma 2', -31.95021, -65.05354);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (5, 'Il Vinaio', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\n\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Via Trento 21', 39.98333, 98.86667);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (6, 'Da Edo', 'Sed ante. Vivamus tortor. Duis mattis egestas metus.\n\nAenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Piazza Duomo 9', 5.4179, 100.3296);
+INSERT INTO `android2k17`.`BAR` (`ID`, `name`, `description`, `address`, `latitude`, `longitude`) VALUES (7, 'Mc Bar', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.\n\nProin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Via Torquato Taramelli 14', 14.91667, -87.26667);
 
 COMMIT;
 
@@ -551,6 +556,7 @@ START TRANSACTION;
 USE `android2k17`;
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', DEFAULT);
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (3, 'professore', '1980-01-01', 'prof@gmail.com', 'b70a0dcc7063f83b6bd26cf903860b4a3cd98795d777cc66f541495cc45e06bc', DEFAULT);
 
 COMMIT;
 
@@ -560,9 +566,17 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (1, 'piccola');
-INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (2, 'media');
-INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (3, 'grande');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (1, 'Piccola');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (2, 'Media');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (3, 'Grande');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (4, 'Bicchiere');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (5, 'Bottiglia 75cl');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (6, 'Tazzina');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (7, '50cl');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (8, 'Piccolo');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (9, 'Medio');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (10, 'Lattina');
+INSERT INTO `android2k17`.`ITEM_SIZE` (`ID`, `size_description`) VALUES (11, 'Pinta');
 
 COMMIT;
 
@@ -608,10 +622,24 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', 'buona coca 1');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 2, 3, 1, 'Coca-cola', 'buona coca 2');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (3, 1, 1, 5, 'Birra chiara', 'bella birra');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (4, 1, 1, 12, 'Birra Weizen', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 1, 1, 2, 'Birra Guinnes', 'Morbi sollicitudin sed diam semper commodo.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (3, 1, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (4, 1, 3, 4, 'Thè alla pesca', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (5, 1, 1, 5, 'Birra chiara', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (6, 1, 3, 6, 'Thè al limone', 'Morbi sollicitudin sed diam semper commodo.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (7, 1, 2, 7, 'Vino rosso della casa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (8, 1, 2, 8, 'Vino bianco della casa', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (9, 1, 6, 9, 'Caffè', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (10, 1, 1, 10, 'Birra Rossa', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (11, 1, 1, 11, 'Birra Scura', 'Morbi sollicitudin sed diam semper commodo.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (12, 1, 1, 12, 'Birra Weizen', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (13, 2, 3, 1, 'Coca-cola', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (14, 3, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (15, 4, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (16, 5, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (17, 6, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (18, 7, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
 
 COMMIT;
 
@@ -653,6 +681,22 @@ INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (6);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (7);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (8);
 INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (9);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (10);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (11);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (12);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (13);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (14);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (15);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (16);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (17);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (18);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (19);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (20);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (21);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (22);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (23);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (24);
+INSERT INTO `android2k17`.`DELIVERY_PLACE` (`ID`) VALUES (25);
 
 COMMIT;
 
@@ -664,19 +708,29 @@ START TRANSACTION;
 USE `android2k17`;
 INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (1, 1, 1, 1);
 INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (2, 1, 1, 2);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (3, 1, 1, 3);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (4, 1, 1, 4);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (5, 1, 1, 5);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (6, 1, 1, 6);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (7, 1, 2, 1);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (8, 1, 2, 2);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (9, 1, 2, 3);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (10, 1, 2, 4);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (11, 1, 2, 5);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (12, 1, 2, 6);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (13, 1, 2, 7);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (14, 1, 2, 8);
-INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (15, 1, 2, 9);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (3, 1, 1, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (4, 1, 1, 7);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (5, 1, 1, 8);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (6, 1, 1, 9);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (7, 1, 2, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (8, 1, 2, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (9, 1, 2, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (10, 1, 2, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (11, 1, 2, 7);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (12, 1, 2, 8);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (13, 1, 2, 9);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (14, 1, 2, 10);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (15, 1, 2, 11);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (16, 1, 3, 1);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (17, 1, 3, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (18, 1, 4, 2);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (19, 1, 4, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (20, 1, 5, 3);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (21, 1, 5, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (22, 1, 6, 4);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (23, 1, 6, 6);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (24, 1, 7, 5);
+INSERT INTO `android2k17`.`BAR_HAS_DELIVERY_PLACE` (`ID`, `floor`, `BAR_ID`, `DELIVERY_PLACE_ID`) VALUES (25, 1, 7, 6);
 
 COMMIT;
 
@@ -689,6 +743,7 @@ USE `android2k17`;
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (1, 1, 'CARTA_PAYPAL');
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (2, 1, 'CARTA_MASTERCARD');
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (3, 2, 'CARTA_PREPAGATA');
+INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (4, 3, 'CARTA_GOLD');
 
 COMMIT;
 
@@ -698,7 +753,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (`MENU_ITEM_ID`, `INGREDIENT_ID`, `quantity`) VALUES (3, 1, '5');
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (`MENU_ITEM_ID`, `INGREDIENT_ID`, `quantity`) VALUES (2, 1, '5');
 INSERT INTO `android2k17`.`MENU_ITEM_HAS_INGREDIENT` (`MENU_ITEM_ID`, `INGREDIENT_ID`, `quantity`) VALUES (4, 1, '6');
 
 COMMIT;
@@ -709,13 +764,37 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 1, 3.50);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 2, 5.00);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 3, 8.00);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 3, 2.50);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (2, 3, 3.00);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (4, 2, 5.50);
-INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (4, 3, 10.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 1, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 2, 5.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (1, 3, 8.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (2, 1, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (2, 2, 5.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 4, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (3, 5, 15.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (4, 9, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (5, 1, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (5, 2, 5.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (5, 3, 9.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (6, 9, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (7, 4, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (7, 5, 12.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (8, 4, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (8, 5, 14.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (9, 6, 1.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (10, 7, 5.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (11, 7, 5.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (12, 7, 5.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (13, 10, 2.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (14, 4, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (14, 5, 13.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (15, 4, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (15, 5, 14.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (16, 4, 3.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (16, 5, 15.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (17, 4, 3.50);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (17, 5, 16.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (18, 4, 4.00);
+INSERT INTO `android2k17`.`MENU_ITEM_HAS_SIZE` (`MENU_ITEM_ID`, `ITEM_SIZE_ID`, `price`) VALUES (18, 5, 17.00);
 
 COMMIT;
 
@@ -755,13 +834,26 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (2, 1);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (3, 2);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (4, 3);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (5, 4);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (6, 5);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (7, 6);
-INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (8, 7);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (6, 1);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (7, 2);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (8, 3);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (9, 4);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (10, 5);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (11, 6);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (12, 7);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (13, 8);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (14, 9);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (15, 10);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (16, 11);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (17, 12);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (18, 13);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (19, 14);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (20, 15);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (21, 16);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (22, 17);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (23, 18);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (24, 19);
+INSERT INTO `android2k17`.`BAR_TABLE` (`DELIVERY_PLACE_ID`, `table_number`) VALUES (25, 20);
 
 COMMIT;
 
@@ -771,8 +863,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (1, 'Bancone');
-INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (9, 'Chiosco cortile');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (1, 'Sala musica');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (2, 'Chiosco cortile');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (3, 'Piano terra');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (4, 'Piano 1°');
+INSERT INTO `android2k17`.`BAR_COUNTER` (`DELIVERY_PLACE_ID`, `counter_name`) VALUES (5, 'Piano 2°');
 
 COMMIT;
 

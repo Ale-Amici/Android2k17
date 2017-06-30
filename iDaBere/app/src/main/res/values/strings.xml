@@ -134,8 +134,11 @@
     <string name="server_error_text">Si è verificato un errore.\n Riprovare più tardi</string>
     <string name="no_data_error_text">Nessun risultato trovato</string>
     <string name="order_status_current_title">STATO DELL\'ORDINE</string>
-    <string name="greetings_message">La tua ordinazione e conclusa.\n Grazie per aver usato iDaBere!</string>
+    <string name="greetings_message">La tua ordinazione è conclusa.\n Grazie per aver usato iDaBere!</string>
     <string name="finish_button">Torna al Menu</string>
     <string name="credits_title">Credits</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="item_added_message">Aggiunto ai preferiti</string>
+    <string name="item_removed_message">Rimosso dai preferiti</string>
 
 </resources>

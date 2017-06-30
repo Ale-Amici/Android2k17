@@ -184,7 +184,7 @@ public class AddChoiceActivity extends AppCompatActivity {
                     Toast.makeText(context.getApplicationContext(),"Scelta aggiunta",Toast.LENGTH_SHORT).show();
                     break;
                 case AddChoiceActivity.RESULT_QUANTITY_PLUS_1:
-                    Toast.makeText(context.getApplicationContext(),"Scelta già esitente, quantità ++",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(),"Scelta già esitente, quantità incrementata",Toast.LENGTH_SHORT).show();
                     menuAdapter.notifyDataSetChanged();
                     break;
                 case AddChoiceActivity.RESULT_ERROR:
