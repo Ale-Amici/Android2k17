@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +54,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private int lastItemExpandedGroupPosition;
     private int lastItemExpandedChildPosition;
     private View lastItemExpandedView;
+    private boolean randomDrinkPressed;
+
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
-    private boolean beginning;
     //l'ultima categoria espansa
     private int lastCategoryExpandedPosition = -1;
 
@@ -70,9 +70,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         setMenuForAdapter(filteredBarMenu);
 
-        updateTotalPrice();
+        randomDrinkPressed = false;
 
-        beginning = true;
+        updateTotalPrice();
 
         lastItemExpandedGroupPosition = -1;
         lastItemExpandedChildPosition = -1;
@@ -243,6 +243,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     public void showItemWithPosition(int groupPosition, int childPosition){
         lastItemExpandedChildPosition = childPosition;
         lastItemExpandedGroupPosition = groupPosition;
+        randomDrinkPressed = true;
         notifyDataSetChanged();
     }
 
@@ -395,9 +396,15 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.category_text_name);
         lblListHeader.setText(headerTitle);
-        if(groupPosition == 0 && beginning){
-            mExpandableListView.expandGroup(0);
-            beginning = false;
+        // TODO LOGICA DI ESPANSIONE DELLA CATEGORIA DELL'ITEM SELEZIONATO
+        if(lastItemExpandedChildPosition != -1 && lastItemExpandedGroupPosition != -1){
+            BarMenuItem child = (BarMenuItem) getChild(lastItemExpandedGroupPosition, lastItemExpandedChildPosition);
+            if(child.getCategory().equals(getGroup(groupPosition))){
+                if(!isExpanded && randomDrinkPressed ) {
+                    mExpandableListView.expandGroup(groupPosition);
+                }
+                randomDrinkPressed = false;
+            }
         }
         return convertView;
     }
