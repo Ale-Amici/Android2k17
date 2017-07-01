@@ -22,6 +22,7 @@ import com.daimajia.swipe.SwipeLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import it.unitn.disi.lpsmt.idabere.R;
@@ -96,14 +97,15 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 menuForAdapter.get(item.getCategory()).add(item);
 
             }
-
+        }
+        Collections.sort(categories);
+        for(ArrayList<BarMenuItem> item: menuForAdapter.values()){
+            Collections.sort(item);
         }
     }
 
     protected void setMenuDealsCategory(BarMenu barMenu){
         //TODO INSERISCO LA CATEGORIA DELLE OFFERTE
-
-
     }
 
     protected void setMenuFavouritesCategory(BarMenu barMenu){
