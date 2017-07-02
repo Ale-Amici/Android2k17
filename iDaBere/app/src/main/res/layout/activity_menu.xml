@@ -39,16 +39,12 @@
 
         </ExpandableListView>
 
-        <android.support.v7.widget.Toolbar
+        <android.support.design.widget.AppBarLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:elevation="@dimen/elevation"
+            tools:targetApi="lollipop">
 
 
                 <FrameLayout
@@ -85,9 +81,7 @@
                         <android.support.design.widget.BottomNavigationView
                             android:id="@+id/menu_bottom_navigation"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="bottom"
-                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:background="@color/colorPrimary"
                             android:translationZ="-10sp"
                             app:menu="@menu/menu_list_bottom_navigation"
@@ -98,7 +92,7 @@
 
 
 
-        </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
 
 
