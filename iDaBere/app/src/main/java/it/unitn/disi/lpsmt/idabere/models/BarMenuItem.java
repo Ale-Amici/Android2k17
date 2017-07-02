@@ -17,7 +17,7 @@ public class BarMenuItem implements Comparable{
     private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
     private String category;
-    private Float discount;
+    private Double discount;
 
     public BarMenuItem(){}
 
@@ -77,11 +77,11 @@ public class BarMenuItem implements Comparable{
         this.category = category;
     }
 
-    public Float getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Float discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -107,6 +107,11 @@ public class BarMenuItem implements Comparable{
         return sizes.size() * ((int)Math.pow(2, additions.size()));
     }
 
+    public void applyDiscount(){
+        for(Size size: this.sizes){
+            if(this.discount != null) size.setDiscount(this.discount);
+        }
+    }
     @Override
     public String toString() {
         return "BarMenuItem{" +
