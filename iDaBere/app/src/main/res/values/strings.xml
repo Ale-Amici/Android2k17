@@ -82,7 +82,7 @@
 
     <!-- Strings related to Order status -->
     <string name="order_status_title_activity">Informazioni Ordine</string>
-    <string name="identification_number_label">IDENTIFICATIVO ORDINE</string>
+    <string name="identification_number_label">CODICE ORDINE</string>
     <string name="queue_number_label">POSIZIONE IN CODA</string>
 
     <!-- Strings related to Payment type -->
@@ -140,5 +140,6 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="item_added_message">Aggiunto ai preferiti</string>
     <string name="item_removed_message">Rimosso dai preferiti</string>
+    <string name="customer_guide_order">Customer instructions about what to do while waiting their order</string>
 
 </resources>
