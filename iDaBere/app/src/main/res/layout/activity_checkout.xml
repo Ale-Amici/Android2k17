@@ -10,7 +10,8 @@
     tools:context="it.unitn.disi.lpsmt.idabere.activities.CheckoutActivity">
 
 
-    <android.support.v7.widget.Toolbar
+    <android.support.design.widget.AppBarLayout
+        android:elevation="@dimen/elevation"
         android:id="@+id/toolbartop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
         </LinearLayout>
 
 
-    </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <ExpandableListView
         android:id="@+id/checkout_list"
