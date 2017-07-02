@@ -99,13 +99,26 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
             }
         }
         Collections.sort(categories);
-        for(ArrayList<BarMenuItem> item: menuForAdapter.values()){
-            Collections.sort(item);
+        for(ArrayList<BarMenuItem> items: menuForAdapter.values()){
+            Collections.sort(items);
         }
     }
 
     protected void setMenuDealsCategory(BarMenu barMenu){
         //TODO INSERISCO LA CATEGORIA DELLE OFFERTE
+        String dealsCategory = context.getResources().getString(R.string.deals_category_name);
+        menuForAdapter.put(dealsCategory, new ArrayList<BarMenuItem>());
+        for(BarMenuItem item: barMenu.getBarMenuItemList()){
+            if (item.getDiscount() != null){
+                menuForAdapter.get(dealsCategory).add(item);
+            }
+
+        }
+        if (!menuForAdapter.get(dealsCategory).isEmpty()){
+            categories.add(0,dealsCategory);
+        } else {
+            categories.remove(dealsCategory);
+        }
     }
 
     protected void setMenuFavouritesCategory(BarMenu barMenu){
@@ -136,7 +149,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
         setMenuFavouritesCategory(originalBarMenu);
-        //setMenuDealsCategory(barMenu);
+        setMenuDealsCategory(barMenu);
 
 
     }

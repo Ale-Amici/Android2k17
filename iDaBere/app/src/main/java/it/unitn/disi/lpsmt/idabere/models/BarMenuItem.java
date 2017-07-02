@@ -17,6 +17,7 @@ public class BarMenuItem implements Comparable{
     private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
     private String category;
+    private Float discount;
 
     public BarMenuItem(){}
 
@@ -76,7 +77,13 @@ public class BarMenuItem implements Comparable{
         this.category = category;
     }
 
+    public Float getDiscount() {
+        return discount;
+    }
 
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
 
     public Size getSizeFromId(int id){
         for(Size s: this.sizes){

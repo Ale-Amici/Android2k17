@@ -51,6 +51,7 @@
     <string name="add_new_drink_button">Aggiungi Scelta</string>
     <string name="item_info_button_label">Dettagli</string>
     <string name="review_order_button_label">Carrello</string>
+    <string name="deals_category_name">Offerte</string>
 
     <string name="category_name">Categoria</string>
 
