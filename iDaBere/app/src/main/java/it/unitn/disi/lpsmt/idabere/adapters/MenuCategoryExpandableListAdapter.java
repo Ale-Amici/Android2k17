@@ -1,8 +1,10 @@
 package it.unitn.disi.lpsmt.idabere.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -386,6 +388,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         return groupPosition;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -408,6 +411,18 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 randomDrinkPressed = false;
             }
         }
+
+        int groupBgColor = context.getResources().getColor(R.color.colorSecondaryLight,null);
+        if (headerTitle.equals(context.getResources().getString(R.string.preferreds_category_name))){
+            convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.VISIBLE);
+            groupBgColor = context.getResources().getColor(R.color.preferred_category_color,null);
+        } else {
+            convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.GONE);
+        }
+
+        convertView.setBackgroundColor(groupBgColor);
+
+
         return convertView;
     }
 

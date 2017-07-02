@@ -88,6 +88,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     // TODO Una volta aperto il servizio sostituire <id>
     final String ngrokUrlId = "<id>";
 
+    private RegisterForPushNotificationsAsync registerForPushNotificationsAsync;
+    private AuthenticationAsyncTask authenticationAsyncTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             finish();
         }
 
+        registerForPushNotificationsAsync = new RegisterForPushNotificationsAsync();
+        authenticationAsyncTask = new AuthenticationAsyncTask();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        registerForPushNotificationsAsync.cancel(false);
+        authenticationAsyncTask.cancel(true);
+        super.onBackPressed();
     }
 
     // Instantiate layout elements
@@ -143,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (username.isEmpty() || password.isEmpty()){
                 Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
             } else {
-                new RegisterForPushNotificationsAsync().execute();
+                registerForPushNotificationsAsync.execute();
             }
         } else {
             Toast.makeText(mContext, "Impossibile Connettersi", Toast.LENGTH_SHORT).show();
@@ -203,6 +216,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             }
 
         }
+
+        @Override
+        protected void onCancelled() {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+            super.onCancelled();
+        }
     }
 
     private class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exception> {
@@ -255,8 +275,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 return;
             }
 
-            new AuthenticationAsyncTask().execute(username, password, deviceToken);
+            authenticationAsyncTask.execute(username, password, deviceToken);
 
+        }
+
+        @Override
+        protected void onCancelled() {
+            setResult(Activity.RESULT_OK);
+            finish();
+            super.onCancelled();
         }
     }
 
