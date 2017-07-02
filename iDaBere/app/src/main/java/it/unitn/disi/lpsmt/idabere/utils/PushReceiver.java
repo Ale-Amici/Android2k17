@@ -57,8 +57,8 @@ public class PushReceiver extends BroadcastReceiver {
         }});
         put("READY",new ArrayList<String>(){{
             add("Pronto per la consegna");
-            add("Recati al bancone per ritirare il tuo ordine");
-            add("Attendi che il tuo ordine venga servito al tuo tavolo");
+            add("Recati al bancone per ritirare il tuo ordine e mostra questo QR");
+            add("Attendi che il tuo ordine venga servito al tuo tavolo e mostra questo QR");
         }});
         put("COMPLETED",new ArrayList<String>(){{
             add("Completato");
@@ -81,14 +81,13 @@ public class PushReceiver extends BroadcastReceiver {
 
         // Prepare a notification with vibration, sound and lights
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_random_drink_white)
+                .setSmallIcon(R.drawable.ic_notif_icon_black)
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationText)
                 .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationText))
                 .setCategory(Notification.CATEGORY_PROGRESS)
-                .setOngoing(true)
                 .setVibrate(new long[]{0, 400, 250, 400})
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(PendingIntent.getActivity(context, ORDER_NOTIFICATION_REQUEST_CODE, new Intent(context, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
