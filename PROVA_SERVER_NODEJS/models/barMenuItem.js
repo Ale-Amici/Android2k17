@@ -34,6 +34,10 @@ class menuItem {
         this.sizes = sizes;
         return this;
     }
+    setDiscount(discount){
+        this.discount = discount;
+        return this;
+    }
 }
 
 module.exports = menuItem;
