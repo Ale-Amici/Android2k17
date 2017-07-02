@@ -200,9 +200,26 @@ var getBarFromId = function(barId){
 
           })
           .then(function(itemSizesRows){
-            joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizes");
-            /***********QUERY PER I TABLES*************/
-            return pool.queryAsync( " SELECT BT.DELIVERY_PLACE_ID, BHDP.floor, BT.table_number"
+              joinArrayWithRows(bar.barMenu.barMenuItemList,itemSizesRows, "MENU_ITEM_ID", getSizeFromDbRow, "sizes");
+              /*****QUERY PER GLI SCONTI****/
+              return pool.queryAsync( " SELECT  EAD.MENU_ITEM_ID, discount "
+                                  + " FROM EVENT JOIN EVENT_ADD_DISCOUNT EAD  ON(EVENT.ID = EAD.EVENT_ID) "
+                                  + " JOIN MENU_ITEM MI ON(MI.ID = EAD.MENU_ITEM_ID) "
+                                  + " WHERE EVENT.BAR_ID = ? "
+                                  + " ORDER BY EAD.MENU_ITEM_ID ASC ", barId);
+          })
+          .then(function(dealsRow) {
+              /********* INSERISCO IL DISCOUNT NEGLI ITEM ********/
+              var itemIndex = 0;
+              dealsRow.forEach(function(dealRow, dealIndex){
+                  while (bar.barMenu.barMenuItemList[itemIndex].id != dealRow["MENU_ITEM_ID"]){
+                      itemIndex ++;
+                  }
+                  bar.barMenu.barMenuItemList[itemIndex].setDiscount(dealRow["discount"]);
+              });
+              
+              /***********QUERY PER I TABLES*************/
+              return pool.queryAsync( " SELECT BT.DELIVERY_PLACE_ID, BHDP.floor, BT.table_number"
                                   + " FROM BAR_HAS_DELIVERY_PLACE BHDP JOIN DELIVERY_PLACE DP  ON(BHDP.DELIVERY_PLACE_ID = DP.ID) "
                                   + " JOIN BAR_TABLE BT ON(BT.DELIVERY_PLACE_ID = DP.ID)"
                                   + " WHERE BHDP.BAR_ID = ?"

@@ -36,6 +36,13 @@ public class BarMenu {
         return null;
     }
 
+
+    public void applyDiscounts(){
+        for(BarMenuItem item: barMenuItemList){
+            item.applyDiscount();
+        }
+    }
+
     @Override
     public String toString() {
         return "BarMenu{" +

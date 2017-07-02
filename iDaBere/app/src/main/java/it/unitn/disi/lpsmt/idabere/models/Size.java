@@ -9,7 +9,7 @@ public class Size {
     private int id;
     private String name;
     private double price;
-    private double discount;
+    private double discount = 0;
 
     public Size(String name, double price, double discount) {
         this.name = name;
@@ -34,6 +34,11 @@ public class Size {
     }
 
     public double getPrice() {
+
+        return price - (price * discount / 100);
+    }
+
+    public double getOriginalPrice(){
         return price;
     }
 

@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`EVENT` (
   `BAR_ID` INT UNSIGNED NOT NULL,
   `title` VARCHAR(511) NOT NULL,
   `description` TEXT NULL,
-  `start_datetime` DATETIME NOT NULL,
-  `end_datetime` DATETIME NOT NULL,
+  `start_datetime` DATETIME NULL,
+  `end_datetime` DATETIME NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_EVENT_BAR1_idx` (`BAR_ID` ASC),
   CONSTRAINT `fk_EVENT_BAR1`
@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `android2k17`.`MENU_ITEM` (
   `GLOBAL_MENU_ITEM_ID` INT UNSIGNED NULL,
   `menu_item_name` VARCHAR(255) NOT NULL,
   `description` TEXT NULL,
+  `image_url` VARCHAR(255) NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_MENU_ITEM_BAR1_idx` (`BAR_ID` ASC),
   INDEX `fk_MENU_ITEM_ITEM_CATEGORY1_idx` (`ITEM_CATEGORY_ID` ASC),
@@ -319,15 +320,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` ;
 
 CREATE TABLE IF NOT EXISTS `android2k17`.`EVENT_ADD_DISCOUNT` (
-  `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ITEM_OF_SIZE_ID` INT UNSIGNED NOT NULL,
   `EVENT_ID` INT UNSIGNED NOT NULL,
+  `MENU_ITEM_ID` INT UNSIGNED NOT NULL,
   `discount` FLOAT NOT NULL,
-  PRIMARY KEY (`ID`, `ITEM_OF_SIZE_ID`, `EVENT_ID`),
+  PRIMARY KEY (`EVENT_ID`, `MENU_ITEM_ID`),
   INDEX `fk_EVENT_ADD_DISCOUNT_EVENT1_idx` (`EVENT_ID` ASC),
+  INDEX `fk_EVENT_ADD_DISCOUNT_MENU_ITEM1_idx` (`MENU_ITEM_ID` ASC),
   CONSTRAINT `fk_EVENT_ADD_DISCOUNT_EVENT1`
     FOREIGN KEY (`EVENT_ID`)
     REFERENCES `android2k17`.`EVENT` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EVENT_ADD_DISCOUNT_MENU_ITEM1`
+    FOREIGN KEY (`MENU_ITEM_ID`)
+    REFERENCES `android2k17`.`MENU_ITEM` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -562,6 +568,16 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `android2k17`.`EVENT`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`EVENT` (`ID`, `BAR_ID`, `title`, `description`, `start_datetime`, `end_datetime`) VALUES (1, 1, 'SCONTI', 'SCONTI ABITUALI', NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `android2k17`.`ITEM_SIZE`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -622,24 +638,24 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `android2k17`;
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (1, 1, 3, 1, 'CocaCola', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (2, 1, 1, 2, 'Birra Guinnes', 'Morbi sollicitudin sed diam semper commodo.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (3, 1, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (4, 1, 3, 4, 'Thè alla pesca', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (5, 1, 1, 5, 'Birra chiara', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (6, 1, 3, 6, 'Thè al limone', 'Morbi sollicitudin sed diam semper commodo.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (7, 1, 2, 7, 'Vino rosso della casa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (8, 1, 2, 8, 'Vino bianco della casa', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (9, 1, 6, 9, 'Caffè', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (10, 1, 1, 10, 'Birra Rossa', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (11, 1, 1, 11, 'Birra Scura', 'Morbi sollicitudin sed diam semper commodo.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (12, 1, 1, 12, 'Birra Weizen', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (13, 2, 3, 1, 'Coca-cola', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (14, 3, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (15, 4, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (16, 5, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (17, 6, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
-INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`) VALUES (18, 7, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (1, 1, 3, 1, 'CocaCola', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.', '279173f3.nuajik.io/416-large_default/coca-cola-classic.jpg');
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (2, 1, 1, 2, 'Birra Guinnes', 'Morbi sollicitudin sed diam semper commodo.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (3, 1, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (4, 1, 3, 4, 'Thè alla pesca', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (5, 1, 1, 5, 'Birra chiara', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (6, 1, 3, 6, 'Thè al limone', 'Morbi sollicitudin sed diam semper commodo.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (7, 1, 2, 7, 'Vino rosso della casa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (8, 1, 2, 8, 'Vino bianco della casa', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (9, 1, 6, 9, 'Caffè', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (10, 1, 1, 10, 'Birra Rossa', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (11, 1, 1, 11, 'Birra Scura', 'Morbi sollicitudin sed diam semper commodo.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (12, 1, 1, 12, 'Birra Weizen', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus facilisis aliquet.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (13, 2, 3, 1, 'Coca-cola', ' Donec quis mauris elit. Donec malesuada molestie neque, quis semper massa fermentum ut.', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (14, 3, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (15, 4, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (16, 5, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (17, 6, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
+INSERT INTO `android2k17`.`MENU_ITEM` (`ID`, `BAR_ID`, `ITEM_CATEGORY_ID`, `GLOBAL_MENU_ITEM_ID`, `menu_item_name`, `description`, `image_url`) VALUES (18, 7, 2, 3, 'Pinot Grigio', 'Curabitur efficitur diam ac scelerisque lobortis. Mauris at enim et quam lacinia aliquet vel vitae eros', NULL);
 
 COMMIT;
 
@@ -744,6 +760,20 @@ INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (1,
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (2, 1, 'CARTA_MASTERCARD');
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (3, 2, 'CARTA_PREPAGATA');
 INSERT INTO `android2k17`.`CREDIT_CARD` (`ID`, `CUSTOMER_ID`, `name`) VALUES (4, 3, 'CARTA_GOLD');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `android2k17`.`EVENT_ADD_DISCOUNT`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `android2k17`;
+INSERT INTO `android2k17`.`EVENT_ADD_DISCOUNT` (`EVENT_ID`, `MENU_ITEM_ID`, `discount`) VALUES (1, 2, 30);
+INSERT INTO `android2k17`.`EVENT_ADD_DISCOUNT` (`EVENT_ID`, `MENU_ITEM_ID`, `discount`) VALUES (1, 5, 30);
+INSERT INTO `android2k17`.`EVENT_ADD_DISCOUNT` (`EVENT_ID`, `MENU_ITEM_ID`, `discount`) VALUES (1, 10, 30);
+INSERT INTO `android2k17`.`EVENT_ADD_DISCOUNT` (`EVENT_ID`, `MENU_ITEM_ID`, `discount`) VALUES (1, 11, 30);
+INSERT INTO `android2k17`.`EVENT_ADD_DISCOUNT` (`EVENT_ID`, `MENU_ITEM_ID`, `discount`) VALUES (1, 12, 30);
 
 COMMIT;
 
