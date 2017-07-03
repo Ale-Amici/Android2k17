@@ -84,6 +84,8 @@ public class MenuActivity extends AppCompatActivity implements
                         startActivity(intent);
                         result = true;
                         break;
+                    case R.id.navigation_list_bar :
+                        MenuActivity.super.onBackPressed();
                 }
                 return result;
             }
