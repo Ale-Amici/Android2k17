@@ -8,9 +8,7 @@
 
         android:title="" />
 
-    <item
-        android:id="@+id/navigation_total_price"
-        android:title="@string/title_total_price" />
+
 
     <item
         android:id="@+id/navigation_review_order"
