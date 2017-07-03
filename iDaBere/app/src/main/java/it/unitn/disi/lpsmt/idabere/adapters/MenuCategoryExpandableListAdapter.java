@@ -190,6 +190,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         final BarMenuItem child = (BarMenuItem) getChild(groupPosition, childPosition);
         final RelativeLayout ChoicesSectionLayout = (RelativeLayout)itemView.findViewById(R.id.choices_section_layout);
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
+        final TextView discountText = (TextView) itemView.findViewById(R.id.discount_label);
         final TextView itemPriceTv = (TextView) itemView.findViewById(R.id.item_price);
         final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
         final LinearLayout choicesLinearLayout = (LinearLayout) itemView.findViewById(R.id.choices_linear_layout);
@@ -208,6 +209,19 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         infoText.setText(child.getName());
         itemPriceTv.setText(new DecimalFormat("##0.00").format(child.getLowestPrice()) );
 
+        boolean hasDiscount = false;
+        if (child.getDiscount() != null){
+            if (child.getDiscount() != 0){
+                hasDiscount = true;
+            }
+        }
+
+        if (hasDiscount){
+            discountText.setVisibility(View.VISIBLE);
+            discountText.setText("-"+new DecimalFormat("##").format(child.getDiscount())+"%");
+        } else {
+            discountText.setVisibility(View.GONE);
+        }
 
         /*
         * Open correct Item info when button clicked
