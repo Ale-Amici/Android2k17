@@ -22,6 +22,7 @@ public class Order {
     private boolean isPaid;
     private ArrayList<OrderItem> orderItems;
     private double totalPrice;
+    private int totalQuantity;
     private DeliveryPlace chosenDeliveryPlace;
     private boolean usingCreditCard;
     private CreditCard chosenCreditCard;
@@ -138,6 +139,14 @@ public class Order {
         totalPrice = total;
     }
 
+    public void calculateTotalItems() {
+        int total = 0;
+        for (OrderItem orderItem : orderItems) {
+            total += (orderItem.getQuantity());
+            totalQuantity = total;
+        }
+    }
+
     public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){
         ArrayList<OrderItem> ordItems = new ArrayList<>();
         for(OrderItem item: orderItems){
@@ -198,5 +207,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 }

@@ -25,8 +25,8 @@ import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 public class ReviewOrderExpandableListAdapter extends MenuCategoryExpandableListAdapter {
 
 
-    public ReviewOrderExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, ExpandableListView mExpandableListView) {
-        super(context, originalBarMenu, totalPriceInfo, mExpandableListView);
+    public ReviewOrderExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, TextView totalItemsInfo, ExpandableListView mExpandableListView) {
+        super(context, originalBarMenu, totalPriceInfo, totalItemsInfo, mExpandableListView);
     }
 
     @Override

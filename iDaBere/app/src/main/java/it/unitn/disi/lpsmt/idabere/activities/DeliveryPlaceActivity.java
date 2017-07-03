@@ -35,7 +35,10 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
     private BottomNavigationView bottomNavigationMenu;
     private Spinner countersSpinner;
     private Spinner tablesSpinner;
+
     private TextView totalOrderInfo;
+    private TextView totalItemsTV;
+
 
     private RadioGroup deliveriesRadioGroup;
 
@@ -201,7 +204,9 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
                 saveDeliveryChoice();
             }
         });
-        totalOrderInfo = (TextView) findViewById(R.id.delivery_total_order_price);
+
+        totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
+        totalItemsTV = (TextView) findViewById(R.id.total_order_items);
 
         deliveriesRadioGroup = (RadioGroup) findViewById(R.id.deliveries_radio_group);
 

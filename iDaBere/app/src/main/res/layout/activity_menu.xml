@@ -35,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
-            android:divider="@android:drawable/divider_horizontal_dark">
+            android:divider="@android:drawable/divider_horizontal_dark"
+            android:layout_above="@+id/totals_info_bottom_toolbar">
 
         </ExpandableListView>
 
@@ -64,7 +65,14 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <include
+            layout="@layout/total_infos_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/totals_info_bottom_toolbar">
 
+        </include>
 
 </RelativeLayout>
 

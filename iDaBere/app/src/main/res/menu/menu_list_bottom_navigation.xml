@@ -5,8 +5,8 @@
 
     <item
         android:id="@+id/navigation_list_bar"
-
-        android:title="" />
+        android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
+        android:title="Ricerca" />
 
 
 

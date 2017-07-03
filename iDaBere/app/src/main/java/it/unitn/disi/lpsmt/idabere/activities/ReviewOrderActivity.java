@@ -22,6 +22,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
     private ExpandableListView reviewExpandableList;
     private BottomNavigationView bottomNavigationMenu;
     private TextView totalPriceTV;
+    private TextView totalItemsTV;
     private Context mContext;
 
 
@@ -36,7 +37,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
 
         BarMenu barMenuForReview = AppSession.getInstance().getmCustomer().getOrder().getOrderMenuForReview();
         // setting list adapter
-        reviewExpandableList.setAdapter(new ReviewOrderExpandableListAdapter(mContext,barMenuForReview, totalPriceTV, reviewExpandableList));
+        reviewExpandableList.setAdapter(new ReviewOrderExpandableListAdapter(mContext,barMenuForReview, totalPriceTV, totalItemsTV, reviewExpandableList));
 
         bottomNavigationMenu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -74,7 +75,8 @@ public class ReviewOrderActivity extends AppCompatActivity {
         // get the bottom navigation menu
         bottomNavigationMenu =  (BottomNavigationView) findViewById(R.id.review_bottom_navigation);
 
-        totalPriceTV = (TextView) findViewById(R.id.review_total_order_price);
+        totalPriceTV = (TextView) findViewById(R.id.total_order_price);
+        totalItemsTV = (TextView) findViewById(R.id.total_order_items);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

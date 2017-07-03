@@ -54,6 +54,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     //private Button addPreferredButton;
     private MenuFilter menuFilter;
     private TextView totalPriceInfo;
+    private TextView totalItemsInfo;
     private int lastItemExpandedGroupPosition;
     private int lastItemExpandedChildPosition;
     private View lastItemExpandedView;
@@ -63,11 +64,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     //l'ultima categoria espansa
     private int lastCategoryExpandedPosition = -1;
 
-    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, ExpandableListView mExpandableListView) {
+    public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, TextView totalItemsInfo, ExpandableListView mExpandableListView) {
         this.context = context;
         this.originalBarMenu = originalBarMenu;
         this.filteredBarMenu = originalBarMenu;
         this.totalPriceInfo = totalPriceInfo;
+        this.totalItemsInfo = totalItemsInfo;
         this.mExpandableListView = mExpandableListView;
         myAddNewChoiceListener = new MyAddNewChoiceListener();
 
@@ -76,6 +78,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         randomDrinkPressed = false;
 
         updateTotalPrice();
+        updateTotalItems();
 
         lastItemExpandedGroupPosition = -1;
         lastItemExpandedChildPosition = -1;
@@ -389,9 +392,17 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         totalPriceInfo.setText(new DecimalFormat("##0.00").format(price));
     }
 
+    public void updateTotalItems () {
+        AppSession.getInstance().getmCustomer().getOrder().calculateTotalItems();
+        int items = AppSession.getInstance().getmCustomer().getOrder().getTotalQuantity();
+        Log.d("ITEMS TOTAL", "updateTotalItems: "+Integer.toString(items));
+        totalItemsInfo.setText(Integer.toString(items));
+    }
+
     @Override
     public void notifyDataSetChanged() {
         updateTotalPrice();
+        updateTotalItems();
         super.notifyDataSetChanged();
     }
 
