@@ -34,6 +34,8 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
     private Spinner creditCardSpinner;
 
     private TextView totalOrderInfo;
+    private TextView totalItemsTV;
+
 
     private ArrayAdapter<CreditCard> creditCardSpinnerAdapter;
 
@@ -189,7 +191,8 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
                 savePaymentMethod();
             }
         });
-        totalOrderInfo = (TextView) findViewById(R.id.payment_total_order_price);
+        totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
+        totalItemsTV = (TextView) findViewById(R.id.total_order_items);
         paymentsRadioGroup = (RadioGroup) findViewById(R.id.payments_radiogroup);
 
         firstChoiceRadioButton = (RadioButton) findViewById(R.id.first_choice_radiobutton);

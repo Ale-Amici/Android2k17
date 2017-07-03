@@ -88,6 +88,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     // TODO Una volta aperto il servizio sostituire <id>
     final String ngrokUrlId = "<id>";
 
+    private RegisterForPushNotificationsAsync registerForPushNotificationsAsync;
+    private AuthenticationAsyncTask authenticationAsyncTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,21 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             finish();
         }
 
+//        .authenticationAsyncTask = new AuthenticationAsyncTask();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (registerForPushNotificationsAsync != null){
+            registerForPushNotificationsAsync.cancel(false);
+        }
+
+        if (authenticationAsyncTask != null){
+            authenticationAsyncTask.cancel(true);
+        }
+
+        super.onBackPressed();
     }
 
     // Instantiate layout elements
@@ -127,8 +145,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        mEmailView.setText("giulia");
-        mPasswordView.setText("giulia");
+        mEmailView.setText("professore");
+        mPasswordView.setText("professore");
 
         mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.email_register_button);
@@ -143,7 +161,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (username.isEmpty() || password.isEmpty()){
                 Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
             } else {
-                new RegisterForPushNotificationsAsync().execute();
+                registerForPushNotificationsAsync = new RegisterForPushNotificationsAsync();
+                registerForPushNotificationsAsync.execute();
             }
         } else {
             Toast.makeText(mContext, "Impossibile Connettersi", Toast.LENGTH_SHORT).show();
@@ -203,6 +222,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             }
 
         }
+
+        @Override
+        protected void onCancelled() {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+            super.onCancelled();
+        }
     }
 
     private class RegisterForPushNotificationsAsync extends AsyncTask<Void, Void, Exception> {
@@ -255,8 +281,16 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 return;
             }
 
-            new AuthenticationAsyncTask().execute(username, password, deviceToken);
+            authenticationAsyncTask = new AuthenticationAsyncTask();
+            authenticationAsyncTask.execute(username, password, deviceToken);
 
+        }
+
+        @Override
+        protected void onCancelled() {
+            setResult(Activity.RESULT_OK);
+            finish();
+            super.onCancelled();
         }
     }
 

@@ -47,7 +47,7 @@ var createOrder = function(customer, order) {
                 order.usingCreditCard,
                 order.totalPrice,
                 order.isPaid,
-                OrderStatus.PAYMENT_IN_PROGRESS, //DEFINIRE I PROCESS STATUS
+                (order.isPaid) ? OrderStatus.IN_QUEUE : OrderStatus.PAYMENT_IN_PROGRESS, //DEFINIRE I PROCESS STATUS
                 new Date(),
                 generateDestroyCode()
             ]);
@@ -84,31 +84,34 @@ var getNextOrder = function(){
     var order;
     return new Promise(function(resolve, reject){
         pool.queryAsync(
-            " SELECT * FROM CUSTOMER_ORDER WHERE status = ? "
+            " SELECT * FROM CUSTOMER_ORDER WHERE status IN (?,?)"
             + " ORDER BY creation_date ASC "
-            + " LIMIT 1",OrderStatus.PAYMENT_IN_PROGRESS )
-            .then(function(orderRows){
-                if(orderRows.length > 0 ){
-                    order = getOrderFromDbRow(orderRows[0]);
-                    console.log(order);
-                    return pool.queryAsync(" UPDATE CUSTOMER_ORDER SET status=? WHERE status=? AND ID=? ",
-                        [ OrderStatus.IN_QUEUE, OrderStatus.PAYMENT_IN_PROGRESS, order.id ])
-                    }
-                    else{
-                        reject("NO ORDER")
-                    }
-                }).then(function(results){
-                    console.log(results)
-                    if(results.affectedRows == 1){
-                        resolve(order);
-                    }
-                    else{
-                        reject("ERROR")
-                    }
-                })
-                .catch(function(err){
-                    console.log(err)
-                })
+            + " LIMIT 1",[OrderStatus.PAYMENT_IN_PROGRESS, OrderStatus.IN_QUEUE])
+        .then(function(orderRows){
+            if(orderRows.length > 0 ){
+                order = getOrderFromDbRow(orderRows[0]);
+                console.log(order);
+                if(order.status == OrderStatus.IN_QUEUE){
+                    return resolve(order);
+                }
+                else return pool.queryAsync(" UPDATE CUSTOMER_ORDER SET status=?, is_paid=1 WHERE status=? AND ID=? ",
+                    [ OrderStatus.IN_QUEUE, OrderStatus.PAYMENT_IN_PROGRESS, order.id ])
+            }
+            else{
+                throw new Error("NO ORDER");
+            }
+        }).then(function(results){
+                console.log(results)
+                if(results.affectedRows == 1){
+                    resolve(order);
+                }
+                else{
+                    reject("ERROR")
+                }
+        }).catch(function(err){
+            console.log(err)
+            reject(err)
+        })
     });
 }
 

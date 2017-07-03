@@ -28,6 +28,9 @@
     </dimen>
 
     <dimen name="currency_right_margin">5dp</dimen>
+    <dimen name="discount_right_margin">10dp</dimen>
+    <dimen name="checkout_bottom_bar_elements_padding">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="elevation">20dp</dimen>
 
 </resources>

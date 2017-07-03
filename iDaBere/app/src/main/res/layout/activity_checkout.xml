@@ -10,11 +10,12 @@
     tools:context="it.unitn.disi.lpsmt.idabere.activities.CheckoutActivity">
 
 
-    <android.support.v7.widget.Toolbar
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbartop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:elevation="@dimen/elevation"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
@@ -38,197 +39,254 @@
         </LinearLayout>
 
 
-    </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>-->
 
     <ExpandableListView
         android:id="@+id/checkout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:groupIndicator="@null"
+        android:layout_above="@+id/toolbar2"
         android:layout_below="@+id/toolbartop"
-        android:layout_above="@+id/toolbar2">
+        android:groupIndicator="@null">
 
 
     </ExpandableListView>
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/toolbar2">
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/delivery_type_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            style="@style/checkout_bottom_bar">
+
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="CONSEGNA"
-                    android:textSize="@dimen/paragraph_text_size"
-                    style="@style/checkout_bottom_bar"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:id="@+id/delivery_type_row"
                 style="@style/checkout_bottom_bar"
-                android:gravity="center_vertical|right">
-
-
-                <TextView
-                    android:id="@+id/delivery_type_choosen"
-                    android:layout_width="wrap_content"
-                    style="@style/checkout_bottom_bar"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:text="TAVOLO"
-                    android:textSize="@dimen/paragraph_text_size" />
-
-                <TextView
-                    android:id="@+id/delivery_type_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/checkout_bottom_bar"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:text="9"
-                    android:textSize="@dimen/paragraph_text_size" />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/payment_method_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            style="@style/checkout_bottom_bar"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="PAGAMENTO"
-                    style="@style/checkout_bottom_bar"
-                    android:textSize="@dimen/paragraph_text_size"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical|right">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
 
-                <TextView
-                    style="@style/checkout_bottom_bar"
-                    android:id="@+id/payment_method_choosen"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:text="NOME CARTA DI CREDITO"
-                    android:textSize="@dimen/paragraph_text_size" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:text="CONSEGNA"
+                        android:textSize="@dimen/paragraph_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/checkout_bottom_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/checkout_bottom_bar_elements_padding"
+                    android:gravity="center_vertical|right">
+
+
+                    <TextView
+                        android:id="@+id/delivery_type_choosen"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="TAVOLO"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+                    <TextView
+                        android:id="@+id/delivery_type_value"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="9"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/item_infos_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/checkout_bottom_bar"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <TextView
-                    style="@style/checkout_bottom_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="TOTALE"
-                    android:textSize="@dimen/paragraph_text_size"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-
+                android:id="@+id/payment_method_row"
+                style="@style/checkout_bottom_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical|right">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
-                <TextView
-                    style="@style/checkout_bottom_bar"
-                    android:id="@+id/total_order_price_currency"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/currency_right_margin"
-                    android:text="@string/menu_list_item_currency"
-                    android:textSize="@dimen/paragraph_text_size" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:text="PAGAMENTO"
+                        android:textSize="@dimen/paragraph_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/checkout_bottom_bar_elements_padding"
+                    android:gravity="center_vertical|right">
 
 
-                <TextView
-                    style="@style/checkout_bottom_bar"
-                    android:id="@+id/total_order_price"
+                    <TextView
+                        android:id="@+id/payment_method_choosen"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:text="NOME CARTA DI CREDITO"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/total_quantity_items_layout"
+                style="@style/checkout_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu_list_item_price"
-                    android:textSize="@dimen/paragraph_text_size" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:text="NUMERO SCELTE"
+                        android:textSize="@dimen/paragraph_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/checkout_bottom_bar_elements_padding"
+                    android:gravity="center_vertical|right">
+
+
+                    <TextView
+                        android:id="@+id/total_items_quantity"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/total_price_items_layout"
+                style="@style/checkout_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:text="TOTALE"
+                        android:textSize="@dimen/paragraph_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/checkout_bottom_bar_elements_padding"
+                    android:gravity="center_vertical|right">
+
+                    <TextView
+                        android:id="@+id/total_order_price_currency"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/checkout_bottom_bar_elements_padding"
+                        android:text="@string/menu_list_item_currency"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/total_order_price"
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_list_item_price"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--<include layout="@layout/total_infos_toolbar">-->
+
+            <!--</include>-->
+
+
         </LinearLayout>
-    </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
 

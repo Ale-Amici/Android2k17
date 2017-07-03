@@ -1,22 +1,14 @@
 package it.unitn.disi.lpsmt.idabere.activities;
 
-import android.Manifest;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,18 +16,13 @@ import android.widget.Toast;
 
 import net.glxn.qrgen.android.QRCode;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.ArrayList;
 
 import it.unitn.disi.lpsmt.idabere.R;
+import it.unitn.disi.lpsmt.idabere.models.BarTable;
 import it.unitn.disi.lpsmt.idabere.models.Order;
 import it.unitn.disi.lpsmt.idabere.session.AppSession;
 import it.unitn.disi.lpsmt.idabere.utils.PushReceiver;
-import me.pushy.sdk.Pushy;
 
 public class OrderStatusActivity extends AppCompatActivity {
 
@@ -49,7 +36,8 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     private TextView orderId;
     //private TextView orderQueue;
-    private TextView orderStatusDescription;
+    private TextView orderStatusDescriptionTV;
+    private TextView orderStatusGuide;
 
     public static boolean isAppInFg = false;
     public static boolean isScrInFg = false;
@@ -57,28 +45,8 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     private Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
 
-    @Override
-    protected void onStart() {
-        if (!isAppInFg) {
-            isAppInFg = true;
-            isChangeScrFg = false;
-        } else {
-            isChangeScrFg = true;
-        }
-        isScrInFg = true;
+    private ArrayList<String> status;
 
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (!isScrInFg || !isChangeScrFg) {
-            isAppInFg = false;
-        }
-        isScrInFg = false;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,26 +64,43 @@ public class OrderStatusActivity extends AppCompatActivity {
         qrCode.setImageBitmap(myBitmap);
         orderId.setText(Integer.toString(currentOrder.getId()));
         //orderQueue.setText(Integer.toString(new Random().nextInt(50)));
-        orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        if (!isAppInFg) {
+            isAppInFg = true;
+            isChangeScrFg = false;
+        } else {
+            isChangeScrFg = true;
+        }
+        isScrInFg = true;
+
+        setOrderDescriptions();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (!isScrInFg || !isChangeScrFg) {
+            isAppInFg = false;
+        }
+        isScrInFg = false;
     }
 
     @Override
     protected void onResume() {
-
-        // Here you can refresh your listview or other UI
-        if (currentOrder.getStatus().equals("COMPLETED")) {
-            currentOrder.setId(-1);
-            Intent concludeIntent = new Intent();
-            concludeIntent.setClass(mContext, RateOrderActivity.class);
-            startActivity(concludeIntent);
-        }
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent)
             {
 
-                orderStatusDescription.setText(PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus()));
+                setOrderDescriptions();
 
             }
         };
@@ -157,7 +142,24 @@ public class OrderStatusActivity extends AppCompatActivity {
         qrCode = (ImageView) findViewById(R.id.qr_code_image);
         orderId = (TextView) findViewById(R.id.oder_status_id);
         //orderQueue = (TextView) findViewById(R.id.oder_status_queue);
-        orderStatusDescription = (TextView) findViewById(R.id.oder_status_description_text);
+        orderStatusDescriptionTV = (TextView) findViewById(R.id.oder_status_description_text);
+        orderStatusGuide = (TextView) findViewById(R.id.oder_status_description_guide);
+    }
+
+    private void setOrderDescriptions () {
+        status = PushReceiver.ORDER_STATUSES.get(currentOrder.getStatus());
+        orderStatusDescriptionTV.setText(status.get(0));
+
+        if (status.get(0).equals("READY") && currentOrder.getChosenDeliveryPlace() instanceof BarTable){
+            orderStatusGuide.setText(status.get(2));
+        } else if (currentOrder.getStatus().equals("COMPLETED")) {
+            currentOrder.setId(-1);
+            Intent concludeIntent = new Intent();
+            concludeIntent.setClass(mContext, RateOrderActivity.class);
+            startActivity(concludeIntent);
+        } else {
+            orderStatusGuide.setText(status.get(1));    
+        }
     }
 
 }

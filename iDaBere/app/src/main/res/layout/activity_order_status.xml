@@ -9,14 +9,33 @@
     android:layout_margin="@dimen/activity_horizontal_margin"
     tools:context="it.unitn.disi.lpsmt.idabere.activities.MenuActivity">
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
-        <!--android:text="@string/order_status_title_label"-->
-        <!--android:textSize="@dimen/title_text_size"-->
-        <!--android:textStyle="bold" />-->
+
+
+
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/identification_number_label"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/oder_status_id"
+        android:layout_alignEnd="@+id/oder_status_id"/>
+
+    <TextView
+        android:id="@+id/oder_status_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12345"
+        android:textSize="@dimen/paragraph_text_size"
+        android:layout_marginTop="@dimen/menu_item_vertical_padding"
+        android:layout_below="@+id/textView3"
+        android:layout_alignRight="@+id/qr_code_image"
+        android:layout_alignEnd="@+id/qr_code_image" />
 
     <ImageView
         android:id="@+id/qr_code_image"
@@ -26,83 +45,36 @@
         android:background="@color/colorPrimary"
         android:minHeight="500px"
         android:minWidth="500px"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/menu_item_vertical_padding"-->
-            <!--android:text="@string/queue_number_label"-->
-            <!--android:textSize="@dimen/paragraph_text_size"-->
-            <!--android:textStyle="bold" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/oder_status_queue"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
-            <!--android:text="10"-->
-            <!--android:textSize="@dimen/paragraph_text_size" />-->
-
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/identification_number_label"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:layout_below="@+id/qr_code_image"
-        android:layout_alignLeft="@+id/qr_code_image"
-        android:layout_alignStart="@+id/qr_code_image" />
-
-    <TextView
-        android:id="@+id/oder_status_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:text="12345"
-        android:textSize="@dimen/paragraph_text_size"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/order_status_description_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
-        android:text="@string/order_status_current_title"
-        android:textAlignment="center"
-        android:textStyle="bold"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/oder_status_id"
-        android:layout_alignLeft="@+id/oder_status_id"
-        android:layout_alignStart="@+id/oder_status_id" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/oder_status_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
         android:textSize="@dimen/title_text_size"
         android:text="ORDER STATUS"
         android:textColor="@android:color/black"
         android:textAlignment="center"
         android:textStyle="bold"
-        android:layout_below="@+id/order_status_description_title"
-        android:layout_alignLeft="@+id/order_status_description_title"
-        android:layout_alignStart="@+id/order_status_description_title"
+        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
+        android:layout_below="@+id/qr_code_image"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/oder_status_description_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/paragraph_text_size"
+        android:text="@string/customer_guide_order"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:layout_below="@+id/oder_status_description_text"
+        android:layout_marginTop="@dimen/activity_vertical_margin_doubled"
+        android:layout_alignLeft="@+id/qr_code_image"
+        android:layout_alignStart="@+id/qr_code_image"
         android:layout_alignRight="@+id/qr_code_image"
         android:layout_alignEnd="@+id/qr_code_image" />
 

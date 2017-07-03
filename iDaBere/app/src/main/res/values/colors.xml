@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#2C867A</color>
-    <color name="colorPrimaryLight">#a5bfb4</color>
-    <color name="infoButtonColor">#2980b9</color>
+    <color name="colorPrimary">#2B8778</color>
+    <color name="colorPrimaryLight">@color/colorSecondaryLight</color>
+    <color name="infoColor">#2980b9</color>
+    <color name="starColor">#f1c40f</color>
 
-    <color name="colorSecondary">#a53543</color>
-    <color name="colorSecondaryDark">#702738</color>
-    <color name="colorSecondaryLight">#D98C84</color>
+    <color name="colorSecondary">#D98C84</color>
+    <color name="colorSecondaryLight">#dedfe0</color>
+
+    <color name="dealIconColor">#d35400</color>
+
+    <color name="preferred_category_color">@color/infoColor</color>
+    <color name="dealsCategoryColor">#f39c12</color>
+    <color name="infoButtonColor">@color/infoColor</color>
+    <color name="addPreferredButtonColor">@color/infoColor</color>
+
 </resources>

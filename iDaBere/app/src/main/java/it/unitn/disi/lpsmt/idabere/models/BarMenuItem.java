@@ -1,12 +1,14 @@
 package it.unitn.disi.lpsmt.idabere.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
 /**
  * Created by giovanni on 15/05/2017.
  */
 
-public class BarMenuItem {
+public class BarMenuItem implements Comparable{
 
     private int id;
     private String name;
@@ -15,6 +17,7 @@ public class BarMenuItem {
     private ArrayList<Addition> additions;
     private ArrayList<Ingredient> ingredients;
     private String category;
+    private Double discount;
 
     public BarMenuItem(){}
 
@@ -74,7 +77,13 @@ public class BarMenuItem {
         this.category = category;
     }
 
+    public Double getDiscount() {
+        return discount;
+    }
 
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
 
     public Size getSizeFromId(int id){
         for(Size s: this.sizes){
@@ -98,6 +107,11 @@ public class BarMenuItem {
         return sizes.size() * ((int)Math.pow(2, additions.size()));
     }
 
+    public void applyDiscount(){
+        for(Size size: this.sizes){
+            if(this.discount != null) size.setDiscount(this.discount);
+        }
+    }
     @Override
     public String toString() {
         return "BarMenuItem{" +
@@ -133,5 +147,11 @@ public class BarMenuItem {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        BarMenuItem other = (BarMenuItem) o;
+        return this.getName().compareTo(other.getName());
     }
 }

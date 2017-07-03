@@ -5,12 +5,10 @@
 
     <item
         android:id="@+id/navigation_list_bar"
+        android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
+        android:title="Ricerca" />
 
-        android:title="" />
 
-    <item
-        android:id="@+id/navigation_total_price"
-        android:title="@string/title_total_price" />
 
     <item
         android:id="@+id/navigation_review_order"
