@@ -428,7 +428,10 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         int groupBgColor = context.getResources().getColor(R.color.colorSecondaryLight,null);
         if (headerTitle.equals(context.getResources().getString(R.string.preferreds_category_name))){
             convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.VISIBLE);
-            groupBgColor = context.getResources().getColor(R.color.preferred_category_color,null);
+            //groupBgColor = context.getResources().getColor(R.color.preferred_category_color,null);
+        } else if (headerTitle.equals(context.getResources().getString(R.string.deals_category_name))){
+            convertView.findViewById(R.id.deals_preferreds_icon).setVisibility(View.VISIBLE);
+            //groupBgColor = context.getResources().getColor(R.color.deals_category_color,null);
         } else {
             convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.GONE);
         }

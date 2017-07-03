@@ -135,10 +135,10 @@ public class ItemInfoActivity extends AppCompatActivity {
         Log.d("INDEX", Integer.toString(currentCustomer.getPreferredItems().indexOf(currentBarMenuItem)));
         if (currentCustomer.getPreferredItems().size() != 0 && currentCustomer.getPreferredItems().indexOf(currentBarMenuItem) != -1 ){
             //preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_border_white_24dp));
-            fab.setImageResource(R.drawable.ic_star_colored_24dp);
+            fab.setImageResource(R.drawable.ic_favorite_colored_24dp);
         } else {
             //preferredButton.setIcon(getDrawable(R.drawable.ic_bookmark_white_24dp));
-            fab.setImageResource(R.drawable.ic_star_border_colored_24dp);
+            fab.setImageResource(R.drawable.ic_favorite_border_colored_24dp);
 
         }
 
