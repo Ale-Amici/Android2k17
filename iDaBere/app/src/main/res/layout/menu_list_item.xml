@@ -30,12 +30,26 @@
                     android:id="@+id/info_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:text="@string/menu_list_item_name"
                     android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/discount_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/discount_right_margin"
+                    android:text="-35%"
+                    android:textColor="@color/dealIconColor"
                     android:textStyle="bold"
+                    android:textSize="@dimen/paragraph_text_size"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_toLeftOf="@+id/da_label"
+                    android:layout_toStartOf="@+id/da_label" />
+
 
                 <TextView
                     android:id="@+id/da_label"

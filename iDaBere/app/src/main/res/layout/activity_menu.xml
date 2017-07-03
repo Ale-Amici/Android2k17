@@ -34,8 +34,8 @@
             android:id="@+id/categories_expandable_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
-
+            android:layout_below="@+id/toolbar"
+            android:divider="@android:drawable/divider_horizontal_dark">
 
         </ExpandableListView>
 

@@ -2,38 +2,27 @@ package it.unitn.disi.lpsmt.idabere.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.annotation.IdRes;
-import android.support.v4.content.res.TypedArrayUtils;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.adapters.AdditionListArrayListAdapter;
 import it.unitn.disi.lpsmt.idabere.adapters.MenuCategoryExpandableListAdapter;
 import it.unitn.disi.lpsmt.idabere.models.Addition;
-import it.unitn.disi.lpsmt.idabere.models.BarMenu;
 import it.unitn.disi.lpsmt.idabere.models.BarMenuItem;
 import it.unitn.disi.lpsmt.idabere.models.Customer;
 import it.unitn.disi.lpsmt.idabere.models.Order;
@@ -48,7 +37,7 @@ public class AddChoiceActivity extends AppCompatActivity {
     public static final int RESULT_ERROR = 222222;
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
 
-
+    private boolean hasDiscount;
 
     private Button addChoiceButton;
     private Button cancelChoiceButton;
@@ -59,6 +48,7 @@ public class AddChoiceActivity extends AppCompatActivity {
     private MyRadioGroup sizeRadioGroup;
     private TextView pricePreview;
     private TextView menuItemNameTv;
+    private TextView menuItemDiscountTv;
 
     private AdditionListArrayListAdapter additionListArrayListAdapter;
 
@@ -78,8 +68,10 @@ public class AddChoiceActivity extends AppCompatActivity {
         additionListView = (ListView) findViewById(R.id.additions_list_view);
         pricePreview = (TextView) findViewById(R.id.choice_preview_price);
         menuItemNameTv = (TextView) findViewById(R.id.menu_item_name_tv);
+        menuItemDiscountTv = (TextView) findViewById(R.id.menu_item_discount_tv);
         sizeRadioGroup = new MyRadioGroup();
         sizesLinearLayout = (LinearLayout) findViewById(R.id.sizes_linear_layout);
+
         /* ***GET THE BAR_MENU_ITEM SELECTED*** */
         int itemId = this.getIntent().getIntExtra("barMenuItemId",-1);
         mBarMenuItem = AppSession.getInstance().getmBar().getBarMenu().getBarMenuItemFromId(itemId);
@@ -89,6 +81,7 @@ public class AddChoiceActivity extends AppCompatActivity {
             finish();
         }
         /* ************************************* */
+
 
 
         /* *** BUTTONS CONFIGURATION *** */
@@ -134,6 +127,21 @@ public class AddChoiceActivity extends AppCompatActivity {
 
         /* *** CONTENT'S VIEW CREATION *** */
         menuItemNameTv.setText(mBarMenuItem.getName());
+
+        this.hasDiscount = false;
+        if (mBarMenuItem.getDiscount() != null){
+            if (mBarMenuItem.getDiscount() != 0){
+                this.hasDiscount = true;
+            }
+        }
+
+        if (this.hasDiscount){
+            menuItemDiscountTv.setVisibility(View.VISIBLE);
+            menuItemDiscountTv.setText("-"+new DecimalFormat("##").format(mBarMenuItem.getDiscount())+"%");
+        } else {
+            menuItemDiscountTv.setVisibility(View.GONE);
+        }
+
         displaySizesList();
 
 
@@ -156,13 +164,30 @@ public class AddChoiceActivity extends AppCompatActivity {
 
             View choiceSizeView = layoutInflater.inflate(R.layout.size_choice,null);
             RadioButton button = (RadioButton) choiceSizeView.findViewById(R.id.choice_size_rb);
-            TextView priceTextView = (TextView) choiceSizeView.findViewById(R.id.size_price_label);
+            TextView newPriceTextView = (TextView) choiceSizeView.findViewById(R.id.size_price_label);
+            TextView oldPriceTextView = (TextView) choiceSizeView.findViewById(R.id.price_old);
+            TextView oldCurrencyTextView = (TextView) choiceSizeView.findViewById(R.id.currency_old);
+
             button.setId(i);
             button.setText(mBarMenuItem.getSizes().get(i).getName());
-            priceTextView.setText(new DecimalFormat("##0.00").format(mBarMenuItem.getSizes().get(i).getPrice()));
+
+            newPriceTextView.setText(new DecimalFormat("##0.00").format(mBarMenuItem.getSizes().get(i).getPrice()));
+
+            if (this.hasDiscount){
+                oldPriceTextView.setText(new DecimalFormat("##0.00").format(mBarMenuItem.getSizes().get(i).getOriginalPrice()));
+                oldPriceTextView.setVisibility(View.VISIBLE);
+                oldCurrencyTextView.setVisibility(View.VISIBLE);
+                oldPriceTextView.setPaintFlags(oldPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                oldCurrencyTextView.setPaintFlags(oldCurrencyTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                oldPriceTextView.setVisibility(View.GONE);
+                oldCurrencyTextView.setVisibility(View.GONE);
+            }
+
             sizesLinearLayout.addView(choiceSizeView);
             sizeRadioGroup.add(button);
         }
+
         sizeRadioGroup.initialize();
         sizeRadioGroup.addOnCheckedElementChangeListener(new MyRadioGroup.OnCheckedElementChangeListener() {
             @Override
