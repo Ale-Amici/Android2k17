@@ -1,69 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
     app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp"
-    android:background="@color/colorPrimary">
+    app:contentInsetStart="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
+
+        <ImageView
+            android:id="@+id/order_items_label"
+            style="@style/total_price_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:srcCompat="@drawable/ic_shopping_cart_black_24dp" />
 
         <TextView
             android:id="@+id/total_order_items_label"
+            style="@style/total_price_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:text="Carrello"
             android:textSize="@dimen/title_text_size"
-            style="@style/total_price_style"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textStyle=""
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/total_order_items"
             style="@style/total_price_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:paddingLeft="@dimen/currency_right_margin"
+            android:layout_below="@+id/total_order_items_label"
+            android:layout_toEndOf="@+id/order_items_label"
+            android:layout_toRightOf="@+id/order_items_label"
+            android:text="100"
             android:textSize="@dimen/title_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_order_price_label"
+            style="@style/total_price_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="TOTALE"
+            android:textSize=""
             android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/total_order_price_currency"
+            android:layout_toStartOf="@+id/total_order_price_currency" />
+
+        <TextView
+            android:id="@+id/total_order_price_currency"
+            style="@style/total_price_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/total_order_items_label"
-            android:layout_toEndOf="@+id/total_order_items_label" />
+            android:layout_toLeftOf="@+id/total_order_price"
+            android:layout_toStartOf="@+id/total_order_price"
+            android:paddingRight="@dimen/currency_right_margin"
+            android:text="@string/menu_list_item_currency"
+            android:textSize="@dimen/title_text_size" />
 
-            <TextView
-                android:id="@+id/total_order_price_currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="@dimen/currency_right_margin"
-                android:text="@string/menu_list_item_currency"
-                android:textSize="@dimen/title_text_size"
-                style="@style/total_price_style"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/total_order_price"
-                android:layout_toStartOf="@+id/total_order_price" />
-
-            <TextView
-                android:id="@+id/total_order_price"
-                style="@style/total_price_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_list_item_price"
-                android:textSize="@dimen/title_text_size"
-                android:textStyle="bold"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/total_order_price"
+            style="@style/total_price_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/menu_list_item_price"
+            android:textSize="@dimen/title_text_size"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>
+
+
