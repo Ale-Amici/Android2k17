@@ -160,7 +160,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     }
 
     public void refreshMenuAdapter(){
-        this.setMenuForAdapter(originalBarMenu);
+        this.setMenuForAdapter(filteredBarMenu);
         notifyDataSetChanged();
     }
 
