@@ -119,15 +119,20 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             finish();
         }
 
-        registerForPushNotificationsAsync = new RegisterForPushNotificationsAsync();
-        authenticationAsyncTask = new AuthenticationAsyncTask();
+//        .authenticationAsyncTask = new AuthenticationAsyncTask();
 
     }
 
     @Override
     public void onBackPressed() {
-        registerForPushNotificationsAsync.cancel(false);
-        authenticationAsyncTask.cancel(true);
+        if (registerForPushNotificationsAsync != null){
+            registerForPushNotificationsAsync.cancel(false);
+        }
+
+        if (authenticationAsyncTask != null){
+            authenticationAsyncTask.cancel(true);
+        }
+
         super.onBackPressed();
     }
 
@@ -156,6 +161,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (username.isEmpty() || password.isEmpty()){
                 Toast.makeText(this, "I campi non possono essere vuoti", Toast.LENGTH_SHORT).show();
             } else {
+                registerForPushNotificationsAsync = new RegisterForPushNotificationsAsync();
                 registerForPushNotificationsAsync.execute();
             }
         } else {
@@ -275,6 +281,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 return;
             }
 
+            authenticationAsyncTask = new AuthenticationAsyncTask();
             authenticationAsyncTask.execute(username, password, deviceToken);
 
         }

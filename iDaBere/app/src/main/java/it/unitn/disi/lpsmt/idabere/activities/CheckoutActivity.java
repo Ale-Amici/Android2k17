@@ -114,7 +114,7 @@ public class CheckoutActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
         mCheckoutExpandableListView = (ExpandableListView) findViewById(R.id.checkout_list);
         totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
-        totalQuantity = (TextView) findViewById(R.id.total_order_items);
+        totalQuantity = (TextView) findViewById(R.id.total_items_quantity);
         deliveryType = (TextView) findViewById(R.id.delivery_type_choosen);
         paymentMethod = (TextView) findViewById(R.id.payment_method_choosen);
         getDeliveryTypeDetails = (TextView) findViewById(R.id.delivery_type_value);
