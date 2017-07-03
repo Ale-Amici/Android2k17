@@ -153,7 +153,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         menuForAdapter = new HashMap<>();
         this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
-        setMenuFavouritesCategory(originalBarMenu);
+        setMenuFavouritesCategory(barMenu);
         setMenuDealsCategory(barMenu);
 
 
@@ -452,7 +452,9 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         if (headerTitle.equals(context.getResources().getString(R.string.preferreds_category_name))){
             convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.VISIBLE);
+            convertView.findViewById(R.id.deals_preferreds_icon).setVisibility(View.GONE);
         } else if (headerTitle.equals(context.getResources().getString(R.string.deals_category_name))){
+            convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.GONE);
             convertView.findViewById(R.id.deals_preferreds_icon).setVisibility(View.VISIBLE);
         } else {
             convertView.findViewById(R.id.bookmark_preferreds_icon).setVisibility(View.GONE);
@@ -490,6 +492,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            lastItemExpandedChildPosition = -1;
+            lastItemExpandedGroupPosition = -1;
             FilterResults filterResults = new FilterResults();
             if (constraint!=null && constraint.length()>0) {
                 BarMenu tempBarMenu = new BarMenu();
