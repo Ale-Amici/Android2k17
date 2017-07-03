@@ -172,9 +172,57 @@
 
         </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/total_quantity_items_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/checkout_bottom_bar"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:text="NUMERO SCELTE"
+                        android:textSize="@dimen/paragraph_text_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical|right">
+
+
+                    <TextView
+                        style="@style/checkout_bottom_bar"
+                        android:id="@+id/total_items_quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="@dimen/paragraph_text_size" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
         <LinearLayout
-            android:id="@+id/item_infos_layout"
+            android:id="@+id/total_price_items_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/checkout_bottom_bar"

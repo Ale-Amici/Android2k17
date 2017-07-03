@@ -195,7 +195,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         final TextView infoText = (TextView) itemView.findViewById(R.id.info_text);
         final TextView discountText = (TextView) itemView.findViewById(R.id.discount_label);
         final TextView itemPriceTv = (TextView) itemView.findViewById(R.id.item_price);
-        final View cardInfos =  itemView.findViewById(R.id.item_infos_layout);
+        final View cardInfos =  itemView.findViewById(R.id.total_price_items_layout);
         final LinearLayout choicesLinearLayout = (LinearLayout) itemView.findViewById(R.id.choices_linear_layout);
         final Button newChoiceButton = (Button)itemView.findViewById(R.id.new_chioce_button);
 

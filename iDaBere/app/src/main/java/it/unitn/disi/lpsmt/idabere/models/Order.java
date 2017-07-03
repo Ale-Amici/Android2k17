@@ -143,8 +143,8 @@ public class Order {
         int total = 0;
         for (OrderItem orderItem : orderItems) {
             total += (orderItem.getQuantity());
-            totalQuantity = total;
         }
+        totalQuantity = total;
     }
 
     public ArrayList<OrderItem> getOrderListFromBarMenuItemId(int barMenuItemId){

@@ -34,6 +34,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private ExpandableListView mCheckoutExpandableListView;
     private CheckoutExpandableListAdapter mCheckoutListAdapter;
     private TextView totalOrderInfo;
+    private TextView totalQuantity;
     private TextView deliveryType;
     private TextView paymentMethod;
     private TextView getDeliveryTypeDetails;
@@ -95,6 +96,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onResume() {
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
+        totalQuantity.setText(Integer.toString(currentOrder.getTotalQuantity()));
         deliveryType.setText(currentOrder.getChosenDeliveryPlace().getName());
         getDeliveryTypeDetails.setText(currentOrder.getChosenDeliveryPlace().toString());
         if(currentOrder.isUsingCreditCard()){
@@ -112,6 +114,7 @@ public class CheckoutActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.checkout_bottom_navigation);
         mCheckoutExpandableListView = (ExpandableListView) findViewById(R.id.checkout_list);
         totalOrderInfo = (TextView) findViewById(R.id.total_order_price);
+        totalQuantity = (TextView) findViewById(R.id.total_items_quantity);
         deliveryType = (TextView) findViewById(R.id.delivery_type_choosen);
         paymentMethod = (TextView) findViewById(R.id.payment_method_choosen);
         getDeliveryTypeDetails = (TextView) findViewById(R.id.delivery_type_value);
