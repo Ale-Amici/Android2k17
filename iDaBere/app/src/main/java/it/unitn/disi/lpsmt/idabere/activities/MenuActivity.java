@@ -54,6 +54,8 @@ public class MenuActivity extends AppCompatActivity implements
     private BottomNavigationView bottomNavigationMenu;
 
     private TextView totalPriceInfo;
+    private TextView totalItemsTV;
+
 
     private Context mContext;
 
@@ -108,7 +110,9 @@ public class MenuActivity extends AppCompatActivity implements
         Order currentOrder = AppSession.getInstance().getmCustomer().getOrder();
         if (currentOrder != null) {
             double totalPrice = AppSession.getInstance().getmCustomer().getOrder().getTotalPrice();
+            int totalItems = AppSession.getInstance().getmCustomer().getOrder().getTotalQuantity();
             totalPriceInfo.setText(new DecimalFormat("##0.00").format(totalPrice));
+            totalItemsTV.setText(Integer.toString(totalItems));
         }
         if (menuAdapter != null) {
             menuAdapter.refreshMenuAdapter();
@@ -126,7 +130,8 @@ public class MenuActivity extends AppCompatActivity implements
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.menu_bottom_navigation);
 
         // the total price at the bottom menu
-        totalPriceInfo = (TextView) findViewById(R.id.menu_total_order_price);
+        totalPriceInfo = (TextView) findViewById(R.id.total_order_price);
+        totalItemsTV = (TextView) findViewById(R.id.total_order_items);
 
 
     }
@@ -217,7 +222,7 @@ public class MenuActivity extends AppCompatActivity implements
         protected void onPostExecute(BarMenu retrievedBarMenu) {
             if (retrievedBarMenu != null) {
                 retrievedBarMenu.applyDiscounts();
-                menuAdapter = new MenuCategoryExpandableListAdapter(mContext, retrievedBarMenu, totalPriceInfo, categoriesExpandableListView);
+                menuAdapter = new MenuCategoryExpandableListAdapter(mContext, retrievedBarMenu, totalPriceInfo, totalItemsTV, categoriesExpandableListView);
                 categoriesExpandableListView.setAdapter(menuAdapter);
             } else {
                 Toast.makeText(mContext, "Nessun Bar Trovato", Toast.LENGTH_SHORT).show();

@@ -8,9 +8,7 @@
         android:icon="@drawable/ic_keyboard_arrow_left_white_24dp"
         android:title="@string/title_delivery_place" />
 
-    <item
-        android:id="@+id/navigation_total_price"
-        android:title="@string/title_total_price" />
+
 
     <item
         android:id="@+id/navigation_confirm_payment"

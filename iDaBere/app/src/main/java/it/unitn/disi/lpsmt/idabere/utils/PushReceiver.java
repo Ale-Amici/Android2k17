@@ -68,7 +68,7 @@ public class PushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String notificationTitle = "Aggiornamento dello stato dell'ordine";
+        String notificationTitle = "iDaBere";
         String notificationText = "Test notification";
 
         // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
@@ -108,7 +108,7 @@ public class PushReceiver extends BroadcastReceiver {
         String message = "";
         ArrayList<String> status = ORDER_STATUSES.get(notificationText);
         if (! status.isEmpty()){
-            message += "Lo stato del tuo ordine è: " + status.get(0);
+            message += "Lo stato del tuo ordine è:\n " + status.get(0);
         }
         return message;
     }

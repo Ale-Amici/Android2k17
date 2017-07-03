@@ -14,7 +14,9 @@
         android:id="@+id/expandable_review_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
     </ExpandableListView>
@@ -28,36 +30,7 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingBottom="@dimen/activity_vertical_margin">
-
-                <TextView
-                    android:id="@+id/review_total_order_price_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/currency_right_margin"
-                    android:text="@string/menu_list_item_currency"
-                    android:textSize="@dimen/title_text_size"
-                    style="@style/total_price_style"/>
-
-                <TextView
-                    android:id="@+id/review_total_order_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu_list_item_price"
-                    android:textSize="@dimen/title_text_size"
-                    android:textStyle="bold"
-                    style="@style/total_price_style"/>
-
-            </LinearLayout>
 
 
 
@@ -72,12 +45,18 @@
                 app:itemIconTint="@drawable/nav_item_color_state"
                 app:itemTextColor="@drawable/nav_item_color_state"/>
 
-        </FrameLayout>
 
 
 
     </android.support.design.widget.AppBarLayout>
+    <include
+        layout="@layout/total_infos_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/totals_info_bottom_toolbar">
 
+    </include>
 
 </RelativeLayout>
 
