@@ -563,6 +563,10 @@ USE `android2k17`;
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (1, 'mario', '1990-01-01', 'mario@gmail.com', 'c8320f959b0bf807b30f8992fe822595a45ebff2a9a564b79e766e911f7f5f72', DEFAULT);
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (2, 'giulia', '1991-01-01', 'giulia@gmail.com', '9183fc9bba81502fd496aab53e070b24278edf9ea8110f8ae97bd3e5b8585536', DEFAULT);
 INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (3, 'professore', '1980-01-01', 'prof@gmail.com', 'b70a0dcc7063f83b6bd26cf903860b4a3cd98795d777cc66f541495cc45e06bc', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (4, 'ada', '1995-01-01', 'ada@gmail.com', '06c154f680cf4f6bc0a0f37d76ab8db1812a9eb28c2a23c7780d87ea0e71c5c2', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (5, 'giovanni', '1995-01-01', 'gio@gmail.com', 'ad6d30351a225c810d9e6600fd43c10a7e16c511c62112ecd73d27e9579404da', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (6, 'umberto', '1995-01-01', 'umbi@gmail.com', '21042dac9280ad19c734a5ed15d44aa99d1313a7b687a2978e116e7ce8b3a779', DEFAULT);
+INSERT INTO `android2k17`.`CUSTOMER` (`ID`, `username`, `date_of_birth`, `email`, `password`, `device_token`) VALUES (7, 'alessandro', '1995-01-01', 'ale@gmail.com', '38f8a1ee75737eb1da00c8b51ec61fc0175a3466581da09adc60f554719b1713', DEFAULT);
 
 COMMIT;
 
