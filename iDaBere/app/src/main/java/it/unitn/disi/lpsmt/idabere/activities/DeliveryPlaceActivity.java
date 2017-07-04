@@ -129,6 +129,7 @@ public class DeliveryPlaceActivity extends AppCompatActivity implements RadioGro
                 enableRadioButtonDetails(secondChoideLayout);
             }
         }
+        totalItemsTV.setText(Integer.toString(currentOrder.getTotalQuantity()));
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         deliveriesRadioGroup.setOnCheckedChangeListener(this);
     }

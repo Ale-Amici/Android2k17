@@ -105,6 +105,7 @@ public class PaymentTypeActivity extends AppCompatActivity implements RadioGroup
         else{
             secondChoiceRadioButton.setChecked(true);
         }
+        totalItemsTV.setText(Integer.toString(currentOrder.getTotalQuantity()));
         totalOrderInfo.setText(new DecimalFormat("##0.00").format(currentOrder.getTotalPrice()));
         paymentsRadioGroup.setOnCheckedChangeListener(this);
 
