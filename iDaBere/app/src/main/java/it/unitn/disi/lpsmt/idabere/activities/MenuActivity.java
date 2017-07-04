@@ -63,6 +63,8 @@ public class MenuActivity extends AppCompatActivity implements
 
     private MenuCategoryExpandableListAdapter menuAdapter;
 
+    private MenuItem searchMenuItem;
+    private MenuItem randomDrinkMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class MenuActivity extends AppCompatActivity implements
 
     // Instantiate layout elements
     private void initViewComps() {
+
         // get the listview
         categoriesExpandableListView = (ExpandableListView) findViewById(R.id.categories_expandable_list);
         loadingIndicator = findViewById(R.id.loading_indicator);
@@ -142,6 +145,12 @@ public class MenuActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.item_list_menu, menu);
+
+        //I MENU ITEM SONO PRESI E DISABILITATI
+        searchMenuItem = menu.findItem(R.id.action_search_bar_icon);
+        randomDrinkMenuItem = menu.findItem(R.id.random_drink_menu_button);
+        searchMenuItem.setEnabled(false);
+        randomDrinkMenuItem.setEnabled(false);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -193,6 +202,13 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected void onPreExecute() {
+            if(searchMenuItem != null){
+                searchMenuItem.setEnabled(false);
+            }
+            if(randomDrinkMenuItem != null){
+                randomDrinkMenuItem.setEnabled(false);
+            }
+
             toggleLoading(true);
             super.onPreExecute();
         }
@@ -222,7 +238,10 @@ public class MenuActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(BarMenu retrievedBarMenu) {
+
             if (retrievedBarMenu != null) {
+                searchMenuItem.setEnabled(true);
+                randomDrinkMenuItem.setEnabled(true);
                 retrievedBarMenu.applyDiscounts();
                 menuAdapter = new MenuCategoryExpandableListAdapter(mContext, retrievedBarMenu, totalPriceInfo, totalItemsTV, categoriesExpandableListView);
                 categoriesExpandableListView.setAdapter(menuAdapter);
@@ -252,12 +271,12 @@ public class MenuActivity extends AppCompatActivity implements
     }
 
     private void selectRandomDrink() {
-        int groupPosition = new Random().nextInt(menuAdapter.getGroupCount());
-        int childPosition = new Random().nextInt(menuAdapter.getChildrenCount(groupPosition));
-
-        categoriesExpandableListView.setSelectedChild(groupPosition,childPosition,true);
-        menuAdapter.showItemWithPosition(groupPosition, childPosition);
-
+        if(menuAdapter.getGroupCount() != 0) {
+            int groupPosition = new Random().nextInt(menuAdapter.getGroupCount());
+            int childPosition = new Random().nextInt(menuAdapter.getChildrenCount(groupPosition));
+            categoriesExpandableListView.setSelectedChild(groupPosition, childPosition, true);
+            menuAdapter.showItemWithPosition(groupPosition, childPosition);
+        }
 
     }
 
