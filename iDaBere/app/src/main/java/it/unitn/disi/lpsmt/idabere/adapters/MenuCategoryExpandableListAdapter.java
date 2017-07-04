@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 import it.unitn.disi.lpsmt.idabere.R;
 import it.unitn.disi.lpsmt.idabere.activities.AddChoiceActivity;
@@ -58,11 +59,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     private int lastItemExpandedGroupPosition;
     private int lastItemExpandedChildPosition;
     private View lastItemExpandedView;
+
     private boolean randomDrinkPressed;
 
     static final private int SELECT_NEW_CHOICE_REQUEST = 1;
     //l'ultima categoria espansa
-    private int lastCategoryExpandedPosition = -1;
+    //private int lastCategoryExpandedPosition = -1;
 
     public MenuCategoryExpandableListAdapter(Context context, BarMenu originalBarMenu, TextView totalPriceInfo, TextView totalItemsInfo, ExpandableListView mExpandableListView) {
         this.context = context;
@@ -150,6 +152,8 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
     protected void setMenuForAdapter(BarMenu barMenu) {
 
+
+
         menuForAdapter = new HashMap<>();
         this.categories = new ArrayList<>();
         setMenuItemCategories(barMenu);
@@ -184,7 +188,13 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getChildView(final int groupPosition,final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null) {
+        boolean newLayoutNecessary = true;
+        if (convertView != null) {
+            if(convertView.findViewById(R.id.choices_section_layout) != null){
+                newLayoutNecessary = false;
+            }
+        }
+        if(newLayoutNecessary){
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.menu_list_item, null);
@@ -248,7 +258,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                     ChoicesSectionLayout.setVisibility(View.GONE);
                     lastItemExpandedView = null;
                     lastItemExpandedChildPosition = -1;
-                    lastItemExpandedGroupPosition = -1;
+                    //lastItemExpandedGroupPosition = -1;
                 } else {
                     if(lastItemExpandedView != null){
                         View lastItemChoiceSection = (lastItemExpandedView).findViewById(R.id.choices_section_layout);
@@ -280,6 +290,7 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         randomDrinkPressed = true;
         notifyDataSetChanged();
     }
+
 
     private void insertChoices(final LinearLayout choicesLinearLayout,int barMenuItemId) {
         // Prendo la lista delle scelte, imposto l'adapter e lo aggiungo alla mappa barMenuItemId-ChoicesAdapter
@@ -440,13 +451,12 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
                 .findViewById(R.id.category_text_name);
         lblListHeader.setText(headerTitle);
         // TODO LOGICA DI ESPANSIONE DELLA CATEGORIA DELL'ITEM SELEZIONATO
-        if(lastItemExpandedChildPosition != -1 && lastItemExpandedGroupPosition != -1){
-            BarMenuItem child = (BarMenuItem) getChild(lastItemExpandedGroupPosition, lastItemExpandedChildPosition);
-            if(child.getCategory().equals(getGroup(groupPosition))){
-                if(!isExpanded && randomDrinkPressed ) {
-                    mExpandableListView.expandGroup(groupPosition);
-                }
-                randomDrinkPressed = false;
+        if(lastItemExpandedGroupPosition == -1){
+            if(isExpanded) mExpandableListView.collapseGroup(groupPosition);
+        }
+        else if(lastItemExpandedGroupPosition == groupPosition) {
+            if(!isExpanded && randomDrinkPressed){
+                mExpandableListView.expandGroup(groupPosition);
             }
         }
 
@@ -472,11 +482,21 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
 
     @Override
     public void onGroupExpanded(int groupPosition) {
-        if (lastCategoryExpandedPosition != -1
-                && groupPosition != lastCategoryExpandedPosition) {
-            mExpandableListView.collapseGroup(lastCategoryExpandedPosition);
+        if (lastItemExpandedGroupPosition != -1
+                && groupPosition != lastItemExpandedGroupPosition) {
+            mExpandableListView.collapseGroup(lastItemExpandedGroupPosition);
         }
-        lastCategoryExpandedPosition = groupPosition;
+        lastItemExpandedGroupPosition = groupPosition;
+
+    }
+
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+        if(lastItemExpandedGroupPosition == groupPosition){
+            lastItemExpandedGroupPosition = -1;
+            lastItemExpandedChildPosition = -1;
+        }
+        //super.onGroupCollapsed(groupPosition);
     }
 
     @Override
@@ -488,12 +508,14 @@ public class MenuCategoryExpandableListAdapter extends BaseExpandableListAdapter
         return menuFilter;
     }
 
+
     private class MenuFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             lastItemExpandedChildPosition = -1;
             lastItemExpandedGroupPosition = -1;
+            lastItemExpandedView = null;
             FilterResults filterResults = new FilterResults();
             if (constraint!=null && constraint.length()>0) {
                 BarMenu tempBarMenu = new BarMenu();
